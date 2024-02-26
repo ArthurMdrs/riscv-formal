@@ -1,0 +1,13 @@
+xcelium*
+xrun*
+.simvision
+waves*
+*.log
+*.diag
+jgproject
+.symbol*
+ignore.txt
+ignore/
+TOKEN
+checks/
+*backup/
