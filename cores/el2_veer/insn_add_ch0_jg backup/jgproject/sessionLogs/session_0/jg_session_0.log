@@ -1,0 +1,1599 @@
+# ----------------------------------------
+# Jasper Version Info
+# tool      : Jasper 2023.09
+# platform  : Linux 4.18.0-477.27.1.el8_8.x86_64
+# version   : 2023.09p002 64 bits
+# build date: 2023.11.21 13:10:30 UTC
+# ----------------------------------------
+# started   : 2024-02-25 17:07:05 -03
+# hostname  : microeletronica.(none)
+# pid       : 3675627
+# arguments : '-label' 'session_0' '-console' '//127.0.0.1:45271' '-style' 'windows' '-data' 'AAAAwHicY2RgYLCp////PwMYMFcBCQEGHwZfhiAGVyDpzxAGpBkY1BhMGYwYLBgMGBwYDIFsAwY9IG0GZIFoQzAJkgUDxgcQmsGGkQEZMAY2oNAMDKwwhXAlYLsyGfIYioE4niGRIQUI4xmSGTKApsczZDGkA+0qAfJzwOoBX7YU/w==' '-proj' '/home/pedro.medeiros/riscv-formal/cores/el2_veer/checks/insn_add_ch0_jg/jgproject/sessionLogs/session_0' '-init' '-hidden' '/home/pedro.medeiros/riscv-formal/cores/el2_veer/checks/insn_add_ch0_jg/jgproject/.tmp/.initCmds.tcl' 'insn_add_ch0_jg.tcl'
+
+Any disclosure about the Cadence Design Systems software or its use
+model to any third party violates the written Non-Disclosure Agreement
+between Cadence Design Systems, Inc. and the customer.
+
+THIS SOFTWARE CONTAINS CONFIDENTIAL INFORMATION AND TRADE SECRETS OF
+CADENCE DESIGN SYSTEMS, INC. USE, DISCLOSURE, OR REPRODUCTION IS
+PROHIBITED WITHOUT THE PRIOR EXPRESS WRITTEN PERMISSION OF CADENCE
+DESIGN SYSTEMS, INC.
+
+Copyright (C) 2000-2023 Cadence Design Systems, Inc. All Rights
+Reserved.  Unpublished -- rights reserved under the copyright laws of
+the United States.
+
+This product includes software developed by others and redistributed
+according to license agreement. See doc/third_party_readme.txt for
+further details.
+
+RESTRICTED RIGHTS LEGEND
+
+Use, duplication, or disclosure by the Government is subject to
+restrictions as set forth in subparagraph (c) (1) (ii) of the Rights in
+Technical Data and Computer Software clause at DFARS 252.227-7013 or
+subparagraphs (c) (1) and (2) of Commercial Computer Software -- Restricted
+Rights at 48 CFR 52.227-19, as applicable.
+
+
+                          Cadence Design Systems, Inc.
+                          2655 Seely Avenue
+                          San Jose, CA 95134
+                          Phone: 408.943.1234
+
+For technical assistance visit http://support.cadence.com.
+
+Jasper Apps Analysis Session - /home/pedro.medeiros/riscv-formal/cores/el2_veer/checks/insn_add_ch0_jg/jgproject/sessionLogs/session_0
+
+WARNING (WG017): [session]: The system's locale is "ANSI_X3.4-1968", which is not UTF-8. Non-ASCII characters might not be handled correctly.
+WARNING (WG017): [jg_console]: The system's locale is "ANSI_X3.4-1968", which is not UTF-8. Non-ASCII characters might not be handled correctly.
+INFO: successfully checked out licenses "jasper_interactive" and "jasper_fao".
+INFO: reading configuration file "/home/pedro.medeiros/.config/cadence/jasper.conf".
+% clear -all
+INFO (IPF121): Cleared environment completely for new design analysis.
+% 
+% set design ../../design
+../../design
+% set snapshots ../../snapshots/default
+../../snapshots/default
+% 
+% analyze -sv12 \
+    +incdir+${snapshots} \
+    insn_add_ch0.sv \
+    ${snapshots}/common_defines.vh \
+    ${design}/include/el2_def.sv \
+    ${design}/lib/el2_mem_if.sv \
+    ${design}/el2_veer_wrapper.sv \
+    ${design}/el2_mem.sv \
+    ${design}/el2_pic_ctrl.sv \
+    ${design}/el2_veer.sv \
+    ${design}/el2_dma_ctrl.sv \
+    ${design}/el2_pmp.sv \
+    ${design}/ifu/el2_ifu_aln_ctl.sv \
+    ${design}/ifu/el2_ifu_compress_ctl.sv \
+    ${design}/ifu/el2_ifu_ifc_ctl.sv \
+    ${design}/ifu/el2_ifu_bp_ctl.sv \
+    ${design}/ifu/el2_ifu_ic_mem.sv \
+    ${design}/ifu/el2_ifu_mem_ctl.sv \
+    ${design}/ifu/el2_ifu_iccm_mem.sv \
+    ${design}/ifu/el2_ifu.sv \
+    ${design}/dec/el2_dec_decode_ctl.sv \
+    ${design}/dec/el2_dec_gpr_ctl.sv \
+    ${design}/dec/el2_dec_ib_ctl.sv \
+    ${design}/dec/el2_dec_pmp_ctl.sv \
+    ${design}/dec/el2_dec_tlu_ctl.sv \
+    ${design}/dec/el2_dec_trigger.sv \
+    ${design}/dec/el2_dec.sv \
+    ${design}/exu/el2_exu_alu_ctl.sv \
+    ${design}/exu/el2_exu_mul_ctl.sv \
+    ${design}/exu/el2_exu_div_ctl.sv \
+    ${design}/exu/el2_exu.sv \
+    ${design}/lsu/el2_lsu.sv \
+    ${design}/lsu/el2_lsu_clkdomain.sv \
+    ${design}/lsu/el2_lsu_addrcheck.sv \
+    ${design}/lsu/el2_lsu_lsc_ctl.sv \
+    ${design}/lsu/el2_lsu_stbuf.sv \
+    ${design}/lsu/el2_lsu_bus_buffer.sv \
+    ${design}/lsu/el2_lsu_bus_intf.sv \
+    ${design}/lsu/el2_lsu_ecc.sv \
+    ${design}/lsu/el2_lsu_dccm_mem.sv \
+    ${design}/lsu/el2_lsu_dccm_ctl.sv \
+    ${design}/lsu/el2_lsu_trigger.sv \
+    ${design}/dbg/el2_dbg.sv \
+    ${design}/dmi/dmi_mux.v \
+    ${design}/dmi/dmi_wrapper.v \
+    ${design}/dmi/dmi_jtag_to_core_sync.v \
+    ${design}/dmi/rvjtag_tap.v \
+    ${design}/lib/el2_lib.sv \
+    ${design}/lib/beh_lib.sv \
+    ${design}/lib/mem_lib.sv \
+    ${design}/lib/ahb_to_axi4.sv \
+    ${design}/lib/axi4_to_ahb.sv \
+    ${design}/rvfi_wrapper.sv
+[-- (VERI-1482)] Analyzing Verilog file '/Tools/cadence/JASPER2309/lib/verilog/packages/std/std.sv' into library 'std'
+[-- (VERI-1482)] Analyzing Verilog file 'insn_add_ch0.sv'
+[INFO (VERI-1328)] insn_add_ch0.sv(1): analyzing included file 'defines.sv'
+[INFO (VERI-1328)] defines.sv(12): analyzing included file 'rvfi_macros.vh'
+[INFO (VERI-1328)] insn_add_ch0.sv(2): analyzing included file 'rvfi_channel.sv'
+[INFO (VERI-1328)] insn_add_ch0.sv(3): analyzing included file 'rvfi_testbench.sv'
+[INFO (VERI-1328)] insn_add_ch0.sv(4): analyzing included file 'rvfi_insn_check.sv'
+[INFO (VERI-1328)] insn_add_ch0.sv(5): analyzing included file 'insn_add.v'
+[-- (VERI-1482)] Analyzing Verilog file '../../snapshots/default/common_defines.vh'
+[-- (VERI-1482)] Analyzing Verilog file '../../design/include/el2_def.sv'
+[INFO (VERI-1328)] ../../design/include/el2_def.sv(6): analyzing included file '../../snapshots/default/el2_pdef.vh'
+[-- (VERI-1482)] Analyzing Verilog file '../../design/lib/el2_mem_if.sv'
+[INFO (VERI-1328)] ../../design/lib/el2_mem_if.sv(23): analyzing included file '../../snapshots/default/el2_param.vh'
+[WARN (VERI-8026)] ../../design/lib/el2_mem_if.sv(24): Empty Port in Module Declaration
+[-- (VERI-1482)] Analyzing Verilog file '../../design/el2_veer_wrapper.sv'
+[INFO (VERI-1328)] ../../design/el2_veer_wrapper.sv(27): analyzing included file '../../snapshots/default/el2_param.vh'
+[-- (VERI-1482)] Analyzing Verilog file '../../design/el2_mem.sv'
+[INFO (VERI-1328)] ../../design/el2_mem.sv(22): analyzing included file '../../snapshots/default/el2_param.vh'
+[-- (VERI-1482)] Analyzing Verilog file '../../design/el2_pic_ctrl.sv'
+[INFO (VERI-1328)] ../../design/el2_pic_ctrl.sv(26): analyzing included file '../../snapshots/default/el2_param.vh'
+[INFO (VERI-1328)] ../../design/el2_pic_ctrl.sv(530): analyzing included file '../../snapshots/default/pic_map_auto.h'
+[-- (VERI-1482)] Analyzing Verilog file '../../design/el2_veer.sv'
+[INFO (VERI-1328)] ../../design/el2_veer.sv(26): analyzing included file '../../snapshots/default/el2_param.vh'
+[-- (VERI-1482)] Analyzing Verilog file '../../design/el2_dma_ctrl.sv'
+[INFO (VERI-1328)] ../../design/el2_dma_ctrl.sv(27): analyzing included file '../../snapshots/default/el2_param.vh'
+[-- (VERI-1482)] Analyzing Verilog file '../../design/el2_pmp.sv'
+[INFO (VERI-1328)] ../../design/el2_pmp.sv(24): analyzing included file '../../snapshots/default/el2_param.vh'
+[-- (VERI-1482)] Analyzing Verilog file '../../design/ifu/el2_ifu_aln_ctl.sv'
+[INFO (VERI-1328)] ../../design/ifu/el2_ifu_aln_ctl.sv(24): analyzing included file '../../snapshots/default/el2_param.vh'
+[-- (VERI-1482)] Analyzing Verilog file '../../design/ifu/el2_ifu_compress_ctl.sv'
+[INFO (VERI-1328)] ../../design/ifu/el2_ifu_compress_ctl.sv(23): analyzing included file '../../snapshots/default/el2_param.vh'
+[-- (VERI-1482)] Analyzing Verilog file '../../design/ifu/el2_ifu_ifc_ctl.sv'
+[INFO (VERI-1328)] ../../design/ifu/el2_ifu_ifc_ctl.sv(26): analyzing included file '../../snapshots/default/el2_param.vh'
+[-- (VERI-1482)] Analyzing Verilog file '../../design/ifu/el2_ifu_bp_ctl.sv'
+[INFO (VERI-1328)] ../../design/ifu/el2_ifu_bp_ctl.sv(30): analyzing included file '../../snapshots/default/el2_param.vh'
+[-- (VERI-1482)] Analyzing Verilog file '../../design/ifu/el2_ifu_ic_mem.sv'
+[INFO (VERI-1328)] ../../design/ifu/el2_ifu_ic_mem.sv(23): analyzing included file '../../snapshots/default/el2_param.vh'
+[INFO (VERI-1328)] ../../design/ifu/el2_ifu_ic_mem.sv(88): analyzing included file '../../snapshots/default/el2_param.vh'
+[INFO (VERI-1328)] ../../design/ifu/el2_ifu_ic_mem.sv(800): analyzing included file '../../snapshots/default/el2_param.vh'
+[-- (VERI-1482)] Analyzing Verilog file '../../design/ifu/el2_ifu_mem_ctl.sv'
+[INFO (VERI-1328)] ../../design/ifu/el2_ifu_mem_ctl.sv(27): analyzing included file '../../snapshots/default/el2_param.vh'
+[-- (VERI-1482)] Analyzing Verilog file '../../design/ifu/el2_ifu_iccm_mem.sv'
+[INFO (VERI-1328)] ../../design/ifu/el2_ifu_iccm_mem.sv(26): analyzing included file '../../snapshots/default/el2_param.vh'
+[-- (VERI-1482)] Analyzing Verilog file '../../design/ifu/el2_ifu.sv'
+[INFO (VERI-1328)] ../../design/ifu/el2_ifu.sv(25): analyzing included file '../../snapshots/default/el2_param.vh'
+[-- (VERI-1482)] Analyzing Verilog file '../../design/dec/el2_dec_decode_ctl.sv'
+[INFO (VERI-1328)] ../../design/dec/el2_dec_decode_ctl.sv(20): analyzing included file '../../snapshots/default/el2_param.vh'
+[-- (VERI-1482)] Analyzing Verilog file '../../design/dec/el2_dec_gpr_ctl.sv'
+[INFO (VERI-1328)] ../../design/dec/el2_dec_gpr_ctl.sv(19): analyzing included file '../../snapshots/default/el2_param.vh'
+[-- (VERI-1482)] Analyzing Verilog file '../../design/dec/el2_dec_ib_ctl.sv'
+[INFO (VERI-1328)] ../../design/dec/el2_dec_ib_ctl.sv(19): analyzing included file '../../snapshots/default/el2_param.vh'
+[-- (VERI-1482)] Analyzing Verilog file '../../design/dec/el2_dec_pmp_ctl.sv'
+[INFO (VERI-1328)] ../../design/dec/el2_dec_pmp_ctl.sv(30): analyzing included file '../../snapshots/default/el2_param.vh'
+[-- (VERI-1482)] Analyzing Verilog file '../../design/dec/el2_dec_tlu_ctl.sv'
+[INFO (VERI-1328)] ../../design/dec/el2_dec_tlu_ctl.sv(29): analyzing included file '../../snapshots/default/el2_param.vh'
+[INFO (VERI-1328)] ../../design/dec/el2_dec_tlu_ctl.sv(2845): analyzing included file '../../snapshots/default/el2_param.vh'
+[-- (VERI-1482)] Analyzing Verilog file '../../design/dec/el2_dec_trigger.sv'
+[INFO (VERI-1328)] ../../design/dec/el2_dec_trigger.sv(28): analyzing included file '../../snapshots/default/el2_param.vh'
+[-- (VERI-1482)] Analyzing Verilog file '../../design/dec/el2_dec.sv'
+[INFO (VERI-1328)] ../../design/dec/el2_dec.sv(33): analyzing included file '../../snapshots/default/el2_param.vh'
+[-- (VERI-1482)] Analyzing Verilog file '../../design/exu/el2_exu_alu_ctl.sv'
+[INFO (VERI-1328)] ../../design/exu/el2_exu_alu_ctl.sv(20): analyzing included file '../../snapshots/default/el2_param.vh'
+[-- (VERI-1482)] Analyzing Verilog file '../../design/exu/el2_exu_mul_ctl.sv'
+[INFO (VERI-1328)] ../../design/exu/el2_exu_mul_ctl.sv(20): analyzing included file '../../snapshots/default/el2_param.vh'
+[-- (VERI-1482)] Analyzing Verilog file '../../design/exu/el2_exu_div_ctl.sv'
+[INFO (VERI-1328)] ../../design/exu/el2_exu_div_ctl.sv(20): analyzing included file '../../snapshots/default/el2_param.vh'
+[-- (VERI-1482)] Analyzing Verilog file '../../design/exu/el2_exu.sv'
+[INFO (VERI-1328)] ../../design/exu/el2_exu.sv(20): analyzing included file '../../snapshots/default/el2_param.vh'
+[-- (VERI-1482)] Analyzing Verilog file '../../design/lsu/el2_lsu.sv'
+[INFO (VERI-1328)] ../../design/lsu/el2_lsu.sv(31): analyzing included file '../../snapshots/default/el2_param.vh'
+[-- (VERI-1482)] Analyzing Verilog file '../../design/lsu/el2_lsu_clkdomain.sv'
+[INFO (VERI-1328)] ../../design/lsu/el2_lsu_clkdomain.sv(29): analyzing included file '../../snapshots/default/el2_param.vh'
+[-- (VERI-1482)] Analyzing Verilog file '../../design/lsu/el2_lsu_addrcheck.sv'
+[INFO (VERI-1328)] ../../design/lsu/el2_lsu_addrcheck.sv(28): analyzing included file '../../snapshots/default/el2_param.vh'
+[-- (VERI-1482)] Analyzing Verilog file '../../design/lsu/el2_lsu_lsc_ctl.sv'
+[INFO (VERI-1328)] ../../design/lsu/el2_lsu_lsc_ctl.sv(31): analyzing included file '../../snapshots/default/el2_param.vh'
+[-- (VERI-1482)] Analyzing Verilog file '../../design/lsu/el2_lsu_stbuf.sv'
+[INFO (VERI-1328)] ../../design/lsu/el2_lsu_stbuf.sv(33): analyzing included file '../../snapshots/default/el2_param.vh'
+[-- (VERI-1482)] Analyzing Verilog file '../../design/lsu/el2_lsu_bus_buffer.sv'
+[INFO (VERI-1328)] ../../design/lsu/el2_lsu_bus_buffer.sv(29): analyzing included file '../../snapshots/default/el2_param.vh'
+[-- (VERI-1482)] Analyzing Verilog file '../../design/lsu/el2_lsu_bus_intf.sv'
+[INFO (VERI-1328)] ../../design/lsu/el2_lsu_bus_intf.sv(28): analyzing included file '../../snapshots/default/el2_param.vh'
+[-- (VERI-1482)] Analyzing Verilog file '../../design/lsu/el2_lsu_ecc.sv'
+[INFO (VERI-1328)] ../../design/lsu/el2_lsu_ecc.sv(31): analyzing included file '../../snapshots/default/el2_param.vh'
+[-- (VERI-1482)] Analyzing Verilog file '../../design/lsu/el2_lsu_dccm_mem.sv'
+[INFO (VERI-1328)] ../../design/lsu/el2_lsu_dccm_mem.sv(33): analyzing included file '../../snapshots/default/el2_param.vh'
+[-- (VERI-1482)] Analyzing Verilog file '../../design/lsu/el2_lsu_dccm_ctl.sv'
+[INFO (VERI-1328)] ../../design/lsu/el2_lsu_dccm_ctl.sv(32): analyzing included file '../../snapshots/default/el2_param.vh'
+[-- (VERI-1482)] Analyzing Verilog file '../../design/lsu/el2_lsu_trigger.sv'
+[INFO (VERI-1328)] ../../design/lsu/el2_lsu_trigger.sv(28): analyzing included file '../../snapshots/default/el2_param.vh'
+[-- (VERI-1482)] Analyzing Verilog file '../../design/dbg/el2_dbg.sv'
+[INFO (VERI-1328)] ../../design/dbg/el2_dbg.sv(27): analyzing included file '../../snapshots/default/el2_param.vh'
+[-- (VERI-1482)] Analyzing Verilog file '../../design/dmi/dmi_mux.v'
+[-- (VERI-1482)] Analyzing Verilog file '../../design/dmi/dmi_wrapper.v'
+[-- (VERI-1482)] Analyzing Verilog file '../../design/dmi/dmi_jtag_to_core_sync.v'
+[-- (VERI-1482)] Analyzing Verilog file '../../design/dmi/rvjtag_tap.v'
+[-- (VERI-1482)] Analyzing Verilog file '../../design/lib/el2_lib.sv'
+[INFO (VERI-1328)] ../../design/lib/el2_lib.sv(4): analyzing included file '../../snapshots/default/el2_param.vh'
+[INFO (VERI-1328)] ../../design/lib/el2_lib.sv(18): analyzing included file '../../snapshots/default/el2_param.vh'
+[INFO (VERI-1328)] ../../design/lib/el2_lib.sv(33): analyzing included file '../../snapshots/default/el2_param.vh'
+[INFO (VERI-1328)] ../../design/lib/el2_lib.sv(55): analyzing included file '../../snapshots/default/el2_param.vh'
+[-- (VERI-1482)] Analyzing Verilog file '../../design/lib/beh_lib.sv'
+[-- (VERI-1482)] Analyzing Verilog file '../../design/lib/mem_lib.sv'
+[-- (VERI-1482)] Analyzing Verilog file '../../design/lib/ahb_to_axi4.sv'
+[INFO (VERI-1328)] ../../design/lib/ahb_to_axi4.sv(27): analyzing included file '../../snapshots/default/el2_param.vh'
+[-- (VERI-1482)] Analyzing Verilog file '../../design/lib/axi4_to_ahb.sv'
+[INFO (VERI-1328)] ../../design/lib/axi4_to_ahb.sv(27): analyzing included file '../../snapshots/default/el2_param.vh'
+[-- (VERI-1482)] Analyzing Verilog file '../../design/rvfi_wrapper.sv'
+[INFO (VERI-1328)] ../../design/rvfi_wrapper.sv(3): analyzing included file '../../snapshots/default/el2_param.vh'
+% 
+% elaborate -top rvfi_testbench
+INFO (ISW003): Top module name is "rvfi_testbench".
+[INFO (HIER-8002)] rvfi_testbench.sv(71): Disabling old hierarchical reference handler
+[INFO (VERI-1018)] insn_add.v(3): compiling module 'rvfi_insn_add'
+[INFO (VERI-1018)] rvfi_insn_check.sv(15): compiling module 'rvfi_insn_check'
+[WARN (VERI-1209)] rvfi_insn_check.sv(99): expression size 32 truncated to fit in target size 2
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(799): compiling module 'rvoclkhdr'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(19): compiling module 'rvdff'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(416): compiling module 'rvsyncss:(WIDTH=1)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(49): compiling module 'rvdffs'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(19): compiling module 'rvdff:(WIDTH=5)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(49): compiling module 'rvdffs:(WIDTH=5)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(19): compiling module 'rvdff:(WIDTH=3)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(49): compiling module 'rvdffs:(WIDTH=3)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(19): compiling module 'rvdff:(WIDTH=32)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(49): compiling module 'rvdffs:(WIDTH=32)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(166): compiling module 'rvdffe:(WIDTH=32)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(19): compiling module 'rvdff:(WIDTH=4)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(49): compiling module 'rvdffs:(WIDTH=4)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(19): compiling module 'rvdff:(WIDTH=2)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(49): compiling module 'rvdffs:(WIDTH=2)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(19): compiling module 'rvdff:(WIDTH=16)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(49): compiling module 'rvdffs:(WIDTH=16)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(166): compiling module 'rvdffe:(WIDTH=16)'
+[INFO (VERI-1018)] ../../design/dbg/el2_dbg.sv(24): compiling module 'el2_dbg:(pt='{8'b01001,6'b010,15'b0100000000,5'b0,8'b01000,16'b01000000000,5'b01,5'b01,5'b01,5'b0,5'b0,5'b0,5'b0,5'b01,9'b01001,6'b010,13'b0100000000,5'b0,9'b0101,5'b01,5'b0,5'b0,9'b01001,9'b010,9'b010001,9'b01010,9'b011001,9'b010010,14'b01000000000,9'b01100,1'b0,5'b01,5'b01,6'b011,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,7'b010,9'b010000,7'b0100,10'b0100000,7'b0111,5'b01,10'b0100111,8'b01100,9'b0100,8'b01111,36'b011110000000001000000000000000000,14'b01000000,6'b010,7'b0100,5'b01,7'b0101,9'b01,6'b010,8'b01,5'b01,5'b01,7'b01,7'b011,6'b011,8'b01000,7'b010,8'b0101,8'b011,5'b01,18'b01000000000,7'b0100,11'b01000000,5'b01,5'b01,11'b01000111,9'b01100,11'b01000000,8'b01000,8'b010,8'b010,7'b010,5'b0,8'b0110,13'b010000,7'b01,5'b01,17'b010000000,7'b0110,9'b01101,8'b010,8'b010,5'b01,7'b010,9'b011,9'b0100,9'b010000,5'b01,5'b01,8'b01100,9'b0100,5'b0,8'b01110,36'b011101110000000000000000000000000,14'b01000000,5'b01,6'b010,8'b011,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,5'b0,5'b0,5'b01,6'b010,8'b011,9'b0100,7'b010,9'b010000,8'b0100,5'b0,5'b0,36'b011110000000011000000000000000000,9'b01111,8'b01,8'b01111,13'b0100000,12'b011111,13'b0100000,11'b010000,8'b01000,5'b01,6'b010,8'b01,5'b01})'
+[WARN (VERI-1209)] ../../design/dbg/el2_dbg.sv(571): expression size 5 truncated to fit in target size 1
+[WARN (VERI-1209)] ../../design/dbg/el2_dbg.sv(572): expression size 5 truncated to fit in target size 1
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(19): compiling module 'rvdff:(WIDTH=10)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(49): compiling module 'rvdffs:(WIDTH=10)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(337): compiling module 'rvdffie:(WIDTH=10)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(19): compiling module 'rvdff:(WIDTH=31)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(49): compiling module 'rvdffs:(WIDTH=31)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(206): compiling module 'rvdffpcie'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(597): compiling module 'rvrangecheck:(CCM_SADR=36'b011101110000000000000000000000000,CCM_SIZE=14'b01000000)'
+[INFO (VERI-1018)] ../../design/ifu/el2_ifu_ifc_ctl.sv(23): compiling module 'el2_ifu_ifc_ctl:(pt='{8'b01001,6'b010,15'b0100000000,5'b0,8'b01000,16'b01000000000,5'b01,5'b01,5'b01,5'b0,5'b0,5'b0,5'b0,5'b01,9'b01001,6'b010,13'b0100000000,5'b0,9'b0101,5'b01,5'b0,5'b0,9'b01001,9'b010,9'b010001,9'b01010,9'b011001,9'b010010,14'b01000000000,9'b01100,1'b0,5'b01,5'b01,6'b011,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,7'b010,9'b010000,7'b0100,10'b0100000,7'b0111,5'b01,10'b0100111,8'b01100,9'b0100,8'b01111,36'b011110000000001000000000000000000,14'b01000000,6'b010,7'b0100,5'b01,7'b0101,9'b01,6'b010,8'b01,5'b01,5'b01,7'b01,7'b011,6'b011,8'b01000,7'b010,8'b0101,8'b011,5'b01,18'b01000000000,7'b0100,11'b01000000,5'b01,5'b01,11'b01000111,9'b01100,11'b01000000,8'b01000,8'b010,8'b010,7'b010,5'b0,8'b0110,13'b010000,7'b01,5'b01,17'b010000000,7'b0110,9'b01101,8'b010,8'b010,5'b01,7'b010,9'b011,9'b0100,9'b010000,5'b01,5'b01,8'b01100,9'b0100,5'b0,8'b01110,36'b011101110000000000000000000000000,14'b01000000,5'b01,6'b010,8'b011,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,5'b0,5'b0,5'b01,6'b010,8'b011,9'b0100,7'b010,9'b010000,8'b0100,5'b0,5'b0,36'b011110000000011000000000000000000,9'b01111,8'b01,8'b01111,13'b0100000,12'b011111,13'b0100000,11'b010000,8'b01000,5'b01,6'b010,8'b01,5'b01})'
+[WARN (VERI-1209)] ../../design/ifu/el2_ifu_ifc_ctl.sv(129): expression size 32 truncated to fit in target size 31
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(19): compiling module 'rvdff:(WIDTH=7)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(49): compiling module 'rvdffs:(WIDTH=7)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(337): compiling module 'rvdffie:(WIDTH=7,OVERRIDE=1)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(166): compiling module 'rvdffe:(WIDTH=31)'
+[INFO (VERI-1018)] ../../design/ifu/el2_ifu_compress_ctl.sv(20): compiling module 'el2_ifu_compress_ctl'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(19): compiling module 'rvdff:(WIDTH=32'b010000)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(49): compiling module 'rvdffs:(WIDTH=32'b010000)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(166): compiling module 'rvdffe:(WIDTH=32'b010000)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(19): compiling module 'rvdff:(WIDTH=32'b0110101)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(49): compiling module 'rvdffs:(WIDTH=32'b0110101)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(166): compiling module 'rvdffe:(WIDTH=32'b0110101)'
+[INFO (VERI-1018)] ../../design/lib/el2_lib.sv(30): compiling module 'el2_btb_addr_hash:(pt='{8'b01001,6'b010,15'b0100000000,5'b0,8'b01000,16'b01000000000,5'b01,5'b01,5'b01,5'b0,5'b0,5'b0,5'b0,5'b01,9'b01001,6'b010,13'b0100000000,5'b0,9'b0101,5'b01,5'b0,5'b0,9'b01001,9'b010,9'b010001,9'b01010,9'b011001,9'b010010,14'b01000000000,9'b01100,1'b0,5'b01,5'b01,6'b011,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,7'b010,9'b010000,7'b0100,10'b0100000,7'b0111,5'b01,10'b0100111,8'b01100,9'b0100,8'b01111,36'b011110000000001000000000000000000,14'b01000000,6'b010,7'b0100,5'b01,7'b0101,9'b01,6'b010,8'b01,5'b01,5'b01,7'b01,7'b011,6'b011,8'b01000,7'b010,8'b0101,8'b011,5'b01,18'b01000000000,7'b0100,11'b01000000,5'b01,5'b01,11'b01000111,9'b01100,11'b01000000,8'b01000,8'b010,8'b010,7'b010,5'b0,8'b0110,13'b010000,7'b01,5'b01,17'b010000000,7'b0110,9'b01101,8'b010,8'b010,5'b01,7'b010,9'b011,9'b0100,9'b010000,5'b01,5'b01,8'b01100,9'b0100,5'b0,8'b01110,36'b011101110000000000000000000000000,14'b01000000,5'b01,6'b010,8'b011,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,5'b0,5'b0,5'b01,6'b010,8'b011,9'b0100,7'b010,9'b010000,8'b0100,5'b0,5'b0,36'b011110000000011000000000000000000,9'b01111,8'b01,8'b01111,13'b0100000,12'b011111,13'b0100000,11'b010000,8'b01000,5'b01,6'b010,8'b01,5'b01})'
+[INFO (VERI-1018)] ../../design/lib/el2_lib.sv(1): compiling module 'el2_btb_tag_hash:(pt='{8'b01001,6'b010,15'b0100000000,5'b0,8'b01000,16'b01000000000,5'b01,5'b01,5'b01,5'b0,5'b0,5'b0,5'b0,5'b01,9'b01001,6'b010,13'b0100000000,5'b0,9'b0101,5'b01,5'b0,5'b0,9'b01001,9'b010,9'b010001,9'b01010,9'b011001,9'b010010,14'b01000000000,9'b01100,1'b0,5'b01,5'b01,6'b011,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,7'b010,9'b010000,7'b0100,10'b0100000,7'b0111,5'b01,10'b0100111,8'b01100,9'b0100,8'b01111,36'b011110000000001000000000000000000,14'b01000000,6'b010,7'b0100,5'b01,7'b0101,9'b01,6'b010,8'b01,5'b01,5'b01,7'b01,7'b011,6'b011,8'b01000,7'b010,8'b0101,8'b011,5'b01,18'b01000000000,7'b0100,11'b01000000,5'b01,5'b01,11'b01000111,9'b01100,11'b01000000,8'b01000,8'b010,8'b010,7'b010,5'b0,8'b0110,13'b010000,7'b01,5'b01,17'b010000000,7'b0110,9'b01101,8'b010,8'b010,5'b01,7'b010,9'b011,9'b0100,9'b010000,5'b01,5'b01,8'b01100,9'b0100,5'b0,8'b01110,36'b011101110000000000000000000000000,14'b01000000,5'b01,6'b010,8'b011,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,5'b0,5'b0,5'b01,6'b010,8'b011,9'b0100,7'b010,9'b010000,8'b0100,5'b0,5'b0,36'b011110000000011000000000000000000,9'b01111,8'b01,8'b01111,13'b0100000,12'b011111,13'b0100000,11'b010000,8'b01000,5'b01,6'b010,8'b01,5'b01})'
+[INFO (VERI-1018)] ../../design/ifu/el2_ifu_aln_ctl.sv(21): compiling module 'el2_ifu_aln_ctl:(pt='{8'b01001,6'b010,15'b0100000000,5'b0,8'b01000,16'b01000000000,5'b01,5'b01,5'b01,5'b0,5'b0,5'b0,5'b0,5'b01,9'b01001,6'b010,13'b0100000000,5'b0,9'b0101,5'b01,5'b0,5'b0,9'b01001,9'b010,9'b010001,9'b01010,9'b011001,9'b010010,14'b01000000000,9'b01100,1'b0,5'b01,5'b01,6'b011,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,7'b010,9'b010000,7'b0100,10'b0100000,7'b0111,5'b01,10'b0100111,8'b01100,9'b0100,8'b01111,36'b011110000000001000000000000000000,14'b01000000,6'b010,7'b0100,5'b01,7'b0101,9'b01,6'b010,8'b01,5'b01,5'b01,7'b01,7'b011,6'b011,8'b01000,7'b010,8'b0101,8'b011,5'b01,18'b01000000000,7'b0100,11'b01000000,5'b01,5'b01,11'b01000111,9'b01100,11'b01000000,8'b01000,8'b010,8'b010,7'b010,5'b0,8'b0110,13'b010000,7'b01,5'b01,17'b010000000,7'b0110,9'b01101,8'b010,8'b010,5'b01,7'b010,9'b011,9'b0100,9'b010000,5'b01,5'b01,8'b01100,9'b0100,5'b0,8'b01110,36'b011101110000000000000000000000000,14'b01000000,5'b01,6'b010,8'b011,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,5'b0,5'b0,5'b01,6'b010,8'b011,9'b0100,7'b010,9'b010000,8'b0100,5'b0,5'b0,36'b011110000000011000000000000000000,9'b01111,8'b01,8'b01111,13'b0100000,12'b011111,13'b0100000,11'b010000,8'b01000,5'b01,6'b010,8'b01,5'b01})'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(89): compiling module 'rvdff_fpga'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(19): compiling module 'rvdff:(WIDTH=7'b01)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(49): compiling module 'rvdffs:(WIDTH=7'b01)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(89): compiling module 'rvdff_fpga:(WIDTH=7'b01)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(19): compiling module 'rvdff:(WIDTH=7'b010)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(49): compiling module 'rvdffs:(WIDTH=7'b010)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(89): compiling module 'rvdff_fpga:(WIDTH=7'b010)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(19): compiling module 'rvdff:(WIDTH=32'b011010)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(49): compiling module 'rvdffs:(WIDTH=32'b011010)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(239): compiling module 'rvdfflie:(WIDTH=32'b011010,LEFT=32'b010010)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(19): compiling module 'rvdff:(WIDTH=32'b0111)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(49): compiling module 'rvdffs:(WIDTH=32'b0111)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(166): compiling module 'rvdffe:(WIDTH=32'b0111,OVERRIDE=1)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(89): compiling module 'rvdff_fpga:(WIDTH=2)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(19): compiling module 'rvdff:(WIDTH=8'b011)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(49): compiling module 'rvdffs:(WIDTH=8'b011)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(89): compiling module 'rvdff_fpga:(WIDTH=8'b011)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(19): compiling module 'rvdff:(WIDTH=64)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(49): compiling module 'rvdffs:(WIDTH=64)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(166): compiling module 'rvdffe:(WIDTH=64)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(113): compiling module 'rvdffs_fpga:(WIDTH=8'b011)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(19): compiling module 'rvdff:(WIDTH=32'b01000)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(49): compiling module 'rvdffs:(WIDTH=32'b01000)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(337): compiling module 'rvdffie:(WIDTH=32'b01000,OVERRIDE=1)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(19): compiling module 'rvdff:(WIDTH=9)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(49): compiling module 'rvdffs:(WIDTH=9)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(337): compiling module 'rvdffie:(WIDTH=9)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(19): compiling module 'rvdff:(WIDTH=32'b011)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(49): compiling module 'rvdffs:(WIDTH=32'b011)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(89): compiling module 'rvdff_fpga:(WIDTH=32'b011)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(702): compiling module 'rvecc_encode_64'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(19): compiling module 'rvdff:(WIDTH=71)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(49): compiling module 'rvdffs:(WIDTH=71)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(166): compiling module 'rvdffe:(WIDTH=71)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(641): compiling module 'rvecc_encode'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(19): compiling module 'rvdff:(WIDTH=11)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(49): compiling module 'rvdffs:(WIDTH=11)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(337): compiling module 'rvdffie:(WIDTH=11)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(658): compiling module 'rvecc_decode'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(19): compiling module 'rvdff:(WIDTH=32'b01111)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(49): compiling module 'rvdffs:(WIDTH=32'b01111)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(337): compiling module 'rvdffie:(WIDTH=32'b01111)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(19): compiling module 'rvdff:(WIDTH=32'b01001)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(49): compiling module 'rvdffs:(WIDTH=32'b01001)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(337): compiling module 'rvdffie:(WIDTH=32'b01001,OVERRIDE=1)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(113): compiling module 'rvdffs_fpga:(WIDTH=7'b01)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(19): compiling module 'rvdff:(WIDTH=32'b01010)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(49): compiling module 'rvdffs:(WIDTH=32'b01010)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(337): compiling module 'rvdffie:(WIDTH=32'b01010)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(113): compiling module 'rvdffs_fpga'
+[INFO (VERI-1018)] ../../design/ifu/el2_ifu_mem_ctl.sv(24): compiling module 'el2_ifu_mem_ctl:(pt='{8'b01001,6'b010,15'b0100000000,5'b0,8'b01000,16'b01000000000,5'b01,5'b01,5'b01,5'b0,5'b0,5'b0,5'b0,5'b01,9'b01001,6'b010,13'b0100000000,5'b0,9'b0101,5'b01,5'b0,5'b0,9'b01001,9'b010,9'b010001,9'b01010,9'b011001,9'b010010,14'b01000000000,9'b01100,1'b0,5'b01,5'b01,6'b011,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,7'b010,9'b010000,7'b0100,10'b0100000,7'b0111,5'b01,10'b0100111,8'b01100,9'b0100,8'b01111,36'b011110000000001000000000000000000,14'b01000000,6'b010,7'b0100,5'b01,7'b0101,9'b01,6'b010,8'b01,5'b01,5'b01,7'b01,7'b011,6'b011,8'b01000,7'b010,8'b0101,8'b011,5'b01,18'b01000000000,7'b0100,11'b01000000,5'b01,5'b01,11'b01000111,9'b01100,11'b01000000,8'b01000,8'b010,8'b010,7'b010,5'b0,8'b0110,13'b010000,7'b01,5'b01,17'b010000000,7'b0110,9'b01101,8'b010,8'b010,5'b01,7'b010,9'b011,9'b0100,9'b010000,5'b01,5'b01,8'b01100,9'b0100,5'b0,8'b01110,36'b011101110000000000000000000000000,14'b01000000,5'b01,6'b010,8'b011,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,5'b0,5'b0,5'b01,6'b010,8'b011,9'b0100,7'b010,9'b010000,8'b0100,5'b0,5'b0,36'b011110000000011000000000000000000,9'b01111,8'b01,8'b01111,13'b0100000,12'b011111,13'b0100000,11'b010000,8'b01000,5'b01,6'b010,8'b01,5'b01})'
+[WARN (VERI-1209)] ../../design/ifu/el2_ifu_mem_ctl.sv(849): expression size 32 truncated to fit in target size 3
+[WARN (VERI-1209)] ../../design/ifu/el2_ifu_mem_ctl.sv(1412): expression size 3 truncated to fit in target size 1
+[WARN (VERI-1209)] ../../design/ifu/el2_ifu_mem_ctl.sv(1638): expression size 4 truncated to fit in target size 2
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(19): compiling module 'rvdff:(WIDTH=32'b01011)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(49): compiling module 'rvdffs:(WIDTH=32'b01011)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(337): compiling module 'rvdffie:(WIDTH=32'b01011,OVERRIDE=1)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(19): compiling module 'rvdff:(WIDTH=30)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(49): compiling module 'rvdffs:(WIDTH=30)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(239): compiling module 'rvdfflie:(WIDTH=30,LEFT=19)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(478): compiling module 'rvbradder'
+[WARN (VERI-1209)] ../../design/lib/beh_lib.sv(494): expression size 32 truncated to fit in target size 19
+[WARN (VERI-1209)] ../../design/lib/beh_lib.sv(496): expression size 32 truncated to fit in target size 19
+[INFO (VERI-1018)] ../../design/lib/el2_lib.sv(52): compiling module 'el2_btb_ghr_hash:(pt='{8'b01001,6'b010,15'b0100000000,5'b0,8'b01000,16'b01000000000,5'b01,5'b01,5'b01,5'b0,5'b0,5'b0,5'b0,5'b01,9'b01001,6'b010,13'b0100000000,5'b0,9'b0101,5'b01,5'b0,5'b0,9'b01001,9'b010,9'b010001,9'b01010,9'b011001,9'b010010,14'b01000000000,9'b01100,1'b0,5'b01,5'b01,6'b011,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,7'b010,9'b010000,7'b0100,10'b0100000,7'b0111,5'b01,10'b0100111,8'b01100,9'b0100,8'b01111,36'b011110000000001000000000000000000,14'b01000000,6'b010,7'b0100,5'b01,7'b0101,9'b01,6'b010,8'b01,5'b01,5'b01,7'b01,7'b011,6'b011,8'b01000,7'b010,8'b0101,8'b011,5'b01,18'b01000000000,7'b0100,11'b01000000,5'b01,5'b01,11'b01000111,9'b01100,11'b01000000,8'b01000,8'b010,8'b010,7'b010,5'b0,8'b0110,13'b010000,7'b01,5'b01,17'b010000000,7'b0110,9'b01101,8'b010,8'b010,5'b01,7'b010,9'b011,9'b0100,9'b010000,5'b01,5'b01,8'b01100,9'b0100,5'b0,8'b01110,36'b011101110000000000000000000000000,14'b01000000,5'b01,6'b010,8'b011,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,5'b0,5'b0,5'b01,6'b010,8'b011,9'b0100,7'b010,9'b010000,8'b0100,5'b0,5'b0,36'b011110000000011000000000000000000,9'b01111,8'b01,8'b01111,13'b0100000,12'b011111,13'b0100000,11'b010000,8'b01000,5'b01,6'b010,8'b01,5'b01})'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(19): compiling module 'rvdff:(WIDTH=13'b0100000000)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(49): compiling module 'rvdffs:(WIDTH=13'b0100000000)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(166): compiling module 'rvdffe:(WIDTH=13'b0100000000)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(19): compiling module 'rvdff:(WIDTH=32'b010110)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(49): compiling module 'rvdffs:(WIDTH=32'b010110)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(166): compiling module 'rvdffe:(WIDTH=32'b010110)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(113): compiling module 'rvdffs_fpga:(WIDTH=2)'
+[INFO (VERI-1018)] ../../design/ifu/el2_ifu_bp_ctl.sv(27): compiling module 'el2_ifu_bp_ctl:(pt='{8'b01001,6'b010,15'b0100000000,5'b0,8'b01000,16'b01000000000,5'b01,5'b01,5'b01,5'b0,5'b0,5'b0,5'b0,5'b01,9'b01001,6'b010,13'b0100000000,5'b0,9'b0101,5'b01,5'b0,5'b0,9'b01001,9'b010,9'b010001,9'b01010,9'b011001,9'b010010,14'b01000000000,9'b01100,1'b0,5'b01,5'b01,6'b011,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,7'b010,9'b010000,7'b0100,10'b0100000,7'b0111,5'b01,10'b0100111,8'b01100,9'b0100,8'b01111,36'b011110000000001000000000000000000,14'b01000000,6'b010,7'b0100,5'b01,7'b0101,9'b01,6'b010,8'b01,5'b01,5'b01,7'b01,7'b011,6'b011,8'b01000,7'b010,8'b0101,8'b011,5'b01,18'b01000000000,7'b0100,11'b01000000,5'b01,5'b01,11'b01000111,9'b01100,11'b01000000,8'b01000,8'b010,8'b010,7'b010,5'b0,8'b0110,13'b010000,7'b01,5'b01,17'b010000000,7'b0110,9'b01101,8'b010,8'b010,5'b01,7'b010,9'b011,9'b0100,9'b010000,5'b01,5'b01,8'b01100,9'b0100,5'b0,8'b01110,36'b011101110000000000000000000000000,14'b01000000,5'b01,6'b010,8'b011,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,5'b0,5'b0,5'b01,6'b010,8'b011,9'b0100,7'b010,9'b010000,8'b0100,5'b0,5'b0,36'b011110000000011000000000000000000,9'b01111,8'b01,8'b01111,13'b0100000,12'b011111,13'b0100000,11'b010000,8'b01000,5'b01,6'b010,8'b01,5'b01})'
+[INFO (VERI-2571)] ../../design/ifu/el2_ifu_bp_ctl.sv(157): extracting RAM for identifier 'btb_bank0_rd_data_way0_out'
+[WARN (VERI-9033)] ../../design/ifu/el2_ifu_bp_ctl.sv(157): array btb_bank0_rd_data_way0_out (size 5632) automatically BLACK-BOXED. Use the "elaborate -bbox_a" command to prevent automatic black-boxing.
+[INFO (VERI-2571)] ../../design/ifu/el2_ifu_bp_ctl.sv(159): extracting RAM for identifier 'btb_bank0_rd_data_way1_out'
+[WARN (VERI-9033)] ../../design/ifu/el2_ifu_bp_ctl.sv(159): array btb_bank0_rd_data_way1_out (size 5632) automatically BLACK-BOXED. Use the "elaborate -bbox_a" command to prevent automatic black-boxing.
+[WARN (VERI-1209)] ../../design/ifu/el2_ifu_bp_ctl.sv(894): expression size 3 truncated to fit in target size 2
+[WARN (VDB-1002)] ../../design/ifu/el2_ifu_bp_ctl.sv(833): net 'bht_bank_clk[1][15]' does not have a driver
+[INFO (VERI-1018)] ../../design/ifu/el2_ifu.sv(22): compiling module 'el2_ifu:(pt='{8'b01001,6'b010,15'b0100000000,5'b0,8'b01000,16'b01000000000,5'b01,5'b01,5'b01,5'b0,5'b0,5'b0,5'b0,5'b01,9'b01001,6'b010,13'b0100000000,5'b0,9'b0101,5'b01,5'b0,5'b0,9'b01001,9'b010,9'b010001,9'b01010,9'b011001,9'b010010,14'b01000000000,9'b01100,1'b0,5'b01,5'b01,6'b011,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,7'b010,9'b010000,7'b0100,10'b0100000,7'b0111,5'b01,10'b0100111,8'b01100,9'b0100,8'b01111,36'b011110000000001000000000000000000,14'b01000000,6'b010,7'b0100,5'b01,7'b0101,9'b01,6'b010,8'b01,5'b01,5'b01,7'b01,7'b011,6'b011,8'b01000,7'b010,8'b0101,8'b011,5'b01,18'b01000000000,7'b0100,11'b01000000,5'b01,5'b01,11'b01000111,9'b01100,11'b01000000,8'b01000,8'b010,8'b010,7'b010,5'b0,8'b0110,13'b010000,7'b01,5'b01,17'b010000000,7'b0110,9'b01101,8'b010,8'b010,5'b01,7'b010,9'b011,9'b0100,9'b010000,5'b01,5'b01,8'b01100,9'b0100,5'b0,8'b01110,36'b011101110000000000000000000000000,14'b01000000,5'b01,6'b010,8'b011,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,5'b0,5'b0,5'b01,6'b010,8'b011,9'b0100,7'b010,9'b010000,8'b0100,5'b0,5'b0,36'b011110000000011000000000000000000,9'b01111,8'b01,8'b01111,13'b0100000,12'b011111,13'b0100000,11'b010000,8'b01000,5'b01,6'b010,8'b01,5'b01})'
+[INFO (VERI-1018)] ../../design/dec/el2_dec_ib_ctl.sv(16): compiling module 'el2_dec_ib_ctl:(pt='{8'b01001,6'b010,15'b0100000000,5'b0,8'b01000,16'b01000000000,5'b01,5'b01,5'b01,5'b0,5'b0,5'b0,5'b0,5'b01,9'b01001,6'b010,13'b0100000000,5'b0,9'b0101,5'b01,5'b0,5'b0,9'b01001,9'b010,9'b010001,9'b01010,9'b011001,9'b010010,14'b01000000000,9'b01100,1'b0,5'b01,5'b01,6'b011,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,7'b010,9'b010000,7'b0100,10'b0100000,7'b0111,5'b01,10'b0100111,8'b01100,9'b0100,8'b01111,36'b011110000000001000000000000000000,14'b01000000,6'b010,7'b0100,5'b01,7'b0101,9'b01,6'b010,8'b01,5'b01,5'b01,7'b01,7'b011,6'b011,8'b01000,7'b010,8'b0101,8'b011,5'b01,18'b01000000000,7'b0100,11'b01000000,5'b01,5'b01,11'b01000111,9'b01100,11'b01000000,8'b01000,8'b010,8'b010,7'b010,5'b0,8'b0110,13'b010000,7'b01,5'b01,17'b010000000,7'b0110,9'b01101,8'b010,8'b010,5'b01,7'b010,9'b011,9'b0100,9'b010000,5'b01,5'b01,8'b01100,9'b0100,5'b0,8'b01110,36'b011101110000000000000000000000000,14'b01000000,5'b01,6'b010,8'b011,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,5'b0,5'b0,5'b01,6'b010,8'b011,9'b0100,7'b010,9'b010000,8'b0100,5'b0,5'b0,36'b011110000000011000000000000000000,9'b01111,8'b01,8'b01111,13'b0100000,12'b011111,13'b0100000,11'b010000,8'b01000,5'b01,6'b010,8'b01,5'b01})'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(19): compiling module 'rvdff:(WIDTH=8)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(49): compiling module 'rvdffs:(WIDTH=8)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(337): compiling module 'rvdffie:(WIDTH=8)'
+[INFO (VERI-1018)] ../../design/dec/el2_dec_decode_ctl.sv(1508): compiling module 'el2_dec_dec_ctl'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(19): compiling module 'rvdff:(WIDTH=37)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(49): compiling module 'rvdffs:(WIDTH=37)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(166): compiling module 'rvdffe:(WIDTH=37)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(19): compiling module 'rvdff:(WIDTH=17)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(49): compiling module 'rvdffs:(WIDTH=17)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(239): compiling module 'rvdfflie:(WIDTH=17,LEFT=9)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(19): compiling module 'rvdff:(WIDTH=24)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(49): compiling module 'rvdffs:(WIDTH=24)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(239): compiling module 'rvdfflie:(WIDTH=24,LEFT=15)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(19): compiling module 'rvdff:(WIDTH=12)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(49): compiling module 'rvdffs:(WIDTH=12)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(166): compiling module 'rvdffe:(WIDTH=12)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(166): compiling module 'rvdffe:(WIDTH=5,OVERRIDE=1)'
+[INFO (VERI-1018)] ../../design/dec/el2_dec_decode_ctl.sv(17): compiling module 'el2_dec_decode_ctl:(pt='{8'b01001,6'b010,15'b0100000000,5'b0,8'b01000,16'b01000000000,5'b01,5'b01,5'b01,5'b0,5'b0,5'b0,5'b0,5'b01,9'b01001,6'b010,13'b0100000000,5'b0,9'b0101,5'b01,5'b0,5'b0,9'b01001,9'b010,9'b010001,9'b01010,9'b011001,9'b010010,14'b01000000000,9'b01100,1'b0,5'b01,5'b01,6'b011,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,7'b010,9'b010000,7'b0100,10'b0100000,7'b0111,5'b01,10'b0100111,8'b01100,9'b0100,8'b01111,36'b011110000000001000000000000000000,14'b01000000,6'b010,7'b0100,5'b01,7'b0101,9'b01,6'b010,8'b01,5'b01,5'b01,7'b01,7'b011,6'b011,8'b01000,7'b010,8'b0101,8'b011,5'b01,18'b01000000000,7'b0100,11'b01000000,5'b01,5'b01,11'b01000111,9'b01100,11'b01000000,8'b01000,8'b010,8'b010,7'b010,5'b0,8'b0110,13'b010000,7'b01,5'b01,17'b010000000,7'b0110,9'b01101,8'b010,8'b010,5'b01,7'b010,9'b011,9'b0100,9'b010000,5'b01,5'b01,8'b01100,9'b0100,5'b0,8'b01110,36'b011101110000000000000000000000000,14'b01000000,5'b01,6'b010,8'b011,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,5'b0,5'b0,5'b01,6'b010,8'b011,9'b0100,7'b010,9'b010000,8'b0100,5'b0,5'b0,36'b011110000000011000000000000000000,9'b01111,8'b01,8'b01111,13'b0100000,12'b011111,13'b0100000,11'b010000,8'b01000,5'b01,6'b010,8'b01,5'b01})'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(166): compiling module 'rvdffe:(WIDTH=24)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(166): compiling module 'rvdffe:(WIDTH=8)'
+[INFO (VERI-1018)] ../../design/dec/el2_dec_tlu_ctl.sv(2842): compiling module 'el2_dec_timer_ctl:(pt='{8'b01001,6'b010,15'b0100000000,5'b0,8'b01000,16'b01000000000,5'b01,5'b01,5'b01,5'b0,5'b0,5'b0,5'b0,5'b01,9'b01001,6'b010,13'b0100000000,5'b0,9'b0101,5'b01,5'b0,5'b0,9'b01001,9'b010,9'b010001,9'b01010,9'b011001,9'b010010,14'b01000000000,9'b01100,1'b0,5'b01,5'b01,6'b011,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,7'b010,9'b010000,7'b0100,10'b0100000,7'b0111,5'b01,10'b0100111,8'b01100,9'b0100,8'b01111,36'b011110000000001000000000000000000,14'b01000000,6'b010,7'b0100,5'b01,7'b0101,9'b01,6'b010,8'b01,5'b01,5'b01,7'b01,7'b011,6'b011,8'b01000,7'b010,8'b0101,8'b011,5'b01,18'b01000000000,7'b0100,11'b01000000,5'b01,5'b01,11'b01000111,9'b01100,11'b01000000,8'b01000,8'b010,8'b010,7'b010,5'b0,8'b0110,13'b010000,7'b01,5'b01,17'b010000000,7'b0110,9'b01101,8'b010,8'b010,5'b01,7'b010,9'b011,9'b0100,9'b010000,5'b01,5'b01,8'b01100,9'b0100,5'b0,8'b01110,36'b011101110000000000000000000000000,14'b01000000,5'b01,6'b010,8'b011,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,5'b0,5'b0,5'b01,6'b010,8'b011,9'b0100,7'b010,9'b010000,8'b0100,5'b0,5'b0,36'b011110000000011000000000000000000,9'b01111,8'b01,8'b01111,13'b0100000,12'b011111,13'b0100000,11'b010000,8'b01000,5'b01,6'b010,8'b01,5'b01})'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(166): compiling module 'rvdffe:(WIDTH=30)'
+[INFO (VERI-1018)] ../../design/dec/el2_dec_pmp_ctl.sv(27): compiling module 'el2_dec_pmp_ctl:(pt='{8'b01001,6'b010,15'b0100000000,5'b0,8'b01000,16'b01000000000,5'b01,5'b01,5'b01,5'b0,5'b0,5'b0,5'b0,5'b01,9'b01001,6'b010,13'b0100000000,5'b0,9'b0101,5'b01,5'b0,5'b0,9'b01001,9'b010,9'b010001,9'b01010,9'b011001,9'b010010,14'b01000000000,9'b01100,1'b0,5'b01,5'b01,6'b011,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,7'b010,9'b010000,7'b0100,10'b0100000,7'b0111,5'b01,10'b0100111,8'b01100,9'b0100,8'b01111,36'b011110000000001000000000000000000,14'b01000000,6'b010,7'b0100,5'b01,7'b0101,9'b01,6'b010,8'b01,5'b01,5'b01,7'b01,7'b011,6'b011,8'b01000,7'b010,8'b0101,8'b011,5'b01,18'b01000000000,7'b0100,11'b01000000,5'b01,5'b01,11'b01000111,9'b01100,11'b01000000,8'b01000,8'b010,8'b010,7'b010,5'b0,8'b0110,13'b010000,7'b01,5'b01,17'b010000000,7'b0110,9'b01101,8'b010,8'b010,5'b01,7'b010,9'b011,9'b0100,9'b010000,5'b01,5'b01,8'b01100,9'b0100,5'b0,8'b01110,36'b011101110000000000000000000000000,14'b01000000,5'b01,6'b010,8'b011,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,5'b0,5'b0,5'b01,6'b010,8'b011,9'b0100,7'b010,9'b010000,8'b0100,5'b0,5'b0,36'b011110000000011000000000000000000,9'b01111,8'b01,8'b01111,13'b0100000,12'b011111,13'b0100000,11'b010000,8'b01000,5'b01,6'b010,8'b01,5'b01})'
+[WARN (VERI-9005)] ../../design/dec/el2_dec_pmp_ctl.sv(135): 6-bit index expression '{pmp_quarter_rdaddr,2'b11}' is larger than the required 4 bits. This might lead to an out-of-bound access
+[WARN (VERI-9005)] ../../design/dec/el2_dec_pmp_ctl.sv(136): 6-bit index expression '{pmp_quarter_rdaddr,2'b10}' is larger than the required 4 bits. This might lead to an out-of-bound access
+[WARN (VERI-9005)] ../../design/dec/el2_dec_pmp_ctl.sv(137): 6-bit index expression '{pmp_quarter_rdaddr,2'b01}' is larger than the required 4 bits. This might lead to an out-of-bound access
+[WARN (VERI-9005)] ../../design/dec/el2_dec_pmp_ctl.sv(138): 6-bit index expression '{pmp_quarter_rdaddr,2'b0}' is larger than the required 4 bits. This might lead to an out-of-bound access
+[WARN (VERI-9005)] ../../design/dec/el2_dec_pmp_ctl.sv(143): 5-bit index expression '{2'b01,pmp_quarter_rdaddr}' is larger than the required 4 bits. This might lead to an out-of-bound access
+[WARN (VERI-9005)] ../../design/dec/el2_dec_pmp_ctl.sv(144): 6-bit index expression '{2'b10,pmp_quarter_rdaddr}' is larger than the required 4 bits. This might lead to an out-of-bound access
+[WARN (VERI-9005)] ../../design/dec/el2_dec_pmp_ctl.sv(145): 6-bit index expression '{2'b11,pmp_quarter_rdaddr}' is larger than the required 4 bits. This might lead to an out-of-bound access
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(416): compiling module 'rvsyncss:(WIDTH=7)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(337): compiling module 'rvdffie:(WIDTH=16)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(19): compiling module 'rvdff:(WIDTH=18)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(49): compiling module 'rvdffs:(WIDTH=18)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(337): compiling module 'rvdffie:(WIDTH=18)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(337): compiling module 'rvdffie:(WIDTH=12)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(19): compiling module 'rvdff:(WIDTH=6)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(166): compiling module 'rvdffe:(WIDTH=10)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(49): compiling module 'rvdffs:(WIDTH=6)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(19): compiling module 'rvdff:(WIDTH=22)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(49): compiling module 'rvdffs:(WIDTH=22)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(166): compiling module 'rvdffe:(WIDTH=22)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(19): compiling module 'rvdff:(WIDTH=14)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(49): compiling module 'rvdffs:(WIDTH=14)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(166): compiling module 'rvdffe:(WIDTH=14)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(166): compiling module 'rvdffe:(WIDTH=17)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(337): compiling module 'rvdffie:(WIDTH=6,OVERRIDE=1)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(166): compiling module 'rvdffe:(WIDTH=7,OVERRIDE=1)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(337): compiling module 'rvdffie:(WIDTH=31)'
+[INFO (VERI-1018)] ../../design/dec/el2_dec_tlu_ctl.sv(26): compiling module 'el2_dec_tlu_ctl:(pt='{8'b01001,6'b010,15'b0100000000,5'b0,8'b01000,16'b01000000000,5'b01,5'b01,5'b01,5'b0,5'b0,5'b0,5'b0,5'b01,9'b01001,6'b010,13'b0100000000,5'b0,9'b0101,5'b01,5'b0,5'b0,9'b01001,9'b010,9'b010001,9'b01010,9'b011001,9'b010010,14'b01000000000,9'b01100,1'b0,5'b01,5'b01,6'b011,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,7'b010,9'b010000,7'b0100,10'b0100000,7'b0111,5'b01,10'b0100111,8'b01100,9'b0100,8'b01111,36'b011110000000001000000000000000000,14'b01000000,6'b010,7'b0100,5'b01,7'b0101,9'b01,6'b010,8'b01,5'b01,5'b01,7'b01,7'b011,6'b011,8'b01000,7'b010,8'b0101,8'b011,5'b01,18'b01000000000,7'b0100,11'b01000000,5'b01,5'b01,11'b01000111,9'b01100,11'b01000000,8'b01000,8'b010,8'b010,7'b010,5'b0,8'b0110,13'b010000,7'b01,5'b01,17'b010000000,7'b0110,9'b01101,8'b010,8'b010,5'b01,7'b010,9'b011,9'b0100,9'b010000,5'b01,5'b01,8'b01100,9'b0100,5'b0,8'b01110,36'b011101110000000000000000000000000,14'b01000000,5'b01,6'b010,8'b011,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,5'b0,5'b0,5'b01,6'b010,8'b011,9'b0100,7'b010,9'b010000,8'b0100,5'b0,5'b0,36'b011110000000011000000000000000000,9'b01111,8'b01,8'b01111,13'b0100000,12'b011111,13'b0100000,11'b010000,8'b01000,5'b01,6'b010,8'b01,5'b01})'
+[INFO (VERI-1018)] ../../design/dec/el2_dec_gpr_ctl.sv(16): compiling module 'el2_dec_gpr_ctl:(pt='{8'b01001,6'b010,15'b0100000000,5'b0,8'b01000,16'b01000000000,5'b01,5'b01,5'b01,5'b0,5'b0,5'b0,5'b0,5'b01,9'b01001,6'b010,13'b0100000000,5'b0,9'b0101,5'b01,5'b0,5'b0,9'b01001,9'b010,9'b010001,9'b01010,9'b011001,9'b010010,14'b01000000000,9'b01100,1'b0,5'b01,5'b01,6'b011,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,7'b010,9'b010000,7'b0100,10'b0100000,7'b0111,5'b01,10'b0100111,8'b01100,9'b0100,8'b01111,36'b011110000000001000000000000000000,14'b01000000,6'b010,7'b0100,5'b01,7'b0101,9'b01,6'b010,8'b01,5'b01,5'b01,7'b01,7'b011,6'b011,8'b01000,7'b010,8'b0101,8'b011,5'b01,18'b01000000000,7'b0100,11'b01000000,5'b01,5'b01,11'b01000111,9'b01100,11'b01000000,8'b01000,8'b010,8'b010,7'b010,5'b0,8'b0110,13'b010000,7'b01,5'b01,17'b010000000,7'b0110,9'b01101,8'b010,8'b010,5'b01,7'b010,9'b011,9'b0100,9'b010000,5'b01,5'b01,8'b01100,9'b0100,5'b0,8'b01110,36'b011101110000000000000000000000000,14'b01000000,5'b01,6'b010,8'b011,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,5'b0,5'b0,5'b01,6'b010,8'b011,9'b0100,7'b010,9'b010000,8'b0100,5'b0,5'b0,36'b011110000000011000000000000000000,9'b01111,8'b01,8'b01111,13'b0100000,12'b011111,13'b0100000,11'b010000,8'b01000,5'b01,6'b010,8'b01,5'b01})'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(569): compiling module 'rvmaskandmatch'
+[INFO (VERI-1018)] ../../design/dec/el2_dec_trigger.sv(25): compiling module 'el2_dec_trigger:(pt='{8'b01001,6'b010,15'b0100000000,5'b0,8'b01000,16'b01000000000,5'b01,5'b01,5'b01,5'b0,5'b0,5'b0,5'b0,5'b01,9'b01001,6'b010,13'b0100000000,5'b0,9'b0101,5'b01,5'b0,5'b0,9'b01001,9'b010,9'b010001,9'b01010,9'b011001,9'b010010,14'b01000000000,9'b01100,1'b0,5'b01,5'b01,6'b011,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,7'b010,9'b010000,7'b0100,10'b0100000,7'b0111,5'b01,10'b0100111,8'b01100,9'b0100,8'b01111,36'b011110000000001000000000000000000,14'b01000000,6'b010,7'b0100,5'b01,7'b0101,9'b01,6'b010,8'b01,5'b01,5'b01,7'b01,7'b011,6'b011,8'b01000,7'b010,8'b0101,8'b011,5'b01,18'b01000000000,7'b0100,11'b01000000,5'b01,5'b01,11'b01000111,9'b01100,11'b01000000,8'b01000,8'b010,8'b010,7'b010,5'b0,8'b0110,13'b010000,7'b01,5'b01,17'b010000000,7'b0110,9'b01101,8'b010,8'b010,5'b01,7'b010,9'b011,9'b0100,9'b010000,5'b01,5'b01,8'b01100,9'b0100,5'b0,8'b01110,36'b011101110000000000000000000000000,14'b01000000,5'b01,6'b010,8'b011,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,5'b0,5'b0,5'b01,6'b010,8'b011,9'b0100,7'b010,9'b010000,8'b0100,5'b0,5'b0,36'b011110000000011000000000000000000,9'b01111,8'b01,8'b01111,13'b0100000,12'b011111,13'b0100000,11'b010000,8'b01000,5'b01,6'b010,8'b01,5'b01})'
+[INFO (VERI-1018)] ../../design/dec/el2_dec.sv(30): compiling module 'el2_dec:(pt='{8'b01001,6'b010,15'b0100000000,5'b0,8'b01000,16'b01000000000,5'b01,5'b01,5'b01,5'b0,5'b0,5'b0,5'b0,5'b01,9'b01001,6'b010,13'b0100000000,5'b0,9'b0101,5'b01,5'b0,5'b0,9'b01001,9'b010,9'b010001,9'b01010,9'b011001,9'b010010,14'b01000000000,9'b01100,1'b0,5'b01,5'b01,6'b011,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,7'b010,9'b010000,7'b0100,10'b0100000,7'b0111,5'b01,10'b0100111,8'b01100,9'b0100,8'b01111,36'b011110000000001000000000000000000,14'b01000000,6'b010,7'b0100,5'b01,7'b0101,9'b01,6'b010,8'b01,5'b01,5'b01,7'b01,7'b011,6'b011,8'b01000,7'b010,8'b0101,8'b011,5'b01,18'b01000000000,7'b0100,11'b01000000,5'b01,5'b01,11'b01000111,9'b01100,11'b01000000,8'b01000,8'b010,8'b010,7'b010,5'b0,8'b0110,13'b010000,7'b01,5'b01,17'b010000000,7'b0110,9'b01101,8'b010,8'b010,5'b01,7'b010,9'b011,9'b0100,9'b010000,5'b01,5'b01,8'b01100,9'b0100,5'b0,8'b01110,36'b011101110000000000000000000000000,14'b01000000,5'b01,6'b010,8'b011,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,5'b0,5'b0,5'b01,6'b010,8'b011,9'b0100,7'b010,9'b010000,8'b0100,5'b0,5'b0,36'b011110000000011000000000000000000,9'b01111,8'b01,8'b01111,13'b0100000,12'b011111,13'b0100000,11'b010000,8'b01000,5'b01,6'b010,8'b01,5'b01})'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(19): compiling module 'rvdff:(WIDTH=56)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(49): compiling module 'rvdffs:(WIDTH=56)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(294): compiling module 'rvdffppe:(WIDTH=56)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(19): compiling module 'rvdff:(WIDTH=32'b010101)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(49): compiling module 'rvdffs:(WIDTH=32'b010101)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(166): compiling module 'rvdffe:(WIDTH=32'b010101)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(19): compiling module 'rvdff:(WIDTH=32'b01100)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(49): compiling module 'rvdffs:(WIDTH=32'b01100)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(166): compiling module 'rvdffe:(WIDTH=32'b01100)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(19): compiling module 'rvdff:(WIDTH=57)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(49): compiling module 'rvdffs:(WIDTH=57)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(294): compiling module 'rvdffppe:(WIDTH=57)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(337): compiling module 'rvdffie:(WIDTH=32'b01010,OVERRIDE=1)'
+[INFO (VERI-1018)] ../../design/exu/el2_exu_alu_ctl.sv(17): compiling module 'el2_exu_alu_ctl:(pt='{8'b01001,6'b010,15'b0100000000,5'b0,8'b01000,16'b01000000000,5'b01,5'b01,5'b01,5'b0,5'b0,5'b0,5'b0,5'b01,9'b01001,6'b010,13'b0100000000,5'b0,9'b0101,5'b01,5'b0,5'b0,9'b01001,9'b010,9'b010001,9'b01010,9'b011001,9'b010010,14'b01000000000,9'b01100,1'b0,5'b01,5'b01,6'b011,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,7'b010,9'b010000,7'b0100,10'b0100000,7'b0111,5'b01,10'b0100111,8'b01100,9'b0100,8'b01111,36'b011110000000001000000000000000000,14'b01000000,6'b010,7'b0100,5'b01,7'b0101,9'b01,6'b010,8'b01,5'b01,5'b01,7'b01,7'b011,6'b011,8'b01000,7'b010,8'b0101,8'b011,5'b01,18'b01000000000,7'b0100,11'b01000000,5'b01,5'b01,11'b01000111,9'b01100,11'b01000000,8'b01000,8'b010,8'b010,7'b010,5'b0,8'b0110,13'b010000,7'b01,5'b01,17'b010000000,7'b0110,9'b01101,8'b010,8'b010,5'b01,7'b010,9'b011,9'b0100,9'b010000,5'b01,5'b01,8'b01100,9'b0100,5'b0,8'b01110,36'b011101110000000000000000000000000,14'b01000000,5'b01,6'b010,8'b011,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,5'b0,5'b0,5'b01,6'b010,8'b011,9'b0100,7'b010,9'b010000,8'b0100,5'b0,5'b0,36'b011110000000011000000000000000000,9'b01111,8'b01,8'b01111,13'b0100000,12'b011111,13'b0100000,11'b010000,8'b01000,5'b01,6'b010,8'b01,5'b01})'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(19): compiling module 'rvdff:(WIDTH=34)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(49): compiling module 'rvdffs:(WIDTH=34)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(166): compiling module 'rvdffe:(WIDTH=34)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(19): compiling module 'rvdff:(WIDTH=33)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(49): compiling module 'rvdffs:(WIDTH=33)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(166): compiling module 'rvdffe:(WIDTH=33)'
+[INFO (VERI-1018)] ../../design/exu/el2_exu_mul_ctl.sv(17): compiling module 'el2_exu_mul_ctl:(pt='{8'b01001,6'b010,15'b0100000000,5'b0,8'b01000,16'b01000000000,5'b01,5'b01,5'b01,5'b0,5'b0,5'b0,5'b0,5'b01,9'b01001,6'b010,13'b0100000000,5'b0,9'b0101,5'b01,5'b0,5'b0,9'b01001,9'b010,9'b010001,9'b01010,9'b011001,9'b010010,14'b01000000000,9'b01100,1'b0,5'b01,5'b01,6'b011,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,7'b010,9'b010000,7'b0100,10'b0100000,7'b0111,5'b01,10'b0100111,8'b01100,9'b0100,8'b01111,36'b011110000000001000000000000000000,14'b01000000,6'b010,7'b0100,5'b01,7'b0101,9'b01,6'b010,8'b01,5'b01,5'b01,7'b01,7'b011,6'b011,8'b01000,7'b010,8'b0101,8'b011,5'b01,18'b01000000000,7'b0100,11'b01000000,5'b01,5'b01,11'b01000111,9'b01100,11'b01000000,8'b01000,8'b010,8'b010,7'b010,5'b0,8'b0110,13'b010000,7'b01,5'b01,17'b010000000,7'b0110,9'b01101,8'b010,8'b010,5'b01,7'b010,9'b011,9'b0100,9'b010000,5'b01,5'b01,8'b01100,9'b0100,5'b0,8'b01110,36'b011101110000000000000000000000000,14'b01000000,5'b01,6'b010,8'b011,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,5'b0,5'b0,5'b01,6'b010,8'b011,9'b0100,7'b010,9'b010000,8'b0100,5'b0,5'b0,36'b011110000000011000000000000000000,9'b01111,8'b01,8'b01111,13'b0100000,12'b011111,13'b0100000,11'b010000,8'b01000,5'b01,6'b010,8'b01,5'b01})'
+[WARN (VERI-9005)] ../../design/exu/el2_exu_mul_ctl.sv(211): 32-bit index expression 'bcompress_j' is larger than the required 5 bits. This might lead to an out-of-bound access
+[WARN (VERI-9005)] ../../design/exu/el2_exu_mul_ctl.sv(238): 32-bit index expression 'bdecompress_j' is larger than the required 5 bits. This might lead to an out-of-bound access
+[WARN (VERI-1209)] ../../design/exu/el2_exu_mul_ctl.sv(526): expression size 32 truncated to fit in target size 4
+[WARN (VERI-1209)] ../../design/exu/el2_exu_mul_ctl.sv(527): expression size 32 truncated to fit in target size 4
+[WARN (VERI-1209)] ../../design/exu/el2_exu_mul_ctl.sv(528): expression size 32 truncated to fit in target size 4
+[WARN (VERI-1209)] ../../design/exu/el2_exu_mul_ctl.sv(529): expression size 32 truncated to fit in target size 4
+[WARN (VERI-1209)] ../../design/exu/el2_exu_mul_ctl.sv(530): expression size 32 truncated to fit in target size 4
+[WARN (VERI-1209)] ../../design/exu/el2_exu_mul_ctl.sv(531): expression size 32 truncated to fit in target size 4
+[WARN (VERI-1209)] ../../design/exu/el2_exu_mul_ctl.sv(532): expression size 32 truncated to fit in target size 4
+[WARN (VERI-1209)] ../../design/exu/el2_exu_mul_ctl.sv(533): expression size 32 truncated to fit in target size 4
+[WARN (VERI-1209)] ../../design/exu/el2_exu_mul_ctl.sv(535): expression size 32 truncated to fit in target size 8
+[WARN (VERI-1209)] ../../design/exu/el2_exu_mul_ctl.sv(536): expression size 32 truncated to fit in target size 8
+[WARN (VERI-1209)] ../../design/exu/el2_exu_mul_ctl.sv(537): expression size 32 truncated to fit in target size 8
+[WARN (VERI-1209)] ../../design/exu/el2_exu_mul_ctl.sv(538): expression size 32 truncated to fit in target size 8
+[WARN (VERI-1209)] ../../design/exu/el2_exu_mul_ctl.sv(540): expression size 32 truncated to fit in target size 16
+[WARN (VERI-1209)] ../../design/exu/el2_exu_mul_ctl.sv(541): expression size 32 truncated to fit in target size 16
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(19): compiling module 'rvdff:(WIDTH=19)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(49): compiling module 'rvdffs:(WIDTH=19)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(166): compiling module 'rvdffe:(WIDTH=19)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(510): compiling module 'rvtwoscomp'
+[INFO (VERI-1018)] ../../design/exu/el2_exu_div_ctl.sv(1718): compiling module 'el2_exu_div_cls'
+[INFO (VERI-1018)] ../../design/exu/el2_exu_div_ctl.sv(1311): compiling module 'el2_exu_div_new_4bit_fullshortq'
+[INFO (VERI-1018)] ../../design/exu/el2_exu_div_ctl.sv(17): compiling module 'el2_exu_div_ctl:(pt='{8'b01001,6'b010,15'b0100000000,5'b0,8'b01000,16'b01000000000,5'b01,5'b01,5'b01,5'b0,5'b0,5'b0,5'b0,5'b01,9'b01001,6'b010,13'b0100000000,5'b0,9'b0101,5'b01,5'b0,5'b0,9'b01001,9'b010,9'b010001,9'b01010,9'b011001,9'b010010,14'b01000000000,9'b01100,1'b0,5'b01,5'b01,6'b011,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,7'b010,9'b010000,7'b0100,10'b0100000,7'b0111,5'b01,10'b0100111,8'b01100,9'b0100,8'b01111,36'b011110000000001000000000000000000,14'b01000000,6'b010,7'b0100,5'b01,7'b0101,9'b01,6'b010,8'b01,5'b01,5'b01,7'b01,7'b011,6'b011,8'b01000,7'b010,8'b0101,8'b011,5'b01,18'b01000000000,7'b0100,11'b01000000,5'b01,5'b01,11'b01000111,9'b01100,11'b01000000,8'b01000,8'b010,8'b010,7'b010,5'b0,8'b0110,13'b010000,7'b01,5'b01,17'b010000000,7'b0110,9'b01101,8'b010,8'b010,5'b01,7'b010,9'b011,9'b0100,9'b010000,5'b01,5'b01,8'b01100,9'b0100,5'b0,8'b01110,36'b011101110000000000000000000000000,14'b01000000,5'b01,6'b010,8'b011,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,5'b0,5'b0,5'b01,6'b010,8'b011,9'b0100,7'b010,9'b010000,8'b0100,5'b0,5'b0,36'b011110000000011000000000000000000,9'b01111,8'b01,8'b01111,13'b0100000,12'b011111,13'b0100000,11'b010000,8'b01000,5'b01,6'b010,8'b01,5'b01})'
+[INFO (VERI-1018)] ../../design/exu/el2_exu.sv(17): compiling module 'el2_exu:(pt='{8'b01001,6'b010,15'b0100000000,5'b0,8'b01000,16'b01000000000,5'b01,5'b01,5'b01,5'b0,5'b0,5'b0,5'b0,5'b01,9'b01001,6'b010,13'b0100000000,5'b0,9'b0101,5'b01,5'b0,5'b0,9'b01001,9'b010,9'b010001,9'b01010,9'b011001,9'b010010,14'b01000000000,9'b01100,1'b0,5'b01,5'b01,6'b011,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,7'b010,9'b010000,7'b0100,10'b0100000,7'b0111,5'b01,10'b0100111,8'b01100,9'b0100,8'b01111,36'b011110000000001000000000000000000,14'b01000000,6'b010,7'b0100,5'b01,7'b0101,9'b01,6'b010,8'b01,5'b01,5'b01,7'b01,7'b011,6'b011,8'b01000,7'b010,8'b0101,8'b011,5'b01,18'b01000000000,7'b0100,11'b01000000,5'b01,5'b01,11'b01000111,9'b01100,11'b01000000,8'b01000,8'b010,8'b010,7'b010,5'b0,8'b0110,13'b010000,7'b01,5'b01,17'b010000000,7'b0110,9'b01101,8'b010,8'b010,5'b01,7'b010,9'b011,9'b0100,9'b010000,5'b01,5'b01,8'b01100,9'b0100,5'b0,8'b01110,36'b011101110000000000000000000000000,14'b01000000,5'b01,6'b010,8'b011,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,5'b0,5'b0,5'b01,6'b010,8'b011,9'b0100,7'b010,9'b010000,8'b0100,5'b0,5'b0,36'b011110000000011000000000000000000,9'b01111,8'b01,8'b01111,13'b0100000,12'b011111,13'b0100000,11'b010000,8'b01000,5'b01,6'b010,8'b01,5'b01})'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(448): compiling module 'rvlsadder'
+[WARN (VERI-1209)] ../../design/lib/beh_lib.sv(464): expression size 32 truncated to fit in target size 20
+[WARN (VERI-1209)] ../../design/lib/beh_lib.sv(466): expression size 32 truncated to fit in target size 20
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(597): compiling module 'rvrangecheck:(CCM_SADR=36'b011110000000011000000000000000000,CCM_SIZE=13'b0100000)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(597): compiling module 'rvrangecheck:(CCM_SADR=36'b011110000000001000000000000000000,CCM_SIZE=14'b01000000)'
+[INFO (VERI-1018)] ../../design/lsu/el2_lsu_addrcheck.sv(25): compiling module 'el2_lsu_addrcheck'
+[WARN (VERI-1209)] ../../design/lsu/el2_lsu_addrcheck.sv(122): expression size 5 truncated to fit in target size 1
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(19): compiling module 'rvdff:(WIDTH=13)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(19): compiling module 'rvdff:(WIDTH=29)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(49): compiling module 'rvdffs:(WIDTH=29)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(166): compiling module 'rvdffe:(WIDTH=29)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(19): compiling module 'rvdff:(WIDTH=38)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(49): compiling module 'rvdffs:(WIDTH=38)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(166): compiling module 'rvdffe:(WIDTH=38)'
+[INFO (VERI-1018)] ../../design/lsu/el2_lsu_lsc_ctl.sv(28): compiling module 'el2_lsu_lsc_ctl:(pt='{8'b01001,6'b010,15'b0100000000,5'b0,8'b01000,16'b01000000000,5'b01,5'b01,5'b01,5'b0,5'b0,5'b0,5'b0,5'b01,9'b01001,6'b010,13'b0100000000,5'b0,9'b0101,5'b01,5'b0,5'b0,9'b01001,9'b010,9'b010001,9'b01010,9'b011001,9'b010010,14'b01000000000,9'b01100,1'b0,5'b01,5'b01,6'b011,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,7'b010,9'b010000,7'b0100,10'b0100000,7'b0111,5'b01,10'b0100111,8'b01100,9'b0100,8'b01111,36'b011110000000001000000000000000000,14'b01000000,6'b010,7'b0100,5'b01,7'b0101,9'b01,6'b010,8'b01,5'b01,5'b01,7'b01,7'b011,6'b011,8'b01000,7'b010,8'b0101,8'b011,5'b01,18'b01000000000,7'b0100,11'b01000000,5'b01,5'b01,11'b01000111,9'b01100,11'b01000000,8'b01000,8'b010,8'b010,7'b010,5'b0,8'b0110,13'b010000,7'b01,5'b01,17'b010000000,7'b0110,9'b01101,8'b010,8'b010,5'b01,7'b010,9'b011,9'b0100,9'b010000,5'b01,5'b01,8'b01100,9'b0100,5'b0,8'b01110,36'b011101110000000000000000000000000,14'b01000000,5'b01,6'b010,8'b011,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,5'b0,5'b0,5'b01,6'b010,8'b011,9'b0100,7'b010,9'b010000,8'b0100,5'b0,5'b0,36'b011110000000011000000000000000000,9'b01111,8'b01,8'b01111,13'b0100000,12'b011111,13'b0100000,11'b010000,8'b01000,5'b01,6'b010,8'b01,5'b01})'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(19): compiling module 'rvdff:(WIDTH=10'b0100000)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(49): compiling module 'rvdffs:(WIDTH=10'b0100000)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(166): compiling module 'rvdffe:(WIDTH=10'b0100000)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(19): compiling module 'rvdff:(WIDTH=9'b010000)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(49): compiling module 'rvdffs:(WIDTH=9'b010000)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(166): compiling module 'rvdffe:(WIDTH=9'b010000)'
+[INFO (VERI-1018)] ../../design/lsu/el2_lsu_dccm_ctl.sv(29): compiling module 'el2_lsu_dccm_ctl:(pt='{8'b01001,6'b010,15'b0100000000,5'b0,8'b01000,16'b01000000000,5'b01,5'b01,5'b01,5'b0,5'b0,5'b0,5'b0,5'b01,9'b01001,6'b010,13'b0100000000,5'b0,9'b0101,5'b01,5'b0,5'b0,9'b01001,9'b010,9'b010001,9'b01010,9'b011001,9'b010010,14'b01000000000,9'b01100,1'b0,5'b01,5'b01,6'b011,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,7'b010,9'b010000,7'b0100,10'b0100000,7'b0111,5'b01,10'b0100111,8'b01100,9'b0100,8'b01111,36'b011110000000001000000000000000000,14'b01000000,6'b010,7'b0100,5'b01,7'b0101,9'b01,6'b010,8'b01,5'b01,5'b01,7'b01,7'b011,6'b011,8'b01000,7'b010,8'b0101,8'b011,5'b01,18'b01000000000,7'b0100,11'b01000000,5'b01,5'b01,11'b01000111,9'b01100,11'b01000000,8'b01000,8'b010,8'b010,7'b010,5'b0,8'b0110,13'b010000,7'b01,5'b01,17'b010000000,7'b0110,9'b01101,8'b010,8'b010,5'b01,7'b010,9'b011,9'b0100,9'b010000,5'b01,5'b01,8'b01100,9'b0100,5'b0,8'b01110,36'b011101110000000000000000000000000,14'b01000000,5'b01,6'b010,8'b011,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,5'b0,5'b0,5'b01,6'b010,8'b011,9'b0100,7'b010,9'b010000,8'b0100,5'b0,5'b0,36'b011110000000011000000000000000000,9'b01111,8'b01,8'b01111,13'b0100000,12'b011111,13'b0100000,11'b010000,8'b01000,5'b01,6'b010,8'b01,5'b01})'
+[WARN (VERI-1209)] ../../design/lsu/el2_lsu_dccm_ctl.sv(380): expression size 36 truncated to fit in target size 32
+[WARN (VERI-1209)] ../../design/lsu/el2_lsu_dccm_ctl.sv(382): expression size 36 truncated to fit in target size 32
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(68): compiling module 'rvdffsc'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(19): compiling module 'rvdff:(WIDTH=7'b0100)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(68): compiling module 'rvdffsc:(WIDTH=7'b0100)'
+[INFO (VERI-1018)] ../../design/lsu/el2_lsu_stbuf.sv(30): compiling module 'el2_lsu_stbuf:(pt='{8'b01001,6'b010,15'b0100000000,5'b0,8'b01000,16'b01000000000,5'b01,5'b01,5'b01,5'b0,5'b0,5'b0,5'b0,5'b01,9'b01001,6'b010,13'b0100000000,5'b0,9'b0101,5'b01,5'b0,5'b0,9'b01001,9'b010,9'b010001,9'b01010,9'b011001,9'b010010,14'b01000000000,9'b01100,1'b0,5'b01,5'b01,6'b011,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,7'b010,9'b010000,7'b0100,10'b0100000,7'b0111,5'b01,10'b0100111,8'b01100,9'b0100,8'b01111,36'b011110000000001000000000000000000,14'b01000000,6'b010,7'b0100,5'b01,7'b0101,9'b01,6'b010,8'b01,5'b01,5'b01,7'b01,7'b011,6'b011,8'b01000,7'b010,8'b0101,8'b011,5'b01,18'b01000000000,7'b0100,11'b01000000,5'b01,5'b01,11'b01000111,9'b01100,11'b01000000,8'b01000,8'b010,8'b010,7'b010,5'b0,8'b0110,13'b010000,7'b01,5'b01,17'b010000000,7'b0110,9'b01101,8'b010,8'b010,5'b01,7'b010,9'b011,9'b0100,9'b010000,5'b01,5'b01,8'b01100,9'b0100,5'b0,8'b01110,36'b011101110000000000000000000000000,14'b01000000,5'b01,6'b010,8'b011,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,5'b0,5'b0,5'b01,6'b010,8'b011,9'b0100,7'b010,9'b010000,8'b0100,5'b0,5'b0,36'b011110000000011000000000000000000,9'b01111,8'b01,8'b01111,13'b0100000,12'b011111,13'b0100000,11'b010000,8'b01000,5'b01,6'b010,8'b01,5'b01})'
+[INFO (VERI-1018)] ../../design/lsu/el2_lsu_ecc.sv(28): compiling module 'el2_lsu_ecc:(pt='{8'b01001,6'b010,15'b0100000000,5'b0,8'b01000,16'b01000000000,5'b01,5'b01,5'b01,5'b0,5'b0,5'b0,5'b0,5'b01,9'b01001,6'b010,13'b0100000000,5'b0,9'b0101,5'b01,5'b0,5'b0,9'b01001,9'b010,9'b010001,9'b01010,9'b011001,9'b010010,14'b01000000000,9'b01100,1'b0,5'b01,5'b01,6'b011,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,7'b010,9'b010000,7'b0100,10'b0100000,7'b0111,5'b01,10'b0100111,8'b01100,9'b0100,8'b01111,36'b011110000000001000000000000000000,14'b01000000,6'b010,7'b0100,5'b01,7'b0101,9'b01,6'b010,8'b01,5'b01,5'b01,7'b01,7'b011,6'b011,8'b01000,7'b010,8'b0101,8'b011,5'b01,18'b01000000000,7'b0100,11'b01000000,5'b01,5'b01,11'b01000111,9'b01100,11'b01000000,8'b01000,8'b010,8'b010,7'b010,5'b0,8'b0110,13'b010000,7'b01,5'b01,17'b010000000,7'b0110,9'b01101,8'b010,8'b010,5'b01,7'b010,9'b011,9'b0100,9'b010000,5'b01,5'b01,8'b01100,9'b0100,5'b0,8'b01110,36'b011101110000000000000000000000000,14'b01000000,5'b01,6'b010,8'b011,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,5'b0,5'b0,5'b01,6'b010,8'b011,9'b0100,7'b010,9'b010000,8'b0100,5'b0,5'b0,36'b011110000000011000000000000000000,9'b01111,8'b01,8'b01111,13'b0100000,12'b011111,13'b0100000,11'b010000,8'b01000,5'b01,6'b010,8'b01,5'b01})'
+[INFO (VERI-1018)] ../../design/lsu/el2_lsu_trigger.sv(25): compiling module 'el2_lsu_trigger:(pt='{8'b01001,6'b010,15'b0100000000,5'b0,8'b01000,16'b01000000000,5'b01,5'b01,5'b01,5'b0,5'b0,5'b0,5'b0,5'b01,9'b01001,6'b010,13'b0100000000,5'b0,9'b0101,5'b01,5'b0,5'b0,9'b01001,9'b010,9'b010001,9'b01010,9'b011001,9'b010010,14'b01000000000,9'b01100,1'b0,5'b01,5'b01,6'b011,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,7'b010,9'b010000,7'b0100,10'b0100000,7'b0111,5'b01,10'b0100111,8'b01100,9'b0100,8'b01111,36'b011110000000001000000000000000000,14'b01000000,6'b010,7'b0100,5'b01,7'b0101,9'b01,6'b010,8'b01,5'b01,5'b01,7'b01,7'b011,6'b011,8'b01000,7'b010,8'b0101,8'b011,5'b01,18'b01000000000,7'b0100,11'b01000000,5'b01,5'b01,11'b01000111,9'b01100,11'b01000000,8'b01000,8'b010,8'b010,7'b010,5'b0,8'b0110,13'b010000,7'b01,5'b01,17'b010000000,7'b0110,9'b01101,8'b010,8'b010,5'b01,7'b010,9'b011,9'b0100,9'b010000,5'b01,5'b01,8'b01100,9'b0100,5'b0,8'b01110,36'b011101110000000000000000000000000,14'b01000000,5'b01,6'b010,8'b011,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,5'b0,5'b0,5'b01,6'b010,8'b011,9'b0100,7'b010,9'b010000,8'b0100,5'b0,5'b0,36'b011110000000011000000000000000000,9'b01111,8'b01,8'b01111,13'b0100000,12'b011111,13'b0100000,11'b010000,8'b01000,5'b01,6'b010,8'b01,5'b01})'
+[INFO (VERI-1018)] ../../design/lsu/el2_lsu_clkdomain.sv(26): compiling module 'el2_lsu_clkdomain:(pt='{8'b01001,6'b010,15'b0100000000,5'b0,8'b01000,16'b01000000000,5'b01,5'b01,5'b01,5'b0,5'b0,5'b0,5'b0,5'b01,9'b01001,6'b010,13'b0100000000,5'b0,9'b0101,5'b01,5'b0,5'b0,9'b01001,9'b010,9'b010001,9'b01010,9'b011001,9'b010010,14'b01000000000,9'b01100,1'b0,5'b01,5'b01,6'b011,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,7'b010,9'b010000,7'b0100,10'b0100000,7'b0111,5'b01,10'b0100111,8'b01100,9'b0100,8'b01111,36'b011110000000001000000000000000000,14'b01000000,6'b010,7'b0100,5'b01,7'b0101,9'b01,6'b010,8'b01,5'b01,5'b01,7'b01,7'b011,6'b011,8'b01000,7'b010,8'b0101,8'b011,5'b01,18'b01000000000,7'b0100,11'b01000000,5'b01,5'b01,11'b01000111,9'b01100,11'b01000000,8'b01000,8'b010,8'b010,7'b010,5'b0,8'b0110,13'b010000,7'b01,5'b01,17'b010000000,7'b0110,9'b01101,8'b010,8'b010,5'b01,7'b010,9'b011,9'b0100,9'b010000,5'b01,5'b01,8'b01100,9'b0100,5'b0,8'b01110,36'b011101110000000000000000000000000,14'b01000000,5'b01,6'b010,8'b011,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,5'b0,5'b0,5'b01,6'b010,8'b011,9'b0100,7'b010,9'b010000,8'b0100,5'b0,5'b0,36'b011110000000011000000000000000000,9'b01111,8'b01,8'b01111,13'b0100000,12'b011111,13'b0100000,11'b010000,8'b01000,5'b01,6'b010,8'b01,5'b01})'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(113): compiling module 'rvdffs_fpga:(WIDTH=8)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(89): compiling module 'rvdff_fpga:(WIDTH=3)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(19): compiling module 'rvdff:(WIDTH=9'b0100)'
+[INFO (VERI-1018)] ../../design/lsu/el2_lsu_bus_buffer.sv(26): compiling module 'el2_lsu_bus_buffer:(pt='{8'b01001,6'b010,15'b0100000000,5'b0,8'b01000,16'b01000000000,5'b01,5'b01,5'b01,5'b0,5'b0,5'b0,5'b0,5'b01,9'b01001,6'b010,13'b0100000000,5'b0,9'b0101,5'b01,5'b0,5'b0,9'b01001,9'b010,9'b010001,9'b01010,9'b011001,9'b010010,14'b01000000000,9'b01100,1'b0,5'b01,5'b01,6'b011,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,7'b010,9'b010000,7'b0100,10'b0100000,7'b0111,5'b01,10'b0100111,8'b01100,9'b0100,8'b01111,36'b011110000000001000000000000000000,14'b01000000,6'b010,7'b0100,5'b01,7'b0101,9'b01,6'b010,8'b01,5'b01,5'b01,7'b01,7'b011,6'b011,8'b01000,7'b010,8'b0101,8'b011,5'b01,18'b01000000000,7'b0100,11'b01000000,5'b01,5'b01,11'b01000111,9'b01100,11'b01000000,8'b01000,8'b010,8'b010,7'b010,5'b0,8'b0110,13'b010000,7'b01,5'b01,17'b010000000,7'b0110,9'b01101,8'b010,8'b010,5'b01,7'b010,9'b011,9'b0100,9'b010000,5'b01,5'b01,8'b01100,9'b0100,5'b0,8'b01110,36'b011101110000000000000000000000000,14'b01000000,5'b01,6'b010,8'b011,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,5'b0,5'b0,5'b01,6'b010,8'b011,9'b0100,7'b010,9'b010000,8'b0100,5'b0,5'b0,36'b011110000000011000000000000000000,9'b01111,8'b01,8'b01111,13'b0100000,12'b011111,13'b0100000,11'b010000,8'b01000,5'b01,6'b010,8'b01,5'b01})'
+[WARN (VERI-1209)] ../../design/lsu/el2_lsu_bus_buffer.sv(590): expression size 3 truncated to fit in target size 2
+[WARN (VERI-1209)] ../../design/lsu/el2_lsu_bus_buffer.sv(591): expression size 3 truncated to fit in target size 2
+[WARN (VERI-1209)] ../../design/lsu/el2_lsu_bus_buffer.sv(592): expression size 3 truncated to fit in target size 2
+[WARN (VERI-9005)] ../../design/lsu/el2_lsu_bus_buffer.sv(888): 3-bit index expression 'lsu_imprecise_error_store_tag' is larger than the required 2 bits. This might lead to an out-of-bound access
+[INFO (VERI-1018)] ../../design/lsu/el2_lsu_bus_intf.sv(25): compiling module 'el2_lsu_bus_intf:(pt='{8'b01001,6'b010,15'b0100000000,5'b0,8'b01000,16'b01000000000,5'b01,5'b01,5'b01,5'b0,5'b0,5'b0,5'b0,5'b01,9'b01001,6'b010,13'b0100000000,5'b0,9'b0101,5'b01,5'b0,5'b0,9'b01001,9'b010,9'b010001,9'b01010,9'b011001,9'b010010,14'b01000000000,9'b01100,1'b0,5'b01,5'b01,6'b011,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,7'b010,9'b010000,7'b0100,10'b0100000,7'b0111,5'b01,10'b0100111,8'b01100,9'b0100,8'b01111,36'b011110000000001000000000000000000,14'b01000000,6'b010,7'b0100,5'b01,7'b0101,9'b01,6'b010,8'b01,5'b01,5'b01,7'b01,7'b011,6'b011,8'b01000,7'b010,8'b0101,8'b011,5'b01,18'b01000000000,7'b0100,11'b01000000,5'b01,5'b01,11'b01000111,9'b01100,11'b01000000,8'b01000,8'b010,8'b010,7'b010,5'b0,8'b0110,13'b010000,7'b01,5'b01,17'b010000000,7'b0110,9'b01101,8'b010,8'b010,5'b01,7'b010,9'b011,9'b0100,9'b010000,5'b01,5'b01,8'b01100,9'b0100,5'b0,8'b01110,36'b011101110000000000000000000000000,14'b01000000,5'b01,6'b010,8'b011,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,5'b0,5'b0,5'b01,6'b010,8'b011,9'b0100,7'b010,9'b010000,8'b0100,5'b0,5'b0,36'b011110000000011000000000000000000,9'b01111,8'b01,8'b01111,13'b0100000,12'b011111,13'b0100000,11'b010000,8'b01000,5'b01,6'b010,8'b01,5'b01})'
+[INFO (VERI-1018)] ../../design/lsu/el2_lsu.sv(28): compiling module 'el2_lsu:(pt='{8'b01001,6'b010,15'b0100000000,5'b0,8'b01000,16'b01000000000,5'b01,5'b01,5'b01,5'b0,5'b0,5'b0,5'b0,5'b01,9'b01001,6'b010,13'b0100000000,5'b0,9'b0101,5'b01,5'b0,5'b0,9'b01001,9'b010,9'b010001,9'b01010,9'b011001,9'b010010,14'b01000000000,9'b01100,1'b0,5'b01,5'b01,6'b011,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,7'b010,9'b010000,7'b0100,10'b0100000,7'b0111,5'b01,10'b0100111,8'b01100,9'b0100,8'b01111,36'b011110000000001000000000000000000,14'b01000000,6'b010,7'b0100,5'b01,7'b0101,9'b01,6'b010,8'b01,5'b01,5'b01,7'b01,7'b011,6'b011,8'b01000,7'b010,8'b0101,8'b011,5'b01,18'b01000000000,7'b0100,11'b01000000,5'b01,5'b01,11'b01000111,9'b01100,11'b01000000,8'b01000,8'b010,8'b010,7'b010,5'b0,8'b0110,13'b010000,7'b01,5'b01,17'b010000000,7'b0110,9'b01101,8'b010,8'b010,5'b01,7'b010,9'b011,9'b0100,9'b010000,5'b01,5'b01,8'b01100,9'b0100,5'b0,8'b01110,36'b011101110000000000000000000000000,14'b01000000,5'b01,6'b010,8'b011,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,5'b0,5'b0,5'b01,6'b010,8'b011,9'b0100,7'b010,9'b010000,8'b0100,5'b0,5'b0,36'b011110000000011000000000000000000,9'b01111,8'b01,8'b01111,13'b0100000,12'b011111,13'b0100000,11'b010000,8'b01000,5'b01,6'b010,8'b01,5'b01})'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(431): compiling module 'rvsyncss_fpga:(WIDTH=1)'
+[INFO (VERI-1018)] ../../design/el2_pic_ctrl.sv(560): compiling module 'el2_configurable_gw'
+[INFO (VERI-1018)] ../../design/el2_pic_ctrl.sv(535): compiling module 'el2_cmp_and_mux'
+[INFO (VERI-1018)] ../../design/el2_pic_ctrl.sv(23): compiling module 'el2_pic_ctrl:(pt='{8'b01001,6'b010,15'b0100000000,5'b0,8'b01000,16'b01000000000,5'b01,5'b01,5'b01,5'b0,5'b0,5'b0,5'b0,5'b01,9'b01001,6'b010,13'b0100000000,5'b0,9'b0101,5'b01,5'b0,5'b0,9'b01001,9'b010,9'b010001,9'b01010,9'b011001,9'b010010,14'b01000000000,9'b01100,1'b0,5'b01,5'b01,6'b011,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,7'b010,9'b010000,7'b0100,10'b0100000,7'b0111,5'b01,10'b0100111,8'b01100,9'b0100,8'b01111,36'b011110000000001000000000000000000,14'b01000000,6'b010,7'b0100,5'b01,7'b0101,9'b01,6'b010,8'b01,5'b01,5'b01,7'b01,7'b011,6'b011,8'b01000,7'b010,8'b0101,8'b011,5'b01,18'b01000000000,7'b0100,11'b01000000,5'b01,5'b01,11'b01000111,9'b01100,11'b01000000,8'b01000,8'b010,8'b010,7'b010,5'b0,8'b0110,13'b010000,7'b01,5'b01,17'b010000000,7'b0110,9'b01101,8'b010,8'b010,5'b01,7'b010,9'b011,9'b0100,9'b010000,5'b01,5'b01,8'b01100,9'b0100,5'b0,8'b01110,36'b011101110000000000000000000000000,14'b01000000,5'b01,6'b010,8'b011,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,5'b0,5'b0,5'b01,6'b010,8'b011,9'b0100,7'b010,9'b010000,8'b0100,5'b0,5'b0,36'b011110000000011000000000000000000,9'b01111,8'b01,8'b01111,13'b0100000,12'b011111,13'b0100000,11'b010000,8'b01000,5'b01,6'b010,8'b01,5'b01})'
+[WARN (VERI-1209)] ../../design/el2_pic_ctrl.sv(464): expression size 32 truncated to fit in target size 4
+[WARN (VDB-1002)] ../../design/el2_pic_ctrl.sv(227): net 'IO_CLK_GRP[0].grp_clk' does not have a driver
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(139): compiling module 'rvdffsc_fpga'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(19): compiling module 'rvdff:(WIDTH=8'b01)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(49): compiling module 'rvdffs:(WIDTH=8'b01)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(113): compiling module 'rvdffs_fpga:(WIDTH=8'b01)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(113): compiling module 'rvdffs_fpga:(WIDTH=3)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(68): compiling module 'rvdffsc:(WIDTH=2)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(19): compiling module 'rvdff:(WIDTH=9'b01)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(49): compiling module 'rvdffs:(WIDTH=9'b01)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(19): compiling module 'rvdff:(WIDTH=6'b010)'
+[INFO (VERI-1018)] ../../design/lib/beh_lib.sv(49): compiling module 'rvdffs:(WIDTH=6'b010)'
+[INFO (VERI-1018)] ../../design/el2_dma_ctrl.sv(24): compiling module 'el2_dma_ctrl:(pt='{8'b01001,6'b010,15'b0100000000,5'b0,8'b01000,16'b01000000000,5'b01,5'b01,5'b01,5'b0,5'b0,5'b0,5'b0,5'b01,9'b01001,6'b010,13'b0100000000,5'b0,9'b0101,5'b01,5'b0,5'b0,9'b01001,9'b010,9'b010001,9'b01010,9'b011001,9'b010010,14'b01000000000,9'b01100,1'b0,5'b01,5'b01,6'b011,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,7'b010,9'b010000,7'b0100,10'b0100000,7'b0111,5'b01,10'b0100111,8'b01100,9'b0100,8'b01111,36'b011110000000001000000000000000000,14'b01000000,6'b010,7'b0100,5'b01,7'b0101,9'b01,6'b010,8'b01,5'b01,5'b01,7'b01,7'b011,6'b011,8'b01000,7'b010,8'b0101,8'b011,5'b01,18'b01000000000,7'b0100,11'b01000000,5'b01,5'b01,11'b01000111,9'b01100,11'b01000000,8'b01000,8'b010,8'b010,7'b010,5'b0,8'b0110,13'b010000,7'b01,5'b01,17'b010000000,7'b0110,9'b01101,8'b010,8'b010,5'b01,7'b010,9'b011,9'b0100,9'b010000,5'b01,5'b01,8'b01100,9'b0100,5'b0,8'b01110,36'b011101110000000000000000000000000,14'b01000000,5'b01,6'b010,8'b011,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,5'b0,5'b0,5'b01,6'b010,8'b011,9'b0100,7'b010,9'b010000,8'b0100,5'b0,5'b0,36'b011110000000011000000000000000000,9'b01111,8'b01,8'b01111,13'b0100000,12'b011111,13'b0100000,11'b010000,8'b01000,5'b01,6'b010,8'b01,5'b01})'
+[INFO (VERI-1018)] ../../design/el2_pmp.sv(17): compiling module 'el2_pmp:(pt='{8'b01001,6'b010,15'b0100000000,5'b0,8'b01000,16'b01000000000,5'b01,5'b01,5'b01,5'b0,5'b0,5'b0,5'b0,5'b01,9'b01001,6'b010,13'b0100000000,5'b0,9'b0101,5'b01,5'b0,5'b0,9'b01001,9'b010,9'b010001,9'b01010,9'b011001,9'b010010,14'b01000000000,9'b01100,1'b0,5'b01,5'b01,6'b011,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,7'b010,9'b010000,7'b0100,10'b0100000,7'b0111,5'b01,10'b0100111,8'b01100,9'b0100,8'b01111,36'b011110000000001000000000000000000,14'b01000000,6'b010,7'b0100,5'b01,7'b0101,9'b01,6'b010,8'b01,5'b01,5'b01,7'b01,7'b011,6'b011,8'b01000,7'b010,8'b0101,8'b011,5'b01,18'b01000000000,7'b0100,11'b01000000,5'b01,5'b01,11'b01000111,9'b01100,11'b01000000,8'b01000,8'b010,8'b010,7'b010,5'b0,8'b0110,13'b010000,7'b01,5'b01,17'b010000000,7'b0110,9'b01101,8'b010,8'b010,5'b01,7'b010,9'b011,9'b0100,9'b010000,5'b01,5'b01,8'b01100,9'b0100,5'b0,8'b01110,36'b011101110000000000000000000000000,14'b01000000,5'b01,6'b010,8'b011,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,5'b0,5'b0,5'b01,6'b010,8'b011,9'b0100,7'b010,9'b010000,8'b0100,5'b0,5'b0,36'b011110000000011000000000000000000,9'b01111,8'b01,8'b01111,13'b0100000,12'b011111,13'b0100000,11'b010000,8'b01000,5'b01,6'b010,8'b01,5'b01})'
+[INFO (VERI-1018)] ../../design/el2_veer.sv(23): compiling module 'el2_veer:(pt='{8'b01001,6'b010,15'b0100000000,5'b0,8'b01000,16'b01000000000,5'b01,5'b01,5'b01,5'b0,5'b0,5'b0,5'b0,5'b01,9'b01001,6'b010,13'b0100000000,5'b0,9'b0101,5'b01,5'b0,5'b0,9'b01001,9'b010,9'b010001,9'b01010,9'b011001,9'b010010,14'b01000000000,9'b01100,1'b0,5'b01,5'b01,6'b011,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,7'b010,9'b010000,7'b0100,10'b0100000,7'b0111,5'b01,10'b0100111,8'b01100,9'b0100,8'b01111,36'b011110000000001000000000000000000,14'b01000000,6'b010,7'b0100,5'b01,7'b0101,9'b01,6'b010,8'b01,5'b01,5'b01,7'b01,7'b011,6'b011,8'b01000,7'b010,8'b0101,8'b011,5'b01,18'b01000000000,7'b0100,11'b01000000,5'b01,5'b01,11'b01000111,9'b01100,11'b01000000,8'b01000,8'b010,8'b010,7'b010,5'b0,8'b0110,13'b010000,7'b01,5'b01,17'b010000000,7'b0110,9'b01101,8'b010,8'b010,5'b01,7'b010,9'b011,9'b0100,9'b010000,5'b01,5'b01,8'b01100,9'b0100,5'b0,8'b01110,36'b011101110000000000000000000000000,14'b01000000,5'b01,6'b010,8'b011,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,36'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,5'b0,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,36'b011111111111111111111111111111111,5'b0,5'b0,5'b01,6'b010,8'b011,9'b0100,7'b010,9'b010000,8'b0100,5'b0,5'b0,36'b011110000000011000000000000000000,9'b01111,8'b01,8'b01111,13'b0100000,12'b011111,13'b0100000,11'b010000,8'b01000,5'b01,6'b010,8'b01,5'b01})'
+[INFO (VERI-1018)] ../../design/rvfi_wrapper.sv(1): compiling module 'rvfi_wrapper'
+[WARN (VERI-1220)] ../../design/rvfi_wrapper.sv(31): using initial value of 'ic_data_ext_in_pkt' since it is never assigned
+[WARN (VERI-1220)] ../../design/rvfi_wrapper.sv(32): using initial value of 'ic_tag_ext_in_pkt' since it is never assigned
+[WARN (VERI-1330)] ../../design/rvfi_wrapper.sv(688): actual bit length 64 differs from formal bit length 65 for port 'rvfi_order'
+[WARN (VDB-1002)] ../../design/rvfi_wrapper.sv(90): net 'dccm_rd_data_lo[38]' does not have a driver
+[WARN (VDB-1002)] ../../design/rvfi_wrapper.sv(91): net 'dccm_rd_data_hi[38]' does not have a driver
+[WARN (VDB-1002)] ../../design/rvfi_wrapper.sv(103): net 'ic_rd_hit[1]' does not have a driver
+[WARN (VDB-1002)] ../../design/rvfi_wrapper.sv(104): net 'ic_tag_perr' does not have a driver
+[WARN (VDB-1002)] ../../design/rvfi_wrapper.sv(112): net 'ictag_debug_rd_data[25]' does not have a driver
+[WARN (VDB-1002)] ../../design/rvfi_wrapper.sv(114): net 'ic_rd_data[63]' does not have a driver
+[WARN (VDB-1002)] ../../design/rvfi_wrapper.sv(115): net 'ic_debug_rd_data[70]' does not have a driver
+[WARN (VDB-1002)] ../../design/rvfi_wrapper.sv(118): net 'ic_eccerr[1]' does not have a driver
+[WARN (VDB-1002)] ../../design/rvfi_wrapper.sv(119): net 'ic_parerr[1]' does not have a driver
+[WARN (VDB-1002)] ../../design/rvfi_wrapper.sv(133): net 'iccm_rd_data[63]' does not have a driver
+[WARN (VDB-1002)] ../../design/rvfi_wrapper.sv(134): net 'iccm_rd_data_ecc[77]' does not have a driver
+[WARN (VDB-1002)] ../../design/rvfi_wrapper.sv(237): net 'lsu_axi_awready' does not have a driver
+[WARN (VDB-1002)] ../../design/rvfi_wrapper.sv(250): net 'lsu_axi_wready' does not have a driver
+[WARN (VDB-1002)] ../../design/rvfi_wrapper.sv(255): net 'lsu_axi_bvalid' does not have a driver
+[WARN (VDB-1002)] ../../design/rvfi_wrapper.sv(257): net 'lsu_axi_bresp[1]' does not have a driver
+[WARN (VDB-1002)] ../../design/rvfi_wrapper.sv(258): net 'lsu_axi_bid[2]' does not have a driver
+[WARN (VDB-1002)] ../../design/rvfi_wrapper.sv(262): net 'lsu_axi_arready' does not have a driver
+[WARN (VDB-1002)] ../../design/rvfi_wrapper.sv(274): net 'lsu_axi_rvalid' does not have a driver
+[WARN (VDB-1002)] ../../design/rvfi_wrapper.sv(276): net 'lsu_axi_rid[2]' does not have a driver
+[WARN (VDB-1002)] ../../design/rvfi_wrapper.sv(277): net 'lsu_axi_rdata[63]' does not have a driver
+[WARN (VDB-1002)] ../../design/rvfi_wrapper.sv(278): net 'lsu_axi_rresp[1]' does not have a driver
+[WARN (VDB-1002)] ../../design/rvfi_wrapper.sv(279): net 'lsu_axi_rlast' does not have a driver
+[WARN (VDB-1002)] ../../design/rvfi_wrapper.sv(284): net 'ifu_axi_awready' does not have a driver
+[WARN (VDB-1002)] ../../design/rvfi_wrapper.sv(297): net 'ifu_axi_wready' does not have a driver
+[WARN (VDB-1002)] ../../design/rvfi_wrapper.sv(302): net 'ifu_axi_bvalid' does not have a driver
+[WARN (VDB-1002)] ../../design/rvfi_wrapper.sv(304): net 'ifu_axi_bresp[1]' does not have a driver
+[WARN (VDB-1002)] ../../design/rvfi_wrapper.sv(305): net 'ifu_axi_bid[2]' does not have a driver
+[WARN (VDB-1002)] ../../design/rvfi_wrapper.sv(309): net 'ifu_axi_arready' does not have a driver
+[WARN (VDB-1002)] ../../design/rvfi_wrapper.sv(321): net 'ifu_axi_rvalid' does not have a driver
+[WARN (VDB-1002)] ../../design/rvfi_wrapper.sv(323): net 'ifu_axi_rid[2]' does not have a driver
+[WARN (VDB-1002)] ../../design/rvfi_wrapper.sv(324): net 'ifu_axi_rdata[63]' does not have a driver
+[WARN (VDB-1002)] ../../design/rvfi_wrapper.sv(325): net 'ifu_axi_rresp[1]' does not have a driver
+[WARN (VDB-1002)] ../../design/rvfi_wrapper.sv(326): net 'ifu_axi_rlast' does not have a driver
+[WARN (VDB-1002)] ../../design/rvfi_wrapper.sv(331): net 'sb_axi_awready' does not have a driver
+[WARN (VDB-1002)] ../../design/rvfi_wrapper.sv(344): net 'sb_axi_wready' does not have a driver
+[WARN (VDB-1002)] ../../design/rvfi_wrapper.sv(349): net 'sb_axi_bvalid' does not have a driver
+[WARN (VDB-1002)] ../../design/rvfi_wrapper.sv(351): net 'sb_axi_bresp[1]' does not have a driver
+[WARN (VDB-1002)] ../../design/rvfi_wrapper.sv(352): net 'sb_axi_bid[0]' does not have a driver
+[WARN (VDB-1002)] ../../design/rvfi_wrapper.sv(356): net 'sb_axi_arready' does not have a driver
+[WARN (VDB-1002)] ../../design/rvfi_wrapper.sv(368): net 'sb_axi_rvalid' does not have a driver
+[WARN (VDB-1002)] ../../design/rvfi_wrapper.sv(370): net 'sb_axi_rid[0]' does not have a driver
+[WARN (VDB-1002)] ../../design/rvfi_wrapper.sv(371): net 'sb_axi_rdata[63]' does not have a driver
+[WARN (VDB-1002)] ../../design/rvfi_wrapper.sv(372): net 'sb_axi_rresp[1]' does not have a driver
+[WARN (VDB-1002)] ../../design/rvfi_wrapper.sv(373): net 'sb_axi_rlast' does not have a driver
+[WARN (VDB-1002)] ../../design/rvfi_wrapper.sv(377): net 'dma_axi_awvalid' does not have a driver
+[WARN (VDB-1002)] ../../design/rvfi_wrapper.sv(379): net 'dma_axi_awid[0]' does not have a driver
+[WARN (VDB-1002)] ../../design/rvfi_wrapper.sv(380): net 'dma_axi_awaddr[31]' does not have a driver
+[WARN (VDB-1002)] ../../design/rvfi_wrapper.sv(381): net 'dma_axi_awsize[2]' does not have a driver
+[WARN (VDB-1002)] ../../design/rvfi_wrapper.sv(382): net 'dma_axi_awprot[2]' does not have a driver
+[WARN (VDB-1002)] ../../design/rvfi_wrapper.sv(383): net 'dma_axi_awlen[7]' does not have a driver
+[WARN (VDB-1002)] ../../design/rvfi_wrapper.sv(384): net 'dma_axi_awburst[1]' does not have a driver
+[WARN (VDB-1002)] ../../design/rvfi_wrapper.sv(387): net 'dma_axi_wvalid' does not have a driver
+[WARN (VDB-1002)] ../../design/rvfi_wrapper.sv(389): net 'dma_axi_wdata[63]' does not have a driver
+[WARN (VDB-1002)] ../../design/rvfi_wrapper.sv(390): net 'dma_axi_wstrb[7]' does not have a driver
+[WARN (VDB-1002)] ../../design/rvfi_wrapper.sv(391): net 'dma_axi_wlast' does not have a driver
+[WARN (VDB-1002)] ../../design/rvfi_wrapper.sv(394): net 'dma_axi_bready' does not have a driver
+[WARN (VDB-1002)] ../../design/rvfi_wrapper.sv(399): net 'dma_axi_arvalid' does not have a driver
+[WARN (VDB-1002)] ../../design/rvfi_wrapper.sv(401): net 'dma_axi_arid[0]' does not have a driver
+[WARN (VDB-1002)] ../../design/rvfi_wrapper.sv(402): net 'dma_axi_araddr[31]' does not have a driver
+[WARN (VDB-1002)] ../../design/rvfi_wrapper.sv(403): net 'dma_axi_arsize[2]' does not have a driver
+[WARN (VDB-1002)] ../../design/rvfi_wrapper.sv(404): net 'dma_axi_arprot[2]' does not have a driver
+[WARN (VDB-1002)] ../../design/rvfi_wrapper.sv(405): net 'dma_axi_arlen[7]' does not have a driver
+[WARN (VDB-1002)] ../../design/rvfi_wrapper.sv(406): net 'dma_axi_arburst[1]' does not have a driver
+[WARN (VDB-1002)] ../../design/rvfi_wrapper.sv(409): net 'dma_axi_rready' does not have a driver
+[WARN (VDB-1002)] ../../design/rvfi_wrapper.sv(674): net 'dmi_reg_en' does not have a driver
+[WARN (VDB-1002)] ../../design/rvfi_wrapper.sv(675): net 'dmi_reg_addr[6]' does not have a driver
+[WARN (VDB-1002)] ../../design/rvfi_wrapper.sv(676): net 'dmi_reg_wr_en' does not have a driver
+[WARN (VDB-1002)] ../../design/rvfi_wrapper.sv(677): net 'dmi_reg_wdata[31]' does not have a driver
+[INFO (VERI-1018)] rvfi_testbench.sv(15): compiling module 'rvfi_testbench'
+INFO (INL208): Elaboration synthesis summary:
+  Number of synthesized netlists          241 (2 packages)
+  Single run mode                         On
+  Pipeline                                On (239 pipelined netlists)
+  Late hierarchical reference connection  On
+  Number of analyzed Verilog modules      227 (69 synthesized)
+  Number of analyzed VHDL entities        0 (0 synthesized)
+WARNING (WNL018): ../../design/exu/el2_exu_mul_ctl.sv(184): multiplication operator mult_33s_33s (size 66) automatically black boxed.
+    Use the "elaborate -bbox_mul" command to prevent automatic black-boxing.
+WARNING (WNL046): rvfi_insn_check.sv(136): property "_cover_0" has been renamed as "_cover_0_1" due to name conflicts.
+WARNING (WNL046): rvfi_insn_check.sv(137): property "_cover_0" has been renamed as "_cover_0_2" due to name conflicts.
+WARNING (WNL046): rvfi_insn_check.sv(138): property "_cover_0" has been renamed as "_cover_0_3" due to name conflicts.
+WARNING (WOBS004): rvfi_insn_check.sv(135): Non-sequence cover property can have non-LRM-compliant semantics. For LRM semantics, use the "elaborate" flag "-lrm_cover_property".
+WARNING (WOBS004): rvfi_insn_check.sv(136): Non-sequence cover property can have non-LRM-compliant semantics. For LRM semantics, use the "elaborate" flag "-lrm_cover_property".
+WARNING (WOBS004): rvfi_insn_check.sv(137): Non-sequence cover property can have non-LRM-compliant semantics. For LRM semantics, use the "elaborate" flag "-lrm_cover_property".
+WARNING (WOBS004): rvfi_insn_check.sv(138): Non-sequence cover property can have non-LRM-compliant semantics. For LRM semantics, use the "elaborate" flag "-lrm_cover_property".
+INFO (INL003): Clearing all state information (assumes, stopats, and so forth).
+rvfi_testbench
+[<embedded>] % 
+[<embedded>] % clock clock
+[<embedded>] % 
+[<embedded>] % reset reset
+INFO (IPM031): Clearing proof results of all properties.
+INFO (IRS006): Current reset condition is "reset".
+[<embedded>] % prove -bg -all
+Ncustom1: Custom engine code is hT3Ng7hPPfiYQOTDZ3qhYOwGAM51eA+J/FjkM5shLioAsqhgLR4Ft+O1BuKG6ilQ83B9tLXSl+CwjiTMAQA
+Bcustom2: Custom engine code is hT3Nm7hPr1Vp3Di1Ra2USNIGL4JypRnLKLAdF6JAyuavO2JfGCiY9OZJhcAcOUnLx5xwNdhILGrAWX9s+z2WDkKwNR7tAfClBEjRFVQeq6DU54boFgEA
+AMcustom3: Custom engine code is hT3Ng7hP/feYQOTDZ3qhYOwGAM51eA+J/FjkM5shLioAsqhgLR4Ft+O1BuKG6ilQ83B9tLXSmmqwm7g9AQA
+Mpcustom4: Custom engine code is hT3NZbhP9fmY2AbBQnsjfOxn6c+6e6yL+/e8fZFmaQrnlgEA
+background 0
+INFO (IPF036): Starting proof on task: "<embedded>", 71 properties to prove with 0 already proven/unreachable
+INFO (IRS029): Starting reset analysis: phase 1 of 4.
+INFO (IRS030): Running reset analysis: phase 2 of 4.
+INFO (IRS031): Running reset analysis: phase 3 of 4.
+INFO (IRS020): Starting the reset analysis simulation with a limit of 100 iterations (phase 4 of 4).
+INFO (IRS024): Reset iterations 0 to 4 analyzed.
+INFO (IRS018): Reset analysis simulation executed for 3 iterations. Assigned values for 21885 of 21885 design flops, 0 of 0 design latches, 0 of 0 internal elements.
+INFO (IRS039): Reset analysis complete.
+INFO (IPF031): Settings used for proof thread 0:
+    orchestration                 = on (auto)
+    time_limit                    = 86400s
+    per_property_time_limit       = 1s * 10 ^ scan
+    engine_mode                   = auto
+    proofgrid_per_engine_max_jobs = 1
+    max engine jobs               = auto
+    proofgrid_mode                = local
+    proofgrid_restarts            = 10
+0.0.PRE: A proof was found: No trace exists. [0.00 s]
+INFO (IPF057): 0.0.PRE: The property "rvfi_testbench.checker_inst._assert_1" was proven in 0.00 s.
+0.0.PRE: A proof was found: No trace exists. [0.00 s]
+INFO (IPF051): 0.0.PRE: The cover property "rvfi_testbench.checker_inst._assert_1:precondition1" was proven unreachable in 0.00 s.
+AMcustom5: Custom engine code is hT3N1rhP11/52HrFRS21ROp2LOjVTgPvT8L8BGXHgLhaIuqtT4nARFjUqrBL+7pLmaTOzBepZW/Jm8SSrHDybSQtoNiO3y43wk+dEoWlsZizu97Fih6O6lPVG/LpWP5SsUPwlGagLNa1FKEFvwVXyX7//8prySbvSxIHXr5er+z4RAEA
+Ncustom6: Custom engine code is hT3OXrhPByJp3TrFSTLhUmMH4KVtJgmTCnNDF46yMXOKY48m4LS5nE7yBzFjA7kDuwO/GhGUpEPiky3p3wmPn3dJZHxFMsafSoObRzSC+tn7sEY0WbTdZ/FV4hL3MYH/b1CIUvXSWR4wqEoVLsmMOD4xIPT4lI1LO6ZCO7PnnWQuLwetnvKlrXx6wCW/A+x+enqslg1YPobi4wEF/EvbzOvcTYdJvl2s4H2yZg2b2ofAVN5WvhWk1HoBAA
+0.0.PRE: A proof was found: No trace exists. [0.00 s]
+ADcustom7: Custom engine code is hT3Nv7hPv1752HrFRa2kROx2f/ECJeZB2AZsLdlO8VwmIuqtT4nIDFXclhg+O+o+DMmQCekbheGk0kK28laA9gaOFDXsQp29J3X615HY1IPHJWd6FUFvCHjO+p1k652b5JJvZlShNpGlGSXAiQe/mEAj6tEBAA
+INFO (IPF057): 0.0.PRE: The property "rvfi_testbench.checker_inst._assert_2" was proven in 0.00 s.
+Tricustom8: Custom engine code is hT3Nu7hPt1752DvFRa0kNDiyIV97VyejwM9C/jCLJjdPvusZONHY42VYUy0Q1ZotnhcVtNc56tJ5wbxv6V2+XpdsaSlHck5vfnbYjdwj1OECy9U+7oSQ0SZE3g5ayD+Phuh4odCJTjeKa2k4elM9ldQfkAEA
+Gcustom9: Custom engine code is hT3NibhPDfeYQADBZnYcglOvK9Pfd7EOeniIqP8jNsyIqInncipMGcUXqAadachREE9F2PwhBUZUNw5kHnd4JdXkamORRgEA
+C2custom10: Custom engine code is hT3NirhPjfWYQADBZnYcglOvK9Pfd7EOeniIqP8jNsyIqInncgkrYMMXCYbdK0dUjZIF9d4cJ0rHoBDjwVLBKuG86XYVV00BAA
+AGcustom11: Custom engine code is hT3NirhP/fmYQADBZnYcglOvK9Pfd7EOeniIqP8jNsyIqInnckcwYMMXCYbdK0dUjZIF9d4cJ0rHoBDjwVLBKuHEZnZByh0BAA
+0.0.PRE: A proof was found: No trace exists. [0.00 s]
+Bcustom12: Custom engine code is hT3NjrhPDfiYQADBZnYcglOvK9PfWxFtenjIyBqfrgr7if/jL/yPOuK1BAflEcW0DxNH2eDIoezN2gxlQFg81RZtiWXh7aiTAidvAQA
+INFO (IPF051): 0.0.PRE: The cover property "rvfi_testbench.checker_inst._assert_2:precondition1" was proven unreachable in 0.00 s.
+Ncustom13: Custom engine code is hT3NR7hPByFp3TrFSTLhUmMH4KWtJglTyV/c51BHEeZWamnJv767nE6PCak26bd3gf3XGN3rIRheufhDieCJQVISo+gNYUKhiUedBKGtsP/a18svAnlMJZudHxDFwK5ufsyoxsIyiAeSY2oi3tEuoDHr5gw42DFKAG3PqO3CEsl8Azzdt3pl5nGA1Ifv2H02eYsFzWb/nfp8PMb3F0krE/EgBcm8TD9Div8BAA
+0.0.PRE: A proof was found: No trace exists. [0.00 s]
+Tricustom14: Custom engine code is hT3Nu7hP3fiYQADBZnYcglNHp9bfd7EOeniIqP/ji8sGLQu8yhsFO+wxJ+O+R0bU8g/IewXFomyos+viQnWc2xYNYmMqpo3i40O7DaZR7qfp4YqNx26KRvQ/qx0BAA
+INFO (IPF057): 0.0.PRE: The property "rvfi_testbench.checker_inst._assert_3" was proven in 0.00 s.
+0.0.PRE: A proof was found: No trace exists. [0.00 s]
+INFO (IPF051): 0.0.PRE: The cover property "rvfi_testbench.checker_inst._assert_3:precondition1" was proven unreachable in 0.00 s.
+0.0.PRE: A proof was found: No trace exists. [0.00 s]
+INFO (IPF057): 0.0.PRE: The property "rvfi_testbench.checker_inst._assert_4" was proven in 0.00 s.
+0.0.PRE: A proof was found: No trace exists. [0.00 s]
+INFO (IPF051): 0.0.PRE: The cover property "rvfi_testbench.checker_inst._assert_4:precondition1" was proven unreachable in 0.00 s.
+0.0.PRE: A proof was found: No trace exists. [0.00 s]
+INFO (IPF057): 0.0.PRE: The property "rvfi_testbench.checker_inst._assert_12" was proven in 0.00 s.
+0.0.PRE: A proof was found: No trace exists. [0.00 s]
+INFO (IPF051): 0.0.PRE: The cover property "rvfi_testbench.checker_inst._assert_12:precondition1" was proven unreachable in 0.00 s.
+0.0.PRE: A proof was found: No trace exists. [0.00 s]
+INFO (IPF057): 0.0.PRE: The property "rvfi_testbench.checker_inst._assert_13" was proven in 0.00 s.
+0.0.PRE: A proof was found: No trace exists. [0.00 s]
+INFO (IPF051): 0.0.PRE: The cover property "rvfi_testbench.checker_inst._assert_13:precondition1" was proven unreachable in 0.00 s.
+0.0.PRE: A proof was found: No trace exists. [0.00 s]
+INFO (IPF057): 0.0.PRE: The property "rvfi_testbench.checker_inst._assert_14" was proven in 0.00 s.
+0.0.PRE: A proof was found: No trace exists. [0.00 s]
+INFO (IPF051): 0.0.PRE: The cover property "rvfi_testbench.checker_inst._assert_14:precondition1" was proven unreachable in 0.00 s.
+0.0.PRE: A proof was found: No trace exists. [0.00 s]
+INFO (IPF057): 0.0.PRE: The property "rvfi_testbench.checker_inst._assert_15" was proven in 0.00 s.
+0.0.PRE: A proof was found: No trace exists. [0.00 s]
+INFO (IPF051): 0.0.PRE: The cover property "rvfi_testbench.checker_inst._assert_15:precondition1" was proven unreachable in 0.00 s.
+0.0.PRE: A proof was found: No trace exists. [0.00 s]
+INFO (IPF057): 0.0.PRE: The property "rvfi_testbench.checker_inst._assert_16" was proven in 0.00 s.
+0.0.PRE: A proof was found: No trace exists. [0.00 s]
+INFO (IPF051): 0.0.PRE: The cover property "rvfi_testbench.checker_inst._assert_16:precondition1" was proven unreachable in 0.00 s.
+0.0.PRE: A proof was found: No trace exists. [0.00 s]
+INFO (IPF057): 0.0.PRE: The property "rvfi_testbench.checker_inst._assert_17" was proven in 0.00 s.
+0.0.PRE: A proof was found: No trace exists. [0.00 s]
+INFO (IPF051): 0.0.PRE: The cover property "rvfi_testbench.checker_inst._assert_17:precondition1" was proven unreachable in 0.00 s.
+0.0.PRE: A proof was found: No trace exists. [0.00 s]
+INFO (IPF057): 0.0.PRE: The property "rvfi_testbench.checker_inst._assert_13_1" was proven in 0.00 s.
+0.0.PRE: A proof was found: No trace exists. [0.00 s]
+INFO (IPF051): 0.0.PRE: The cover property "rvfi_testbench.checker_inst._assert_13_1:precondition1" was proven unreachable in 0.00 s.
+0.0.PRE: A proof was found: No trace exists. [0.00 s]
+INFO (IPF057): 0.0.PRE: The property "rvfi_testbench.checker_inst._assert_14_1" was proven in 0.00 s.
+0.0.PRE: A proof was found: No trace exists. [0.00 s]
+INFO (IPF051): 0.0.PRE: The cover property "rvfi_testbench.checker_inst._assert_14_1:precondition1" was proven unreachable in 0.00 s.
+0.0.PRE: A proof was found: No trace exists. [0.00 s]
+INFO (IPF057): 0.0.PRE: The property "rvfi_testbench.checker_inst._assert_15_1" was proven in 0.00 s.
+0.0.PRE: A proof was found: No trace exists. [0.00 s]
+INFO (IPF051): 0.0.PRE: The cover property "rvfi_testbench.checker_inst._assert_15_1:precondition1" was proven unreachable in 0.00 s.
+0.0.PRE: A proof was found: No trace exists. [0.00 s]
+INFO (IPF057): 0.0.PRE: The property "rvfi_testbench.checker_inst._assert_16_1" was proven in 0.00 s.
+0.0.PRE: A proof was found: No trace exists. [0.00 s]
+INFO (IPF051): 0.0.PRE: The cover property "rvfi_testbench.checker_inst._assert_16_1:precondition1" was proven unreachable in 0.00 s.
+0.0.PRE: A proof was found: No trace exists. [0.00 s]
+INFO (IPF057): 0.0.PRE: The property "rvfi_testbench.checker_inst._assert_17_1" was proven in 0.00 s.
+0.0.PRE: A proof was found: No trace exists. [0.00 s]
+INFO (IPF051): 0.0.PRE: The cover property "rvfi_testbench.checker_inst._assert_17_1:precondition1" was proven unreachable in 0.00 s.
+0.0.PRE: A proof was found: No trace exists. [0.00 s]
+INFO (IPF057): 0.0.PRE: The property "rvfi_testbench.checker_inst._assert_13_2" was proven in 0.00 s.
+0.0.PRE: A proof was found: No trace exists. [0.00 s]
+INFO (IPF051): 0.0.PRE: The cover property "rvfi_testbench.checker_inst._assert_13_2:precondition1" was proven unreachable in 0.00 s.
+0.0.PRE: A proof was found: No trace exists. [0.00 s]
+INFO (IPF057): 0.0.PRE: The property "rvfi_testbench.checker_inst._assert_14_2" was proven in 0.00 s.
+0.0.PRE: A proof was found: No trace exists. [0.00 s]
+INFO (IPF051): 0.0.PRE: The cover property "rvfi_testbench.checker_inst._assert_14_2:precondition1" was proven unreachable in 0.00 s.
+0.0.PRE: A proof was found: No trace exists. [0.00 s]
+INFO (IPF057): 0.0.PRE: The property "rvfi_testbench.checker_inst._assert_15_2" was proven in 0.00 s.
+0.0.PRE: A proof was found: No trace exists. [0.00 s]
+INFO (IPF051): 0.0.PRE: The cover property "rvfi_testbench.checker_inst._assert_15_2:precondition1" was proven unreachable in 0.00 s.
+0.0.PRE: A proof was found: No trace exists. [0.00 s]
+INFO (IPF057): 0.0.PRE: The property "rvfi_testbench.checker_inst._assert_16_2" was proven in 0.00 s.
+0.0.PRE: A proof was found: No trace exists. [0.00 s]
+INFO (IPF051): 0.0.PRE: The cover property "rvfi_testbench.checker_inst._assert_16_2:precondition1" was proven unreachable in 0.00 s.
+0.0.PRE: A proof was found: No trace exists. [0.00 s]
+INFO (IPF057): 0.0.PRE: The property "rvfi_testbench.checker_inst._assert_17_2" was proven in 0.00 s.
+0.0.PRE: A proof was found: No trace exists. [0.00 s]
+INFO (IPF051): 0.0.PRE: The cover property "rvfi_testbench.checker_inst._assert_17_2:precondition1" was proven unreachable in 0.00 s.
+0.0.PRE: A proof was found: No trace exists. [0.00 s]
+INFO (IPF057): 0.0.PRE: The property "rvfi_testbench.checker_inst._assert_13_3" was proven in 0.00 s.
+0.0.PRE: A proof was found: No trace exists. [0.00 s]
+INFO (IPF051): 0.0.PRE: The cover property "rvfi_testbench.checker_inst._assert_13_3:precondition1" was proven unreachable in 0.00 s.
+0.0.PRE: A proof was found: No trace exists. [0.00 s]
+INFO (IPF057): 0.0.PRE: The property "rvfi_testbench.checker_inst._assert_14_3" was proven in 0.00 s.
+0.0.PRE: A proof was found: No trace exists. [0.00 s]
+INFO (IPF051): 0.0.PRE: The cover property "rvfi_testbench.checker_inst._assert_14_3:precondition1" was proven unreachable in 0.00 s.
+0.0.PRE: A proof was found: No trace exists. [0.00 s]
+INFO (IPF057): 0.0.PRE: The property "rvfi_testbench.checker_inst._assert_15_3" was proven in 0.00 s.
+0.0.PRE: A proof was found: No trace exists. [0.00 s]
+INFO (IPF051): 0.0.PRE: The cover property "rvfi_testbench.checker_inst._assert_15_3:precondition1" was proven unreachable in 0.00 s.
+0.0.PRE: A proof was found: No trace exists. [0.00 s]
+INFO (IPF057): 0.0.PRE: The property "rvfi_testbench.checker_inst._assert_16_3" was proven in 0.00 s.
+0.0.PRE: A proof was found: No trace exists. [0.00 s]
+INFO (IPF051): 0.0.PRE: The cover property "rvfi_testbench.checker_inst._assert_16_3:precondition1" was proven unreachable in 0.00 s.
+0.0.PRE: A proof was found: No trace exists. [0.00 s]
+INFO (IPF057): 0.0.PRE: The property "rvfi_testbench.checker_inst._assert_17_3" was proven in 0.00 s.
+0.0.PRE: A proof was found: No trace exists. [0.00 s]
+INFO (IPF051): 0.0.PRE: The cover property "rvfi_testbench.checker_inst._assert_17_3:precondition1" was proven unreachable in 0.00 s.
+0: Found proofs for 50 properties in preprocessing
+0: Using multistage preprocessing
+0: Starting reduce
+0: Finished reduce in 0.246s
+0.0.PRE: Performing Proof Simplification...
+0.0.N: clocks: 2, declared: 1, looping: 0, posedge: 1, negedge: 0, noedge: 1, bothedge: 0
+0.0.N: Clocks that will never have a posedge: wrapper.uut.ifu.aln.compress0.rs2pd[3] [vTrue], 
+0.0.N: Proof Simplification Iteration 1	[0.00 s]
+0.0.N: Proof Simplification Iteration 2	[0.12 s]
+0.0.N: Proof Simplification Iteration 3	[0.21 s]
+0.0.N: Proof Simplification Iteration 4	[0.29 s]
+0.0.N: Proof Simplification Iteration 5	[0.37 s]
+0.0.N: Proof Simplification Iteration 6	[0.44 s]
+0.0.N: Proof Simplification Iteration 7	[0.52 s]
+0.0.N: Proof Simplification Iteration 8	[0.60 s]
+0.0.N: Proof Simplification Iteration 9	[0.68 s]
+0.0.N: Proof Simplification Iteration 10	[0.76 s]
+0.0.N: Proof Simplification Iteration 11	[0.84 s]
+0.0.N: Proof Simplification Iteration 12	[0.92 s]
+0.0.N: Proof Simplification Iteration 13	[1.00 s]
+0.0.N: Proof Simplification Iteration 14	[1.08 s]
+0.0.N: Proof Simplification Iteration 15	[1.15 s]
+0.0.N: Proof Simplification Iteration 16	[1.23 s]
+0.0.N: Proof Simplification Iteration 17	[1.31 s]
+0.0.N: Proof Simplification Iteration 18	[1.39 s]
+0.0.N: Proof Simplification Iteration 19	[1.47 s]
+0.0.N: Proof Simplification Iteration 20	[1.54 s]
+0.0.N: Proof Simplification Iteration 21	[1.62 s]
+0.0.N: Proof Simplification Iteration 22	[1.70 s]
+0.0.N: Proof Simplification Iteration 23	[1.77 s]
+0.0.N: Proof Simplification Iteration 24	[1.85 s]
+0.0.N: Proof Simplification Iteration 25	[1.93 s]
+0.0.N: Proof Simplification Iteration 26	[2.00 s]
+0.0.N: Proof Simplification Iteration 27	[2.08 s]
+0.0.N: Proof Simplification Iteration 28	[2.16 s]
+0.0.N: Proof Simplification Iteration 29	[2.24 s]
+0.0.N: Proof Simplification Iteration 30	[2.31 s]
+0.0.N: Proof Simplification Iteration 31	[2.39 s]
+0.0.N: Proof Simplification Iteration 32	[2.47 s]
+0.0.N: Proof Simplification Iteration 33	[2.54 s]
+0.0.PRE: Proof Simplification completed in 2.92 s
+0.0.N: Identified and disabled 4 duplicated targets.
+0: About to start ProofGrid in its own thread with a limit of 10000 pending notifications and a limit of 10 traces.
+0: =============================== ProofGrid start ===============================
+0: ProofGrid usable level: 17
+0: Initial ProofGrid level: 1
+0: ProofGrid is starting event handling
+0.0.N: Proofgrid shell started at 3675766@microeletronica(local) jg_3675627_microeletronica_1
+0.0.Hp: Proofgrid shell started at 3675767@microeletronica(local) jg_3675627_microeletronica_1
+0.0.N: clocks: 1, declared: 1, looping: 0, posedge: 1, negedge: 0, noedge: 0, bothedge: 0
+0.0.Hp: clocks: 1, declared: 1, looping: 0, posedge: 1, negedge: 0, noedge: 0, bothedge: 0
+0.0.Ht: Proofgrid shell started at 3675799@microeletronica(local) jg_3675627_microeletronica_1
+0.0.Bm: Proofgrid shell started at 3675800@microeletronica(local) jg_3675627_microeletronica_1
+0.0.N: Next scan (0) will use per property time limit: 1s * 10 ^ 0 = 1s
+0.0.N: Starting proof for property "rvfi_testbench.checker_inst._cover_0"	[0.00 s].
+0.0.N: Trace Attempt  1	[0.03 s]
+0.0.N: Trace Attempt  2	[0.05 s]
+0.0.N: Trace Attempt  3	[0.05 s]
+0.0.Mpcustom4: Proofgrid shell started at 3675801@microeletronica(local) jg_3675627_microeletronica_1
+0.0.Oh: Proofgrid shell started at 3675802@microeletronica(local) jg_3675627_microeletronica_1
+0.0.L: Proofgrid shell started at 3675803@microeletronica(local) jg_3675627_microeletronica_1
+0.0.B: Proofgrid shell started at 3675804@microeletronica(local) jg_3675627_microeletronica_1
+0.0.AM: Proofgrid shell started at 3675805@microeletronica(local) jg_3675627_microeletronica_1
+0.0.Bm: clocks: 1, declared: 1, looping: 0, posedge: 1, negedge: 0, noedge: 0, bothedge: 0
+0.0.Ht: clocks: 1, declared: 1, looping: 0, posedge: 1, negedge: 0, noedge: 0, bothedge: 0
+0.0.Mpcustom4: clocks: 1, declared: 1, looping: 0, posedge: 1, negedge: 0, noedge: 0, bothedge: 0
+0.0.Oh: clocks: 1, declared: 1, looping: 0, posedge: 1, negedge: 0, noedge: 0, bothedge: 0
+0.0.B: clocks: 1, declared: 1, looping: 0, posedge: 1, negedge: 0, noedge: 0, bothedge: 0
+0.0.AM: clocks: 1, declared: 1, looping: 0, posedge: 1, negedge: 0, noedge: 0, bothedge: 0
+0.0.L: clocks: 1, declared: 1, looping: 0, posedge: 1, negedge: 0, noedge: 0, bothedge: 0
+0.0.Bm: Trace Attempt  1	[0.17 s]
+0.0.Bm: Trace Attempt  2	[0.18 s]
+0.0.Bm: Trace Attempt  3	[0.20 s]
+0.0.AM: Next scan (0) will use per property time limit: 1s * 10 ^ 0 = 1s
+0.0.AM: Starting proof for property "rvfi_testbench.checker_inst._cover_0"	[0.00 s].
+0.0.B: Next scan (0) will use per property time limit: 1s * 10 ^ 0 = 1s
+0.0.B: Starting proof for property "rvfi_testbench.checker_inst._cover_0"	[0.00 s].
+0.0.Bm: Trace Attempt  4	[0.22 s]
+0.0.AM: Trace Attempt  1	[0.03 s]
+0.0.AM: Trace Attempt  2	[0.03 s]
+0.0.AM: Trace Attempt  3	[0.04 s]
+0.0.L: Using trace diversification with seed 1 (0.05)
+0.0.L: Using LRU state removal heuristic
+0.0.L: Using states from traces to { (reset) }
+0.0.AM: Trace Attempt  4	[0.05 s]
+0.0.Hp: A proof was found: No trace exists. [0.43 s]
+INFO (IPF057): 0.0.Hp: The property "rvfi_testbench.checker_inst._assert_5" was proven in 0.36 s.
+0.0.Hp: A proof was found: No trace exists. [0.43 s]
+INFO (IPF057): 0.0.Hp: The property "rvfi_testbench.checker_inst._assert_6" was proven in 0.36 s.
+0.0.B: Trace Attempt  1	[0.04 s]
+0.0.B: Trace Attempt  2	[0.05 s]
+0.0.B: Trace Attempt  3	[0.06 s]
+0.0.N: Trace Attempt  3	[0.34 s]
+0.0.Ht: Trace Attempt  1	[0.28 s]
+0.0.Ht: Trace Attempt  2	[0.28 s]
+0.0.AM: Trace Attempt  5	[0.10 s]
+0.0.B: Trace Attempt  4	[0.09 s]
+0.0.Ht: Trace Attempt  3	[0.31 s]
+0.0.Bm: Trace Attempt  5	[0.34 s]
+0.0.Mpcustom4: Trace Attempt  1	[0.29 s]
+0.0.Ht: Trace Attempt  4	[0.35 s]
+0.0.B: Trace Attempt  5	[0.20 s]
+0.0.Ht: Trace Attempt  5	[0.41 s]
+0.0.N: Trace Attempt  4	[0.50 s]
+0.0.N: Trace Attempt  5	[0.50 s]
+0.0.Mpcustom4: Trace Attempt  2	[0.39 s]
+0.0.L: Trace Attempt  3	[0.36 s]
+0: ProofGrid usable level: 15
+0.0.L: Trace Attempt  4	[0.59 s]
+0.0.L: Trace Attempt  5	[0.83 s]
+0.0.N: Trace Attempt  5	[1.00 s]
+0.0.Ht: Trace Attempt  8	[0.77 s]
+0.0.Ht: A trace with 8 cycles was found. [0.92 s]
+INFO (IPF047): 0.0.Ht: The cover property "rvfi_testbench.checker_inst._cover_0" was covered in 8 cycles in 1.07 s.
+INFO (IPF047): 0.0.Ht: The cover property "rvfi_testbench.checker_inst._cover_0_1" was covered in 8 cycles in 1.07 s.
+0.0.AM: Trace Attempt  6	[0.39 s]
+0.0.AM: Per property time limit expired (0.73 s) [0.83 s]
+0.0.AM: Stopped processing property "rvfi_testbench.checker_inst._cover_0"	[1.00 s].
+0.0.AM: Starting proof for property "rvfi_testbench.checker_inst._cover_0_2"	[0.00 s].
+0.0.AM: Trace Attempt  1	[0.03 s]
+0.0.AM: Trace Attempt  2	[0.03 s]
+0.0.AM: Trace Attempt  3	[0.03 s]
+0.0.AM: Trace Attempt  4	[0.04 s]
+0.0.AM: Trace Attempt  5	[0.04 s]
+0.0.Ht: Trace Attempt  9	[1.06 s]
+0.0.B: Trace Attempt  6	[0.54 s]
+0.0.B: Stopped processing property "rvfi_testbench.checker_inst._cover_0"	[0.99 s].
+0.0.B: Starting proof for property "rvfi_testbench.checker_inst._cover_0_2"	[0.00 s].
+0.0.B: Trace Attempt  1	[0.04 s]
+0.0.B: Trace Attempt  2	[0.04 s]
+0.0.B: Trace Attempt  3	[0.06 s]
+0.0.B: Trace Attempt  4	[0.08 s]
+0.0.AM: Trace Attempt  1	[0.13 s]
+0.0.AM: Trace Attempt  2	[0.13 s]
+0.0.AM: Trace Attempt  3	[0.13 s]
+0.0.AM: Trace Attempt  5	[0.14 s]
+0.0.B: Trace Attempt  5	[0.19 s]
+0.0.N: Trace Attempt  6	[1.33 s]
+0.0.N: Stopped processing property "rvfi_testbench.checker_inst._cover_0"	[1.35 s].
+0.0.N: Starting proof for property "rvfi_testbench.checker_inst._cover_0_2"	[0.00 s].
+0.0.N: Trace Attempt  1	[0.03 s]
+0.0.N: Trace Attempt  2	[0.04 s]
+0.0.N: Trace Attempt  3	[0.04 s]
+0.0.N: Trace Attempt  3	[0.22 s]
+0: ProofGrid usable level: 13
+0.0.N: Trace Attempt  4	[0.34 s]
+0.0.N: Trace Attempt  5	[0.34 s]
+0.0.Oh: bwd trail(1): 1 1.89889s
+0.0.Oh: All properties either determined or skipped. [2.07 s]
+0.0.Oh: Exited with Success (@ 2.43 s)
+0.0.N: Trace Attempt  8	[1.16 s]
+0.0.N: Per property time limit expired (1.00 s) [1.16 s]
+0.0.N: Stopped processing property "rvfi_testbench.checker_inst._cover_0_2"	[1.16 s].
+0.0.N: Starting proof for property "rvfi_testbench.checker_inst._cover_0_3"	[0.00 s].
+0.0.N: Trace Attempt  1	[0.03 s]
+0.0.N: Trace Attempt  2	[0.04 s]
+0.0.N: Trace Attempt  3	[0.04 s]
+0.0.B: Trace Attempt  7	[1.07 s]
+0.0.B: Stopped processing property "rvfi_testbench.checker_inst._cover_0_2"	[1.38 s].
+0.0.B: Starting proof for property "rvfi_testbench.checker_inst._cover_0_3"	[0.00 s].
+0.0.AM: Trace Attempt 20	[0.23 s]
+0.0.AM: Per property time limit expired (1.00 s) [1.55 s]
+0.0.AM: Stopped processing property "rvfi_testbench.checker_inst._cover_0_2"	[1.38 s].
+0.0.AM: Starting proof for property "rvfi_testbench.checker_inst._cover_0_3"	[0.00 s].
+0.0.AM: Trace Attempt  1	[0.03 s]
+0.0.AM: Trace Attempt  2	[0.03 s]
+0.0.B: Trace Attempt  1	[0.03 s]
+0.0.B: Trace Attempt  2	[0.04 s]
+0.0.B: Trace Attempt  3	[0.05 s]
+0.0.B: Trace Attempt  4	[0.07 s]
+0.0.AM: Trace Attempt  3	[0.07 s]
+0.0.N: Trace Attempt  3	[0.22 s]
+0.0.B: Trace Attempt  5	[0.17 s]
+0.0.N: Trace Attempt  4	[0.34 s]
+0.0.N: Trace Attempt  5	[0.34 s]
+0.0.AM: Trace Attempt  4	[0.22 s]
+0.0.AM: Trace Attempt  5	[0.22 s]
+0.0.AM: Trace Attempt  1	[0.59 s]
+0.0.AM: Trace Attempt  2	[0.59 s]
+0.0.AM: Trace Attempt  3	[0.59 s]
+0.0.AM: Trace Attempt  5	[0.59 s]
+0.0.N: Trace Attempt  8	[1.14 s]
+0.0.N: Per property time limit expired (1.00 s) [1.14 s]
+0.0.N: Stopped processing property "rvfi_testbench.checker_inst._cover_0_3"	[1.14 s].
+0.0.N: Starting proof for property "rvfi_testbench.checker_inst._assume_0:precondition1"	[0.00 s].
+0.0.N: Starting proof for property "rvfi_testbench.checker_inst._assert_9:precondition1"	[0.00 s].
+0.0.N: Starting proof for property "rvfi_testbench.checker_inst._assert_10:precondition1"	[0.00 s].
+0.0.N: Starting proof for property "rvfi_testbench.checker_inst._assert_11:precondition1"	[0.00 s].
+0.0.N: Starting proof for property "rvfi_testbench.checker_inst._assert_18:precondition1"	[0.00 s].
+0.0.N: Trace Attempt  1	[0.01 s]
+0.0.N: A max_length bound was found. The shortest trace is no longer than 256 cycles. [0.01 s]
+INFO (IPF008): 0.0.N: A max_length bound of 256 was found for the property "rvfi_testbench.checker_inst._assume_0:precondition1" in 0.01 s.
+0.0.N: A max_length bound was found. The shortest trace is no longer than 256 cycles. [0.01 s]
+INFO (IPF008): 0.0.N: A max_length bound of 256 was found for the property "rvfi_testbench.checker_inst._assert_9:precondition1" in 0.01 s.
+0.0.N: A max_length bound was found. The shortest trace is no longer than 256 cycles. [0.01 s]
+INFO (IPF008): 0.0.N: A max_length bound of 256 was found for the property "rvfi_testbench.checker_inst._assert_10:precondition1" in 0.01 s.
+0.0.N: A max_length bound was found. The shortest trace is no longer than 256 cycles. [0.01 s]
+INFO (IPF008): 0.0.N: A max_length bound of 256 was found for the property "rvfi_testbench.checker_inst._assert_11:precondition1" in 0.01 s.
+0.0.N: A max_length bound was found. The shortest trace is no longer than 256 cycles. [0.01 s]
+INFO (IPF008): 0.0.N: A max_length bound of 256 was found for the property "rvfi_testbench.checker_inst._assert_18:precondition1" in 0.01 s.
+0.0.N: Trace Attempt  2	[0.01 s]
+0.0.N: Trace Attempt  3	[0.01 s]
+0.0.N: Trace Attempt  3	[0.01 s]
+0.0.N: Trace Attempt  4	[0.02 s]
+0.0.N: Trace Attempt  5	[0.02 s]
+0.0.N: Trace Attempt  1	[0.02 s]
+0.0.N: Trace Attempt  2	[0.02 s]
+0.0.N: Trace Attempt  3	[0.02 s]
+0.0.N: Trace Attempt  5	[0.02 s]
+0.0.B: Trace Attempt  7	[0.99 s]
+0.0.B: Stopped processing property "rvfi_testbench.checker_inst._cover_0_3"	[1.40 s].
+0.0.B: Starting proof for property "rvfi_testbench.checker_inst._assume_0:precondition1"	[0.00 s].
+0.0.B: Starting proof for property "rvfi_testbench.checker_inst._assert_9:precondition1"	[0.00 s].
+0.0.B: Starting proof for property "rvfi_testbench.checker_inst._assert_10:precondition1"	[0.00 s].
+0.0.B: Starting proof for property "rvfi_testbench.checker_inst._assert_11:precondition1"	[0.00 s].
+0.0.B: Starting proof for property "rvfi_testbench.checker_inst._assert_18:precondition1"	[0.00 s].
+0.0.B: Trace Attempt  1	[0.01 s]
+0.0.B: Trace Attempt  2	[0.01 s]
+0.0.B: Trace Attempt  3	[0.01 s]
+0.0.B: Trace Attempt  4	[0.01 s]
+0.0.B: Trace Attempt  5	[0.01 s]
+0.0.AM: Trace Attempt 20	[0.68 s]
+0.0.AM: Stopped processing property "rvfi_testbench.checker_inst._cover_0_3"	[1.87 s].
+0.0.AM: Starting proof for property "rvfi_testbench.checker_inst._assume_0:precondition1"	[0.00 s].
+0.0.AM: Starting proof for property "rvfi_testbench.checker_inst._assert_9:precondition1"	[0.00 s].
+0.0.AM: Starting proof for property "rvfi_testbench.checker_inst._assert_10:precondition1"	[0.00 s].
+0.0.AM: Starting proof for property "rvfi_testbench.checker_inst._assert_11:precondition1"	[0.00 s].
+0.0.AM: Starting proof for property "rvfi_testbench.checker_inst._assert_18:precondition1"	[0.00 s].
+0.0.AM: Trace Attempt  1	[0.01 s]
+0.0.AM: Trace Attempt  2	[0.01 s]
+0.0.AM: Trace Attempt  3	[0.01 s]
+0.0.AM: Trace Attempt  4	[0.01 s]
+0.0.AM: Trace Attempt  5	[0.01 s]
+0.0.AM: Trace Attempt  1	[0.01 s]
+0.0.AM: Trace Attempt  2	[0.01 s]
+0.0.AM: Trace Attempt  3	[0.01 s]
+0.0.AM: Trace Attempt  5	[0.02 s]
+0.0.L: Using states from traces to { rvfi_testbench.checker_inst._cover_0 (7) }
+0.0.L: Trace Attempt  3	[4.67 s]
+0.0.L: Trace Attempt  4	[4.85 s]
+0.0.L: Trace Attempt  5	[5.08 s]
+0.0.Bm: Trace Attempt 10	[5.25 s]
+0.0.N: Trace Attempt 20	[0.04 s]
+0.0.N: Per property time limit expired (1.00 s) [2.15 s]
+0.0.N: Per property time limit expired (1.00 s) [2.15 s]
+0.0.N: Per property time limit expired (1.00 s) [2.15 s]
+0.0.N: Per property time limit expired (1.00 s) [2.15 s]
+0.0.N: Per property time limit expired (1.00 s) [2.15 s]
+0.0.N: Stopped processing property "rvfi_testbench.checker_inst._assume_0:precondition1"	[2.15 s].
+0.0.N: Stopped processing property "rvfi_testbench.checker_inst._assert_9:precondition1"	[2.15 s].
+0.0.N: Stopped processing property "rvfi_testbench.checker_inst._assert_10:precondition1"	[2.15 s].
+0.0.N: Stopped processing property "rvfi_testbench.checker_inst._assert_11:precondition1"	[2.15 s].
+0.0.N: Stopped processing property "rvfi_testbench.checker_inst._assert_18:precondition1"	[2.15 s].
+0.0.N: Starting proof for property "rvfi_testbench.checker_inst._assert_5:precondition1"	[0.00 s].
+0.0.N: Trace Attempt  1	[0.03 s]
+0.0.N: Trace Attempt  2	[0.04 s]
+0.0.N: Trace Attempt  3	[0.04 s]
+0.0.N: Trace Attempt  3	[0.23 s]
+0.0.N: Trace Attempt  4	[0.34 s]
+0.0.N: Trace Attempt  5	[0.34 s]
+0.0.B: Trace Attempt 20	[0.01 s]
+0.0.B: Per property time limit expired (1.00 s) [2.10 s]
+0.0.B: Per property time limit expired (1.00 s) [2.10 s]
+0.0.B: Per property time limit expired (1.00 s) [2.10 s]
+0.0.B: Per property time limit expired (1.00 s) [2.10 s]
+0.0.B: Per property time limit expired (1.00 s) [2.10 s]
+0.0.B: Stopped processing property "rvfi_testbench.checker_inst._assume_0:precondition1"	[2.10 s].
+0.0.B: Stopped processing property "rvfi_testbench.checker_inst._assert_9:precondition1"	[2.10 s].
+0.0.B: Stopped processing property "rvfi_testbench.checker_inst._assert_10:precondition1"	[2.10 s].
+0.0.B: Stopped processing property "rvfi_testbench.checker_inst._assert_11:precondition1"	[2.10 s].
+0.0.B: Stopped processing property "rvfi_testbench.checker_inst._assert_18:precondition1"	[2.10 s].
+0.0.B: Starting proof for property "rvfi_testbench.checker_inst._assert_5:precondition1"	[0.00 s].
+0.0.Mpcustom4: Trace Attempt  3	[6.04 s]
+0.0.B: Trace Attempt  1	[0.04 s]
+0.0.B: Trace Attempt  2	[0.04 s]
+0.0.B: Trace Attempt  3	[0.05 s]
+0.0.B: Trace Attempt  4	[0.08 s]
+0.0.B: Trace Attempt  5	[0.17 s]
+0.0.AM: Trace Attempt 20	[0.05 s]
+0.0.AM: Stopped processing property "rvfi_testbench.checker_inst._assume_0:precondition1"	[2.00 s].
+0.0.AM: Stopped processing property "rvfi_testbench.checker_inst._assert_9:precondition1"	[2.00 s].
+0.0.AM: Stopped processing property "rvfi_testbench.checker_inst._assert_10:precondition1"	[2.00 s].
+0.0.AM: Stopped processing property "rvfi_testbench.checker_inst._assert_11:precondition1"	[2.00 s].
+0.0.AM: Stopped processing property "rvfi_testbench.checker_inst._assert_18:precondition1"	[2.00 s].
+0.0.AM: Starting proof for property "rvfi_testbench.checker_inst._assert_5:precondition1"	[0.00 s].
+0.0.AM: Trace Attempt  1	[0.02 s]
+0.0.AM: Trace Attempt  2	[0.03 s]
+0.0.AM: Trace Attempt  3	[0.05 s]
+0.0.AM: Trace Attempt  4	[0.10 s]
+0.0.AM: Trace Attempt  5	[0.10 s]
+0.0.Mpcustom4: Trace Attempt  4	[6.49 s]
+0.0.AM: Trace Attempt  1	[0.32 s]
+0.0.AM: Trace Attempt  2	[0.33 s]
+0.0.AM: Trace Attempt  3	[0.33 s]
+0.0.AM: Trace Attempt  5	[0.33 s]
+0.0.N: Trace Attempt  8	[1.09 s]
+0.0.N: Per property time limit expired (1.00 s) [1.09 s]
+0.0.N: Stopped processing property "rvfi_testbench.checker_inst._assert_5:precondition1"	[1.09 s].
+0.0.N: Starting proof for property "rvfi_testbench.checker_inst._assert_6:precondition1"	[0.00 s].
+0.0.AM: Trace Attempt 15	[0.39 s]
+0.0.AM: Stopped processing property "rvfi_testbench.checker_inst._assert_5:precondition1"	[0.39 s].
+0.0.AM: Starting proof for property "rvfi_testbench.checker_inst._assert_6:precondition1"	[0.00 s].
+0.0.N: Trace Attempt  1	[0.03 s]
+0.0.AM: Trace Attempt  1	[0.03 s]
+0.0.AM: Trace Attempt  2	[0.04 s]
+0.0.N: Trace Attempt  2	[0.04 s]
+0.0.N: Trace Attempt  3	[0.04 s]
+0.0.B: Trace Attempt  6	[0.48 s]
+0.0.B: Stopped processing property "rvfi_testbench.checker_inst._assert_5:precondition1"	[0.82 s].
+0.0.B: Starting proof for property "rvfi_testbench.checker_inst._assert_6:precondition1"	[0.00 s].
+0.0.AM: Trace Attempt  3	[0.06 s]
+0.0.B: Trace Attempt  1	[0.03 s]
+0.0.B: Trace Attempt  2	[0.04 s]
+0.0.AM: Trace Attempt  4	[0.11 s]
+0.0.AM: Trace Attempt  5	[0.11 s]
+0.0.B: Trace Attempt  3	[0.05 s]
+0.0.B: Trace Attempt  4	[0.07 s]
+0.0.N: Trace Attempt  3	[0.23 s]
+0.0.B: Trace Attempt  5	[0.16 s]
+0.0.Mpcustom4: Trace Attempt  5	[7.01 s]
+0.0.AM: Trace Attempt  1	[0.33 s]
+0.0.N: Trace Attempt  4	[0.34 s]
+0.0.N: Trace Attempt  5	[0.34 s]
+0.0.AM: Trace Attempt  2	[0.34 s]
+0.0.AM: Trace Attempt  3	[0.34 s]
+0.0.AM: Trace Attempt  5	[0.34 s]
+0.0.N: Trace Attempt  8	[1.17 s]
+0.0.N: Per property time limit expired (1.00 s) [1.17 s]
+0.0.N: Stopped processing property "rvfi_testbench.checker_inst._assert_6:precondition1"	[1.17 s].
+0.0.N: Starting proof for property "rvfi_testbench.checker_inst._assert_7"	[0.00 s].
+0.0.AM: Trace Attempt 20	[0.45 s]
+0.0.AM: Per property time limit expired (1.00 s) [1.19 s]
+0.0.AM: Stopped processing property "rvfi_testbench.checker_inst._assert_6:precondition1"	[1.19 s].
+0.0.AM: Starting proof for property "rvfi_testbench.checker_inst._assert_7"	[0.00 s].
+0.0.N: Trace Attempt  1	[0.03 s]
+0.0.N: Trace Attempt  2	[0.04 s]
+0.0.N: Trace Attempt  3	[0.04 s]
+0.0.AM: Trace Attempt  1	[0.02 s]
+0.0.AM: Trace Attempt  2	[0.03 s]
+0.0.AM: Trace Attempt  3	[0.05 s]
+0.0.AM: Trace Attempt  4	[0.10 s]
+0.0.AM: Trace Attempt  5	[0.10 s]
+0.0.N: Trace Attempt  3	[0.23 s]
+0.0.B: Trace Attempt  7	[0.99 s]
+0.0.B: Stopped processing property "rvfi_testbench.checker_inst._assert_6:precondition1"	[1.42 s].
+0.0.B: Starting proof for property "rvfi_testbench.checker_inst._assert_7"	[0.00 s].
+0.0.AM: Trace Attempt  1	[0.32 s]
+0.0.B: Trace Attempt  1	[0.04 s]
+0.0.AM: Trace Attempt  2	[0.32 s]
+0.0.AM: Trace Attempt  3	[0.32 s]
+0.0.N: Trace Attempt  4	[0.34 s]
+0.0.N: Trace Attempt  5	[0.34 s]
+0.0.AM: Trace Attempt  5	[0.33 s]
+0.0.B: Trace Attempt  2	[0.04 s]
+0.0.B: Trace Attempt  3	[0.05 s]
+0.0.B: Trace Attempt  4	[0.08 s]
+0.0.B: Trace Attempt  5	[0.17 s]
+[<embedded>] % visualize -property <embedded>::rvfi_testbench.checker_inst._cover_0 -new_window
+0.0.Mpcustom4: Trace Attempt  3	[8.80 s]
+0.0.Mpcustom4: Trace Attempt  4	[8.87 s]
+0.0.Mpcustom4: Trace Attempt  5	[8.89 s]
+0.0.N: Trace Attempt  8	[1.18 s]
+0.0.N: Per property time limit expired (1.00 s) [1.18 s]
+0.0.N: Stopped processing property "rvfi_testbench.checker_inst._assert_7"	[1.19 s].
+0.0.N: Starting proof for property "rvfi_testbench.checker_inst._assert_7:precondition1"	[0.00 s].
+0.0.N: Trace Attempt  1	[0.03 s]
+0.0.AM: Trace Attempt 20	[0.43 s]
+0.0.AM: Per property time limit expired (1.00 s) [1.21 s]
+0.0.AM: Stopped processing property "rvfi_testbench.checker_inst._assert_7"	[1.21 s].
+0.0.AM: Starting proof for property "rvfi_testbench.checker_inst._assert_7:precondition1"	[0.00 s].
+0.0.N: Trace Attempt  2	[0.04 s]
+0.0.N: Trace Attempt  3	[0.04 s]
+0.0.AM: Trace Attempt  1	[0.03 s]
+0.0.AM: Trace Attempt  2	[0.03 s]
+0.0.AM: Trace Attempt  3	[0.03 s]
+0.0.AM: Trace Attempt  4	[0.03 s]
+0.0.AM: Trace Attempt  5	[0.03 s]
+0.0.AM: Trace Attempt  1	[0.09 s]
+0.0.AM: Trace Attempt  2	[0.09 s]
+0.0.AM: Trace Attempt  3	[0.09 s]
+0.0.AM: Trace Attempt  5	[0.09 s]
+0.0.N: Trace Attempt  3	[0.26 s]
+INFO (IVS015): Setting Visualize task to "<embedded>".
+INFO (IVS008): Expanding analysis region to enable visualization of "<embedded>::rvfi_testbench.checker_inst._cover_0".
+0.0.N: Trace Attempt  4	[0.38 s]
+0.0.N: Trace Attempt  5	[0.38 s]
+0.0.B: Trace Attempt  7	[0.99 s]
+0.0.B: Stopped processing property "rvfi_testbench.checker_inst._assert_7"	[1.42 s].
+0.0.B: Starting proof for property "rvfi_testbench.checker_inst._assert_7:precondition1"	[0.00 s].
+0.0.B: Trace Attempt  1	[0.03 s]
+0.0.B: Trace Attempt  2	[0.04 s]
+0.0.B: Trace Attempt  3	[0.05 s]
+0.0.B: Trace Attempt  4	[0.08 s]
+0.0.B: Trace Attempt  5	[0.17 s]
+0.0.N: Trace Attempt  8	[1.22 s]
+0.0.N: Per property time limit expired (1.00 s) [1.22 s]
+0.0.N: Stopped processing property "rvfi_testbench.checker_inst._assert_7:precondition1"	[1.22 s].
+0.0.N: Starting proof for property "rvfi_testbench.checker_inst._assert_8"	[0.00 s].
+0.0.Bm: Trace Attempt 13	[10.45 s]
+0.0.N: Trace Attempt  1	[0.03 s]
+0.0.N: Trace Attempt  2	[0.04 s]
+0.0.N: Trace Attempt  3	[0.04 s]
+0.0.L: Trace Attempt 10	[10.37 s]
+covered
+0.0.B: Trace Attempt  6	[0.48 s]
+0.0.B: Stopped processing property "rvfi_testbench.checker_inst._assert_7:precondition1"	[0.70 s].
+0.0.B: Starting proof for property "rvfi_testbench.checker_inst._assert_8"	[0.00 s].
+0.0.AM: Trace Attempt 20	[0.18 s]
+0.0.AM: Per property time limit expired (1.00 s) [1.31 s]
+0.0.AM: Stopped processing property "rvfi_testbench.checker_inst._assert_7:precondition1"	[1.31 s].
+0.0.AM: Starting proof for property "rvfi_testbench.checker_inst._assert_8"	[0.00 s].
+0.0.B: Trace Attempt  1	[0.04 s]
+0.0.AM: Trace Attempt  1	[0.03 s]
+0.0.B: Trace Attempt  2	[0.04 s]
+0.0.AM: Trace Attempt  2	[0.03 s]
+0.0.B: Trace Attempt  3	[0.05 s]
+0.0.AM: Trace Attempt  3	[0.06 s]
+0.0.B: Trace Attempt  4	[0.08 s]
+0.0.AM: Trace Attempt  4	[0.10 s]
+0.0.AM: Trace Attempt  5	[0.10 s]
+0.0.N: Trace Attempt  3	[0.23 s]
+0.0.B: Trace Attempt  5	[0.17 s]
+0.0.N: Trace Attempt  4	[0.35 s]
+0.0.N: Trace Attempt  5	[0.35 s]
+0.0.AM: Trace Attempt  1	[0.32 s]
+0.0.AM: Trace Attempt  2	[0.33 s]
+0.0.AM: Trace Attempt  3	[0.33 s]
+0.0.AM: Trace Attempt  5	[0.33 s]
+0.0.N: Trace Attempt  8	[1.17 s]
+0.0.N: Per property time limit expired (1.00 s) [1.17 s]
+0.0.N: Stopped processing property "rvfi_testbench.checker_inst._assert_8"	[1.17 s].
+0.0.N: Starting proof for property "rvfi_testbench.checker_inst._assert_8:precondition1"	[0.00 s].
+0.0.N: Trace Attempt  1	[0.03 s]
+0.0.N: Trace Attempt  2	[0.04 s]
+0.0.N: Trace Attempt  3	[0.04 s]
+0.0.AM: Trace Attempt 20	[0.44 s]
+0.0.AM: Per property time limit expired (1.00 s) [1.19 s]
+0.0.AM: Stopped processing property "rvfi_testbench.checker_inst._assert_8"	[1.19 s].
+0.0.AM: Starting proof for property "rvfi_testbench.checker_inst._assert_8:precondition1"	[0.00 s].
+0.0.AM: Trace Attempt  1	[0.02 s]
+0.0.AM: Trace Attempt  2	[0.03 s]
+0.0.AM: Trace Attempt  3	[0.03 s]
+0.0.AM: Trace Attempt  4	[0.03 s]
+0.0.AM: Trace Attempt  5	[0.03 s]
+0.0.N: Trace Attempt  3	[0.23 s]
+0.0.AM: Trace Attempt  1	[0.09 s]
+0.0.AM: Trace Attempt  2	[0.09 s]
+0.0.AM: Trace Attempt  3	[0.09 s]
+0.0.AM: Trace Attempt  5	[0.09 s]
+0.0.N: Trace Attempt  4	[0.35 s]
+0.0.N: Trace Attempt  5	[0.35 s]
+0.0.B: Trace Attempt  7	[1.00 s]
+0.0.B: Stopped processing property "rvfi_testbench.checker_inst._assert_8"	[1.43 s].
+0.0.B: Starting proof for property "rvfi_testbench.checker_inst._assert_8:precondition1"	[0.00 s].
+0.0.B: Trace Attempt  1	[0.03 s]
+0.0.B: Trace Attempt  2	[0.04 s]
+0.0.B: Trace Attempt  3	[0.05 s]
+0.0.B: Trace Attempt  4	[0.08 s]
+0.0.B: Trace Attempt  5	[0.17 s]
+0.0.N: Trace Attempt  8	[1.18 s]
+0.0.N: Per property time limit expired (1.00 s) [1.18 s]
+0.0.N: Stopped processing property "rvfi_testbench.checker_inst._assert_8:precondition1"	[1.18 s].
+0.0.N: Starting proof for property "rvfi_testbench.checker_inst._assert_9"	[0.00 s].
+0.0.N: Trace Attempt  1	[0.03 s]
+0.0.N: Trace Attempt  2	[0.04 s]
+0.0.N: Trace Attempt  3	[0.04 s]
+0.0.B: Trace Attempt  6	[0.49 s]
+0.0.B: Stopped processing property "rvfi_testbench.checker_inst._assert_8:precondition1"	[0.88 s].
+0.0.B: Starting proof for property "rvfi_testbench.checker_inst._assert_9"	[0.00 s].
+0.0.B: Trace Attempt  1	[0.03 s]
+0.0.B: Trace Attempt  2	[0.04 s]
+0.0.B: Trace Attempt  3	[0.05 s]
+0.0.B: Trace Attempt  4	[0.08 s]
+0.0.N: Trace Attempt  3	[0.22 s]
+0.0.B: Trace Attempt  5	[0.17 s]
+0.0.AM: Trace Attempt 20	[0.18 s]
+0.0.AM: Per property time limit expired (1.00 s) [1.28 s]
+0.0.AM: Stopped processing property "rvfi_testbench.checker_inst._assert_8:precondition1"	[1.28 s].
+0.0.AM: Starting proof for property "rvfi_testbench.checker_inst._assert_9"	[0.00 s].
+0.0.AM: Trace Attempt  1	[0.02 s]
+0.0.AM: Trace Attempt  2	[0.03 s]
+0.0.AM: Trace Attempt  3	[0.03 s]
+0.0.AM: Trace Attempt  4	[0.03 s]
+0.0.AM: Trace Attempt  5	[0.03 s]
+0.0.AM: Trace Attempt  1	[0.09 s]
+0.0.N: Trace Attempt  4	[0.34 s]
+0.0.N: Trace Attempt  5	[0.34 s]
+0.0.AM: Trace Attempt  2	[0.09 s]
+0.0.AM: Trace Attempt  3	[0.09 s]
+0.0.AM: Trace Attempt  5	[0.09 s]
+0.0.N: Trace Attempt  8	[1.15 s]
+0.0.N: Per property time limit expired (1.00 s) [1.15 s]
+0.0.N: Stopped processing property "rvfi_testbench.checker_inst._assert_9"	[1.15 s].
+0.0.N: Starting proof for property "rvfi_testbench.checker_inst._assert_10"	[0.00 s].
+0.0.N: Trace Attempt  1	[0.03 s]
+0.0.N: Trace Attempt  2	[0.04 s]
+0.0.N: Trace Attempt  3	[0.04 s]
+0.0.N: Trace Attempt  3	[0.23 s]
+0.0.AM: Trace Attempt 20	[0.17 s]
+0.0.AM: Stopped processing property "rvfi_testbench.checker_inst._assert_9"	[1.24 s].
+0.0.AM: Starting proof for property "rvfi_testbench.checker_inst._assert_10"	[0.00 s].
+0.0.B: Trace Attempt  7	[1.00 s]
+0.0.B: Stopped processing property "rvfi_testbench.checker_inst._assert_9"	[1.42 s].
+0.0.B: Starting proof for property "rvfi_testbench.checker_inst._assert_10"	[0.00 s].
+0.0.N: Trace Attempt  4	[0.35 s]
+0.0.N: Trace Attempt  5	[0.35 s]
+0.0.AM: Trace Attempt  1	[0.03 s]
+0.0.B: Trace Attempt  1	[0.03 s]
+0.0.AM: Trace Attempt  2	[0.04 s]
+0.0.B: Trace Attempt  2	[0.04 s]
+0.0.B: Trace Attempt  3	[0.05 s]
+0.0.AM: Trace Attempt  3	[0.07 s]
+0.0.B: Trace Attempt  4	[0.08 s]
+0.0.AM: Trace Attempt  4	[0.12 s]
+0.0.AM: Trace Attempt  5	[0.13 s]
+0.0.B: Trace Attempt  5	[0.17 s]
+0.0.AM: Trace Attempt  1	[0.32 s]
+0.0.AM: Trace Attempt  2	[0.35 s]
+0.0.AM: Trace Attempt  3	[0.36 s]
+0.0.AM: Trace Attempt  5	[0.37 s]
+0.0.Ht: Trace Attempt 20	[4.40 s]
+0.0.Ht: A trace with 20 cycles was found. [14.84 s]
+INFO (IPF047): 0.0.Ht: The cover property "rvfi_testbench.checker_inst._cover_0_2" was covered in 20 cycles in 14.89 s.
+INFO (IPF047): 0.0.Ht: The cover property "rvfi_testbench.checker_inst._cover_0_3" was covered in 20 cycles in 14.89 s.
+INFO (IPF047): 0.0.Ht: The cover property "rvfi_testbench.checker_inst._assume_0:precondition1" was covered in 20 cycles in 14.89 s.
+INFO (IPF047): 0.0.Ht: The cover property "rvfi_testbench.checker_inst._assert_9:precondition1" was covered in 20 cycles in 14.89 s.
+INFO (IPF047): 0.0.Ht: The cover property "rvfi_testbench.checker_inst._assert_10:precondition1" was covered in 20 cycles in 14.89 s.
+INFO (IPF047): 0.0.Ht: The cover property "rvfi_testbench.checker_inst._assert_11:precondition1" was covered in 20 cycles in 14.89 s.
+INFO (IPF047): 0.0.Ht: The cover property "rvfi_testbench.checker_inst._assert_18:precondition1" was covered in 20 cycles in 14.89 s.
+0.0.N: Trace Attempt  8	[1.17 s]
+0.0.N: Per property time limit expired (1.00 s) [1.17 s]
+0.0.N: Stopped processing property "rvfi_testbench.checker_inst._assert_10"	[1.17 s].
+0.0.N: Starting proof for property "rvfi_testbench.checker_inst._assert_11"	[0.00 s].
+0.0.N: Trace Attempt  1	[0.03 s]
+0.0.AM: Trace Attempt 20	[0.69 s]
+0.0.AM: Stopped processing property "rvfi_testbench.checker_inst._assert_10"	[0.87 s].
+0.0.AM: Starting proof for property "rvfi_testbench.checker_inst._assert_11"	[0.00 s].
+0.0.N: Trace Attempt  2	[0.04 s]
+0.0.N: Trace Attempt  3	[0.04 s]
+0.0.B: Trace Attempt  6	[0.47 s]
+0.0.B: Stopped processing property "rvfi_testbench.checker_inst._assert_10"	[0.89 s].
+0.0.B: Starting proof for property "rvfi_testbench.checker_inst._assert_11"	[0.00 s].
+0.0.AM: Trace Attempt  1	[0.02 s]
+0.0.AM: Trace Attempt  2	[0.03 s]
+0.0.AM: Trace Attempt  3	[0.03 s]
+0.0.AM: Trace Attempt  4	[0.03 s]
+0.0.AM: Trace Attempt  5	[0.03 s]
+0.0.B: Trace Attempt  1	[0.04 s]
+0.0.B: Trace Attempt  2	[0.04 s]
+0.0.B: Trace Attempt  3	[0.05 s]
+0.0.AM: Trace Attempt  1	[0.10 s]
+0.0.B: Trace Attempt  4	[0.08 s]
+0.0.AM: Trace Attempt  2	[0.10 s]
+0.0.AM: Trace Attempt  3	[0.10 s]
+0.0.AM: Trace Attempt  5	[0.10 s]
+0.0.N: Trace Attempt  3	[0.23 s]
+0.0.B: Trace Attempt  5	[0.17 s]
+0.0.N: Trace Attempt  4	[0.34 s]
+0.0.N: Trace Attempt  5	[0.34 s]
+0.0.L: Trace Attempt 13	[15.46 s]
+0.0.Bm: Trace Attempt 16	[15.86 s]
+0: ProofGrid usable level: 10
+0.0.N: Trace Attempt  8	[1.14 s]
+0.0.N: Per property time limit expired (1.00 s) [1.14 s]
+0.0.N: Stopped processing property "rvfi_testbench.checker_inst._assert_11"	[1.14 s].
+0.0.N: Starting proof for property "rvfi_testbench.checker_inst._assert_18"	[0.00 s].
+0.0.N: Trace Attempt  1	[0.03 s]
+0.0.N: Trace Attempt  2	[0.04 s]
+0.0.N: Trace Attempt  3	[0.04 s]
+0.0.AM: Trace Attempt 20	[0.20 s]
+0.0.AM: Per property time limit expired (1.00 s) [1.28 s]
+0.0.AM: Stopped processing property "rvfi_testbench.checker_inst._assert_11"	[1.28 s].
+0.0.AM: Starting proof for property "rvfi_testbench.checker_inst._assert_18"	[0.00 s].
+0.0.AM: Trace Attempt  1	[0.02 s]
+0.0.AM: Trace Attempt  2	[0.03 s]
+0.0.AM: Trace Attempt  3	[0.03 s]
+0.0.AM: Trace Attempt  4	[0.03 s]
+0.0.AM: Trace Attempt  5	[0.03 s]
+0.0.N: Trace Attempt  3	[0.23 s]
+0.0.AM: Trace Attempt  1	[0.09 s]
+0.0.AM: Trace Attempt  2	[0.09 s]
+0.0.AM: Trace Attempt  3	[0.09 s]
+0.0.AM: Trace Attempt  5	[0.09 s]
+0.0.Mpcustom4: Trace Attempt  6	[16.51 s]
+0.0.N: Trace Attempt  4	[0.34 s]
+0.0.N: Trace Attempt  5	[0.34 s]
+0.0.B: Trace Attempt  7	[1.05 s]
+0.0.B: Stopped processing property "rvfi_testbench.checker_inst._assert_11"	[1.53 s].
+0.0.B: Starting proof for property "rvfi_testbench.checker_inst._assert_18"	[0.00 s].
+0.0.B: Trace Attempt  1	[0.04 s]
+0.0.B: Trace Attempt  2	[0.05 s]
+0.0.B: Trace Attempt  3	[0.06 s]
+0.0.B: Trace Attempt  4	[0.08 s]
+0.0.B: Trace Attempt  5	[0.19 s]
+0.0.N: Trace Attempt  8	[1.16 s]
+0.0.N: Per property time limit expired (1.00 s) [1.16 s]
+0.0.N: Stopped processing property "rvfi_testbench.checker_inst._assert_18"	[1.16 s].
+0.0.N: Next scan (1) will use per property time limit: 1s * 10 ^ 1 = 10s
+0.0.N: Starting proof for property "rvfi_testbench.checker_inst._assert_5:precondition1"	[0.00 s].
+0.0.B: Trace Attempt  6	[0.54 s]
+0.0.B: Stopped processing property "rvfi_testbench.checker_inst._assert_18"	[0.89 s].
+0.0.B: Next scan (1) will use per property time limit: 1s * 10 ^ 1 = 10s
+0.0.B: Starting proof for property "rvfi_testbench.checker_inst._assert_5:precondition1"	[0.00 s].
+0.0.B: Trace Attempt  1	[0.04 s]
+0.0.B: Trace Attempt  2	[0.05 s]
+0.0.B: Trace Attempt  3	[0.06 s]
+0.0.B: Trace Attempt  4	[0.09 s]
+0.0.AM: Trace Attempt 20	[0.18 s]
+0.0.AM: Stopped processing property "rvfi_testbench.checker_inst._assert_18"	[1.28 s].
+0.0.AM: Next scan (1) will use per property time limit: 1s * 10 ^ 1 = 10s
+0.0.AM: Starting proof for property "rvfi_testbench.checker_inst._assert_5:precondition1"	[0.00 s].
+0.0.AM: Trace Attempt  1	[0.02 s]
+0.0.AM: Trace Attempt  2	[0.03 s]
+0.0.AM: Trace Attempt  3	[0.05 s]
+0.0.B: Trace Attempt  5	[0.18 s]
+0.0.AM: Trace Attempt  4	[0.10 s]
+0.0.AM: Trace Attempt  5	[0.10 s]
+0.0.N: Trace Attempt  7	[0.56 s]
+0.0.AM: Trace Attempt  1	[0.31 s]
+0.0.AM: Trace Attempt  2	[0.32 s]
+0.0.AM: Trace Attempt  3	[0.32 s]
+0.0.AM: Trace Attempt  5	[0.33 s]
+0.0.N: Trace Attempt  1	[0.84 s]
+0.0.N: Trace Attempt  2	[0.84 s]
+0.0.N: Trace Attempt  3	[0.84 s]
+0.0.N: Trace Attempt  5	[0.84 s]
+0.0.Bm: Trace Attempt 19	[21.17 s]
+0.0.B: Trace Attempt 10	[4.99 s]
+0.0.Ht: A trace with 20 cycles was found. [23.98 s]
+INFO (IPF047): 0.0.Ht: The cover property "rvfi_testbench.checker_inst._assert_5:precondition1" was covered in 20 cycles in 24.01 s.
+INFO (IPF047): 0.0.Ht: The cover property "rvfi_testbench.checker_inst._assert_6:precondition1" was covered in 20 cycles in 24.01 s.
+INFO (IPF055): 0.0.Ht: A counterexample (cex) with 20 cycles was found for the property "rvfi_testbench.checker_inst._assert_7" in 24.01 s.
+INFO (IPF047): 0.0.Ht: The cover property "rvfi_testbench.checker_inst._assert_7:precondition1" was covered in 20 cycles in 24.01 s.
+INFO (IPF055): 0.0.Ht: A counterexample (cex) with 20 cycles was found for the property "rvfi_testbench.checker_inst._assert_8" in 24.01 s.
+INFO (IPF047): 0.0.Ht: The cover property "rvfi_testbench.checker_inst._assert_8:precondition1" was covered in 20 cycles in 24.01 s.
+INFO (IPF055): 0.0.Ht: A counterexample (cex) with 20 cycles was found for the property "rvfi_testbench.checker_inst._assert_11" in 24.01 s.
+0.0.AM: Trace Attempt 20	[0.44 s]
+0.0.AM: Stopped processing property "rvfi_testbench.checker_inst._assert_5:precondition1"	[6.80 s].
+0.0.AM: Starting proof for property "rvfi_testbench.checker_inst._assert_9"	[0.00 s].
+0.0.AM: Trace Attempt  1	[0.02 s]
+0.0.AM: Trace Attempt  2	[0.03 s]
+0.0.AM: Trace Attempt  3	[0.03 s]
+0.0.AM: Trace Attempt  4	[0.03 s]
+0.0.AM: Trace Attempt  5	[0.03 s]
+0.0.AM: Trace Attempt  1	[0.09 s]
+0.0.AM: Trace Attempt  2	[0.09 s]
+0.0.AM: Trace Attempt  3	[0.09 s]
+0.0.AM: Trace Attempt  5	[0.10 s]
+0.0.N: Trace Attempt 20	[4.52 s]
+0.0.N: Stopped processing property "rvfi_testbench.checker_inst._assert_5:precondition1"	[7.19 s].
+0.0.N: Starting proof for property "rvfi_testbench.checker_inst._assert_9"	[0.00 s].
+0.0.Ht: A trace with 20 cycles was found. [24.69 s]
+INFO (IPF055): 0.0.Ht: A counterexample (cex) with 20 cycles was found for the property "rvfi_testbench.checker_inst._assert_9" in 24.73 s.
+0: ProofGrid usable level: 2
+0.0.B: Trace Attempt 11	[6.73 s]
+0.0.B: Stopped processing property "rvfi_testbench.checker_inst._assert_5:precondition1"	[7.29 s].
+0.0.B: Starting proof for property "rvfi_testbench.checker_inst._assert_10"	[0.00 s].
+0.0.N: Stopped processing property "rvfi_testbench.checker_inst._assert_9"	[0.28 s].
+0.0.N: Starting proof for property "rvfi_testbench.checker_inst._assert_10"	[0.00 s].
+0.0.B: Trace Attempt  1	[0.04 s]
+0.0.B: Trace Attempt  2	[0.04 s]
+0.0.B: Trace Attempt  3	[0.06 s]
+0.0.B: Trace Attempt  4	[0.08 s]
+0.0.B: Trace Attempt  5	[0.17 s]
+0.0.N: Trace Attempt  7	[0.54 s]
+0.0.N: Trace Attempt  1	[0.78 s]
+0.0.N: Trace Attempt  2	[0.78 s]
+0.0.N: Trace Attempt  3	[0.78 s]
+0.0.N: Trace Attempt  5	[0.79 s]
+0.0.AM: Trace Attempt 20	[0.18 s]
+0.0.AM: Stopped processing property "rvfi_testbench.checker_inst._assert_9"	[1.27 s].
+0.0.AM: Starting proof for property "rvfi_testbench.checker_inst._assert_10"	[0.00 s].
+0.0.AM: Trace Attempt  1	[0.03 s]
+0.0.AM: Trace Attempt  2	[0.04 s]
+0.0.AM: Trace Attempt  3	[0.07 s]
+0.0.AM: Trace Attempt  4	[0.13 s]
+0.0.AM: Trace Attempt  5	[0.13 s]
+0.0.AM: Trace Attempt  1	[0.34 s]
+0.0.AM: Trace Attempt  2	[0.37 s]
+0.0.AM: Trace Attempt  3	[0.38 s]
+0.0.AM: Trace Attempt  5	[0.39 s]
+0.0.Mpcustom4: Trace Attempt  7	[28.29 s]
+0.0.B: Trace Attempt 10	[4.90 s]
+0.0.L: Using states from traces to { rvfi_testbench.checker_inst._cover_0_2 (19) }
+0.0.L: Trace Attempt  3	[30.79 s]
+0.0.L: Trace Attempt  4	[30.98 s]
+0.0.L: Trace Attempt  5	[31.21 s]
+0.0.Mpcustom4: Trace Attempt  7	[34.35 s]
+0.0.B: Trace Attempt 13	[9.97 s]
+0.0.B: Per property time limit expired (10.00 s) [10.50 s]
+0.0.B: Stopped processing property "rvfi_testbench.checker_inst._assert_10"	[10.48 s].
+0.0.B: Starting proof for property "rvfi_testbench.checker_inst._assert_18"	[0.00 s].
+0.0.B: Trace Attempt  1	[0.03 s]
+0.0.B: Trace Attempt  2	[0.04 s]
+0.0.B: Trace Attempt  3	[0.05 s]
+0.0.L: Trace Attempt  9	[35.29 s]
+0.0.B: Trace Attempt  4	[0.07 s]
+0.0.B: Trace Attempt  5	[0.17 s]
+0.0.AM: Trace Attempt 20	[0.73 s]
+0.0.AM: Stopped processing property "rvfi_testbench.checker_inst._assert_10"	[9.76 s].
+0.0.AM: Starting proof for property "rvfi_testbench.checker_inst._assert_18"	[0.00 s].
+0.0.N: Trace Attempt 20	[4.41 s]
+0.0.N: Per property time limit expired (10.00 s) [10.67 s]
+0.0.N: Stopped processing property "rvfi_testbench.checker_inst._assert_10"	[10.67 s].
+0.0.N: Starting proof for property "rvfi_testbench.checker_inst._assert_18"	[0.00 s].
+0.0.AM: Trace Attempt  1	[0.03 s]
+0.0.AM: Trace Attempt  2	[0.03 s]
+0.0.AM: Trace Attempt  3	[0.03 s]
+0.0.AM: Trace Attempt  4	[0.03 s]
+0.0.AM: Trace Attempt  5	[0.03 s]
+0.0.AM: Trace Attempt  1	[0.09 s]
+0.0.AM: Trace Attempt  2	[0.09 s]
+0.0.AM: Trace Attempt  3	[0.10 s]
+0.0.AM: Trace Attempt  5	[0.10 s]
+0.0.N: Trace Attempt  7	[0.51 s]
+0.0.Bm: Trace Attempt 20	[23.25 s]
+0.0.Bm: A trace with 20 cycles was found. [36.14 s]
+INFO (IPF055): 0.0.Bm: A counterexample (cex) with 20 cycles was found for the property "rvfi_testbench.checker_inst._assert_18" in 36.11 s.
+0.0.B: Trace Attempt  6	[0.47 s]
+0.0.B: Stopped processing property "rvfi_testbench.checker_inst._assert_18"	[0.91 s].
+0.0.B: Last scan. Per property time limit: 0s
+0.0.B: Starting proof for property "rvfi_testbench.checker_inst._assert_10"	[0.00 s].
+0.0.B: Trace Attempt  1	[0.03 s]
+0.0.B: Trace Attempt  2	[0.04 s]
+0.0.B: Trace Attempt  3	[0.05 s]
+0.0.N: Trace Attempt  8	[0.75 s]
+0.0.N: Stopped processing property "rvfi_testbench.checker_inst._assert_18"	[0.75 s].
+0.0.N: Last scan. Per property time limit: 0s
+0.0.N: Starting proof for property "rvfi_testbench.checker_inst._assert_10"	[0.00 s].
+0.0.B: Trace Attempt  4	[0.07 s]
+0.0.B: Trace Attempt  5	[0.17 s]
+0: ProofGrid usable level: 1
+0.0.AM: Trace Attempt 20	[0.17 s]
+0.0.AM: Stopped processing property "rvfi_testbench.checker_inst._assert_18"	[1.27 s].
+0.0.AM: Last scan. Per property time limit: 0s
+0.0.AM: Starting proof for property "rvfi_testbench.checker_inst._assert_10"	[0.00 s].
+0.0.AM: Trace Attempt  1	[0.03 s]
+0.0.AM: Trace Attempt  2	[0.04 s]
+0.0.AM: Trace Attempt  3	[0.07 s]
+0.0.AM: Trace Attempt  4	[0.13 s]
+0.0.AM: Trace Attempt  5	[0.13 s]
+0.0.AM: Trace Attempt  1	[0.34 s]
+0.0.AM: Trace Attempt  2	[0.37 s]
+0.0.AM: Trace Attempt  3	[0.38 s]
+0.0.AM: Trace Attempt  5	[0.39 s]
+0.0.N: Trace Attempt 20	[1.92 s]
+0.0.L: Trace Attempt 12	[40.27 s]
+0.0.B: Trace Attempt 10	[4.85 s]
+0.0.Mpcustom4: Trace Attempt  7	[41.27 s]
+0.0.L: Trace Attempt 15	[45.29 s]
+0.0.Mpcustom4: Trace Attempt  8	[45.36 s]
+0.0.B: Trace Attempt 13	[10.00 s]
+0.0.N: Requesting engine job to stop
+0.0.B: Requesting engine job to stop
+0.0.AM: Requesting engine job to stop
+0.0.Hp: Requesting engine job to terminate
+0.0.Ht: Requesting engine job to terminate
+0.0.Bm: Requesting engine job to terminate
+0.0.Mpcustom4: Requesting engine job to terminate
+0.0.L: Requesting engine job to terminate
+INFO (IPF144): 0: Initiating shutdown of proof [49.83 s]
+0.0.Bm: A trace with 20 cycles was found. [49.56 s]
+INFO (IPF055): 0.0.Bm: A counterexample (cex) with 20 cycles was found for the property "rvfi_testbench.checker_inst._assert_10" in 49.52 s.
+0: ProofGrid usable level: 0
+0.0.Mpcustom4: Trace Attempt 12	[49.54 s]
+0.0.AM: Trace Attempt 20	[0.74 s]
+0.0.AM: Stopped processing property "rvfi_testbench.checker_inst._assert_10"	[13.04 s].
+0.0.AM: Interrupted. [13.07 s]
+0.0.AM: Exited with Success (@ 50.40 s)
+0.0.L: Trace Attempt 17	[48.65 s]
+0.0.L: Interrupted. [50.06 s]
+0.0.N: Stopped processing property "rvfi_testbench.checker_inst._assert_10"	[13.91 s].
+0.0.L: Exited with Success (@ 50.45 s)
+0.0.N: Interrupted. [13.94 s]
+0.0.Hp: Interrupted (multi)
+0.0.Hp: Interrupted. [50.48 s]
+0.0.N: Exited with Success (@ 50.56 s)
+0.0.Mpcustom4: Interrupted. [50.36 s]
+0.0.Bm: Interrupted. [50.48 s]
+0.0.Mpcustom4: Exited with Success (@ 50.73 s)
+0.0.B: Trace Attempt 15	[13.37 s]
+0.0.B: Stopped processing property "rvfi_testbench.checker_inst._assert_10"	[14.26 s].
+0.0.Bm: Exited with Success (@ 50.77 s)
+0.0.B: Interrupted. [14.31 s]
+0.0.B: Exited with Success (@ 50.85 s)
+0.0.Hp: Exited with Success (@ 51.10 s)
+0.0.Ht: Sending SIGKILL
+0.0.Ht: Terminated by signal SIGKILL (@ 51.89 s)
+0: --------------------------------------------------------------
+ProofGrid Summary (utilization 99.59 %)
+--------------------------------------------------------------
+     engines started                               :     9
+     engine jobs started                           :     9
+
+    Average time in state (seconds)
+    ------------------------------------------------------
+    Engine  Pending     Running        Dead    Utilization
+    ------------------------------------------------------
+      N        0.19       49.77        0.00       99.63 %
+     Hp        0.18       49.76        0.00       99.64 %
+     Ht        0.18       49.58        0.00       99.64 %
+     Bm        0.17       49.59        0.00       99.65 %
+    Mpcustom4        0.18       49.52        0.00       99.63 %
+     Oh        0.19        2.07        0.00       91.77 %
+      L        0.19       49.48        0.00       99.62 %
+      B        0.19       49.50        0.00       99.62 %
+     AM        0.18       49.50        0.00       99.64 %
+    all        0.18       44.31        0.00       99.59 %
+
+    Total time in state (seconds)
+    -----------------------------------------
+            Pending     Running        Dead  
+    -----------------------------------------
+               1.64      398.76        0.00
+
+    Data read    : 4.72 MiB
+    Data written : 41.63 kiB
+
+0: All pending notifications were processed.
+INFO (IPF059): Completed proof on task: "<embedded>" for proof thread 0
+
+==============================================================
+SUMMARY
+==============================================================
+           Properties Considered              : 71
+                 assertions                   : 33
+                  - proven                    : 27 (81.8182%)
+                  - bounded_proven (user)     : 0 (0%)
+                  - bounded_proven (auto)     : 0 (0%)
+                  - marked_proven             : 0 (0%)
+                  - cex                       : 6 (18.1818%)
+                  - ar_cex                    : 0 (0%)
+                  - undetermined              : 0 (0%)
+                  - unknown                   : 0 (0%)
+                  - error                     : 0 (0%)
+                 covers                       : 38
+                  - unreachable               : 25 (65.7895%)
+                  - bounded_unreachable (user): 0 (0%)
+                  - covered                   : 13 (34.2105%)
+                  - ar_covered                : 0 (0%)
+                  - undetermined              : 0 (0%)
+                  - unknown                   : 0 (0%)
+                  - error                     : 0 (0%)
+[<embedded>] % visualize -property <embedded>::rvfi_testbench.checker_inst._cover_0_2 -new_window
+INFO (IVS015): Setting Visualize task to "<embedded>".
+INFO (IVS008): Expanding analysis region to enable visualization of "<embedded>::rvfi_testbench.checker_inst._cover_0_2".
+covered
+[<embedded>] % visualize -property <embedded>::rvfi_testbench.checker_inst._cover_0_1 -new_window
+INFO (IVS015): Setting Visualize task to "<embedded>".
+INFO (IVS008): Expanding analysis region to enable visualization of "<embedded>::rvfi_testbench.checker_inst._cover_0_1".
+covered
+INFO (IPL005): Received request to exit from the console.
+INFO (IPL014): Waiting for the Tcl-thread to exit.
+INFO: Waiting for proof threads to stop...
+INFO: Proof threads stopped.
+INFO (IPL018): The peak resident set memory use for this session was 7.630 GB.
+INFO (IPL015): The Tcl-thread exited with status 0.
+INFO (IPL016): Exiting the analysis session with status 0.

@@ -1,0 +1,726 @@
+SBY 11:39:30 [insn_add_ch0] Writing 'insn_add_ch0/src/defines.sv'.
+SBY 11:39:30 [insn_add_ch0] Writing 'insn_add_ch0/src/insn_add_ch0.sv'.
+SBY 11:39:30 [insn_add_ch0] Copy '/home/pedro.medeiros/riscv-formal/cores/el2_veer/snapshots_EL2/default/el2_pdef.vh' to '/home/pedro.medeiros/riscv-formal/cores/el2_veer/checks/insn_add_ch0/src/el2_pdef.vh'.
+SBY 11:39:30 [insn_add_ch0] Copy '/home/pedro.medeiros/riscv-formal/cores/el2_veer/snapshots_EL2/default/el2_param.vh' to '/home/pedro.medeiros/riscv-formal/cores/el2_veer/checks/insn_add_ch0/src/el2_param.vh'.
+SBY 11:39:30 [insn_add_ch0] Copy '/home/pedro.medeiros/riscv-formal/cores/el2_veer/snapshots_EL2/default/pic_map_auto.h' to '/home/pedro.medeiros/riscv-formal/cores/el2_veer/checks/insn_add_ch0/src/pic_map_auto.h'.
+SBY 11:39:30 [insn_add_ch0] Copy '/home/pedro.medeiros/riscv-formal/checks/rvfi_macros.vh' to '/home/pedro.medeiros/riscv-formal/cores/el2_veer/checks/insn_add_ch0/src/rvfi_macros.vh'.
+SBY 11:39:30 [insn_add_ch0] Copy '/home/pedro.medeiros/riscv-formal/checks/rvfi_channel.sv' to '/home/pedro.medeiros/riscv-formal/cores/el2_veer/checks/insn_add_ch0/src/rvfi_channel.sv'.
+SBY 11:39:30 [insn_add_ch0] Copy '/home/pedro.medeiros/riscv-formal/checks/rvfi_testbench.sv' to '/home/pedro.medeiros/riscv-formal/cores/el2_veer/checks/insn_add_ch0/src/rvfi_testbench.sv'.
+SBY 11:39:30 [insn_add_ch0] Copy '/home/pedro.medeiros/riscv-formal/checks/rvfi_insn_check.sv' to '/home/pedro.medeiros/riscv-formal/cores/el2_veer/checks/insn_add_ch0/src/rvfi_insn_check.sv'.
+SBY 11:39:30 [insn_add_ch0] Copy '/home/pedro.medeiros/riscv-formal/insns/insn_add.v' to '/home/pedro.medeiros/riscv-formal/cores/el2_veer/checks/insn_add_ch0/src/insn_add.v'.
+SBY 11:39:30 [insn_add_ch0] engine_0: smtbmc boolector
+SBY 11:39:30 [insn_add_ch0] base: starting process "cd insn_add_ch0/src; yosys -ql ../model/design.log ../model/design.ys"
+SBY 11:39:30 [insn_add_ch0] base: This is an ACADEMIC LICENSE of TabbyCAD Suite.
+SBY 11:39:30 [insn_add_ch0] base: This license is granted for the limited purpose of academic and/or research activities.
+SBY 11:39:30 [insn_add_ch0] base: It is forbidden to use this license to perform services for a fee or other consideration; or in the generation or verification of hardware or hardware designs for sale or license with a view to profit or for a fee or other consideration.
+SBY 11:39:30 [insn_add_ch0] base: This license was issued to Pedro Arthur da Cunha Medeiros.
+SBY 11:39:30 [insn_add_ch0] base: Customer PoC: Pedro Arthur da Cunha Medeiros <pedro.arthur.medeiros@ee.ufcg.edu.br>.
+SBY 11:39:30 [insn_add_ch0] base: VERIFIC-WARNING [VERI-1206] /home/pedro.medeiros/riscv-formal/cores/el2_veer/EL2/el2_veer.sv:1427: overwriting previous definition of module 'el2_veer'
+SBY 11:39:32 [insn_add_ch0] base: VERIFIC-WARNING [VERI-1209] /home/pedro.medeiros/riscv-formal/cores/el2_veer/EL2/ifu/el2_ifu_ifc_ctl.sv:129: expression size 32 truncated to fit in target size 31
+SBY 11:39:32 [insn_add_ch0] base: VERIFIC-WARNING [VERI-1209] /home/pedro.medeiros/riscv-formal/cores/el2_veer/EL2/lib/beh_lib.sv:494: expression size 20 truncated to fit in target size 19
+SBY 11:39:32 [insn_add_ch0] base: VERIFIC-WARNING [VERI-1209] /home/pedro.medeiros/riscv-formal/cores/el2_veer/EL2/lib/beh_lib.sv:496: expression size 32 truncated to fit in target size 19
+SBY 11:39:33 [insn_add_ch0] base: VERIFIC-WARNING [VDB-1002] /home/pedro.medeiros/riscv-formal/cores/el2_veer/EL2/ifu/el2_ifu_bp_ctl.sv:833: net 'bht_bank_clk' does not have a driver
+SBY 11:39:33 [insn_add_ch0] base: VERIFIC-WARNING [VERI-1209] /home/pedro.medeiros/riscv-formal/cores/el2_veer/EL2/ifu/el2_ifu_mem_ctl.sv:849: expression size 4 truncated to fit in target size 3
+SBY 11:39:34 [insn_add_ch0] base: VERIFIC-WARNING [VERI-1209] /home/pedro.medeiros/riscv-formal/cores/el2_veer/EL2/ifu/el2_ifu_mem_ctl.sv:1638: expression size 4 truncated to fit in target size 2
+SBY 11:39:34 [insn_add_ch0] base: VERIFIC-WARNING [VERI-1209] /home/pedro.medeiros/riscv-formal/cores/el2_veer/EL2/exu/el2_exu_mul_ctl.sv:526: expression size 32 truncated to fit in target size 4
+SBY 11:39:34 [insn_add_ch0] base: VERIFIC-WARNING [VERI-1209] /home/pedro.medeiros/riscv-formal/cores/el2_veer/EL2/exu/el2_exu_mul_ctl.sv:527: expression size 32 truncated to fit in target size 4
+SBY 11:39:34 [insn_add_ch0] base: VERIFIC-WARNING [VERI-1209] /home/pedro.medeiros/riscv-formal/cores/el2_veer/EL2/exu/el2_exu_mul_ctl.sv:528: expression size 32 truncated to fit in target size 4
+SBY 11:39:34 [insn_add_ch0] base: VERIFIC-WARNING [VERI-1209] /home/pedro.medeiros/riscv-formal/cores/el2_veer/EL2/exu/el2_exu_mul_ctl.sv:529: expression size 32 truncated to fit in target size 4
+SBY 11:39:34 [insn_add_ch0] base: VERIFIC-WARNING [VERI-1209] /home/pedro.medeiros/riscv-formal/cores/el2_veer/EL2/exu/el2_exu_mul_ctl.sv:530: expression size 32 truncated to fit in target size 4
+SBY 11:39:34 [insn_add_ch0] base: VERIFIC-WARNING [VERI-1209] /home/pedro.medeiros/riscv-formal/cores/el2_veer/EL2/exu/el2_exu_mul_ctl.sv:531: expression size 32 truncated to fit in target size 4
+SBY 11:39:34 [insn_add_ch0] base: VERIFIC-WARNING [VERI-1209] /home/pedro.medeiros/riscv-formal/cores/el2_veer/EL2/exu/el2_exu_mul_ctl.sv:532: expression size 32 truncated to fit in target size 4
+SBY 11:39:34 [insn_add_ch0] base: VERIFIC-WARNING [VERI-1209] /home/pedro.medeiros/riscv-formal/cores/el2_veer/EL2/exu/el2_exu_mul_ctl.sv:533: expression size 32 truncated to fit in target size 4
+SBY 11:39:34 [insn_add_ch0] base: VERIFIC-WARNING [VERI-1209] /home/pedro.medeiros/riscv-formal/cores/el2_veer/EL2/exu/el2_exu_mul_ctl.sv:535: expression size 32 truncated to fit in target size 8
+SBY 11:39:34 [insn_add_ch0] base: VERIFIC-WARNING [VERI-1209] /home/pedro.medeiros/riscv-formal/cores/el2_veer/EL2/exu/el2_exu_mul_ctl.sv:536: expression size 32 truncated to fit in target size 8
+SBY 11:39:34 [insn_add_ch0] base: VERIFIC-WARNING [VERI-1209] /home/pedro.medeiros/riscv-formal/cores/el2_veer/EL2/exu/el2_exu_mul_ctl.sv:537: expression size 32 truncated to fit in target size 8
+SBY 11:39:34 [insn_add_ch0] base: VERIFIC-WARNING [VERI-1209] /home/pedro.medeiros/riscv-formal/cores/el2_veer/EL2/exu/el2_exu_mul_ctl.sv:538: expression size 32 truncated to fit in target size 8
+SBY 11:39:34 [insn_add_ch0] base: VERIFIC-WARNING [VERI-1209] /home/pedro.medeiros/riscv-formal/cores/el2_veer/EL2/exu/el2_exu_mul_ctl.sv:540: expression size 32 truncated to fit in target size 16
+SBY 11:39:34 [insn_add_ch0] base: VERIFIC-WARNING [VERI-1209] /home/pedro.medeiros/riscv-formal/cores/el2_veer/EL2/exu/el2_exu_mul_ctl.sv:541: expression size 32 truncated to fit in target size 16
+SBY 11:39:34 [insn_add_ch0] base: VERIFIC-WARNING [VERI-1209] /home/pedro.medeiros/riscv-formal/cores/el2_veer/EL2/lib/beh_lib.sv:464: expression size 21 truncated to fit in target size 20
+SBY 11:39:34 [insn_add_ch0] base: VERIFIC-WARNING [VERI-1209] /home/pedro.medeiros/riscv-formal/cores/el2_veer/EL2/lib/beh_lib.sv:466: expression size 32 truncated to fit in target size 20
+SBY 11:39:34 [insn_add_ch0] base: VERIFIC-WARNING [VERI-1209] /home/pedro.medeiros/riscv-formal/cores/el2_veer/EL2/lsu/el2_lsu_addrcheck.sv:122: expression size 5 truncated to fit in target size 1
+SBY 11:39:35 [insn_add_ch0] base: VERIFIC-WARNING [VDB-1002] /home/pedro.medeiros/riscv-formal/cores/el2_veer/EL2/el2_pic_ctrl.sv:227: net 'IO_CLK_GRP[0].grp_clk' does not have a driver
+SBY 11:39:35 [insn_add_ch0] base: VERIFIC-WARNING [VDB-1002] /home/pedro.medeiros/riscv-formal/cores/el2_veer/EL2/rvfi_wrapper.sv:90: net 'dccm_rd_data_lo[38]' does not have a driver
+SBY 11:39:35 [insn_add_ch0] base: VERIFIC-WARNING [VDB-1002] /home/pedro.medeiros/riscv-formal/cores/el2_veer/EL2/rvfi_wrapper.sv:91: net 'dccm_rd_data_hi[38]' does not have a driver
+SBY 11:39:35 [insn_add_ch0] base: VERIFIC-WARNING [VDB-1002] /home/pedro.medeiros/riscv-formal/cores/el2_veer/EL2/rvfi_wrapper.sv:103: net 'ic_rd_hit[1]' does not have a driver
+SBY 11:39:35 [insn_add_ch0] base: VERIFIC-WARNING [VDB-1002] /home/pedro.medeiros/riscv-formal/cores/el2_veer/EL2/rvfi_wrapper.sv:104: net 'ic_tag_perr' does not have a driver
+SBY 11:39:35 [insn_add_ch0] base: VERIFIC-WARNING [VDB-1002] /home/pedro.medeiros/riscv-formal/cores/el2_veer/EL2/rvfi_wrapper.sv:112: net 'ictag_debug_rd_data[25]' does not have a driver
+SBY 11:39:35 [insn_add_ch0] base: VERIFIC-WARNING [VDB-1002] /home/pedro.medeiros/riscv-formal/cores/el2_veer/EL2/rvfi_wrapper.sv:114: net 'ic_rd_data[63]' does not have a driver
+SBY 11:39:35 [insn_add_ch0] base: VERIFIC-WARNING [VDB-1002] /home/pedro.medeiros/riscv-formal/cores/el2_veer/EL2/rvfi_wrapper.sv:115: net 'ic_debug_rd_data[70]' does not have a driver
+SBY 11:39:35 [insn_add_ch0] base: VERIFIC-WARNING [VDB-1002] /home/pedro.medeiros/riscv-formal/cores/el2_veer/EL2/rvfi_wrapper.sv:118: net 'ic_eccerr[1]' does not have a driver
+SBY 11:39:35 [insn_add_ch0] base: VERIFIC-WARNING [VDB-1002] /home/pedro.medeiros/riscv-formal/cores/el2_veer/EL2/rvfi_wrapper.sv:119: net 'ic_parerr[1]' does not have a driver
+SBY 11:39:35 [insn_add_ch0] base: VERIFIC-WARNING [VDB-1002] /home/pedro.medeiros/riscv-formal/cores/el2_veer/EL2/rvfi_wrapper.sv:133: net 'iccm_rd_data[63]' does not have a driver
+SBY 11:39:35 [insn_add_ch0] base: VERIFIC-WARNING [VDB-1002] /home/pedro.medeiros/riscv-formal/cores/el2_veer/EL2/rvfi_wrapper.sv:134: net 'iccm_rd_data_ecc[77]' does not have a driver
+SBY 11:39:35 [insn_add_ch0] base: VERIFIC-WARNING [VDB-1002] /home/pedro.medeiros/riscv-formal/cores/el2_veer/EL2/rvfi_wrapper.sv:237: net 'lsu_axi_awready' does not have a driver
+SBY 11:39:35 [insn_add_ch0] base: VERIFIC-WARNING [VDB-1002] /home/pedro.medeiros/riscv-formal/cores/el2_veer/EL2/rvfi_wrapper.sv:250: net 'lsu_axi_wready' does not have a driver
+SBY 11:39:35 [insn_add_ch0] base: VERIFIC-WARNING [VDB-1002] /home/pedro.medeiros/riscv-formal/cores/el2_veer/EL2/rvfi_wrapper.sv:255: net 'lsu_axi_bvalid' does not have a driver
+SBY 11:39:35 [insn_add_ch0] base: VERIFIC-WARNING [VDB-1002] /home/pedro.medeiros/riscv-formal/cores/el2_veer/EL2/rvfi_wrapper.sv:257: net 'lsu_axi_bresp[1]' does not have a driver
+SBY 11:39:35 [insn_add_ch0] base: VERIFIC-WARNING [VDB-1002] /home/pedro.medeiros/riscv-formal/cores/el2_veer/EL2/rvfi_wrapper.sv:258: net 'lsu_axi_bid[2]' does not have a driver
+SBY 11:39:35 [insn_add_ch0] base: VERIFIC-WARNING [VDB-1002] /home/pedro.medeiros/riscv-formal/cores/el2_veer/EL2/rvfi_wrapper.sv:262: net 'lsu_axi_arready' does not have a driver
+SBY 11:39:35 [insn_add_ch0] base: VERIFIC-WARNING [VDB-1002] /home/pedro.medeiros/riscv-formal/cores/el2_veer/EL2/rvfi_wrapper.sv:274: net 'lsu_axi_rvalid' does not have a driver
+SBY 11:39:35 [insn_add_ch0] base: VERIFIC-WARNING [VDB-1002] /home/pedro.medeiros/riscv-formal/cores/el2_veer/EL2/rvfi_wrapper.sv:276: net 'lsu_axi_rid[2]' does not have a driver
+SBY 11:39:35 [insn_add_ch0] base: VERIFIC-WARNING [VDB-1002] /home/pedro.medeiros/riscv-formal/cores/el2_veer/EL2/rvfi_wrapper.sv:277: net 'lsu_axi_rdata[63]' does not have a driver
+SBY 11:39:35 [insn_add_ch0] base: VERIFIC-WARNING [VDB-1002] /home/pedro.medeiros/riscv-formal/cores/el2_veer/EL2/rvfi_wrapper.sv:278: net 'lsu_axi_rresp[1]' does not have a driver
+SBY 11:39:35 [insn_add_ch0] base: VERIFIC-WARNING [VDB-1002] /home/pedro.medeiros/riscv-formal/cores/el2_veer/EL2/rvfi_wrapper.sv:279: net 'lsu_axi_rlast' does not have a driver
+SBY 11:39:35 [insn_add_ch0] base: VERIFIC-WARNING [VDB-1002] /home/pedro.medeiros/riscv-formal/cores/el2_veer/EL2/rvfi_wrapper.sv:284: net 'ifu_axi_awready' does not have a driver
+SBY 11:39:35 [insn_add_ch0] base: VERIFIC-WARNING [VDB-1002] /home/pedro.medeiros/riscv-formal/cores/el2_veer/EL2/rvfi_wrapper.sv:297: net 'ifu_axi_wready' does not have a driver
+SBY 11:39:35 [insn_add_ch0] base: VERIFIC-WARNING [VDB-1002] /home/pedro.medeiros/riscv-formal/cores/el2_veer/EL2/rvfi_wrapper.sv:302: net 'ifu_axi_bvalid' does not have a driver
+SBY 11:39:35 [insn_add_ch0] base: VERIFIC-WARNING [VDB-1002] /home/pedro.medeiros/riscv-formal/cores/el2_veer/EL2/rvfi_wrapper.sv:304: net 'ifu_axi_bresp[1]' does not have a driver
+SBY 11:39:35 [insn_add_ch0] base: VERIFIC-WARNING [VDB-1002] /home/pedro.medeiros/riscv-formal/cores/el2_veer/EL2/rvfi_wrapper.sv:305: net 'ifu_axi_bid[2]' does not have a driver
+SBY 11:39:35 [insn_add_ch0] base: VERIFIC-WARNING [VDB-1002] /home/pedro.medeiros/riscv-formal/cores/el2_veer/EL2/rvfi_wrapper.sv:309: net 'ifu_axi_arready' does not have a driver
+SBY 11:39:35 [insn_add_ch0] base: VERIFIC-WARNING [VDB-1002] /home/pedro.medeiros/riscv-formal/cores/el2_veer/EL2/rvfi_wrapper.sv:321: net 'ifu_axi_rvalid' does not have a driver
+SBY 11:39:35 [insn_add_ch0] base: VERIFIC-WARNING [VDB-1002] /home/pedro.medeiros/riscv-formal/cores/el2_veer/EL2/rvfi_wrapper.sv:323: net 'ifu_axi_rid[2]' does not have a driver
+SBY 11:39:35 [insn_add_ch0] base: VERIFIC-WARNING [VDB-1002] /home/pedro.medeiros/riscv-formal/cores/el2_veer/EL2/rvfi_wrapper.sv:324: net 'ifu_axi_rdata[63]' does not have a driver
+SBY 11:39:35 [insn_add_ch0] base: VERIFIC-WARNING [VDB-1002] /home/pedro.medeiros/riscv-formal/cores/el2_veer/EL2/rvfi_wrapper.sv:325: net 'ifu_axi_rresp[1]' does not have a driver
+SBY 11:39:35 [insn_add_ch0] base: VERIFIC-WARNING [VDB-1002] /home/pedro.medeiros/riscv-formal/cores/el2_veer/EL2/rvfi_wrapper.sv:326: net 'ifu_axi_rlast' does not have a driver
+SBY 11:39:35 [insn_add_ch0] base: VERIFIC-WARNING [VDB-1002] /home/pedro.medeiros/riscv-formal/cores/el2_veer/EL2/rvfi_wrapper.sv:331: net 'sb_axi_awready' does not have a driver
+SBY 11:39:35 [insn_add_ch0] base: VERIFIC-WARNING [VDB-1002] /home/pedro.medeiros/riscv-formal/cores/el2_veer/EL2/rvfi_wrapper.sv:344: net 'sb_axi_wready' does not have a driver
+SBY 11:39:35 [insn_add_ch0] base: VERIFIC-WARNING [VDB-1002] /home/pedro.medeiros/riscv-formal/cores/el2_veer/EL2/rvfi_wrapper.sv:349: net 'sb_axi_bvalid' does not have a driver
+SBY 11:39:35 [insn_add_ch0] base: VERIFIC-WARNING [VDB-1002] /home/pedro.medeiros/riscv-formal/cores/el2_veer/EL2/rvfi_wrapper.sv:351: net 'sb_axi_bresp[1]' does not have a driver
+SBY 11:39:35 [insn_add_ch0] base: VERIFIC-WARNING [VDB-1002] /home/pedro.medeiros/riscv-formal/cores/el2_veer/EL2/rvfi_wrapper.sv:352: net 'sb_axi_bid[0]' does not have a driver
+SBY 11:39:35 [insn_add_ch0] base: VERIFIC-WARNING [VDB-1002] /home/pedro.medeiros/riscv-formal/cores/el2_veer/EL2/rvfi_wrapper.sv:356: net 'sb_axi_arready' does not have a driver
+SBY 11:39:35 [insn_add_ch0] base: VERIFIC-WARNING [VDB-1002] /home/pedro.medeiros/riscv-formal/cores/el2_veer/EL2/rvfi_wrapper.sv:368: net 'sb_axi_rvalid' does not have a driver
+SBY 11:39:35 [insn_add_ch0] base: VERIFIC-WARNING [VDB-1002] /home/pedro.medeiros/riscv-formal/cores/el2_veer/EL2/rvfi_wrapper.sv:370: net 'sb_axi_rid[0]' does not have a driver
+SBY 11:39:35 [insn_add_ch0] base: VERIFIC-WARNING [VDB-1002] /home/pedro.medeiros/riscv-formal/cores/el2_veer/EL2/rvfi_wrapper.sv:371: net 'sb_axi_rdata[63]' does not have a driver
+SBY 11:39:35 [insn_add_ch0] base: VERIFIC-WARNING [VDB-1002] /home/pedro.medeiros/riscv-formal/cores/el2_veer/EL2/rvfi_wrapper.sv:372: net 'sb_axi_rresp[1]' does not have a driver
+SBY 11:39:35 [insn_add_ch0] base: VERIFIC-WARNING [VDB-1002] /home/pedro.medeiros/riscv-formal/cores/el2_veer/EL2/rvfi_wrapper.sv:373: net 'sb_axi_rlast' does not have a driver
+SBY 11:39:35 [insn_add_ch0] base: VERIFIC-WARNING [VDB-1002] /home/pedro.medeiros/riscv-formal/cores/el2_veer/EL2/rvfi_wrapper.sv:377: net 'dma_axi_awvalid' does not have a driver
+SBY 11:39:35 [insn_add_ch0] base: VERIFIC-WARNING [VDB-1002] /home/pedro.medeiros/riscv-formal/cores/el2_veer/EL2/rvfi_wrapper.sv:379: net 'dma_axi_awid[0]' does not have a driver
+SBY 11:39:35 [insn_add_ch0] base: VERIFIC-WARNING [VDB-1002] /home/pedro.medeiros/riscv-formal/cores/el2_veer/EL2/rvfi_wrapper.sv:380: net 'dma_axi_awaddr[31]' does not have a driver
+SBY 11:39:35 [insn_add_ch0] base: VERIFIC-WARNING [VDB-1002] /home/pedro.medeiros/riscv-formal/cores/el2_veer/EL2/rvfi_wrapper.sv:381: net 'dma_axi_awsize[2]' does not have a driver
+SBY 11:39:35 [insn_add_ch0] base: VERIFIC-WARNING [VDB-1002] /home/pedro.medeiros/riscv-formal/cores/el2_veer/EL2/rvfi_wrapper.sv:382: net 'dma_axi_awprot[2]' does not have a driver
+SBY 11:39:35 [insn_add_ch0] base: VERIFIC-WARNING [VDB-1002] /home/pedro.medeiros/riscv-formal/cores/el2_veer/EL2/rvfi_wrapper.sv:383: net 'dma_axi_awlen[7]' does not have a driver
+SBY 11:39:35 [insn_add_ch0] base: VERIFIC-WARNING [VDB-1002] /home/pedro.medeiros/riscv-formal/cores/el2_veer/EL2/rvfi_wrapper.sv:384: net 'dma_axi_awburst[1]' does not have a driver
+SBY 11:39:35 [insn_add_ch0] base: VERIFIC-WARNING [VDB-1002] /home/pedro.medeiros/riscv-formal/cores/el2_veer/EL2/rvfi_wrapper.sv:387: net 'dma_axi_wvalid' does not have a driver
+SBY 11:39:35 [insn_add_ch0] base: VERIFIC-WARNING [VDB-1002] /home/pedro.medeiros/riscv-formal/cores/el2_veer/EL2/rvfi_wrapper.sv:389: net 'dma_axi_wdata[63]' does not have a driver
+SBY 11:39:35 [insn_add_ch0] base: VERIFIC-WARNING [VDB-1002] /home/pedro.medeiros/riscv-formal/cores/el2_veer/EL2/rvfi_wrapper.sv:390: net 'dma_axi_wstrb[7]' does not have a driver
+SBY 11:39:35 [insn_add_ch0] base: VERIFIC-WARNING [VDB-1002] /home/pedro.medeiros/riscv-formal/cores/el2_veer/EL2/rvfi_wrapper.sv:391: net 'dma_axi_wlast' does not have a driver
+SBY 11:39:35 [insn_add_ch0] base: VERIFIC-WARNING [VDB-1002] /home/pedro.medeiros/riscv-formal/cores/el2_veer/EL2/rvfi_wrapper.sv:394: net 'dma_axi_bready' does not have a driver
+SBY 11:39:35 [insn_add_ch0] base: VERIFIC-WARNING [VDB-1002] /home/pedro.medeiros/riscv-formal/cores/el2_veer/EL2/rvfi_wrapper.sv:399: net 'dma_axi_arvalid' does not have a driver
+SBY 11:39:35 [insn_add_ch0] base: VERIFIC-WARNING [VDB-1002] /home/pedro.medeiros/riscv-formal/cores/el2_veer/EL2/rvfi_wrapper.sv:401: net 'dma_axi_arid[0]' does not have a driver
+SBY 11:39:35 [insn_add_ch0] base: VERIFIC-WARNING [VDB-1002] /home/pedro.medeiros/riscv-formal/cores/el2_veer/EL2/rvfi_wrapper.sv:402: net 'dma_axi_araddr[31]' does not have a driver
+SBY 11:39:35 [insn_add_ch0] base: VERIFIC-WARNING [VDB-1002] /home/pedro.medeiros/riscv-formal/cores/el2_veer/EL2/rvfi_wrapper.sv:403: net 'dma_axi_arsize[2]' does not have a driver
+SBY 11:39:35 [insn_add_ch0] base: VERIFIC-WARNING [VDB-1002] /home/pedro.medeiros/riscv-formal/cores/el2_veer/EL2/rvfi_wrapper.sv:404: net 'dma_axi_arprot[2]' does not have a driver
+SBY 11:39:35 [insn_add_ch0] base: VERIFIC-WARNING [VDB-1002] /home/pedro.medeiros/riscv-formal/cores/el2_veer/EL2/rvfi_wrapper.sv:405: net 'dma_axi_arlen[7]' does not have a driver
+SBY 11:39:35 [insn_add_ch0] base: VERIFIC-WARNING [VDB-1002] /home/pedro.medeiros/riscv-formal/cores/el2_veer/EL2/rvfi_wrapper.sv:406: net 'dma_axi_arburst[1]' does not have a driver
+SBY 11:39:35 [insn_add_ch0] base: VERIFIC-WARNING [VDB-1002] /home/pedro.medeiros/riscv-formal/cores/el2_veer/EL2/rvfi_wrapper.sv:409: net 'dma_axi_rready' does not have a driver
+SBY 11:39:35 [insn_add_ch0] base: VERIFIC-WARNING [VDB-1002] /home/pedro.medeiros/riscv-formal/cores/el2_veer/EL2/rvfi_wrapper.sv:674: net 'dmi_reg_en' does not have a driver
+SBY 11:39:35 [insn_add_ch0] base: VERIFIC-WARNING [VDB-1002] /home/pedro.medeiros/riscv-formal/cores/el2_veer/EL2/rvfi_wrapper.sv:675: net 'dmi_reg_addr[6]' does not have a driver
+SBY 11:39:35 [insn_add_ch0] base: VERIFIC-WARNING [VDB-1002] /home/pedro.medeiros/riscv-formal/cores/el2_veer/EL2/rvfi_wrapper.sv:676: net 'dmi_reg_wr_en' does not have a driver
+SBY 11:39:35 [insn_add_ch0] base: VERIFIC-WARNING [VDB-1002] /home/pedro.medeiros/riscv-formal/cores/el2_veer/EL2/rvfi_wrapper.sv:677: net 'dmi_reg_wdata[31]' does not have a driver
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.insn_opcode [6] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.insn_opcode [5] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.insn_opcode [4] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.insn_opcode [3] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.insn_opcode [2] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.insn_opcode [1] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.insn_opcode [0] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.insn_funct3 [2] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.insn_funct3 [1] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.insn_funct3 [0] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.insn_funct7 [6] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.insn_funct7 [5] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.insn_funct7 [4] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.insn_funct7 [3] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.insn_funct7 [2] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.insn_funct7 [1] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.insn_funct7 [0] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.rvfi_pc_rdata [31] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.rvfi_pc_rdata [30] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.rvfi_pc_rdata [29] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.rvfi_pc_rdata [28] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.rvfi_pc_rdata [27] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.rvfi_pc_rdata [26] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.rvfi_pc_rdata [25] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.rvfi_pc_rdata [24] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.rvfi_pc_rdata [23] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.rvfi_pc_rdata [22] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.rvfi_pc_rdata [21] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.rvfi_pc_rdata [20] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.rvfi_pc_rdata [19] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.rvfi_pc_rdata [18] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.rvfi_pc_rdata [17] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.rvfi_pc_rdata [16] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.rvfi_pc_rdata [15] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.rvfi_pc_rdata [14] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.rvfi_pc_rdata [13] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.rvfi_pc_rdata [12] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.rvfi_pc_rdata [11] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.rvfi_pc_rdata [10] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.rvfi_pc_rdata [9] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.rvfi_pc_rdata [8] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.rvfi_pc_rdata [7] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.rvfi_pc_rdata [6] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.rvfi_pc_rdata [5] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.rvfi_pc_rdata [4] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.rvfi_pc_rdata [3] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.rvfi_pc_rdata [2] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rvfi_valid is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.trap is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.mem_rmask [3] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.mem_rmask [2] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.mem_rmask [1] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.mem_rmask [0] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rs2_rdata [31] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rs2_rdata [30] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rs2_rdata [29] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rs2_rdata [28] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rs2_rdata [27] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rs2_rdata [26] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rs2_rdata [25] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rs2_rdata [24] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rs2_rdata [23] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rs2_rdata [22] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rs2_rdata [21] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rs2_rdata [20] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rs2_rdata [19] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rs2_rdata [18] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rs2_rdata [17] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rs2_rdata [16] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rs2_rdata [15] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rs2_rdata [14] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rs2_rdata [13] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rs2_rdata [12] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rs2_rdata [11] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rs2_rdata [10] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rs2_rdata [9] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rs2_rdata [8] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rs2_rdata [7] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rs2_rdata [6] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rs2_rdata [5] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rs2_rdata [4] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rs2_rdata [3] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rs2_rdata [2] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rs2_rdata [1] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rs2_rdata [0] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rs1_rdata [31] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rs1_rdata [30] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rs1_rdata [29] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rs1_rdata [28] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rs1_rdata [27] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rs1_rdata [26] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rs1_rdata [25] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rs1_rdata [24] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rs1_rdata [23] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rs1_rdata [22] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rs1_rdata [21] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rs1_rdata [20] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rs1_rdata [19] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rs1_rdata [18] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rs1_rdata [17] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rs1_rdata [16] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rs1_rdata [15] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rs1_rdata [14] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rs1_rdata [13] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rs1_rdata [12] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rs1_rdata [11] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rs1_rdata [10] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rs1_rdata [9] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rs1_rdata [8] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rs1_rdata [7] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rs1_rdata [6] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rs1_rdata [5] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rs1_rdata [4] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rs1_rdata [3] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rs1_rdata [2] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rs1_rdata [1] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rs1_rdata [0] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.mem_wmask [3] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.mem_wmask [2] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.mem_wmask [1] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.mem_wmask [0] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.mem_wdata [31] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.mem_wdata [30] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.mem_wdata [29] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.mem_wdata [28] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.mem_wdata [27] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.mem_wdata [26] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.mem_wdata [25] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.mem_wdata [24] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.mem_rdata [31] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.mem_rdata [30] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.mem_rdata [29] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.mem_rdata [28] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.mem_rdata [27] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.mem_rdata [26] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.mem_rdata [25] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.mem_rdata [24] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.mem_wdata [23] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.mem_wdata [22] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.mem_wdata [21] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.mem_wdata [20] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.mem_wdata [19] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.mem_wdata [18] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.mem_wdata [17] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.mem_wdata [16] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.mem_rdata [23] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.mem_rdata [22] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.mem_rdata [21] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.mem_rdata [20] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.mem_rdata [19] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.mem_rdata [18] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.mem_rdata [17] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.mem_rdata [16] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.mem_wdata [15] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.mem_wdata [14] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.mem_wdata [13] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.mem_wdata [12] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.mem_wdata [11] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.mem_wdata [10] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.mem_wdata [9] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.mem_wdata [8] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.mem_rdata [15] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.mem_rdata [14] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.mem_rdata [13] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.mem_rdata [12] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.mem_rdata [11] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.mem_rdata [10] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.mem_rdata [9] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.mem_rdata [8] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.mem_wdata [7] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.mem_wdata [6] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.mem_wdata [5] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.mem_wdata [4] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.mem_wdata [3] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.mem_wdata [2] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.mem_wdata [1] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.mem_wdata [0] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.mem_rdata [7] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.mem_rdata [6] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.mem_rdata [5] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.mem_rdata [4] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.mem_rdata [3] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.mem_rdata [2] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.mem_rdata [1] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.mem_rdata [0] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.pc_wdata [31] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.pc_wdata [30] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.pc_wdata [29] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.pc_wdata [28] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.pc_wdata [27] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.pc_wdata [26] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.pc_wdata [25] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.pc_wdata [24] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.pc_wdata [23] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.pc_wdata [22] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.pc_wdata [21] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.pc_wdata [20] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.pc_wdata [19] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.pc_wdata [18] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.pc_wdata [17] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.pc_wdata [16] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.pc_wdata [15] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.pc_wdata [14] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.pc_wdata [13] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.pc_wdata [12] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.pc_wdata [11] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.pc_wdata [10] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.pc_wdata [9] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.pc_wdata [8] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.pc_wdata [7] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.pc_wdata [6] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.pc_wdata [5] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.pc_wdata [4] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.pc_wdata [3] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.pc_wdata [2] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.pc_wdata [1] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.pc_wdata [0] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.spec_pc_wdata [1] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.spec_pc_wdata [0] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rd_wdata [31] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rd_wdata [30] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rd_wdata [29] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rd_wdata [28] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rd_wdata [27] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rd_wdata [26] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rd_wdata [25] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rd_wdata [24] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rd_wdata [23] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rd_wdata [22] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rd_wdata [21] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rd_wdata [20] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rd_wdata [19] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rd_wdata [18] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rd_wdata [17] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rd_wdata [16] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rd_wdata [15] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rd_wdata [14] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rd_wdata [13] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rd_wdata [12] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rd_wdata [11] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rd_wdata [10] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rd_wdata [9] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rd_wdata [8] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rd_wdata [7] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rd_wdata [6] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rd_wdata [5] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rd_wdata [4] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rd_wdata [3] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rd_wdata [2] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rd_wdata [1] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rd_wdata [0] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rd_addr [4] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rd_addr [3] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rd_addr [2] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rd_addr [1] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rd_addr [0] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.spec_rd_addr [4] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.spec_rd_addr [3] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.spec_rd_addr [2] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.spec_rd_addr [1] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.spec_rd_addr [0] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rs2_addr [4] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rs2_addr [3] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rs2_addr [2] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rs2_addr [1] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rs2_addr [0] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.spec_rs2_addr [4] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.spec_rs2_addr [3] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.spec_rs2_addr [2] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.spec_rs2_addr [1] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.spec_rs2_addr [0] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rs1_addr [4] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rs1_addr [3] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rs1_addr [2] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rs1_addr [1] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.rs1_addr [0] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.spec_rs1_addr [4] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.spec_rs1_addr [3] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.spec_rs1_addr [2] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.spec_rs1_addr [1] is used but has no driver.
+SBY 11:39:50 [insn_add_ch0] base: Warning: Wire rvfi_testbench.\checker_inst.spec_rs1_addr [0] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] base: finished (returncode=0)
+SBY 11:39:51 [insn_add_ch0] prep: starting process "cd insn_add_ch0/model; yosys -ql design_prep.log design_prep.ys"
+SBY 11:39:51 [insn_add_ch0] prep: This is an ACADEMIC LICENSE of TabbyCAD Suite.
+SBY 11:39:51 [insn_add_ch0] prep: This license is granted for the limited purpose of academic and/or research activities.
+SBY 11:39:51 [insn_add_ch0] prep: It is forbidden to use this license to perform services for a fee or other consideration; or in the generation or verification of hardware or hardware designs for sale or license with a view to profit or for a fee or other consideration.
+SBY 11:39:51 [insn_add_ch0] prep: This license was issued to Pedro Arthur da Cunha Medeiros.
+SBY 11:39:51 [insn_add_ch0] prep: Customer PoC: Pedro Arthur da Cunha Medeiros <pedro.arthur.medeiros@ee.ufcg.edu.br>.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.insn_opcode [6] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.insn_opcode [5] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.insn_opcode [4] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.insn_opcode [3] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.insn_opcode [2] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.insn_opcode [1] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.insn_opcode [0] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.insn_funct3 [2] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.insn_funct3 [1] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.insn_funct3 [0] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.insn_funct7 [6] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.insn_funct7 [5] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.insn_funct7 [4] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.insn_funct7 [3] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.insn_funct7 [2] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.insn_funct7 [1] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.insn_funct7 [0] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.rvfi_pc_rdata [31] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.rvfi_pc_rdata [30] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.rvfi_pc_rdata [29] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.rvfi_pc_rdata [28] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.rvfi_pc_rdata [27] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.rvfi_pc_rdata [26] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.rvfi_pc_rdata [25] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.rvfi_pc_rdata [24] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.rvfi_pc_rdata [23] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.rvfi_pc_rdata [22] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.rvfi_pc_rdata [21] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.rvfi_pc_rdata [20] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.rvfi_pc_rdata [19] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.rvfi_pc_rdata [18] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.rvfi_pc_rdata [17] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.rvfi_pc_rdata [16] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.rvfi_pc_rdata [15] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.rvfi_pc_rdata [14] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.rvfi_pc_rdata [13] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.rvfi_pc_rdata [12] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.rvfi_pc_rdata [11] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.rvfi_pc_rdata [10] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.rvfi_pc_rdata [9] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.rvfi_pc_rdata [8] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.rvfi_pc_rdata [7] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.rvfi_pc_rdata [6] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.rvfi_pc_rdata [5] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.rvfi_pc_rdata [4] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.rvfi_pc_rdata [3] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.insn_spec.rvfi_pc_rdata [2] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rvfi_valid is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.mem_wmask [3] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.mem_wmask [2] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.mem_wmask [1] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.mem_wmask [0] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.trap is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.mem_rmask [3] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.mem_rmask [2] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.mem_rmask [1] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.mem_rmask [0] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rs2_rdata [31] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rs2_rdata [30] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rs2_rdata [29] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rs2_rdata [28] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rs2_rdata [27] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rs2_rdata [26] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rs2_rdata [25] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rs2_rdata [24] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rs2_rdata [23] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rs2_rdata [22] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rs2_rdata [21] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rs2_rdata [20] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rs2_rdata [19] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rs2_rdata [18] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rs2_rdata [17] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rs2_rdata [16] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rs2_rdata [15] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rs2_rdata [14] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rs2_rdata [13] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rs2_rdata [12] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rs2_rdata [11] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rs2_rdata [10] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rs2_rdata [9] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rs2_rdata [8] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rs2_rdata [7] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rs2_rdata [6] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rs2_rdata [5] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rs2_rdata [4] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rs2_rdata [3] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rs2_rdata [2] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rs2_rdata [1] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rs2_rdata [0] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rs1_rdata [31] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rs1_rdata [30] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rs1_rdata [29] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rs1_rdata [28] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rs1_rdata [27] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rs1_rdata [26] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rs1_rdata [25] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rs1_rdata [24] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rs1_rdata [23] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rs1_rdata [22] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rs1_rdata [21] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rs1_rdata [20] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rs1_rdata [19] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rs1_rdata [18] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rs1_rdata [17] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rs1_rdata [16] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rs1_rdata [15] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rs1_rdata [14] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rs1_rdata [13] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rs1_rdata [12] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rs1_rdata [11] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rs1_rdata [10] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rs1_rdata [9] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rs1_rdata [8] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rs1_rdata [7] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rs1_rdata [6] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rs1_rdata [5] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rs1_rdata [4] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rs1_rdata [3] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rs1_rdata [2] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rs1_rdata [1] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rs1_rdata [0] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.mem_wdata [31] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.mem_wdata [30] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.mem_wdata [29] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.mem_wdata [28] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.mem_wdata [27] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.mem_wdata [26] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.mem_wdata [25] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.mem_wdata [24] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.mem_rdata [31] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.mem_rdata [30] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.mem_rdata [29] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.mem_rdata [28] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.mem_rdata [27] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.mem_rdata [26] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.mem_rdata [25] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.mem_rdata [24] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.mem_wdata [23] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.mem_wdata [22] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.mem_wdata [21] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.mem_wdata [20] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.mem_wdata [19] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.mem_wdata [18] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.mem_wdata [17] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.mem_wdata [16] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.mem_rdata [23] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.mem_rdata [22] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.mem_rdata [21] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.mem_rdata [20] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.mem_rdata [19] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.mem_rdata [18] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.mem_rdata [17] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.mem_rdata [16] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.mem_wdata [15] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.mem_wdata [14] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.mem_wdata [13] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.mem_wdata [12] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.mem_wdata [11] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.mem_wdata [10] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.mem_wdata [9] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.mem_wdata [8] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.mem_rdata [15] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.mem_rdata [14] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.mem_rdata [13] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.mem_rdata [12] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.mem_rdata [11] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.mem_rdata [10] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.mem_rdata [9] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.mem_rdata [8] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.mem_wdata [7] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.mem_wdata [6] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.mem_wdata [5] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.mem_wdata [4] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.mem_wdata [3] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.mem_wdata [2] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.mem_wdata [1] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.mem_wdata [0] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.mem_rdata [7] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.mem_rdata [6] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.mem_rdata [5] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.mem_rdata [4] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.mem_rdata [3] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.mem_rdata [2] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.mem_rdata [1] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.mem_rdata [0] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.pc_wdata [31] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.pc_wdata [30] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.pc_wdata [29] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.pc_wdata [28] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.pc_wdata [27] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.pc_wdata [26] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.pc_wdata [25] is used but has no driver.
+SBY 11:39:51 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.pc_wdata [24] is used but has no driver.
+SBY 11:39:52 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.pc_wdata [23] is used but has no driver.
+SBY 11:39:52 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.pc_wdata [22] is used but has no driver.
+SBY 11:39:52 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.pc_wdata [21] is used but has no driver.
+SBY 11:39:52 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.pc_wdata [20] is used but has no driver.
+SBY 11:39:52 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.pc_wdata [19] is used but has no driver.
+SBY 11:39:52 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.pc_wdata [18] is used but has no driver.
+SBY 11:39:52 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.pc_wdata [17] is used but has no driver.
+SBY 11:39:52 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.pc_wdata [16] is used but has no driver.
+SBY 11:39:52 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.pc_wdata [15] is used but has no driver.
+SBY 11:39:52 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.pc_wdata [14] is used but has no driver.
+SBY 11:39:52 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.pc_wdata [13] is used but has no driver.
+SBY 11:39:52 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.pc_wdata [12] is used but has no driver.
+SBY 11:39:52 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.pc_wdata [11] is used but has no driver.
+SBY 11:39:52 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.pc_wdata [10] is used but has no driver.
+SBY 11:39:52 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.pc_wdata [9] is used but has no driver.
+SBY 11:39:52 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.pc_wdata [8] is used but has no driver.
+SBY 11:39:52 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.pc_wdata [7] is used but has no driver.
+SBY 11:39:52 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.pc_wdata [6] is used but has no driver.
+SBY 11:39:52 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.pc_wdata [5] is used but has no driver.
+SBY 11:39:52 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.pc_wdata [4] is used but has no driver.
+SBY 11:39:52 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.pc_wdata [3] is used but has no driver.
+SBY 11:39:52 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.pc_wdata [2] is used but has no driver.
+SBY 11:39:52 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.pc_wdata [1] is used but has no driver.
+SBY 11:39:52 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.pc_wdata [0] is used but has no driver.
+SBY 11:39:52 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.spec_pc_wdata [1] is used but has no driver.
+SBY 11:39:52 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.spec_pc_wdata [0] is used but has no driver.
+SBY 11:39:52 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rd_wdata [31] is used but has no driver.
+SBY 11:39:52 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rd_wdata [30] is used but has no driver.
+SBY 11:39:52 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rd_wdata [29] is used but has no driver.
+SBY 11:39:52 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rd_wdata [28] is used but has no driver.
+SBY 11:39:52 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rd_wdata [27] is used but has no driver.
+SBY 11:39:52 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rd_wdata [26] is used but has no driver.
+SBY 11:39:52 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rd_wdata [25] is used but has no driver.
+SBY 11:39:52 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rd_wdata [24] is used but has no driver.
+SBY 11:39:52 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rd_wdata [23] is used but has no driver.
+SBY 11:39:52 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rd_wdata [22] is used but has no driver.
+SBY 11:39:52 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rd_wdata [21] is used but has no driver.
+SBY 11:39:52 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rd_wdata [20] is used but has no driver.
+SBY 11:39:52 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rd_wdata [19] is used but has no driver.
+SBY 11:39:52 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rd_wdata [18] is used but has no driver.
+SBY 11:39:52 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rd_wdata [17] is used but has no driver.
+SBY 11:39:52 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rd_wdata [16] is used but has no driver.
+SBY 11:39:52 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rd_wdata [15] is used but has no driver.
+SBY 11:39:52 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rd_wdata [14] is used but has no driver.
+SBY 11:39:52 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rd_wdata [13] is used but has no driver.
+SBY 11:39:52 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rd_wdata [12] is used but has no driver.
+SBY 11:39:52 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rd_wdata [11] is used but has no driver.
+SBY 11:39:52 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rd_wdata [10] is used but has no driver.
+SBY 11:39:52 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rd_wdata [9] is used but has no driver.
+SBY 11:39:52 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rd_wdata [8] is used but has no driver.
+SBY 11:39:52 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rd_wdata [7] is used but has no driver.
+SBY 11:39:52 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rd_wdata [6] is used but has no driver.
+SBY 11:39:52 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rd_wdata [5] is used but has no driver.
+SBY 11:39:52 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rd_wdata [4] is used but has no driver.
+SBY 11:39:52 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rd_wdata [3] is used but has no driver.
+SBY 11:39:52 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rd_wdata [2] is used but has no driver.
+SBY 11:39:52 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rd_wdata [1] is used but has no driver.
+SBY 11:39:52 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rd_wdata [0] is used but has no driver.
+SBY 11:39:52 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rd_addr [4] is used but has no driver.
+SBY 11:39:52 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rd_addr [3] is used but has no driver.
+SBY 11:39:52 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rd_addr [2] is used but has no driver.
+SBY 11:39:52 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rd_addr [1] is used but has no driver.
+SBY 11:39:52 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rd_addr [0] is used but has no driver.
+SBY 11:39:52 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.spec_rd_addr [4] is used but has no driver.
+SBY 11:39:52 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.spec_rd_addr [3] is used but has no driver.
+SBY 11:39:52 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.spec_rd_addr [2] is used but has no driver.
+SBY 11:39:52 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.spec_rd_addr [1] is used but has no driver.
+SBY 11:39:52 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.spec_rd_addr [0] is used but has no driver.
+SBY 11:39:52 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rs2_addr [4] is used but has no driver.
+SBY 11:39:52 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rs2_addr [3] is used but has no driver.
+SBY 11:39:52 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rs2_addr [2] is used but has no driver.
+SBY 11:39:52 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rs2_addr [1] is used but has no driver.
+SBY 11:39:52 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rs2_addr [0] is used but has no driver.
+SBY 11:39:52 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.spec_rs2_addr [4] is used but has no driver.
+SBY 11:39:52 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.spec_rs2_addr [3] is used but has no driver.
+SBY 11:39:52 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.spec_rs2_addr [2] is used but has no driver.
+SBY 11:39:52 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.spec_rs2_addr [1] is used but has no driver.
+SBY 11:39:52 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.spec_rs2_addr [0] is used but has no driver.
+SBY 11:39:52 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rs1_addr [4] is used but has no driver.
+SBY 11:39:52 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rs1_addr [3] is used but has no driver.
+SBY 11:39:52 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rs1_addr [2] is used but has no driver.
+SBY 11:39:52 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rs1_addr [1] is used but has no driver.
+SBY 11:39:52 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.rs1_addr [0] is used but has no driver.
+SBY 11:39:52 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.spec_rs1_addr [4] is used but has no driver.
+SBY 11:39:52 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.spec_rs1_addr [3] is used but has no driver.
+SBY 11:39:52 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.spec_rs1_addr [2] is used but has no driver.
+SBY 11:39:52 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.spec_rs1_addr [1] is used but has no driver.
+SBY 11:39:52 [insn_add_ch0] prep: Warning: Wire rvfi_testbench.\checker_inst.spec_rs1_addr [0] is used but has no driver.
+SBY 11:39:52 [insn_add_ch0] prep: finished (returncode=0)
+SBY 11:39:52 [insn_add_ch0] smt2: starting process "cd insn_add_ch0/model; yosys -ql design_smt2.log design_smt2.ys"
+SBY 11:39:52 [insn_add_ch0] smt2: This is an ACADEMIC LICENSE of TabbyCAD Suite.
+SBY 11:39:52 [insn_add_ch0] smt2: This license is granted for the limited purpose of academic and/or research activities.
+SBY 11:39:52 [insn_add_ch0] smt2: It is forbidden to use this license to perform services for a fee or other consideration; or in the generation or verification of hardware or hardware designs for sale or license with a view to profit or for a fee or other consideration.
+SBY 11:39:52 [insn_add_ch0] smt2: This license was issued to Pedro Arthur da Cunha Medeiros.
+SBY 11:39:52 [insn_add_ch0] smt2: Customer PoC: Pedro Arthur da Cunha Medeiros <pedro.arthur.medeiros@ee.ufcg.edu.br>.
+SBY 11:39:52 [insn_add_ch0] smt2: finished (returncode=0)
+SBY 11:39:52 [insn_add_ch0] engine_0: starting process "cd insn_add_ch0; yosys-smtbmc -s boolector --presat --unroll --noprogress -t 20:21  --append 0 --dump-vcd engine_0/trace.vcd --dump-yw engine_0/trace.yw --dump-vlogtb engine_0/trace_tb.v --dump-smtc engine_0/trace.smtc model/design_smt2.smt2"
+SBY 11:39:52 [insn_add_ch0] engine_0: ##   0:00:00  Solver: boolector
+SBY 11:39:52 [insn_add_ch0] engine_0: ##   0:00:00  Skipping step 0..
+SBY 11:39:52 [insn_add_ch0] engine_0: ##   0:00:00  Skipping step 1..
+SBY 11:39:52 [insn_add_ch0] engine_0: ##   0:00:00  Skipping step 2..
+SBY 11:39:52 [insn_add_ch0] engine_0: ##   0:00:00  Skipping step 3..
+SBY 11:39:52 [insn_add_ch0] engine_0: ##   0:00:00  Skipping step 4..
+SBY 11:39:52 [insn_add_ch0] engine_0: ##   0:00:00  Skipping step 5..
+SBY 11:39:52 [insn_add_ch0] engine_0: ##   0:00:00  Skipping step 6..
+SBY 11:39:52 [insn_add_ch0] engine_0: ##   0:00:00  Skipping step 7..
+SBY 11:39:52 [insn_add_ch0] engine_0: ##   0:00:00  Skipping step 8..
+SBY 11:39:52 [insn_add_ch0] engine_0: ##   0:00:00  Skipping step 9..
+SBY 11:39:52 [insn_add_ch0] engine_0: ##   0:00:00  Skipping step 10..
+SBY 11:39:52 [insn_add_ch0] engine_0: ##   0:00:00  Skipping step 11..
+SBY 11:39:52 [insn_add_ch0] engine_0: ##   0:00:00  Skipping step 12..
+SBY 11:39:52 [insn_add_ch0] engine_0: ##   0:00:00  Skipping step 13..
+SBY 11:39:52 [insn_add_ch0] engine_0: ##   0:00:00  Skipping step 14..
+SBY 11:39:52 [insn_add_ch0] engine_0: ##   0:00:00  Skipping step 15..
+SBY 11:39:52 [insn_add_ch0] engine_0: ##   0:00:00  Skipping step 16..
+SBY 11:39:52 [insn_add_ch0] engine_0: ##   0:00:00  Skipping step 17..
+SBY 11:39:52 [insn_add_ch0] engine_0: ##   0:00:00  Skipping step 18..
+SBY 11:39:52 [insn_add_ch0] engine_0: ##   0:00:00  Skipping step 19..
+SBY 11:39:52 [insn_add_ch0] engine_0: ##   0:00:00  Checking assumptions in step 20..
+SBY 11:39:52 [insn_add_ch0] engine_0: ##   0:00:00  Checking assertions in step 20..
+SBY 11:39:53 [insn_add_ch0] engine_0: ##   0:00:00  BMC failed!
+SBY 11:39:53 [insn_add_ch0] engine_0: ##   0:00:00  Assert failed in rvfi_testbench: rvfi_insn_check.sv:198.6-198.32 ($flatten/checker_inst.$auto$verificsva.cc:1731:import$1485)
+SBY 11:39:53 [insn_add_ch0] engine_0: ##   0:00:00  Writing trace to VCD file: engine_0/trace.vcd
+SBY 11:40:06 [insn_add_ch0] engine_0: ##   0:00:13  Writing trace to Verilog testbench: engine_0/trace_tb.v
+SBY 11:40:06 [insn_add_ch0] engine_0: ##   0:00:13  Writing trace to constraints file: engine_0/trace.smtc
+SBY 11:40:06 [insn_add_ch0] engine_0: ##   0:00:13  Writing trace to Yosys witness file: engine_0/trace.yw
+SBY 11:40:06 [insn_add_ch0] engine_0: ##   0:00:13  Status: failed
+SBY 11:40:06 [insn_add_ch0] engine_0: finished (returncode=1)
+SBY 11:40:06 [insn_add_ch0] engine_0: Status returned by engine: FAIL
+SBY 11:40:06 [insn_add_ch0] summary: Elapsed clock time [H:MM:SS (secs)]: 0:00:35 (35)
+SBY 11:40:06 [insn_add_ch0] summary: Elapsed process time [H:MM:SS (secs)]: 0:00:38 (38)
+SBY 11:40:06 [insn_add_ch0] summary: engine_0 (smtbmc boolector) returned FAIL
+SBY 11:40:06 [insn_add_ch0] summary: counterexample trace: insn_add_ch0/engine_0/trace.vcd
+SBY 11:40:06 [insn_add_ch0] summary:   failed assertion rvfi_testbench.$flatten\checker_inst.$auto$verificsva.cc:1731:import$1485 at rvfi_insn_check.sv:198.6-198.32 in step 20
+SBY 11:40:06 [insn_add_ch0] DONE (FAIL, rc=0)
