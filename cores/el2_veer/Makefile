@@ -2,7 +2,7 @@ GTKW_CHK=insn_add_ch0
 
 run: gen_jg
 
-do_checks:
+do_checks: gen_sby
 	@make -C checks
 
 gen_sby:
