@@ -7,7 +7,7 @@ do_checks:
 
 gen_sby:
 	@python3 ../../checks/genchecks.py
-	@python3 insert_inc_files.py
+	# @python3 insert_inc_files.py
 
 gen_jg:
 	python3 ../../checks/gen_jg_checks.py
