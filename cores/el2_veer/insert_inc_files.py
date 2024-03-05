@@ -8,6 +8,8 @@ def process_files_in_folder(folder_path):
             process_file(file_path)
 
 def process_file(file_path):
+    dir = f"{os.getcwd()}"
+    print(dir)
     with open(file_path, 'r') as file:
         lines = file.readlines()
 
@@ -18,9 +20,9 @@ def process_file(file_path):
                 line = line.replace("cores/el2_veer/../../cores/el2_veer", "cores/el2_veer")
             file.write(line)
             if line.strip() == "[files]":
-                file.write("/home/pedro.medeiros/riscv-formal/cores/el2_veer/snapshots/default/el2_pdef.vh\n")
-                file.write("/home/pedro.medeiros/riscv-formal/cores/el2_veer/snapshots/default/el2_param.vh\n")
-                file.write("/home/pedro.medeiros/riscv-formal/cores/el2_veer/snapshots/default/pic_map_auto.h\n")
+                file.write(dir+"/snapshots/default/el2_pdef.vh\n")
+                file.write(dir+"/snapshots/default/el2_param.vh\n")
+                file.write(dir+"/snapshots/default/pic_map_auto.h\n")
             
 
 # Replace 'your_folder_path' with the actual path to your folder containing the text files
