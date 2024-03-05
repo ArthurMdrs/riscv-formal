@@ -11,3 +11,5 @@ ignore/
 TOKEN
 checks/
 *backup/
+a.py
+src_???_files.f
