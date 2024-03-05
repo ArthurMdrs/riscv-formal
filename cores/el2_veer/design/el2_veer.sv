@@ -1409,8 +1409,6 @@ if  (pt.BUILD_AHB_LITE == 1) begin
     assign rvfi_rs2_rdata = dec.gpr_i0_rs2_d;
     assign rvfi_rd_addr   = dec.dec_i0_waddr_r;
     assign rvfi_rd_wdata  = dec.dec_i0_wdata_r;
-    // always_comb
-    //     case ()
     
     // Program Counter
     assign rvfi_pc_rdata = {dec.dec_i0_pc_wb[31:1], 1'b0};

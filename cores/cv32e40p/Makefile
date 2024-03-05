@@ -10,7 +10,7 @@ gen_sby:
 	@python3 insert_inc_files.py
 
 gen_jg:
-	python3 ../../gen_jg_checks.py
+	python3 ../../checks/gen_jg_checks.py
 
 gtkw:
 	gtkwave checks/$(GTKW_CHK)/engine_0/trace.vcd checks.gtkw

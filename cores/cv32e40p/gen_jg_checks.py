@@ -130,4 +130,29 @@ for file in os.listdir("checks"):
         print(f"Deleted: {file_path}")
 os.remove("checks/makefile")
 
+
+
+
 # ====================  MAIN CODE END  ==================== #
+
+
+
+
+# for check in checks_vec:
+    
+
+
+
+# with open('checks/', 'r') as file:
+#     for line in file:
+#         if start_marker in line:
+#             inside_section = True
+#             continue
+#         elif end_marker in line:
+#             inside_section = False
+#             break
+#         elif inside_section:
+#             lines_to_save.append(line.strip())
+
+
+# defines_str
