@@ -15,3 +15,12 @@ Click [here](design/LICENSE) for the CV32E40P license.
 Click [here](ips/fpnew/LICENSE) for the fpnew license.
 
 Click [here](ips/tech_cells_generic/LICENSE) for the tech_cells_generic license.
+
+
+
+
+Genus and Jasper complain about elaboration errors!
+
+Quick fix: change line 211 of ./design/rtl/riscv_register_file_latch.sv to the following:
+
+   if (FPU == 1 && Zfinx==0) begin

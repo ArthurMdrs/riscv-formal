@@ -52,7 +52,7 @@ def gen_tcl_str(incdirs_vec, sv_files_vec, vhdl_files_vec, check_ch):
         for x in vhdl_files_vec:
             tcl_str += "    "+x+" \\\n"
         tcl_str = tcl_str[:-3]+"\n\n"
-    tcl_str += "elaborate -top rvfi_testbench\n\nclock clock\n\nreset reset\n\nprove -all\n"
+    tcl_str += "elaborate -top rvfi_testbench -create_related_covers witness\n\nclock clock\n\nreset reset\n\nprove -all\n"
     return tcl_str
                 
 def write_file(wr_file, wr_str):

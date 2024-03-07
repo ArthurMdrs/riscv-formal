@@ -122,6 +122,34 @@ module riscv_core
   input  logic        fetch_enable_i,
   output logic        core_busy_o,
 
+`ifdef RISCV_FORMAL
+    // Instruction Metadata
+	output reg        rvfi_valid,
+    output reg [63:0] rvfi_order,
+    output reg [31:0] rvfi_insn,
+    output reg        rvfi_trap,
+	output reg        rvfi_halt,
+	output reg        rvfi_intr,
+	output reg [ 1:0] rvfi_mode,
+	output reg [ 1:0] rvfi_ixl,
+    // Integer Register Read/Write
+	output reg [ 4:0] rvfi_rs1_addr,
+	output reg [ 4:0] rvfi_rs2_addr,
+	output reg [31:0] rvfi_rs1_rdata,
+	output reg [31:0] rvfi_rs2_rdata,
+	output reg [ 4:0] rvfi_rd_addr,
+	output reg [31:0] rvfi_rd_wdata,
+    // Program Counter
+	output reg [31:0] rvfi_pc_rdata,
+	output reg [31:0] rvfi_pc_wdata,
+    // Memory Access
+	output reg [31:0] rvfi_mem_addr,
+	output reg [ 3:0] rvfi_mem_rmask,
+	output reg [ 3:0] rvfi_mem_wmask,
+	output reg [31:0] rvfi_mem_rdata,
+	output reg [31:0] rvfi_mem_wdata,
+`endif
+
   input  logic [N_EXT_PERF_COUNTERS-1:0] ext_perf_counters_i
 );
 
@@ -1188,4 +1216,45 @@ module riscv_core
   );
 `endif
 `endif
+
+
+
+`ifdef RISCV_FORMAL
+    // Instruction Metadata
+    assign rvfi_valid = '0;
+    assign rvfi_insn  = '0;
+    assign rvfi_trap  = '0;
+    assign rvfi_halt  = '0;
+    assign rvfi_intr  = '0;
+    assign rvfi_mode  = 3; // 3 means machine mode
+    assign rvfi_ixl   = 1; // 1 means XLEN is 32
+    always @(posedge clk) begin
+        if (!rst_ni) begin
+            rvfi_order <= '0;
+        end
+        else begin
+            rvfi_order <= rvfi_order + rvfi_valid;
+        end
+    end
+
+    // Integer Register Read/Write
+    assign rvfi_rs1_addr  = '0;
+    assign rvfi_rs2_addr  = '0;
+    assign rvfi_rs1_rdata = '0;
+    assign rvfi_rs2_rdata = '0;
+    assign rvfi_rd_addr   = '0;
+    assign rvfi_rd_wdata  = '0;
+    
+    // Program Counter
+    assign rvfi_pc_rdata = '0;
+    assign rvfi_pc_wdata = '0;
+    
+    // Memory Access
+	assign rvfi_mem_addr = '0;
+	assign rvfi_mem_rmask = '0;
+	assign rvfi_mem_wmask = '0;
+	assign rvfi_mem_rdata = '0;
+	assign rvfi_mem_wdata = '0;
+`endif
+
 endmodule
