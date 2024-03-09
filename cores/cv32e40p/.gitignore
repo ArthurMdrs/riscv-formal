@@ -4,9 +4,10 @@ xrun*
 waves*
 *.log
 *.diag
+*.sig~
 jgproject
 .symbol*
-ignore.txt
+ignore*
 ignore/
 TOKEN
 checks/

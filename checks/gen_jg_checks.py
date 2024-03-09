@@ -52,9 +52,27 @@ def gen_tcl_str(incdirs_vec, sv_files_vec, vhdl_files_vec, check_ch):
         for x in vhdl_files_vec:
             tcl_str += "    "+x+" \\\n"
         tcl_str = tcl_str[:-3]+"\n\n"
-    tcl_str += "elaborate -top rvfi_testbench -create_related_covers witness\n\nclock clock\n\nreset reset\n\nprove -all\n"
+    tcl_str += "elaborate -top rvfi_testbench -create_related_covers witness\n\n"
+    tcl_str += "clock clock\n\nreset reset\n\n"
+    tcl_str += "prove -instance checker_inst\n"
     return tcl_str
-                
+
+def gen_makefile_str(checks_vec, no_channels):
+    makefile_str = "all: "
+    for ch in range(0, no_channels):
+        for check in checks_vec:
+            check_ch = check + "_ch" + str(ch)
+            makefile_str += check_ch + " "
+    makefile_str += "\n"
+    for ch in range(0, no_channels):
+        for check in checks_vec:
+            check_ch = check + "_ch" + str(ch)
+            makefile_str += check_ch + ":\n"
+            makefile_str += "\tcd " + check_ch + "_jg; \\\n"
+            makefile_str += "\tjg jg_script.tcl -batch; \\\n"
+            makefile_str += "\tpython3 ../../../../checks/get_jg_summary.py\n"
+    return makefile_str
+
 def write_file(wr_file, wr_str):
     with open(wr_file, 'w') as file:
         file.write(wr_str)
@@ -129,5 +147,9 @@ for file in os.listdir("checks"):
         os.remove(file_path)
         print(f"Deleted: {file_path}")
 os.remove("checks/makefile")
+
+# Generate Makefile
+makefile_str = gen_makefile_str(checks_vec, nret)
+write_file(coredir+"/checks/Makefile", makefile_str)
 
 # ====================  MAIN CODE END  ==================== #

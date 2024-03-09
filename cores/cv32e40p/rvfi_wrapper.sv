@@ -11,9 +11,9 @@ module rvfi_wrapper (
     // localparam N_PMP_ENTRIES       =  16;
     // localparam USE_PMP             =   1; 
     localparam PULP_CLUSTER        =   0;
-    localparam FPU                 =   1;
-    localparam Zfinx               =   1;
-    localparam FP_DIVSQRT          =   1;
+    localparam FPU                 =   0; // Original value is 1
+    localparam Zfinx               =   0; // Original value is 1
+    localparam FP_DIVSQRT          =   0; // Original value is 1
     localparam SHARED_FP           =   0;
     // localparam SHARED_DSP_MULT     =   0;
     // localparam SHARED_INT_MULT     =   0;
@@ -25,8 +25,6 @@ module rvfi_wrapper (
     localparam APU_NDSFLAGS_CPU    =  15;
     localparam APU_NUSFLAGS_CPU    =   5;
     // localparam DM_HaltAddress      = 32'h1A110800;
-
-    // localparam SIMCHECKER          =  0; // tb exclusive
     
     localparam BOOT_ADDR         = 32'h1A00_0080;
     localparam CORE_ID           =  4'd0;
@@ -124,6 +122,7 @@ module rvfi_wrapper (
     assign cluster_id_i         = CLUSTER_ID;
     
     // Pulpissimo does not use the apu interconnect
+    // This is used when there is an external FPU
     assign apu_master_gnt_i     =  1'b1;
     assign apu_master_valid_i   =  1'b0;
     assign apu_master_result_i  = 32'b0;
@@ -138,12 +137,11 @@ module rvfi_wrapper (
     assign debug_req_i = 1'b0;
     
     // Fetches are always enabled
-    // Obs.: maybe we'll need to disable this in the 1st cycle after reset
+    // Obs.: maybe we'll need to disable this for the 1st cycle after reset
     assign fetch_enable_i = 1'b1;
     
     // Disable external performance counters
     assign ext_perf_counters_i = '0;
-    
     
     
     
@@ -244,6 +242,7 @@ module rvfi_wrapper (
 		ASM_no_gnt_wo_req_data:  assume (!data_gnt_wo_req );
 	end
     // assume property (@(posedge clock) instr_gnt_i |-> instr_req_o);
+    // To do: change concurrent covers below to immediate so SymbiYosys can compile them
     instr_req_can_happen: cover property (@(posedge clock) instr_req_o);
     data_req_can_happen:  cover property (@(posedge clock) data_req_o );
     
