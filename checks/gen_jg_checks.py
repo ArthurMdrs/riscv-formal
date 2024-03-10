@@ -61,6 +61,8 @@ def gen_tcl_str(incdirs_vec, sv_files_vec, vhdl_files_vec, check_ch):
         tcl_str = tcl_str[:-3]+"\n\n"
     tcl_str += "elaborate -top rvfi_testbench -create_related_covers witness\n\n"
     tcl_str += "clock clock\n\nreset reset\n\n"
+    tcl_str += "check_assumptions -show -dead_end\n\n"
+    tcl_str += "prove -property noDeadEnd\n\n"
     tcl_str += "prove -instance checker_inst\n"
     return tcl_str
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <wavelist version="3">
-  <insertion-point-position>15</insertion-point-position>
+  <insertion-point-position>36</insertion-point-position>
   <wave>
     <expr>clock</expr>
     <label/>
@@ -60,11 +60,6 @@
   </wave>
   <spacer/>
   <wave>
-    <expr>rvfi_testbench.wrapper.uut.if_stage_i.prefetch_32.prefetch_buffer_i.fifo_i._assert_1</expr>
-    <label/>
-    <radix/>
-  </wave>
-  <wave>
     <expr>wrapper.uut.if_stage_i.prefetch_32.prefetch_buffer_i.fifo_i.in_valid_i</expr>
     <label/>
     <radix/>
@@ -90,12 +85,127 @@
     <radix/>
   </wave>
   <wave>
-    <expr>wrapper.uut.if_stage_i.prefetch_32.prefetch_buffer_i.fifo_i.in_is_hwlp_i</expr>
+    <expr>wrapper.uut.if_stage_i.prefetch_32.prefetch_buffer_i.fifo_i.out_ready_i</expr>
     <label/>
     <radix/>
   </wave>
   <wave>
-    <expr>wrapper.uut.if_stage_i.prefetch_32.prefetch_buffer_i.fifo_i.out_ready_i</expr>
+    <expr>wrapper.uut.if_stage_i.prefetch_32.prefetch_buffer_i.fifo_i.in_is_hwlp_i</expr>
+    <label/>
+    <radix/>
+  </wave>
+  <wave collapsed="true">
+    <expr>wrapper.uut.if_stage_i.prefetch_32.prefetch_buffer_i.fifo_i.out_addr_o</expr>
+    <label/>
+    <radix>checker_inst.pc_wdata</radix>
+  </wave>
+  <wave>
+    <expr>wrapper.uut.if_stage_i.prefetch_32.prefetch_buffer_i.fifo_i.out_is_hwlp_o</expr>
+    <label/>
+    <radix/>
+  </wave>
+  <wave>
+    <expr>wrapper.uut.if_stage_i.prefetch_32.prefetch_buffer_i.fifo_i.out_valid_o</expr>
+    <label/>
+    <radix/>
+  </wave>
+  <wave collapsed="true">
+    <expr>wrapper.uut.if_stage_i.prefetch_32.prefetch_buffer_i.hwlp_NS</expr>
+    <label/>
+    <radix>wrapper.uut.if_stage_i.prefetch_32.prefetch_buffer_i.hwlp_CS</radix>
+  </wave>
+  <group collapsed="true">
+    <expr>wrapper.uut.id_stage_i.hwloop_regs_i.hwlp_start_q</expr>
+    <label>wrapper.uut.id_stage_i.hwloop_regs_i.hwlp_start_q</label>
+    <radix/>
+    <wave collapsed="true">
+      <expr>wrapper.uut.id_stage_i.hwloop_regs_i.hwlp_start_q[1]</expr>
+      <label/>
+      <radix/>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.uut.id_stage_i.hwloop_regs_i.hwlp_start_q[0]</expr>
+      <label/>
+      <radix/>
+    </wave>
+  </group>
+  <group collapsed="true">
+    <expr>wrapper.uut.id_stage_i.hwloop_regs_i.hwlp_end_q</expr>
+    <label>wrapper.uut.id_stage_i.hwloop_regs_i.hwlp_end_q</label>
+    <radix/>
+    <wave collapsed="true">
+      <expr>wrapper.uut.id_stage_i.hwloop_regs_i.hwlp_end_q[1]</expr>
+      <label/>
+      <radix/>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.uut.id_stage_i.hwloop_regs_i.hwlp_end_q[0]</expr>
+      <label/>
+      <radix/>
+    </wave>
+  </group>
+  <group collapsed="true">
+    <expr>wrapper.uut.id_stage_i.hwloop_regs_i.hwlp_counter_q</expr>
+    <label>wrapper.uut.id_stage_i.hwloop_regs_i.hwlp_counter_q</label>
+    <radix/>
+    <wave collapsed="true">
+      <expr>wrapper.uut.id_stage_i.hwloop_regs_i.hwlp_counter_q[1]</expr>
+      <label/>
+      <radix/>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.uut.id_stage_i.hwloop_regs_i.hwlp_counter_q[0]</expr>
+      <label/>
+      <radix/>
+    </wave>
+  </group>
+  <group collapsed="true">
+    <expr>wrapper.uut.id_stage_i.hwloop_regs_i.hwlp_counter_n</expr>
+    <label>wrapper.uut.id_stage_i.hwloop_regs_i.hwlp_counter_n</label>
+    <radix/>
+    <wave collapsed="true">
+      <expr>wrapper.uut.id_stage_i.hwloop_regs_i.hwlp_counter_n[1]</expr>
+      <label/>
+      <radix/>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.uut.id_stage_i.hwloop_regs_i.hwlp_counter_n[0]</expr>
+      <label/>
+      <radix/>
+    </wave>
+  </group>
+  <wave collapsed="true">
+    <expr>wrapper.uut.id_stage_i.hwloop_regs_i.hwlp_we_i</expr>
+    <label/>
+    <radix/>
+  </wave>
+  <wave>
+    <expr>wrapper.uut.id_stage_i.hwloop_regs_i.hwlp_regid_i</expr>
+    <label/>
+    <radix/>
+  </wave>
+  <wave collapsed="true">
+    <expr>wrapper.uut.id_stage_i.hwloop_regs_i.hwlp_cnt_data_i</expr>
+    <label/>
+    <radix>checker_inst.pc_wdata</radix>
+  </wave>
+  <wave collapsed="true">
+    <expr>wrapper.uut.id_stage_i.hwloop_regs_i.hwlp_dec_cnt_i</expr>
+    <label/>
+    <radix/>
+  </wave>
+  <wave>
+    <expr>wrapper.uut.id_stage_i.hwloop_regs_i.valid_i</expr>
+    <label/>
+    <radix/>
+  </wave>
+  <wave collapsed="true">
+    <expr>wrapper.uut.id_stage_i.csr_hwlp_data_i</expr>
+    <label/>
+    <radix>checker_inst.pc_wdata</radix>
+  </wave>
+  <wave>
+    <expr>wrapper.uut.if_stage_i.is_hwlp_id_o</expr>
     <label/>
     <radix/>
   </wave>
@@ -269,6 +379,42 @@
   <highlightlist>
     <!--Users can remove the highlightlist block if they want to load the signal save file into older version of Jasper-->
     <highlight>
+      <expr>wrapper.uut.id_stage_i.hwloop_regs_i.hwlp_cnt_data_i</expr>
+      <color>builtin_yellow</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.uut.id_stage_i.hwloop_regs_i.hwlp_counter_n</expr>
+      <color>builtin_yellow</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.uut.id_stage_i.hwloop_regs_i.hwlp_counter_q</expr>
+      <color>builtin_yellow</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.uut.id_stage_i.hwloop_regs_i.hwlp_dec_cnt_i</expr>
+      <color>builtin_yellow</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.uut.id_stage_i.hwloop_regs_i.hwlp_end_q</expr>
+      <color>builtin_yellow</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.uut.id_stage_i.hwloop_regs_i.hwlp_regid_i</expr>
+      <color>builtin_yellow</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.uut.id_stage_i.hwloop_regs_i.hwlp_start_q</expr>
+      <color>builtin_yellow</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.uut.id_stage_i.hwloop_regs_i.hwlp_we_i</expr>
+      <color>builtin_yellow</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.uut.id_stage_i.hwloop_regs_i.valid_i</expr>
+      <color>builtin_yellow</color>
+    </highlight>
+    <highlight>
       <expr>wrapper.uut.id_stage_i.instr</expr>
       <color>builtin_red</color>
     </highlight>
@@ -318,6 +464,14 @@
     </highlight>
     <highlight>
       <expr>wrapper.uut.if_stage_i.prefetch_32.prefetch_buffer_i.fifo_i.in_valid_i</expr>
+      <color>builtin_green</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.uut.if_stage_i.prefetch_32.prefetch_buffer_i.fifo_i.out_addr_o</expr>
+      <color>builtin_green</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.uut.if_stage_i.prefetch_32.prefetch_buffer_i.fifo_i.out_is_hwlp_o</expr>
       <color>builtin_green</color>
     </highlight>
     <highlight>

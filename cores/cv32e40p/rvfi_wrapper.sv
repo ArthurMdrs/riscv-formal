@@ -247,6 +247,19 @@ module rvfi_wrapper (
     data_req_can_happen:  cover property (@(posedge clock) data_req_o );
     
     // Build aux code and assumptions for data_rvalid_i???
+    
+	always @(posedge clock) begin
+        // Don't allow the Pulp custom hardware loop instructions
+		ASM_no_hwloop_instr: assume (uut.if_stage_i.instr_decompressed[6:0] != OPCODE_HWLOOP);
+        // Don't allow hwloop CSRs access in a CSR instruction 
+        if (uut.if_stage_i.instr_decompressed[6:0] == OPCODE_SYSTEM && uut.if_stage_i.instr_decompressed[14:12] != 3'b0) // This is a CSR instruction
+		    ASM_no_hwloop_csr_instr: assume (uut.if_stage_i.instr_decompressed[31:20] != 12'h7C0 && 
+                                             uut.if_stage_i.instr_decompressed[31:20] != 12'h7C1 && 
+                                             uut.if_stage_i.instr_decompressed[31:20] != 12'h7C2 && 
+                                             uut.if_stage_i.instr_decompressed[31:20] != 12'h7C4 && 
+                                             uut.if_stage_i.instr_decompressed[31:20] != 12'h7C5 && 
+                                             uut.if_stage_i.instr_decompressed[31:20] != 12'h7C6    );
+	end
 
 `ifdef CV32P_FAIRNESS    
 	// reg  mem_wait = 0;
