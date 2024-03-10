@@ -1438,7 +1438,7 @@ module riscv_core
             rvfi_mem_addr <= load_store_unit_i.data_addr_o;
             rvfi_mem_wmask <= (load_store_unit_i.data_we_o) ? load_store_unit_i.data_be_o : '0;
             rvfi_mem_rdata <= load_store_unit_i.data_rdata_ex_o;
-            rvfi_mem_wdata <= (load_store_unit_i.data_we_o) ? data_rdata_ex_o.data_wdata_o : '0;
+            rvfi_mem_wdata <= (load_store_unit_i.data_we_o) ? load_store_unit_i.data_wdata_o : '0;
         end
     end
     

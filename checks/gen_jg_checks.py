@@ -12,19 +12,26 @@ def replace_string(subject_string, search_string, replace_string):
         return subject_string
 
 def get_from_config(section, vec):
+    basedir = f"{os.getcwd()}/../.."
+    corename = os.getcwd().split("/")[-1]
+    coredir = basedir.rstrip('../..')
     with open('checks.cfg', 'r') as file:
         is_wanted_section = False
         for line in file:
-            if re.search(r'\[.*\]', line):
-                is_wanted_section = False
-            if is_wanted_section and line.strip()!='':
-                item = line.split()[0]
-                item = replace_string(item, "@basedir@/cores/@core@", coredir)
-                item = replace_string(item, "@basedir@", basedir)
-                item = replace_string(item, "@core@", corename)
-                vec.append(item)
-            if section in line:
-                is_wanted_section = True
+            is_comment = 0
+            if len(line.strip()) != 0:
+                is_comment = (line.strip()[0] == "#")
+            if not is_comment:
+                if re.search(r'\[.*\]', line):
+                    is_wanted_section = False
+                if is_wanted_section and line.strip()!='':
+                    item = line.split()[0]
+                    item = replace_string(item, "@basedir@/cores/@core@", coredir)
+                    item = replace_string(item, "@basedir@", basedir)
+                    item = replace_string(item, "@core@", corename)
+                    vec.append(item)
+                if section in line:
+                    is_wanted_section = True
 
 def get_from_sby(check_ch, section):
     my_str = ""
@@ -77,17 +84,13 @@ def write_file(wr_file, wr_str):
     with open(wr_file, 'w') as file:
         file.write(wr_str)
 
-# def copy_file(file_to_copy)
-
 # ====================  FUNCTIONS END  ==================== #
 
 # ====================  MAIN CODE BEGIN  ==================== #
 
 subprocess.run(['python3' , '../../checks/genchecks.py'])
 
-basedir = f"{os.getcwd()}/../.."
-corename = os.getcwd().split("/")[-1]
-coredir = basedir.rstrip('../..')
+coredir = f"{os.getcwd()}"
 
 nret = 1
 checks_vec = []
@@ -121,6 +124,7 @@ get_from_config("[vhdl-files]", vhdl_files_vec)
 get_from_config("[incdirs]", incdirs_vec)
             
 # Generate the required files
+print("Converting SymbiYosys scripts into Jasper tcl scripts...")
 for check in checks_vec:
     for ch in range(0, nret):
         check_ch = check + "_ch" + str(ch)
@@ -139,6 +143,7 @@ for check in checks_vec:
         cp_files_str = get_from_sby(check_ch, "[files]")
         for file in cp_files_str.splitlines():
             shutil.copy(file, check_dir)
+print("Converting done.")
             
 # Delete files generated for SymbiYosys
 for file in os.listdir("checks"):

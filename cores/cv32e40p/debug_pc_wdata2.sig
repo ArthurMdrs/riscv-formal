@@ -60,6 +60,52 @@
   </wave>
   <spacer/>
   <wave>
+    <expr>rvfi_testbench.wrapper.uut.if_stage_i.prefetch_32.prefetch_buffer_i.fifo_i._assert_1</expr>
+    <label/>
+    <radix/>
+  </wave>
+  <wave>
+    <expr>wrapper.uut.if_stage_i.prefetch_32.prefetch_buffer_i.fifo_i.in_valid_i</expr>
+    <label/>
+    <radix/>
+  </wave>
+  <wave collapsed="true">
+    <expr>wrapper.uut.if_stage_i.prefetch_32.prefetch_buffer_i.fifo_i.in_rdata_i</expr>
+    <label/>
+    <radix/>
+  </wave>
+  <wave collapsed="true">
+    <expr>wrapper.uut.if_stage_i.prefetch_32.prefetch_buffer_i.fifo_i.in_addr_i</expr>
+    <label/>
+    <radix>checker_inst.pc_wdata</radix>
+  </wave>
+  <wave>
+    <expr>wrapper.uut.if_stage_i.prefetch_32.prefetch_buffer_i.fifo_i.in_replace2_i</expr>
+    <label/>
+    <radix/>
+  </wave>
+  <wave>
+    <expr>wrapper.uut.if_stage_i.prefetch_32.prefetch_buffer_i.fifo_i.clear_i</expr>
+    <label/>
+    <radix/>
+  </wave>
+  <wave>
+    <expr>wrapper.uut.if_stage_i.prefetch_32.prefetch_buffer_i.fifo_i.in_is_hwlp_i</expr>
+    <label/>
+    <radix/>
+  </wave>
+  <wave>
+    <expr>wrapper.uut.if_stage_i.prefetch_32.prefetch_buffer_i.fifo_i.out_ready_i</expr>
+    <label/>
+    <radix/>
+  </wave>
+  <spacer/>
+  <wave collapsed="true">
+    <expr>wrapper.uut.if_stage_i.pc_mux_i</expr>
+    <label/>
+    <radix>wrapper.uut.if_stage_i.pc_mux_i</radix>
+  </wave>
+  <wave>
     <expr>wrapper.uut.if_stage_i.if_valid</expr>
     <label/>
     <radix/>
@@ -245,6 +291,38 @@
     <highlight>
       <expr>wrapper.uut.if_stage_i.pc_if_o</expr>
       <color>builtin_blue</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.uut.if_stage_i.pc_mux_i</expr>
+      <color>builtin_blue</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.uut.if_stage_i.prefetch_32.prefetch_buffer_i.fifo_i.clear_i</expr>
+      <color>builtin_green</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.uut.if_stage_i.prefetch_32.prefetch_buffer_i.fifo_i.in_addr_i</expr>
+      <color>builtin_green</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.uut.if_stage_i.prefetch_32.prefetch_buffer_i.fifo_i.in_is_hwlp_i</expr>
+      <color>builtin_green</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.uut.if_stage_i.prefetch_32.prefetch_buffer_i.fifo_i.in_rdata_i</expr>
+      <color>builtin_green</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.uut.if_stage_i.prefetch_32.prefetch_buffer_i.fifo_i.in_replace2_i</expr>
+      <color>builtin_green</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.uut.if_stage_i.prefetch_32.prefetch_buffer_i.fifo_i.in_valid_i</expr>
+      <color>builtin_green</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.uut.if_stage_i.prefetch_32.prefetch_buffer_i.fifo_i.out_ready_i</expr>
+      <color>builtin_green</color>
     </highlight>
   </highlightlist>
 </wavelist>

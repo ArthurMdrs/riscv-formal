@@ -2,18 +2,21 @@ GTKW_CHK=insn_add_ch0
 
 run: gen_jg
 
-do_checks:
+.PHONY: checks
+checks:
 	@make -C checks
 
 gen_sby:
-	@python3 ../../checks/genchecks.py
-	# @python3 insert_inc_files.py
+	@python3 ../../checks/genchecks.py checks_sby
+	@python3 ../../checks/insert_incdirs.py checks_sby
+	@mv checks_sby checks
 
 gen_jg:
-	python3 ../../checks/gen_jg_checks.py
+	@python3 ../../checks/gen_jg_checks.py
 
 gtkw:
 	gtkwave checks/$(GTKW_CHK)/engine_0/trace.vcd checks.gtkw
 	
 clean:
-	rm -rf checks
+	@echo "Removing checks folder."
+	@rm -rf checks *.sig~
