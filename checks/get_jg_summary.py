@@ -31,9 +31,9 @@ def get_summary_from_log():
 if os.path.exists('jgproject/jg.log'):
     summary_vec, success = get_summary_from_log()
     if success:
-        log_name = "SUCCESS.log"
+        log_name = "PASS"
     else:
-        log_name = "FAIL.log"
+        log_name = "FAIL"
     with open(log_name, 'w') as file:
         for line in summary_vec:
             file.write(line)

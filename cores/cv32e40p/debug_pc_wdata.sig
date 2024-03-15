@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <wavelist version="3">
-  <insertion-point-position>19</insertion-point-position>
+  <insertion-point-position>26</insertion-point-position>
   <wave>
     <expr>clock</expr>
     <label/>
@@ -56,7 +56,7 @@
   <wave collapsed="true">
     <expr>rvfi_mode</expr>
     <label/>
-    <radix/>
+    <radix>rvfi_mode</radix>
   </wave>
   <spacer/>
   <wave>
@@ -95,6 +95,17 @@
     <expr>rvfi_pc_rdata</expr>
     <label/>
     <radix>rvfi_mem_wdata</radix>
+  </wave>
+  <spacer/>
+  <wave collapsed="true">
+    <expr>wrapper.uut.rvfi_pc_wdata_id</expr>
+    <label/>
+    <radix>checker_inst.pc_wdata</radix>
+  </wave>
+  <wave collapsed="true">
+    <expr>wrapper.uut.rvfi_pc_wdata_ex</expr>
+    <label/>
+    <radix>checker_inst.pc_wdata</radix>
   </wave>
   <wave collapsed="true">
     <expr>rvfi_pc_wdata</expr>

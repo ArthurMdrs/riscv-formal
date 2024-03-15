@@ -1222,28 +1222,28 @@ module riscv_core
 `ifdef RISCV_FORMAL
 
     //====================   Instruction Metadata   ====================//
-    reg        rvfi_valid_if, rvfi_valid_id, rvfi_valid_ex;
-    // reg [63:0] rvfi_order_if, rvfi_order_id, rvfi_order_ex;
-    reg [31:0] rvfi_insn_if , rvfi_insn_id , rvfi_insn_ex ;
-    reg                       rvfi_trap_id , rvfi_trap_ex ;
-    reg        rvfi_halt_if , rvfi_halt_id , rvfi_halt_ex ;
-    // reg        rvfi_intr_if , rvfi_intr_id , rvfi_intr_ex ;
-    // reg [ 1:0] rvfi_mode_if , rvfi_mode_id , rvfi_mode_ex ;
-    // reg [ 1:0] rvfi_ixl_if  , rvfi_ixl_id  , rvfi_ixl_ex  ;
+    reg        rvfi_valid_if, rvfi_valid_id, rvfi_valid_ex, rvfi_valid_wb;
+    reg [31:0] rvfi_insn_if , rvfi_insn_id , rvfi_insn_ex , rvfi_insn_wb ;
+    reg                       rvfi_trap_id , rvfi_trap_ex , rvfi_trap_wb ;
+    reg        rvfi_halt_if , rvfi_halt_id , rvfi_halt_ex , rvfi_halt_wb ;
+    reg        rvfi_intr_if , rvfi_intr_id , rvfi_intr_ex , rvfi_intr_wb ;
+    reg [ 1:0]                rvfi_mode_id , rvfi_mode_ex , rvfi_mode_wb ;
     
     always @(posedge clk) begin
         if (!rst_ni) begin
             rvfi_valid_if <= '0;
             rvfi_valid_id <= '0;
             rvfi_valid_ex <= '0;
+            rvfi_valid_wb <= '0;
         end
         else begin
             rvfi_valid_if <= if_stage_i.if_valid;
             rvfi_valid_id <= id_stage_i.id_valid_o && rvfi_valid_if;
             rvfi_valid_ex <= ex_stage_i.ex_valid_o && rvfi_valid_id;
+            rvfi_valid_wb <=            wb_valid   && rvfi_valid_ex;
         end
     end
-    assign rvfi_valid = rvfi_valid_ex;
+    assign rvfi_valid = rvfi_valid_wb;
     
     always @(posedge clk) begin
         if (!rst_ni) begin
@@ -1259,205 +1259,360 @@ module riscv_core
             rvfi_insn_if <= '0;
             rvfi_insn_id <= '0;
             rvfi_insn_ex <= '0;
+            rvfi_insn_wb <= '0;
         end
         else begin
             rvfi_insn_if <= (if_stage_i.instr_compressed_int) ? {16'b0, if_stage_i.fetch_rdata[15:0]} : if_stage_i.instr_decompressed;
             rvfi_insn_id <= rvfi_insn_if;
             rvfi_insn_ex <= rvfi_insn_id;
+            rvfi_insn_wb <= rvfi_insn_ex;
         end
     end
-    assign rvfi_insn = rvfi_insn_ex;
+    assign rvfi_insn = rvfi_insn_wb;
     
     always @(posedge clk) begin
         if (!rst_ni) begin
             rvfi_trap_id <= '0;
             rvfi_trap_ex <= '0;
+            rvfi_trap_wb <= '0;
         end
         else begin
             rvfi_trap_id <= id_stage_i.illegal_insn_dec;
             rvfi_trap_ex <= rvfi_trap_id;
+            rvfi_trap_wb <= rvfi_trap_ex;
         end
     end
-    assign rvfi_trap = rvfi_trap_ex;
+    assign rvfi_trap = rvfi_trap_wb;
     // rvfi_trap must be set for an instruction that cannot be decoded as a legal instruction, such as 0x00000000.
     // In addition, rvfi_trap must be set for a misaligned memory read or write in PMAs that don't allow 
-    // misaligned access, or other memory access violations. rvfi_trap must also be set for a jump instruction 
-    // that jumps to a misaligned instruction.
+    // misaligned access, or other memory access violations. 
+    // rvfi_trap must also be set for a jump instruction that jumps to a misaligned instruction.     SEE ABOUT THIS!!!!!!!!!!!!!
     
     always @(posedge clk) begin
         if (!rst_ni) begin
             rvfi_halt_if <= '0;
             rvfi_halt_id <= '0;
             rvfi_halt_ex <= '0;
+            rvfi_halt_wb <= '0;
         end
         else begin
             rvfi_halt_if <= if_stage_i.halt_if_i;
             rvfi_halt_id <= id_stage_i.halt_id | rvfi_halt_if;
             rvfi_halt_ex <= rvfi_halt_id;
+            rvfi_halt_wb <= rvfi_halt_ex;
         end
     end
-    assign rvfi_halt = rvfi_halt_ex;
+    // assign rvfi_halt = rvfi_halt_wb;
+    assign rvfi_halt = '0; // To do!!! Make this work with actual halts!!
     
     
+    logic next_is_intr;
+    always @(posedge clk) begin
+        if (!rst_ni) begin
+            next_is_intr <= '0;
+            rvfi_intr_id <= '0;
+            rvfi_intr_if <= '0;
+            rvfi_intr_ex <= '0;
+            rvfi_intr_wb <= '0;
+        end
+        else begin
+            next_is_intr <= if_stage_i.pc_mux_i inside {PC_EXCEPTION};
+            rvfi_intr_if <= next_is_intr;
+            rvfi_intr_id <= rvfi_intr_if;
+            rvfi_intr_ex <= rvfi_intr_id;
+            rvfi_intr_wb <= rvfi_intr_ex;
+        end
+    end
+    assign rvfi_intr = rvfi_intr_wb;
+    // rvfi_intr must be set for the first instruction that is part of a trap handler,
+    // i.e. an instruction that has a rvfi_pc_rdata that does not match the rvfi_pc_wdata
+    // of the previous instruction.
     
-    assign rvfi_intr  = '0; // To do!!!
-    //rvfi_intr must be set for the first instruction that is part 
-    //of a trap handler, i.e. an instruction that has a rvfi_pc_rdata 
-    //that does not match the rvfi_pc_wdata of the previous instruction.
+    always @(posedge clk) begin
+        if (!rst_ni) begin
+            rvfi_mode_id <= '0;
+            rvfi_mode_ex <= '0;
+            rvfi_mode_wb <= '0;
+        end
+        else begin
+            rvfi_mode_id <= id_stage_i.current_priv_lvl_i;
+            rvfi_mode_ex <= rvfi_mode_id;
+            rvfi_mode_wb <= rvfi_mode_ex;
+        end
+    end
+    assign rvfi_mode = rvfi_mode_wb; // 0=U-Mode, 1=S-Mode, 2=Reserved, 3=M-Mode    
+    // current_priv_lvl is of the following type:
+    // // Privileged mode
+    // typedef enum logic[1:0] {
+    // PRIV_LVL_M = 2'b11,
+    // PRIV_LVL_H = 2'b10,
+    // PRIV_LVL_S = 2'b01,
+    // PRIV_LVL_U = 2'b00
+    // } PrivLvl_t;
     
-    
-    
-    assign rvfi_mode  = 3; // 3 means machine mode
-    assign rvfi_ixl   = 1; // 1 means XLEN is 32
+    assign rvfi_ixl = cs_registers_i.MXL;
+    // rvfi_ixl must be set to the value of MXL/SXL/UXL in the current privilege level, 
+    // using the following encoding: 1=32, 2=64
     
     
 
     //====================   Integer Register Read/Write   ====================//
-    reg [ 4:0] rvfi_rs1_addr_id , rvfi_rs1_addr_ex ; 
-    reg [ 4:0] rvfi_rs2_addr_id , rvfi_rs2_addr_ex ; 
-    reg [31:0] rvfi_rs1_rdata_id, rvfi_rs1_rdata_ex; 
-    reg [31:0] rvfi_rs2_rdata_id, rvfi_rs2_rdata_ex; 
-    reg [ 4:0]                    rvfi_rd_addr_ex  ; 
-    reg [31:0]                    rvfi_rd_wdata_ex ; 
+    reg [ 4:0] rvfi_rs1_addr_id , rvfi_rs1_addr_ex , rvfi_rs1_addr_wb ; 
+    reg [ 4:0] rvfi_rs2_addr_id , rvfi_rs2_addr_ex , rvfi_rs2_addr_wb ; 
+    reg [31:0] rvfi_rs1_rdata_id, rvfi_rs1_rdata_ex, rvfi_rs1_rdata_wb; 
+    reg [31:0] rvfi_rs2_rdata_id, rvfi_rs2_rdata_ex, rvfi_rs2_rdata_wb; 
+    reg [ 4:0]                    rvfi_rd_addr_ex  , rvfi_rd_addr_wb  ; 
+    reg [31:0]                    rvfi_rd_wdata_ex , rvfi_rd_wdata_wb ; 
     
     always @(posedge clk) begin
         if (!rst_ni) begin
             rvfi_rs1_addr_id <= '0;
             rvfi_rs1_addr_ex <= '0;
+            rvfi_rs1_addr_wb <= '0;
         end
         else begin
             rvfi_rs1_addr_id <= id_stage_i.regfile_addr_ra_id;
             rvfi_rs1_addr_ex <= rvfi_rs1_addr_id;
+            rvfi_rs1_addr_wb <= rvfi_rs1_addr_ex;
         end
     end
-    assign rvfi_rs1_addr = rvfi_rs1_addr_ex;
+    assign rvfi_rs1_addr = rvfi_rs1_addr_wb;
     
     always @(posedge clk) begin
         if (!rst_ni) begin
             rvfi_rs2_addr_id <= '0;
             rvfi_rs2_addr_ex <= '0;
+            rvfi_rs2_addr_wb <= '0;
         end
         else begin
             rvfi_rs2_addr_id <= id_stage_i.regfile_addr_rb_id;
             rvfi_rs2_addr_ex <= rvfi_rs2_addr_id;
+            rvfi_rs2_addr_wb <= rvfi_rs2_addr_ex;
         end
     end
-    assign rvfi_rs2_addr = rvfi_rs2_addr_ex;
+    assign rvfi_rs2_addr = rvfi_rs2_addr_wb;
     
     always @(posedge clk) begin
         if (!rst_ni) begin
             rvfi_rs1_rdata_id <= '0;
             rvfi_rs1_rdata_ex <= '0;
+            rvfi_rs1_rdata_wb <= '0;
         end
         else begin
             rvfi_rs1_rdata_id <= id_stage_i.operand_a_fw_id;
             rvfi_rs1_rdata_ex <= rvfi_rs1_rdata_id;
+            rvfi_rs1_rdata_wb <= rvfi_rs1_rdata_ex;
         end
     end
-    assign rvfi_rs1_rdata = rvfi_rs1_rdata_ex;
+    assign rvfi_rs1_rdata = rvfi_rs1_rdata_wb;
     
     always @(posedge clk) begin
         if (!rst_ni) begin
             rvfi_rs2_rdata_id <= '0;
             rvfi_rs2_rdata_ex <= '0;
+            rvfi_rs2_rdata_wb <= '0;
         end
         else begin
             rvfi_rs2_rdata_id <= id_stage_i.operand_b_fw_id;
             rvfi_rs2_rdata_ex <= rvfi_rs2_rdata_id;
+            rvfi_rs2_rdata_wb <= rvfi_rs2_rdata_ex;
         end
     end
-    assign rvfi_rs2_rdata = rvfi_rs2_rdata_ex;
+    assign rvfi_rs2_rdata = rvfi_rs2_rdata_wb;
     
     always @(posedge clk) begin
         if (!rst_ni) begin
             rvfi_rd_addr_ex <= '0;
+            rvfi_rd_addr_wb <= '0;
         end
         else begin
-            rvfi_rd_addr_ex <= (ex_stage_i.regfile_alu_we_fw_o) ? (ex_stage_i.regfile_alu_waddr_fw_o) : (rvfi_insn_id[11:7]);
+            rvfi_rd_addr_ex <= (ex_stage_i.regfile_alu_we_fw_o) ? (ex_stage_i.regfile_alu_waddr_fw_o) : '0;
+            rvfi_rd_addr_wb <= (id_stage_i.regfile_we_wb_i) ? id_stage_i.regfile_waddr_wb_i : rvfi_rd_addr_ex;
         end
     end
-    assign rvfi_rd_addr = rvfi_rd_addr_ex;
+    assign rvfi_rd_addr = rvfi_rd_addr_wb;
     
     always @(posedge clk) begin
         if (!rst_ni) begin
             rvfi_rd_wdata_ex <= '0;
+            rvfi_rd_wdata_wb <= '0;
         end
-        else begin
-            rvfi_rd_wdata_ex <= (ex_stage_i.regfile_alu_we_fw_o && ex_stage_i.regfile_alu_waddr_fw_o!='0) ? ex_stage_i.regfile_alu_wdata_fw_o : '0;
+        else begin                
+            if (ex_stage_i.regfile_alu_we_fw_o)
+                if (ex_stage_i.regfile_alu_waddr_fw_o == '0)
+                    rvfi_rd_wdata_ex <= '0;
+                else 
+                    rvfi_rd_wdata_ex <= ex_stage_i.regfile_alu_wdata_fw_o;
+            else
+                rvfi_rd_wdata_ex <= '0;
+            
+            if (id_stage_i.regfile_we_wb_i)
+                if (id_stage_i.regfile_waddr_wb_i == '0)
+                    rvfi_rd_wdata_wb <= '0;
+                else 
+                    rvfi_rd_wdata_wb <= id_stage_i.regfile_wdata_wb_i;
+            else
+                rvfi_rd_wdata_wb <= rvfi_rd_wdata_ex;
         end
     end
-    assign rvfi_rd_wdata = rvfi_rd_wdata_ex;
+    assign rvfi_rd_wdata = rvfi_rd_wdata_wb;
     
     
     
     
     //====================   Program Counter   ====================//
-    reg [31:0] rvfi_pc_rdata_if, rvfi_pc_rdata_id, rvfi_pc_rdata_ex;
-    reg [31:0] rvfi_pc_wdata_if, rvfi_pc_wdata_id, rvfi_pc_wdata_ex;
+    reg [31:0] rvfi_pc_rdata_if, rvfi_pc_rdata_id, rvfi_pc_rdata_ex, rvfi_pc_rdata_wb;
+    reg [31:0]                   rvfi_pc_wdata_id, rvfi_pc_wdata_ex, rvfi_pc_wdata_wb;
     
     always @(posedge clk) begin
         if (!rst_ni) begin
             rvfi_pc_rdata_if <= '0;
             rvfi_pc_rdata_id <= '0;
             rvfi_pc_rdata_ex <= '0;
+            rvfi_pc_rdata_wb <= '0;
         end
         else begin
             rvfi_pc_rdata_if <= if_stage_i.pc_if_o;
             rvfi_pc_rdata_id <= rvfi_pc_rdata_if;
             rvfi_pc_rdata_ex <= rvfi_pc_rdata_id;
+            rvfi_pc_rdata_wb <= rvfi_pc_rdata_ex;
         end
     end
-    assign rvfi_pc_rdata = rvfi_pc_rdata_ex;
+    assign rvfi_pc_rdata = rvfi_pc_rdata_wb;
     
     always @(posedge clk) begin
         if (!rst_ni) begin
-            // rvfi_pc_wdata_if <= '0;
             rvfi_pc_wdata_id <= '0;
             rvfi_pc_wdata_ex <= '0;
+            rvfi_pc_wdata_wb <= '0;
         end
         else begin
-            // rvfi_pc_wdata_if <= {if_stage_i.fetch_addr_n[31:1], 1'b0};
-            rvfi_pc_wdata_id <= (id_stage_i.jump_in_dec) ? (id_stage_i.jump_target_o) : id_stage_i.pc_if_i;
-            rvfi_pc_wdata_ex <= (id_stage_i.branch_taken_ex) ? (id_stage_i.jump_target_o) : rvfi_pc_wdata_id;
+            if (id_stage_i.jump_in_id inside {BRANCH_JAL, BRANCH_JALR})
+                rvfi_pc_wdata_id <= {id_stage_i.jump_target_o[31:1], 1'b0};
+            else
+                rvfi_pc_wdata_id <= id_stage_i.pc_if_i;
+            rvfi_pc_wdata_ex <= (id_stage_i.branch_taken_ex) ? (ex_stage_i.jump_target_o) : rvfi_pc_wdata_id;
+            rvfi_pc_wdata_wb <= rvfi_pc_wdata_ex;
         end
     end
-    assign rvfi_pc_wdata = rvfi_pc_wdata_ex;
+    assign rvfi_pc_wdata = rvfi_pc_wdata_wb;
     
     
     
-    // Memory Access
+    //====================   Memory Access   ====================//
+    reg [31:0] rvfi_mem_addr_ex , rvfi_mem_addr_wb ;
+    reg [ 3:0]                    rvfi_mem_rmask_wb;
+    reg [ 3:0] rvfi_mem_wmask_ex, rvfi_mem_wmask_wb;
+    reg [31:0]                    rvfi_mem_rdata_wb;
+    reg [31:0] rvfi_mem_wdata_ex, rvfi_mem_wdata_wb;
     
     always @(posedge clk) begin
         if (!rst_ni) begin
-            rvfi_mem_addr <= '0;
-            rvfi_mem_wmask <= '0;
-            rvfi_mem_rdata <= '0;
-            rvfi_mem_wdata <= '0;
+            rvfi_mem_addr_ex <= '0;
+            rvfi_mem_addr_wb <= '0;
         end
         else begin
-            rvfi_mem_addr <= load_store_unit_i.data_addr_o;
-            rvfi_mem_wmask <= (load_store_unit_i.data_we_o) ? load_store_unit_i.data_be_o : '0;
-            rvfi_mem_rdata <= load_store_unit_i.data_rdata_ex_o;
-            rvfi_mem_wdata <= (load_store_unit_i.data_we_o) ? load_store_unit_i.data_wdata_o : '0;
+            rvfi_mem_addr_ex <= load_store_unit_i.data_addr_o;
+            rvfi_mem_addr_wb <= rvfi_mem_addr_ex;
         end
     end
+    assign rvfi_mem_addr = rvfi_mem_addr_wb;
     
+    always @(posedge clk) begin
+        if (!rst_ni) begin
+            rvfi_mem_rmask_wb <= '0;
+        end
+        else begin
+            case (load_store_unit_i.data_type_q)
+                2'b00:       rvfi_mem_rmask_wb = 4'b1111;
+                2'b01:       rvfi_mem_rmask_wb = 4'b0011;
+                2'b10,2'b11: rvfi_mem_rmask_wb = 4'b0001;
+            endcase                
+        end
+    end
+    assign rvfi_mem_rmask = rvfi_mem_rmask_wb;
     
+    logic misaligned_st;
+    logic [1:0] shamt; // Max of 3
+    always @(posedge clk) begin
+        if (!rst_ni) begin
+            rvfi_mem_wmask_ex <= '0;
+            rvfi_mem_wmask_wb <= '0;
+            misaligned_st     <= '0;
+            shamt             <= '0;
+        end
+        else begin
+            if (load_store_unit_i.data_req_o && load_store_unit_i.data_we_o) begin
+                if (load_store_unit_i.data_be[0] != 1'b1) begin // Misaligned access
+                    case (load_store_unit_i.data_type_ex_i)
+                    2'b00: begin // Word access
+                        logic [1:0] shamt_temp = 0;
+                        foreach(load_store_unit_i.data_be[i]) 
+                            if (load_store_unit_i.data_be[i]==1'b0) shamt_temp++;
+                        rvfi_mem_wmask_ex <= load_store_unit_i.data_be >> shamt_temp;
+                        misaligned_st     <= 1'b1;
+                        shamt             <= 3'b100 - shamt_temp;
+                    end
+                    2'b01: begin // Half-Word access
+                        logic [1:0] shamt_temp = 1;
+                        if (load_store_unit_i.data_be[2:1] == 2'b10) shamt_temp = 2;
+                        if (load_store_unit_i.data_be[2:1] == 2'b00) shamt_temp = 3;
+                        rvfi_mem_wmask_ex <= load_store_unit_i.data_be >> shamt_temp;
+                        misaligned_st     <= (load_store_unit_i.data_be[2:0] == 3'b0) ? 1'b1 : 1'b0;
+                        shamt             <= (load_store_unit_i.data_be[2:0] == 3'b0) ? 2'b1 : 2'b0;
+                    end
+                    default: begin // Byte Access
+                        logic [1:0] shamt_temp = 1;
+                        if (load_store_unit_i.data_be[3:1] == 3'b010) shamt_temp = 2;
+                        if (load_store_unit_i.data_be[3:1] == 3'b100) shamt_temp = 3;
+                        rvfi_mem_wmask_ex <= load_store_unit_i.data_be >> shamt_temp;
+                        misaligned_st     <= 1'b0;
+                        shamt             <= '0;
+                    end
+                    endcase
+                end
+                else begin // Aligned access
+                    rvfi_mem_wmask_ex <= load_store_unit_i.data_be;
+                    misaligned_st     <= 1'b0;
+                    shamt             <= '0;
+                end
+            end
+            else begin // Not a write operation
+                rvfi_mem_wmask_ex <= '0;
+                misaligned_st     <= '0;
+            end
+            
+            if (misaligned_st) begin
+                rvfi_mem_wmask_wb <= load_store_unit_i.data_be<<shamt | rvfi_mem_wmask_ex;
+            end
+            else
+                rvfi_mem_wmask_wb <= rvfi_mem_wmask_ex;
+        end
+    end
+    assign rvfi_mem_wmask = rvfi_mem_wmask_wb;
     
-    // assign rvfi_mem_addr  = load_store_unit_i.data_addr_o;    
+    always @(posedge clk) begin
+        if (!rst_ni) begin
+            rvfi_mem_rdata_wb <= '0;
+        end
+        else begin
+            rvfi_mem_rdata_wb <= load_store_unit_i.data_rdata_ex_o;
+        end
+    end
+    assign rvfi_mem_rdata = rvfi_mem_rdata_wb;
     
-    
-    // // assign rvfi_mem_rmask = load_store_unit_i.data_be_o;
-    assign rvfi_mem_rmask = '1;    
-    
-    
-    // assign rvfi_mem_wmask = (load_store_unit_i.data_we_o) ? load_store_unit_i.data_be_o : '0;    
-    
-    
-    // assign rvfi_mem_rdata = load_store_unit_i.data_rdata_ex_o;    
-    
-    
-    // assign rvfi_mem_wdata = (load_store_unit_i.data_we_o) ? data_rdata_ex_o.data_wdata_o : '0;
+    always @(posedge clk) begin
+        if (!rst_ni) begin
+            rvfi_mem_wdata_ex <= '0;
+            rvfi_mem_wdata_wb <= '0;
+        end
+        else begin
+            // rvfi_mem_wdata_ex <= rvfi_mem_wdata <= (load_store_unit_i.data_req_o) ? load_store_unit_i.data_wdata_o : '0;
+            rvfi_mem_wdata_ex <= load_store_unit_i.data_wdata_ex_i;
+            rvfi_mem_wdata_wb <= rvfi_mem_wdata_ex;
+        end
+    end
+    assign rvfi_mem_wdata = rvfi_mem_wdata_wb;
 `endif
 
 endmodule

@@ -1,6 +1,6 @@
 GTKW_CHK=insn_add_ch0
 
-run: gen_jg
+run: checks
 
 .PHONY: checks
 checks:
