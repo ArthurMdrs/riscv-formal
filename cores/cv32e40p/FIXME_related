@@ -1,0 +1,11 @@
+python3 disasm.py checks/reg_ch0/traces/violation.vcd
+
+disasm.o:     file format elf32-littleriscv
+
+
+Disassembly of section .text:
+
+00000000 <.text>:
+   0:   00100073                ebreak
+   4:   0020280b                p.lw    x16,2(x0!) # 0x2
+   8:   00081897                auipc   x17,0x81

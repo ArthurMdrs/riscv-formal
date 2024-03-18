@@ -1229,7 +1229,7 @@ module riscv_core
     reg        rvfi_intr_if , rvfi_intr_id , rvfi_intr_ex , rvfi_intr_wb ;
     reg [ 1:0]                rvfi_mode_id , rvfi_mode_ex , rvfi_mode_wb ;
     
-    always @(posedge clk) begin
+    always @(posedge clk or negedge rst_ni) begin
         if (!rst_ni) begin
             rvfi_valid_if <= '0;
             rvfi_valid_id <= '0;
@@ -1237,15 +1237,16 @@ module riscv_core
             rvfi_valid_wb <= '0;
         end
         else begin
-            rvfi_valid_if <= if_stage_i.if_valid;
-            rvfi_valid_id <= id_stage_i.id_valid_o && rvfi_valid_if;
+            // rvfi_valid_if <= if_stage_i.if_valid;
+            // rvfi_valid_id <= id_stage_i.id_valid_o && rvfi_valid_if;
+            rvfi_valid_id <= id_stage_i.instr_valid_i;
             rvfi_valid_ex <= ex_stage_i.ex_valid_o && rvfi_valid_id;
             rvfi_valid_wb <=            wb_valid   && rvfi_valid_ex;
         end
     end
     assign rvfi_valid = rvfi_valid_wb;
     
-    always @(posedge clk) begin
+    always @(posedge clk or negedge rst_ni) begin
         if (!rst_ni) begin
             rvfi_order <= '0;
         end
@@ -1254,7 +1255,7 @@ module riscv_core
         end
     end
     
-    always @(posedge clk) begin
+    always @(posedge clk or negedge rst_ni) begin
         if (!rst_ni) begin
             rvfi_insn_if <= '0;
             rvfi_insn_id <= '0;
@@ -1270,7 +1271,7 @@ module riscv_core
     end
     assign rvfi_insn = rvfi_insn_wb;
     
-    always @(posedge clk) begin
+    always @(posedge clk or negedge rst_ni) begin
         if (!rst_ni) begin
             rvfi_trap_id <= '0;
             rvfi_trap_ex <= '0;
@@ -1288,7 +1289,7 @@ module riscv_core
     // misaligned access, or other memory access violations. 
     // rvfi_trap must also be set for a jump instruction that jumps to a misaligned instruction.     SEE ABOUT THIS!!!!!!!!!!!!!
     
-    always @(posedge clk) begin
+    always @(posedge clk or negedge rst_ni) begin
         if (!rst_ni) begin
             rvfi_halt_if <= '0;
             rvfi_halt_id <= '0;
@@ -1307,7 +1308,7 @@ module riscv_core
     
     
     logic next_is_intr;
-    always @(posedge clk) begin
+    always @(posedge clk or negedge rst_ni) begin
         if (!rst_ni) begin
             next_is_intr <= '0;
             rvfi_intr_id <= '0;
@@ -1328,7 +1329,7 @@ module riscv_core
     // i.e. an instruction that has a rvfi_pc_rdata that does not match the rvfi_pc_wdata
     // of the previous instruction.
     
-    always @(posedge clk) begin
+    always @(posedge clk or negedge rst_ni) begin
         if (!rst_ni) begin
             rvfi_mode_id <= '0;
             rvfi_mode_ex <= '0;
@@ -1364,7 +1365,7 @@ module riscv_core
     reg [ 4:0]                    rvfi_rd_addr_ex  , rvfi_rd_addr_wb  ; 
     reg [31:0]                    rvfi_rd_wdata_ex , rvfi_rd_wdata_wb ; 
     
-    always @(posedge clk) begin
+    always @(posedge clk or negedge rst_ni) begin
         if (!rst_ni) begin
             rvfi_rs1_addr_id <= '0;
             rvfi_rs1_addr_ex <= '0;
@@ -1378,7 +1379,7 @@ module riscv_core
     end
     assign rvfi_rs1_addr = rvfi_rs1_addr_wb;
     
-    always @(posedge clk) begin
+    always @(posedge clk or negedge rst_ni) begin
         if (!rst_ni) begin
             rvfi_rs2_addr_id <= '0;
             rvfi_rs2_addr_ex <= '0;
@@ -1392,7 +1393,7 @@ module riscv_core
     end
     assign rvfi_rs2_addr = rvfi_rs2_addr_wb;
     
-    always @(posedge clk) begin
+    always @(posedge clk or negedge rst_ni) begin
         if (!rst_ni) begin
             rvfi_rs1_rdata_id <= '0;
             rvfi_rs1_rdata_ex <= '0;
@@ -1406,7 +1407,7 @@ module riscv_core
     end
     assign rvfi_rs1_rdata = rvfi_rs1_rdata_wb;
     
-    always @(posedge clk) begin
+    always @(posedge clk or negedge rst_ni) begin
         if (!rst_ni) begin
             rvfi_rs2_rdata_id <= '0;
             rvfi_rs2_rdata_ex <= '0;
@@ -1420,7 +1421,7 @@ module riscv_core
     end
     assign rvfi_rs2_rdata = rvfi_rs2_rdata_wb;
     
-    always @(posedge clk) begin
+    always @(posedge clk or negedge rst_ni) begin
         if (!rst_ni) begin
             rvfi_rd_addr_ex <= '0;
             rvfi_rd_addr_wb <= '0;
@@ -1432,7 +1433,7 @@ module riscv_core
     end
     assign rvfi_rd_addr = rvfi_rd_addr_wb;
     
-    always @(posedge clk) begin
+    always @(posedge clk or negedge rst_ni) begin
         if (!rst_ni) begin
             rvfi_rd_wdata_ex <= '0;
             rvfi_rd_wdata_wb <= '0;
@@ -1464,7 +1465,7 @@ module riscv_core
     reg [31:0] rvfi_pc_rdata_if, rvfi_pc_rdata_id, rvfi_pc_rdata_ex, rvfi_pc_rdata_wb;
     reg [31:0]                   rvfi_pc_wdata_id, rvfi_pc_wdata_ex, rvfi_pc_wdata_wb;
     
-    always @(posedge clk) begin
+    always @(posedge clk or negedge rst_ni) begin
         if (!rst_ni) begin
             rvfi_pc_rdata_if <= '0;
             rvfi_pc_rdata_id <= '0;
@@ -1480,7 +1481,7 @@ module riscv_core
     end
     assign rvfi_pc_rdata = rvfi_pc_rdata_wb;
     
-    always @(posedge clk) begin
+    always @(posedge clk or negedge rst_ni) begin
         if (!rst_ni) begin
             rvfi_pc_wdata_id <= '0;
             rvfi_pc_wdata_ex <= '0;
@@ -1506,7 +1507,7 @@ module riscv_core
     reg [31:0]                    rvfi_mem_rdata_wb;
     reg [31:0] rvfi_mem_wdata_ex, rvfi_mem_wdata_wb;
     
-    always @(posedge clk) begin
+    always @(posedge clk or negedge rst_ni) begin
         if (!rst_ni) begin
             rvfi_mem_addr_ex <= '0;
             rvfi_mem_addr_wb <= '0;
@@ -1518,7 +1519,7 @@ module riscv_core
     end
     assign rvfi_mem_addr = rvfi_mem_addr_wb;
     
-    always @(posedge clk) begin
+    always @(posedge clk or negedge rst_ni) begin
         if (!rst_ni) begin
             rvfi_mem_rmask_wb <= '0;
         end
@@ -1534,7 +1535,7 @@ module riscv_core
     
     logic misaligned_st;
     logic [1:0] shamt; // Max of 3
-    always @(posedge clk) begin
+    always @(posedge clk or negedge rst_ni) begin
         if (!rst_ni) begin
             rvfi_mem_wmask_ex <= '0;
             rvfi_mem_wmask_wb <= '0;
@@ -1591,7 +1592,7 @@ module riscv_core
     end
     assign rvfi_mem_wmask = rvfi_mem_wmask_wb;
     
-    always @(posedge clk) begin
+    always @(posedge clk or negedge rst_ni) begin
         if (!rst_ni) begin
             rvfi_mem_rdata_wb <= '0;
         end
@@ -1601,7 +1602,7 @@ module riscv_core
     end
     assign rvfi_mem_rdata = rvfi_mem_rdata_wb;
     
-    always @(posedge clk) begin
+    always @(posedge clk or negedge rst_ni) begin
         if (!rst_ni) begin
             rvfi_mem_wdata_ex <= '0;
             rvfi_mem_wdata_wb <= '0;

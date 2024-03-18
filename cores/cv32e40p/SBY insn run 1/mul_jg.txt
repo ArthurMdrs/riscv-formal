@@ -1,0 +1,78 @@
+0.0.D: Stopped processing property "rvfi_testbench.checker_inst._assert_11"	[884.78 s].
+0.0.K: Trace Attempt 20	[0.70 s]
+0.0.K: Stopped processing property "rvfi_testbench.checker_inst._assert_11"	[884.77 s].
+0.0.D: Interrupted. [884.78 s]
+0.0.K: Interrupted. [884.78 s]
+0.0.Ncustom13: Exited with Success (@ 2128.78 s)
+0.0.U: Exited with Success (@ 2128.79 s)
+0.0.D: Exited with Success (@ 2128.79 s)
+0.0.ADcustom7: Exited with Success (@ 2128.83 s)
+0.0.K: Exited with Success (@ 2128.83 s)
+0.0.N: Exited with Success (@ 2128.93 s)
+0.0.Hp: Exited with Success (@ 2128.93 s)
+0: ProofGrid usable level: 0
+0: --------------------------------------------------------------
+ProofGrid Summary (utilization 99.98 %)
+--------------------------------------------------------------
+     engines started                               :    26
+     engine jobs started                           :    15
+
+    Average time in state (seconds)
+    ------------------------------------------------------
+    Engine  Pending     Running        Dead    Utilization
+    ------------------------------------------------------
+      N        0.19     1938.00        0.00       99.99 %
+     Hp        0.36     2127.48        0.00       99.98 %
+     Ht        0.37     2127.43        0.00       99.98 %
+     Bm        0.18     2128.16        0.00       99.99 %
+    Mpcustom4        0.18      200.06        0.00       99.91 %
+     Oh        0.18        0.48        0.00       72.41 %
+      L        0.19       13.41        0.00       98.61 %
+      J        0.18      152.02        0.00       99.88 %
+     U2        0.38     1862.33        0.00       99.98 %
+      U        0.37     2112.20        0.00       99.98 %
+      D        0.19     2126.44        0.00       99.99 %
+    Ncustom6        0.20     2124.52        0.00       99.99 %
+    ADcustom7        0.18     1943.74        0.00       99.99 %
+    Ncustom13        0.18     1945.27        0.00       99.99 %
+      K        0.18     2124.27        0.00       99.99 %
+    all        0.23     1528.39        0.00       99.98 %
+
+    Total time in state (seconds)
+    -----------------------------------------
+            Pending     Running        Dead  
+    -----------------------------------------
+               3.51    22925.81        0.00
+
+    Data read    : 1.61 MiB
+    Data written : 623.89 kiB
+
+0: All pending notifications were processed.
+0: Max trace length reached.
+INFO (IPF059): Completed proof on task: "<embedded>" for proof thread 0
+
+==============================================================
+SUMMARY
+==============================================================
+           Properties Considered              : 71
+                 assertions                   : 33
+                  - proven                    : 25
+                  - bounded_proven (user)     : 8
+                  - bounded_proven (auto)     : 0
+                  - marked_proven             : 0
+                  - cex                       : 0
+                  - ar_cex                    : 0
+                  - undetermined              : 0
+                  - unknown                   : 0
+                  - error                     : 0
+                 covers                       : 38
+                  - unreachable               : 23
+                  - bounded_unreachable (user): 2
+                  - covered                   : 13
+                  - ar_covered                : 0
+                  - undetermined              : 0
+                  - unknown                   : 0
+                  - error                     : 0
+
+Tempo total:
+35,4798min

@@ -6,7 +6,7 @@ module rvfi_wrapper (
 
     // localparams for the CV32E40P core
     localparam N_EXT_PERF_COUNTERS =   1;
-    localparam INSTR_RDATA_WIDTH   =  32;
+    // localparam INSTR_RDATA_WIDTH   =  32;
     localparam PULP_SECURE         =   1;
     // localparam N_PMP_ENTRIES       =  16;
     // localparam USE_PMP             =   1; 
@@ -19,11 +19,11 @@ module rvfi_wrapper (
     // localparam SHARED_INT_MULT     =   0;
     // localparam SHARED_INT_DIV      =   0;
     localparam SHARED_FP_DIVSQRT   =   2;
-    localparam WAPUTYPE            =   0;
-    localparam APU_NARGS_CPU       =   3;
-    localparam APU_WOP_CPU         =   6;
-    localparam APU_NDSFLAGS_CPU    =  15;
-    localparam APU_NUSFLAGS_CPU    =   5;
+    // localparam WAPUTYPE            =   0;
+    // localparam APU_NARGS_CPU       =   3;
+    // localparam APU_WOP_CPU         =   6;
+    // localparam APU_NDSFLAGS_CPU    =  15;
+    // localparam APU_NUSFLAGS_CPU    =   5;
     // localparam DM_HaltAddress      = 32'h1A110800;
     
     localparam BOOT_ADDR         = 32'h1A00_0080;
@@ -56,11 +56,11 @@ module rvfi_wrapper (
     (* keep *) wire [ 5:0] cluster_id_i;
 
     // Instruction memory interface
-    (* keep *)               wire                         instr_req_o;
-    (* keep *) `rvformal_rand_reg                         instr_gnt_i;
-    (* keep *) `rvformal_rand_reg                         instr_rvalid_i;
-    (* keep *)               wire                  [31:0] instr_addr_o;
-    (* keep *) `rvformal_rand_reg [INSTR_RDATA_WIDTH-1:0] instr_rdata_i;
+    (* keep *)               wire        instr_req_o;
+    (* keep *) `rvformal_rand_reg        instr_gnt_i;
+    (* keep *) `rvformal_rand_reg        instr_rvalid_i;
+    (* keep *)               wire [31:0] instr_addr_o;
+    (* keep *) `rvformal_rand_reg [31:0] instr_rdata_i;
 
     // Data memory interface
     (* keep *)               wire        data_req_o;
@@ -74,18 +74,18 @@ module rvfi_wrapper (
 
     // apu-interconnect
     // handshake signals
-    (* keep *) wire                       apu_master_req_o;
-    (* keep *) wire                       apu_master_ready_o;
-    (* keep *) wire                       apu_master_gnt_i;
+    // (* keep *) wire                       apu_master_req_o;
+    // (* keep *) wire                       apu_master_ready_o;
+    // (* keep *) wire                       apu_master_gnt_i;
     // request channel
-    (* keep *) wire [APU_NARGS_CPU-1:0][31:0] apu_master_operands_o;
-    (* keep *) wire [APU_WOP_CPU-1:0]         apu_master_op_o;
-    (* keep *) wire [WAPUTYPE-1:0]            apu_master_type_o;
-    (* keep *) wire [APU_NDSFLAGS_CPU-1:0]    apu_master_flags_o;
+    // (* keep *) wire [APU_NARGS_CPU-1:0][31:0] apu_master_operands_o;
+    // (* keep *) wire [APU_WOP_CPU-1:0]         apu_master_op_o;
+    // (* keep *) wire [WAPUTYPE-1:0]            apu_master_type_o;
+    // (* keep *) wire [APU_NDSFLAGS_CPU-1:0]    apu_master_flags_o;
     // response channel
-    (* keep *) wire                        apu_master_valid_i;
-    (* keep *) wire [31:0]                 apu_master_result_i;
-    (* keep *) wire [APU_NUSFLAGS_CPU-1:0] apu_master_flags_i;
+    // (* keep *) wire                        apu_master_valid_i;
+    // (* keep *) wire [31:0]                 apu_master_result_i;
+    // (* keep *) wire [APU_NUSFLAGS_CPU-1:0] apu_master_flags_i;
 
     // Interrupt inputs
     (* keep *) wire        irq_i;                 // level sensitive IR lines
@@ -123,10 +123,10 @@ module rvfi_wrapper (
     
     // Pulpissimo does not use the apu interconnect
     // This is used when there is an external FPU
-    assign apu_master_gnt_i     =  1'b1;
-    assign apu_master_valid_i   =  1'b0;
-    assign apu_master_result_i  = 32'b0;
-    assign apu_master_flags_i   =    '0;    
+    // assign apu_master_gnt_i     =  1'b1;
+    // assign apu_master_valid_i   =  1'b0;
+    // assign apu_master_result_i  = 32'b0;
+    // assign apu_master_flags_i   =    '0;    
     
     // Disable interrupts for now (they are asynchronous)
     assign irq_i     = 1'b0;
@@ -149,7 +149,7 @@ module rvfi_wrapper (
     riscv_core
     #(
         .N_EXT_PERF_COUNTERS            ( N_EXT_PERF_COUNTERS      ),
-        .INSTR_RDATA_WIDTH              ( INSTR_RDATA_WIDTH        ),
+        // .INSTR_RDATA_WIDTH              ( INSTR_RDATA_WIDTH        ),
         .PULP_SECURE                    ( PULP_SECURE              ),
         // .N_PMP_ENTRIES                  ( N_PMP_ENTRIES            ),
         // .USE_PMP                        ( USE_PMP                  ),
@@ -161,12 +161,12 @@ module rvfi_wrapper (
         // .SHARED_DSP_MULT                ( SHARED_DSP_MULT          ),
         // .SHARED_INT_MULT                ( SHARED_INT_MULT          ),
         // .SHARED_INT_DIV                 ( SHARED_INT_DIV           ),
-        .SHARED_FP_DIVSQRT              ( SHARED_FP_DIVSQRT        ),
-        .WAPUTYPE                       ( WAPUTYPE                 ),
-        .APU_NARGS_CPU                  ( APU_NARGS_CPU            ),
-        .APU_WOP_CPU                    ( APU_WOP_CPU              ),
-        .APU_NDSFLAGS_CPU               ( APU_NDSFLAGS_CPU         ),
-        .APU_NUSFLAGS_CPU               ( APU_NUSFLAGS_CPU         )
+        .SHARED_FP_DIVSQRT              ( SHARED_FP_DIVSQRT        )
+        // .WAPUTYPE                       ( WAPUTYPE                 ),
+        // .APU_NARGS_CPU                  ( APU_NARGS_CPU            ),
+        // .APU_WOP_CPU                    ( APU_WOP_CPU              ),
+        // .APU_NDSFLAGS_CPU               ( APU_NDSFLAGS_CPU         ),
+        // .APU_NUSFLAGS_CPU               ( APU_NUSFLAGS_CPU         )
         // .DM_HaltAddress                 ( DM_HaltAddress           ),
     )
     uut
@@ -198,17 +198,18 @@ module rvfi_wrapper (
         .data_wdata_o                   ( data_wdata_o            ),
         .data_rdata_i                   ( data_rdata_i            ),
 
-        .apu_master_req_o               ( apu_master_req_o        ),
-        .apu_master_ready_o             ( apu_master_ready_o      ),
-        .apu_master_gnt_i               ( apu_master_gnt_i        ),
-        .apu_master_operands_o          ( apu_master_operands_o   ),
-        .apu_master_op_o                ( apu_master_op_o         ),
-        .apu_master_type_o              ( apu_master_type_o       ),
-        .apu_master_flags_o             ( apu_master_flags_o      ),
+        .apu_master_req_o               (                         ),
+        .apu_master_ready_o             (                         ),
+        .apu_master_gnt_i               ( 1'b1                    ),
+        
+        .apu_master_operands_o          (                         ),
+        .apu_master_op_o                (                         ),
+        .apu_master_type_o              (                         ),
+        .apu_master_flags_o             (                         ),
 
-        .apu_master_valid_i             ( apu_master_valid_i      ),
-        .apu_master_result_i            ( apu_master_result_i     ),
-        .apu_master_flags_i             ( apu_master_flags_i      ),
+        .apu_master_valid_i             ( '0                      ),
+        .apu_master_result_i            ( '0                      ),
+        .apu_master_flags_i             ( '0                      ),
 
         .irq_i                          ( irq_i                   ),
         .irq_id_i                       ( irq_id_i                ),
