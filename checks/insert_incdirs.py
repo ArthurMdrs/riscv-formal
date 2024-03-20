@@ -60,7 +60,7 @@ if len(sys.argv) > 1:
     cfgname = sys.argv[1]
 
 # Check include directories in the config file
-get_from_config("[incdirs]", incdirs_vec, cfgname)
+get_from_config("[include-dirs]", incdirs_vec, cfgname)
 
 # Store all files and folders from the incdirs in a string
 for dir in incdirs_vec:

@@ -414,18 +414,12 @@ def check_insn(grp, insn, chanidx, csr_mode=False, illegal_csr=False):
         if "script-sources" in config:
             print_hfmt(sby_file, config["script-sources"], **hargs)
 
-        # print_hfmt(sby_file, """
-        #         : prep -flatten -nordff -top rvfi_testbench
-        # """, **hargs)
         print("elaborate -top rvfi_testbench -create_related_covers witness -bbox_mul 128\n", file=sby_file)
         print("clock clock\nreset reset\n", file=sby_file)
 
         if "script-link" in config:
             print_hfmt(sby_file, config["script-link"], **hargs)
         
-        # print("check_assumptions -show -dead_end\n", file=sby_file)
-        # print("set_prove_target_bound $depth", file=sby_file)
-        # print("prove -instance checker_inst -bg -iter $depth", file=sby_file)
         print_hfmt(sby_file, """
                 : check_assumptions -show -dead_end
                 : 
@@ -433,21 +427,12 @@ def check_insn(grp, insn, chanidx, csr_mode=False, illegal_csr=False):
                 : set_trace_optimization standard
                 : prove -instance checker_inst -iter $depth -dump_trace -dump_trace_type vcd -dump_trace_dir traces -prefer_quiet
                 : 
-                : cd traces
-                : set compressed [glob -nocomplain *.gz]
-                : foreach file $compressed {
-                :     gzip -fd $file
-                : }
         """, **hargs)
-        
-        # print_hfmt(sby_file, """
-        #         : chformal -early
-        #         :
-        #         : [files]
-        #         : @basedir@/checks/rvfi_macros.vh
-        #         : @basedir@/checks/rvfi_channel.sv
-        #         : @basedir@/checks/rvfi_testbench.sv
-        # """, **hargs)
+                # : cd traces
+                # : set compressed [glob -nocomplain *.gz]
+                # : foreach file $compressed {
+                # :     gzip -fd $file
+                # : }
         
         check_dir = f"{cfgname}/{check}/"
         shutil.copy(basedir+"/checks/rvfi_macros.vh", check_dir)
@@ -455,34 +440,13 @@ def check_insn(grp, insn, chanidx, csr_mode=False, illegal_csr=False):
         shutil.copy(basedir+"/checks/rvfi_testbench.sv", check_dir)
 
         if illegal_csr:
-            # print_hfmt(sby_file, """
-            #         : @basedir@/checks/rvfi_csr_ill_check.sv
-            # """, **hargs)
             shutil.copy(basedir+"/checks/rvfi_csr_ill_check.sv", check_dir)
         elif csr_mode:
-            # print_hfmt(sby_file, """
-            #         : @basedir@/checks/rvfi_csrw_check.sv
-            # """, **hargs)
             shutil.copy(basedir+"/checks/rvfi_csrw_check.sv", check_dir)
         else:
-            # print_hfmt(sby_file, """
-            #         : @basedir@/checks/rvfi_insn_check.sv
-            #         : @basedir@/insns/insn_@insn@.v
-            # """, **hargs)
             shutil.copy(basedir+"/checks/rvfi_insn_check.sv", check_dir)
             shutil.copy(basedir+"/insns/insn_"+insn+".v", check_dir)
 
-        # print_hfmt(sby_file, """
-        #         :
-        #         : [file defines.sv]
-        #         : `define RISCV_FORMAL
-        #         : `define RISCV_FORMAL_NRET @nret@
-        #         : `define RISCV_FORMAL_XLEN @xlen@
-        #         : `define RISCV_FORMAL_ILEN @ilen@
-        #         : `define RISCV_FORMAL_RESET_CYCLES 1
-        #         : `define RISCV_FORMAL_CHECK_CYCLE @depth@
-        #         : `define RISCV_FORMAL_CHANNEL_IDX @channel@
-        # """, **hargs)
         defines_str = hfmt("""
                 : `define RISCV_FORMAL
                 : `define RISCV_FORMAL_NRET @nret@
@@ -494,55 +458,34 @@ def check_insn(grp, insn, chanidx, csr_mode=False, illegal_csr=False):
         """, **hargs)
 
         if "assume" in config:
-            # print("`define RISCV_FORMAL_ASSUME", file=sby_file)
             defines_str += hfmt("`define RISCV_FORMAL_ASSUME\n", **hargs)
         
         if mode == "prove":
-            # print("`define RISCV_FORMAL_UNBOUNDED", file=sby_file)
             defines_str += hfmt("`define RISCV_FORMAL_UNBOUNDED\n", **hargs)
 
         for csr in sorted(csrs):
-            # print(f"`define RISCV_FORMAL_CSR_{csr.upper()}", file=sby_file)
             defines_str += hfmt(f"`define RISCV_FORMAL_CSR_{csr.upper()}", **hargs)
 
         if csr_mode and insn in ("mcycle", "minstret"):
-            # print("`define RISCV_FORMAL_CSRWH", file=sby_file)
             defines_str += hfmt("`define RISCV_FORMAL_CSRWH", **hargs)
         
         if illegal_csr:
-            # print_hfmt(sby_file, """
-            #         : `define RISCV_FORMAL_CHECKER rvfi_csr_ill_check
-            #         : `define RISCV_FORMAL_ILL_CSR_ADDR @insn@
-            # """, **hargs)
             defines_str += hfmt("`define RISCV_FORMAL_CHECKER rvfi_csr_ill_check", **hargs)
             defines_str += hfmt("`define RISCV_FORMAL_ILL_CSR_ADDR @insn@", **hargs)
             if 'm' in ill_modes:
-                # print("`define RISCV_FORMAL_ILL_MMODE", file=sby_file)
                 defines_str += hfmt("`define RISCV_FORMAL_ILL_MMODE", **hargs)
             if 's' in ill_modes:
-                # print("`define RISCV_FORMAL_ILL_SMODE", file=sby_file)
                 defines_str += hfmt("`define RISCV_FORMAL_ILL_SMODE", **hargs)
             if 'u' in ill_modes:
-                # print("`define RISCV_FORMAL_ILL_UMODE", file=sby_file)
                 defines_str += hfmt("`define RISCV_FORMAL_ILL_UMODE", **hargs)
             if 'r' in ill_rw:
-                # print("`define RISCV_FORMAL_ILL_READ", file=sby_file)
                 defines_str += hfmt("`define RISCV_FORMAL_ILL_READ", **hargs)
             if 'w' in ill_rw:
-                # print("`define RISCV_FORMAL_ILL_WRITE", file=sby_file)
                 defines_str += hfmt("`define RISCV_FORMAL_ILL_WRITE", **hargs)
         elif csr_mode:
-            # print_hfmt(sby_file, """
-            #         : `define RISCV_FORMAL_CHECKER rvfi_csrw_check
-            #         : `define RISCV_FORMAL_CSRW_NAME @insn@
-            # """, **hargs)
             defines_str += hfmt("`define RISCV_FORMAL_CHECKER rvfi_csrw_check", **hargs)
             defines_str += hfmt("`define RISCV_FORMAL_CSRW_NAME @insn@", **hargs)
         else:
-            # print_hfmt(sby_file, """
-            #         : `define RISCV_FORMAL_CHECKER rvfi_insn_check
-            #         : `define RISCV_FORMAL_INSN_MODEL rvfi_insn_@insn@
-            # """, **hargs)
             defines_str += hfmt("`define RISCV_FORMAL_CHECKER rvfi_insn_check", **hargs)
             defines_str += hfmt("`define RISCV_FORMAL_INSN_MODEL rvfi_insn_@insn@", **hargs)
         
@@ -551,15 +494,12 @@ def check_insn(grp, insn, chanidx, csr_mode=False, illegal_csr=False):
             print_custom_csrs(sby_file)
 
         if blackbox:
-            # print("`define RISCV_FORMAL_BLACKBOX_REGS", file=sby_file)
             defines_str += hfmt("`define RISCV_FORMAL_BLACKBOX_REGS", **hargs)
 
         if compr:
-            # print("`define RISCV_FORMAL_COMPRESSED", file=sby_file)
             defines_str += hfmt("`define RISCV_FORMAL_COMPRESSED", **hargs)
 
         if "defines" in config:
-            # print_hfmt(sby_file, config["defines"], **hargs)
             defines_str += hfmt(config["defines"], **hargs)
         
         defines_str += hfmt("`include \"rvfi_macros.vh\"", **hargs)
@@ -567,14 +507,6 @@ def check_insn(grp, insn, chanidx, csr_mode=False, illegal_csr=False):
             for line in defines_str:
                 print(line, file=defines_file)
 
-        # print_hfmt(sby_file, """
-        #         : `include "rvfi_macros.vh"
-        #         :
-        #         : [file @checkch@.sv]
-        #         : `include "defines.sv"
-        #         : `include "rvfi_channel.sv"
-        #         : `include "rvfi_testbench.sv"
-        # """, **hargs)
         checkch_str = hfmt("""
                 : `include "defines.sv"
                 : `include "rvfi_channel.sv"
@@ -582,20 +514,10 @@ def check_insn(grp, insn, chanidx, csr_mode=False, illegal_csr=False):
         """, **hargs)
 
         if illegal_csr:
-            # print_hfmt(sby_file, """
-            #         : `include "rvfi_csr_ill_check.sv"
-            # """, **hargs)
             checkch_str += hfmt("`include \"rvfi_csr_ill_check.sv\"", **hargs)
         elif csr_mode:
-            # print_hfmt(sby_file, """
-            #         : `include "rvfi_csrw_check.sv"
-            # """, **hargs)
             checkch_str += hfmt("`include \"rvfi_csrw_check.sv\"", **hargs)
         else:
-            # print_hfmt(sby_file, """
-            #         : `include "rvfi_insn_check.sv"
-            #         : `include "insn_@insn@.v"
-            # """, **hargs)
             checkch_str += hfmt("`include \"rvfi_insn_check.sv\"", **hargs)
             checkch_str += hfmt("`include \"insn_@insn@.v\"", **hargs)
         
@@ -605,8 +527,6 @@ def check_insn(grp, insn, chanidx, csr_mode=False, illegal_csr=False):
                 print(line, file=checkch_file)
         
         if "assume" in config:
-            # print("", file=sby_file)
-            # print("[file assume_stmts.vh]", file=sby_file)
             assume_stmts_str = ""
             for pat, line in config["assume"]:
                 enabled = True
@@ -620,7 +540,6 @@ def check_insn(grp, insn, chanidx, csr_mode=False, illegal_csr=False):
                         enabled = not enabled
                         break
                 if enabled:
-                    # print(line, file=sby_file)
                     assume_stmts_str += line
             with open(f"{cfgname}/{check}/assume_stmts.vh", "w") as assume_stmts_file:
                 print(assume_stmts_str, file=assume_stmts_file)
@@ -730,19 +649,6 @@ def check_cons(grp, check, chanidx=None, start=None, trig=None, depth=None, csr_
     os.mkdir(f"{cfgname}/{check}")
 
     with open(f"{cfgname}/{check}/{check}_jg.tcl", "w") as sby_file:
-        # print_hfmt(sby_file, """
-        #         : [options]
-        #         : mode @xmode@
-        #         : expect pass,fail
-        #         : append @append@
-        #         : depth @depth_plus@
-        #         : skip @skip@
-        #         :
-        #         : [engines]
-        #         : @engine@
-        #         :
-        #         : [script]
-        # """, **hargs)
         print_hfmt(sby_file, """
                 : clear -all
                 :
@@ -769,7 +675,6 @@ def check_cons(grp, check, chanidx=None, start=None, trig=None, depth=None, csr_
             vhdl_files += hfmt(config["vhdl-files"], **hargs)
 
         if len(sv_files):
-            # print(f"read -sv {' '.join(sv_files)}", file=sby_file)
             print("analyze -sv12 \\", file=sby_file)
             if len(inc_dirs):
                 for x in inc_dirs:
@@ -781,7 +686,6 @@ def check_cons(grp, check, chanidx=None, start=None, trig=None, depth=None, csr_
                 print(mystr, file=sby_file)
 
         if len(vhdl_files):
-            # print(f"read -vhdl {' '.join(vhdl_files)}", file=sby_file)
             print("analyze -vhdl08 \\", file=sby_file)
             if len(inc_dirs):
                 for x in inc_dirs:
@@ -801,50 +705,36 @@ def check_cons(grp, check, chanidx=None, start=None, trig=None, depth=None, csr_
         if "script-link" in config:
             print_hfmt(sby_file, config["script-link"], **hargs)
         
-        # print("check_assumptions -show -dead_end\n", file=sby_file)
-        # print("set_prove_target_bound $depth", file=sby_file)
-        # print("prove -instance checker_inst -bg -iter $depth", file=sby_file)
-        print_hfmt(sby_file, """
-                : check_assumptions -show -dead_end
-                : 
-                : set_prove_target_bound $depth
-                : set_trace_optimization standard
-                : prove -instance checker_inst -iter $depth -dump_trace -dump_trace_type vcd -dump_trace_dir traces -prefer_quiet
-                : 
-                : cd traces
-                : set compressed [glob -nocomplain *.gz]
-                : foreach file $compressed {
-                :     gzip -fd $file
-                : }
-        """, **hargs)
-
-        # print_hfmt(sby_file, """
-        #         : [files]
-        #         : @basedir@/checks/rvfi_macros.vh
-        #         : @basedir@/checks/rvfi_channel.sv
-        #         : @basedir@/checks/rvfi_testbench.sv
-        #         : @basedir@/checks/rvfi_@check@_check.sv
-        #         :
-        #         : [file defines.sv]
-        # """, **hargs)
-        
         check_dir = f"{cfgname}/{check}/"
         shutil.copy(basedir+"/checks/rvfi_macros.vh", check_dir)
         shutil.copy(basedir+"/checks/rvfi_channel.sv", check_dir)
         shutil.copy(basedir+"/checks/rvfi_testbench.sv", check_dir)
         temp = hfmt("@check@", **hargs)[0]
         shutil.copy(f"{basedir}/checks/rvfi_{temp}_check.sv", check_dir)
-        # shutil.copy(f"{basedir}/checks/{hfmt("rvfi_@check@_check", **hargs)}.sv", check_dir)
+        
+        # DECTECT THE NON-DETERMINISTIC CONSTANTS
+        with open(f"{basedir}/checks/rvfi_{temp}_check.sv", 'r') as f:
+            for line in f.readlines():
+                if "rvformal_rand_const_reg" in line:
+                    ndc = line.split()[-1][:-1]
+                    print(ndc)
+                    print(f"assume -name ASM_{ndc}_const {{@(posedge clock) (checker_inst.{ndc} == $past(checker_inst.{ndc}))}}", file=sby_file)
+        
+        print_hfmt(sby_file, """
+                :
+                : check_assumptions -show -dead_end
+                : 
+                : set_prove_target_bound $depth
+                : set_trace_optimization standard
+                : prove -instance checker_inst -iter $depth -dump_trace -dump_trace_type vcd -dump_trace_dir traces -prefer_quiet
+                : 
+        """, **hargs)
+                # : cd traces
+                # : set compressed [glob -nocomplain *.gz]
+                # : foreach file $compressed {
+                # :     gzip -fd $file
+                # : }
 
-        # print_hfmt(sby_file, """
-        #         : `define RISCV_FORMAL
-        #         : `define RISCV_FORMAL_NRET @nret@
-        #         : `define RISCV_FORMAL_XLEN @xlen@
-        #         : `define RISCV_FORMAL_ILEN @ilen@
-        #         : `define RISCV_FORMAL_CHECKER rvfi_@check@_check
-        #         : `define RISCV_FORMAL_RESET_CYCLES @start@
-        #         : `define RISCV_FORMAL_CHECK_CYCLE @depth@
-        # """, **hargs)
         defines_str = hfmt("""
                 : `define RISCV_FORMAL
                 : `define RISCV_FORMAL_NRET @nret@
@@ -867,18 +757,13 @@ def check_cons(grp, check, chanidx=None, start=None, trig=None, depth=None, csr_
         if csr_mode:
             localdict = locals()
             if "constval" in localdict:
-                # print(f"`define RISCV_FORMAL_CSRC_CONSTVAL {constval}", file=sby_file)
                 defines_str += hfmt(f"`define RISCV_FORMAL_CSRC_CONSTVAL {constval}", **hargs)
             if "hpmevent" in localdict:
-                # print(f"`define RISCV_FORMAL_CSRC_HPMEVENT {hpmevent}", file=sby_file)
                 defines_str += hfmt(f"`define RISCV_FORMAL_CSRC_HPMEVENT {hpmevent}", **hargs)
             if "hpmcounter" in localdict:
-                # print(f"`define RISCV_FORMAL_CSRC_HPMCOUNTER {hpmcounter}", file=sby_file)
                 defines_str += hfmt(f"`define RISCV_FORMAL_CSRC_HPMCOUNTER {hpmcounter}", **hargs)
             if "csr_mask" in localdict:
-                # print(f"`define RISCV_FORMAL_CSRC_MASK {csr_mask}", file=sby_file)
                 defines_str += hfmt(f"`define RISCV_FORMAL_CSRC_MASK {csr_mask}", **hargs)
-            # print(f"`define RISCV_FORMAL_CSRC_NAME {csr_name}", file=sby_file)
             defines_str += hfmt(f"`define RISCV_FORMAL_CSRC_NAME {csr_name}", **hargs)
         
         # TO DO!!! if block below
@@ -886,27 +771,18 @@ def check_cons(grp, check, chanidx=None, start=None, trig=None, depth=None, csr_
             print_custom_csrs(sby_file)
 
         if blackbox and hargs["check"] != "liveness":
-            # print("`define RISCV_FORMAL_BLACKBOX_ALU", file=sby_file)
             defines_str += hfmt("`define RISCV_FORMAL_BLACKBOX_ALU", **hargs)
 
         if blackbox and hargs["check"] != "reg":
-            # print("`define RISCV_FORMAL_BLACKBOX_REGS", file=sby_file)
             defines_str += hfmt("`define RISCV_FORMAL_BLACKBOX_REGS", **hargs)
 
         if chanidx is not None:
-            # print(f"`define RISCV_FORMAL_CHANNEL_IDX {chanidx:d}", file=sby_file)
             defines_str += hfmt(f"`define RISCV_FORMAL_CHANNEL_IDX {chanidx:d}", **hargs)
 
         if trig is not None:
-            # print(f"`define RISCV_FORMAL_TRIG_CYCLE {trig:d}", file=sby_file)
             defines_str += hfmt(f"`define RISCV_FORMAL_TRIG_CYCLE {trig:d}", **hargs)
 
         if bus_mode:
-            # print_hfmt(sby_file, """
-            #         : `define RISCV_FORMAL_BUS
-            #         : `define RISCV_FORMAL_NBUS @nbus@
-            #         : `define RISCV_FORMAL_BUSLEN @buslen@
-            # """, **hargs)
             defines_str += hfmt("""
                     : `define RISCV_FORMAL_BUS
                     : `define RISCV_FORMAL_NBUS @nbus@
@@ -914,31 +790,19 @@ def check_cons(grp, check, chanidx=None, start=None, trig=None, depth=None, csr_
             """, **hargs)
 
         if hargs["check"] in ("liveness", "hang"):
-            # print("`define RISCV_FORMAL_FAIRNESS", file=sby_file)
             defines_str += hfmt("`define RISCV_FORMAL_FAIRNESS", **hargs)
 
         if "defines" in config:
-            # print_hfmt(sby_file, config["defines"], **hargs)
             defines_str += hfmt(config["defines"], **hargs)
 
         if (f"defines {hargs['check']}") in config:
-            # print_hfmt(sby_file, config[f"defines {hargs['check']}"], **hargs)
             defines_str += hfmt(config[f"defines {hargs['check']}"], **hargs)
 
         defines_str += hfmt("`include \"rvfi_macros.vh\"", **hargs)
         with open(f"{cfgname}/{check}/defines.sv", "w") as defines_file:
             for line in defines_str:
                 print(line, file=defines_file)
-                
-        # print_hfmt(sby_file, """
-        #         : `include "rvfi_macros.vh"
-        #         :
-        #         : [file @checkch@.sv]
-        #         : `include "defines.sv"
-        #         : `include "rvfi_channel.sv"
-        #         : `include "rvfi_testbench.sv"
-        #         : `include "rvfi_@check@_check.sv"
-        # """, **hargs)
+        
         checkch_str = hfmt("""
                 : `include "defines.sv"
                 : `include "rvfi_channel.sv"
@@ -952,19 +816,12 @@ def check_cons(grp, check, chanidx=None, start=None, trig=None, depth=None, csr_
                 print(line, file=checkch_file)
         
         if check == pf+"cover":
-            # print_hfmt(sby_file, """
-            #         :
-            #         : [file cover_stmts.vh]
-            #         : @cover@
-            # """, **hargs)
             cover_stmts_str = hfmt("@cover@", **hargs)
             with open(f"{cfgname}/{check}/cover_stmts.vh", "w") as cover_stmts_file:
                 for line in cover_stmts_str:
                     print(line, file=cover_stmts_file)
 
         if "assume" in config:
-            # print("", file=sby_file)
-            # print("[file assume_stmts.vh]", file=sby_file)
             assume_stmts_str = ""
             for pat, line in config["assume"]:
                 enabled = True
@@ -978,7 +835,6 @@ def check_cons(grp, check, chanidx=None, start=None, trig=None, depth=None, csr_
                         enabled = not enabled
                         break
                 if enabled:
-                    # print(line, file=sby_file)
                     assume_stmts_str += line
             with open(f"{cfgname}/{check}/assume_stmts.vh", "w") as assume_stmts_file:
                 print(assume_stmts_str, file=assume_stmts_file)
@@ -1039,8 +895,10 @@ with open(f"{cfgname}/Makefile", "w") as mkfile:
         print(f"{check}/jgproject:", file=mkfile)
         if abspath:
             print(f"\tcd $(shell pwd)/{check} && {jgcmd} $(shell pwd)/{check}_jg.tcl -batch", file=mkfile)
+            print(f"\tgzip -rfd $(shell pwd)/{check}/traces", file=mkfile)
         else:
             print(f"\tcd {check} && {jgcmd} {check}_jg.tcl -batch", file=mkfile)
+            print(f"\tgzip -rfd {check}/traces", file=mkfile)
         print(f".PHONY: {check}", file=mkfile)
 
 print(f"Generated {len(consistency_checks) + len(instruction_checks)} checks.")

@@ -59,17 +59,6 @@ def fill_time_slots (time_vals, unfilled_slots, tuple_vec):
             new_vec.append([time, prev_val])
     return new_vec
 
-# new_rvfi_valid = fill_time_slots(time_vals, valid_time_vals, rvfi_valid)
-# new_rvfi_order = fill_time_slots(time_vals, order_time_vals, rvfi_order)
-# new_rvfi_insn  = fill_time_slots(time_vals, insn_time_vals , rvfi_insn )
-# print("rvfi_valid is", new_rvfi_valid)
-# print("rvfi_order is", new_rvfi_order)
-# print("rvfi_insn is", new_rvfi_insn)
-
-# rvfi_valid = new_rvfi_valid
-# rvfi_order = new_rvfi_order
-# rvfi_insn  = new_rvfi_insn
-
 rvfi_valid = fill_time_slots(time_vals, valid_time_vals, rvfi_valid)
 rvfi_order = fill_time_slots(time_vals, order_time_vals, rvfi_order)
 rvfi_insn  = fill_time_slots(time_vals, insn_time_vals , rvfi_insn )
@@ -90,6 +79,6 @@ with open("disasm.s", "w") as f:
         else:
             print(".word 0x%08x # %d" % (tv_insn, tv_order), file=f)
 
-system("riscv32-unknown-elf-gcc -march=rv32imfc_xpulpv3 -c disasm.s")
+system("riscv32-unknown-elf-gcc -march=rv32imfc_xpulpv1 -c disasm.s")
 system("riscv32-unknown-elf-objdump -d -M numeric,no-aliases disasm.o")
 
