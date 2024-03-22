@@ -303,6 +303,7 @@ def get_depth_cfg(patterns):
     return ret
 
 def print_custom_csrs(sby_file):
+    defines_str = ""
     fstrings = {
         "inputs": "  ,input [`RISCV_FORMAL_NRET * `RISCV_FORMAL_XLEN - 1 : 0] rvfi_csr_{csr}_{signal} \\",
         "wires": "  (* keep *) wire [`RISCV_FORMAL_NRET * `RISCV_FORMAL_XLEN - 1 : 0] rvfi_csr_{csr}_{signal}; \\",
@@ -314,9 +315,11 @@ def print_custom_csrs(sby_file):
     }
     for (macro, fstring) in fstrings.items():
         if macro == "channel":
-            print(f"`define RISCV_FORMAL_CUSTOM_CSR_{macro.upper()}(_idx) \\" , file=sby_file)
+            # print(f"`define RISCV_FORMAL_CUSTOM_CSR_{macro.upper()}(_idx) \\" , file=sby_file)
+            defines_str += hfmt(f"`define RISCV_FORMAL_CUSTOM_CSR_{macro.upper()}(_idx) \\", **hargs)
         else:
-            print(f"`define RISCV_FORMAL_CUSTOM_CSR_{macro.upper()} \\", file=sby_file)
+            # print(f"`define RISCV_FORMAL_CUSTOM_CSR_{macro.upper()} \\", file=sby_file)
+            defines_str += hfmt(f"`define RISCV_FORMAL_CUSTOM_CSR_{macro.upper()} \\", **hargs)
         for custom_csr in custom_csrs:
             name = custom_csr[0]
             addr = custom_csr[1]
@@ -327,12 +330,16 @@ def print_custom_csrs(sby_file):
                         macro_string = fstring.format(level=level, name=name, index=addr)
                     else:
                         macro_string = fstring.format(level=level, name=name, index=0xfff)
-                    print(macro_string, file=sby_file)
+                    # print(macro_string, file=sby_file)
+                    defines_str += hfmt(macro_string, **hargs)
             else:
                 for signal in ["rmask", "wmask", "rdata", "wdata"]:
                     macro_string = fstring.format(csr=name, signal=signal)
-                    print(macro_string, file=sby_file)
-        print("", file=sby_file)
+                    # print(macro_string, file=sby_file)
+                    defines_str += hfmt(macro_string, **hargs)
+        # print("", file=sby_file)
+        defines_str += hfmt("", **hargs)
+    return defines_str
 
 # ------------------------------ Instruction Checkers ------------------------------
 
@@ -413,8 +420,11 @@ def check_insn(grp, insn, chanidx, csr_mode=False, illegal_csr=False):
 
         if "script-sources" in config:
             print_hfmt(sby_file, config["script-sources"], **hargs)
-
-        print("elaborate -top rvfi_testbench -create_related_covers witness -bbox_mul 128\n", file=sby_file)
+        
+        if "mul" in insn: bbox_mul_str = "-bbox_mul 256"
+        else: bbox_mul_str = ""
+        
+        print(f"elaborate -top rvfi_testbench -create_related_covers witness {bbox_mul_str}\n", file=sby_file)
         print("clock clock\nreset reset\n", file=sby_file)
 
         if "script-link" in config:
@@ -489,9 +499,9 @@ def check_insn(grp, insn, chanidx, csr_mode=False, illegal_csr=False):
             defines_str += hfmt("`define RISCV_FORMAL_CHECKER rvfi_insn_check", **hargs)
             defines_str += hfmt("`define RISCV_FORMAL_INSN_MODEL rvfi_insn_@insn@", **hargs)
         
-        # TO DO!!! if block below
+        # DONE!!! if block below
         if custom_csrs:
-            print_custom_csrs(sby_file)
+            defines_str += print_custom_csrs(sby_file)
 
         if blackbox:
             defines_str += hfmt("`define RISCV_FORMAL_BLACKBOX_REGS", **hargs)
@@ -699,7 +709,7 @@ def check_cons(grp, check, chanidx=None, start=None, trig=None, depth=None, csr_
         if "script-sources" in config:
             print_hfmt(sby_file, config["script-sources"], **hargs)
 
-        print("elaborate -top rvfi_testbench -create_related_covers witness -bbox_mul 128\n", file=sby_file)
+        print("elaborate -top rvfi_testbench -create_related_covers witness\n", file=sby_file)
         print("clock clock\nreset reset\n", file=sby_file)
 
         if "script-link" in config:
@@ -766,9 +776,9 @@ def check_cons(grp, check, chanidx=None, start=None, trig=None, depth=None, csr_
                 defines_str += hfmt(f"`define RISCV_FORMAL_CSRC_MASK {csr_mask}", **hargs)
             defines_str += hfmt(f"`define RISCV_FORMAL_CSRC_NAME {csr_name}", **hargs)
         
-        # TO DO!!! if block below
+        # DONE!!! if block below
         if custom_csrs:
-            print_custom_csrs(sby_file)
+            defines_str += print_custom_csrs(sby_file)
 
         if blackbox and hargs["check"] != "liveness":
             defines_str += hfmt("`define RISCV_FORMAL_BLACKBOX_ALU", **hargs)

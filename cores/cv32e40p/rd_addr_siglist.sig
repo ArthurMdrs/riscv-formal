@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <wavelist version="3">
-  <insertion-point-position>24</insertion-point-position>
+  <insertion-point-position>14</insertion-point-position>
   <wave>
     <expr>clock</expr>
     <label/>
@@ -14,6 +14,58 @@
   </wave>
   <wave>
     <expr>wrapper.uut.rvfi_valid_id</expr>
+    <label/>
+    <radix/>
+  </wave>
+  <wave>
+    <expr>wrapper.uut.rvfi_valid_wb</expr>
+    <label/>
+    <radix/>
+  </wave>
+  <spacer/>
+  <wave collapsed="true">
+    <expr>wrapper.uut.load_store_unit_i.CS</expr>
+    <label/>
+    <radix>wrapper.uut.load_store_unit_i.CS</radix>
+  </wave>
+  <wave collapsed="true">
+    <expr>wrapper.uut.load_store_unit_i.NS</expr>
+    <label/>
+    <radix>wrapper.uut.load_store_unit_i.CS</radix>
+  </wave>
+  <wave>
+    <expr>wrapper.uut.load_store_unit_i.data_gnt_i</expr>
+    <label/>
+    <radix/>
+  </wave>
+  <wave>
+    <expr>wrapper.uut.load_store_unit_i.data_req_o</expr>
+    <label/>
+    <radix/>
+  </wave>
+  <wave collapsed="true">
+    <expr>wrapper.uut.load_store_unit_i.data_rdata_ex_o</expr>
+    <label/>
+    <radix>rvfi_pc_rdata</radix>
+  </wave>
+  <spacer/>
+  <wave>
+    <expr>wrapper.uut.load_store_unit_i.data_misaligned_o</expr>
+    <label/>
+    <radix/>
+  </wave>
+  <wave>
+    <expr>wrapper.uut.load_store_unit_i.data_misaligned_ex_i</expr>
+    <label/>
+    <radix/>
+  </wave>
+  <wave>
+    <expr>wrapper.uut.misaligned_stall_q</expr>
+    <label/>
+    <radix/>
+  </wave>
+  <wave>
+    <expr>wrapper.uut.ex_stage_i.regfile_we_lsu</expr>
     <label/>
     <radix/>
   </wave>
@@ -126,7 +178,7 @@
   <wave collapsed="true">
     <expr>rvfi_mem_rdata</expr>
     <label/>
-    <radix/>
+    <radix>rvfi_pc_rdata</radix>
   </wave>
   <wave collapsed="true">
     <expr>rvfi_mem_wmask</expr>

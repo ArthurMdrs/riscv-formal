@@ -1229,12 +1229,18 @@ module riscv_core
     reg        rvfi_intr_if , rvfi_intr_id , rvfi_intr_ex , rvfi_intr_wb ;
     reg [ 1:0]                rvfi_mode_id , rvfi_mode_ex , rvfi_mode_wb ;
     
-    wire misaligned_stall = load_store_unit_i.data_misaligned_ex_i 
-                         && rvfi_insn_ex[6:0] inside {OPCODE_LOAD, OPCODE_LOAD_FP, OPCODE_LOAD_POST};
+    localparam COMP_LW = 5'b00_010, COMP_LWSP = 5'b10_010, COMP_SW = 5'b00_110, COMP_SWSP = 5'b10_110;
+    wire [5:0] comp_op_funct = {rvfi_insn_ex[1:0], rvfi_insn_ex[15:13]};
+    
+    wire is_mem_access = rvfi_insn_ex[6:0] inside {OPCODE_LOAD, OPCODE_LOAD_FP, OPCODE_LOAD_POST, OPCODE_STORE, OPCODE_STORE_FP, OPCODE_STORE_POST}
+                      || comp_op_funct     inside {COMP_LW, COMP_LWSP, COMP_SW, COMP_SWSP};
+                      
+    wire misaligned_stall = load_store_unit_i.data_misaligned_ex_i && is_mem_access;
     logic misaligned_stall_q;
+    
     always @(posedge clk or negedge rst_ni)
         if (!rst_ni) misaligned_stall_q <= 0;
-        else         misaligned_stall_q <= misaligned_stall;
+        else misaligned_stall_q <= misaligned_stall;
         
     always @(posedge clk or negedge rst_ni) begin
         if (!rst_ni) begin
@@ -1244,26 +1250,21 @@ module riscv_core
             rvfi_valid_wb <= '0;
         end
         else begin
-            // rvfi_valid_if <= if_stage_i.if_valid;
-            // rvfi_valid_id <= id_stage_i.id_valid_o && rvfi_valid_if;
-            // rvfi_valid_ex <= ex_stage_i.ex_valid_o && rvfi_valid_id;
-            // rvfi_valid_wb <=            wb_valid   && rvfi_valid_ex;
+            // rvfi_valid_if <= if_stage_i.if_valid && !id_stage_i.halt_id;
+            // rvfi_valid_id <= rvfi_valid_if       && id_stage_i.id_ready_o && id_stage_i.is_decoding_o;
+            // rvfi_valid_ex <= rvfi_valid_id       && ex_stage_i.ex_ready_o;
+            // if (!misaligned_stall_q)
+            //     rvfi_valid_wb <= rvfi_valid_ex   && load_store_unit_i.lsu_ready_wb_o;
+            // else
+            //     rvfi_valid_wb <= '0;
             
-            // rvfi_valid_if <=        id_stage_i.id_ready_o     && if_stage_i.if_valid;
-            // rvfi_valid_id <=        ex_stage_i.ex_ready_o     && rvfi_valid_if;
-            // rvfi_valid_ex <= load_store_unit_i.lsu_ready_wb_o && rvfi_valid_id;
-            // rvfi_valid_wb <=                                     rvfi_valid_ex;
-            
-            // rvfi_valid_if <=        if_stage_i.if_ready       && if_stage_i.if_valid;
-            // rvfi_valid_id <=        id_stage_i.id_ready_o     && rvfi_valid_if;
-            // rvfi_valid_ex <=        ex_stage_i.ex_ready_o     && rvfi_valid_id;
-            // rvfi_valid_wb <= load_store_unit_i.lsu_ready_wb_o && rvfi_valid_ex;
-            
-            rvfi_valid_if <= if_stage_i.if_valid && !id_stage_i.halt_id;
-            rvfi_valid_id <= rvfi_valid_if       && id_stage_i.id_ready_o && id_stage_i.is_decoding_o;
-            rvfi_valid_ex <= rvfi_valid_id       && ex_stage_i.ex_ready_o;
+            rvfi_valid_if <=        id_stage_i.id_ready_o     && if_stage_i.if_valid;
+            rvfi_valid_id <=        ex_stage_i.ex_ready_o     && rvfi_valid_if;
+            rvfi_valid_ex <= load_store_unit_i.lsu_ready_wb_o && rvfi_valid_id;
             if (!misaligned_stall_q)
-                rvfi_valid_wb <= rvfi_valid_ex       && load_store_unit_i.lsu_ready_wb_o;
+                rvfi_valid_wb <=                                 rvfi_valid_ex;
+            else
+                rvfi_valid_wb <= '0;
         end
     end
     assign rvfi_valid = rvfi_valid_wb;
@@ -1430,7 +1431,6 @@ module riscv_core
         end
         else begin
             rvfi_rs1_rdata_id <= id_stage_i.operand_a_fw_id;
-            // rvfi_rs1_rdata_id <= id_stage_i.regfile_data_ra_id;
             rvfi_rs1_rdata_ex <= rvfi_rs1_rdata_id;
             if (!misaligned_stall_q)
                 rvfi_rs1_rdata_wb <= rvfi_rs1_rdata_ex;
@@ -1460,7 +1460,8 @@ module riscv_core
         end
         else begin
             rvfi_rd_addr_ex <= (ex_stage_i.regfile_alu_we_fw_o) ? (ex_stage_i.regfile_alu_waddr_fw_o) : '0;
-            rvfi_rd_addr_wb <= (id_stage_i.regfile_we_wb_i) ? id_stage_i.regfile_waddr_wb_i : rvfi_rd_addr_ex;
+            if (!misaligned_stall_q)
+                rvfi_rd_addr_wb <= (id_stage_i.regfile_we_wb_i) ? id_stage_i.regfile_waddr_wb_i : rvfi_rd_addr_ex;
         end
     end
     assign rvfi_rd_addr = rvfi_rd_addr_wb;

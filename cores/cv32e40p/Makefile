@@ -1,17 +1,20 @@
-VCD = checks/reg_ch0/traces/violation.vcd
+VCD = ./violation.vcd
+
+# .SILENT:
 
 run: run_checks
 
-run_checks: checks
+run_checks:
+	@if [ ! -d checks ]; then $(MAKE) gen_jg; fi
 	@make -C checks
 
-checks: gen_jg
-
 gen_sby:
+	@if [ -d checks ]; then $(MAKE) clean; fi
 	@python3 ../../checks/genchecks.py
 	@python3 ../../checks/insert_incdirs.py
 
 gen_jg:
+	@if [ -d checks ]; then $(MAKE) clean; fi
 	@python3 ../../checks/genchecks_jg.py
 
 gtkw:

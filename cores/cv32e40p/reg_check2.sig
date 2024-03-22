@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <wavelist version="3">
-  <insertion-point-position>19</insertion-point-position>
+  <insertion-point-position>16</insertion-point-position>
   <wave>
     <expr>clock</expr>
     <label/>
@@ -18,21 +18,6 @@
   </wave>
   <wave>
     <expr>checker_inst.reset</expr>
-    <label/>
-    <radix/>
-  </wave>
-  <wave collapsed="true">
-    <expr>checker_inst.register_index</expr>
-    <label/>
-    <radix>checker_inst.register_index</radix>
-  </wave>
-  <wave collapsed="true">
-    <expr>checker_inst.register_shadow</expr>
-    <label/>
-    <radix>checker_inst.register_shadow</radix>
-  </wave>
-  <wave>
-    <expr>checker_inst.register_written</expr>
     <label/>
     <radix/>
   </wave>
@@ -84,6 +69,11 @@
   </wave>
   <wave>
     <expr>wrapper.uut.load_store_unit_i.data_misaligned_o</expr>
+    <label/>
+    <radix/>
+  </wave>
+  <wave>
+    <expr>wrapper.uut.misaligned_stall_q</expr>
     <label/>
     <radix/>
   </wave>
@@ -332,7 +322,7 @@
   <wave collapsed="true">
     <expr>wrapper.uut.id_stage_i.registers_i.wdata_a_i</expr>
     <label/>
-    <radix/>
+    <radix>checker_inst.rs1_rdata</radix>
   </wave>
   <wave>
     <expr>wrapper.uut.id_stage_i.registers_i.we_a_i</expr>
@@ -600,7 +590,7 @@
   <wave collapsed="true">
     <expr>wrapper.uut.rvfi_mem_rdata_wb</expr>
     <label/>
-    <radix/>
+    <radix>checker_inst.rs1_rdata</radix>
   </wave>
   <wave collapsed="true">
     <expr>wrapper.uut.rvfi_mem_rmask_wb</expr>
