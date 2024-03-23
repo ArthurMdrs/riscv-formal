@@ -1258,13 +1258,28 @@ module riscv_core
             // else
             //     rvfi_valid_wb <= '0;
             
-            rvfi_valid_if <=        id_stage_i.id_ready_o     && if_stage_i.if_valid;
-            rvfi_valid_id <=        ex_stage_i.ex_ready_o     && rvfi_valid_if;
-            rvfi_valid_ex <= load_store_unit_i.lsu_ready_wb_o && rvfi_valid_id;
-            if (!misaligned_stall_q)
-                rvfi_valid_wb <=                                 rvfi_valid_ex;
+            // rvfi_valid_if <=        id_stage_i.id_ready_o     && if_stage_i.if_valid;
+            // rvfi_valid_id <=        ex_stage_i.ex_ready_o     && rvfi_valid_if;
+            // rvfi_valid_ex <= load_store_unit_i.lsu_ready_wb_o && rvfi_valid_id;
+            // if (!misaligned_stall_q)
+            //     rvfi_valid_wb <=                                 rvfi_valid_ex;
+            // else
+            //     rvfi_valid_wb <= '0;
+            
+            if (if_stage_i.if_ready)
+                rvfi_valid_if <= if_stage_i.if_valid;
+            if (id_stage_i.id_ready_o)
+                rvfi_valid_id <= rvfi_valid_if && id_stage_i.id_valid_o;
             else
-                rvfi_valid_wb <= '0;
+                rvfi_valid_id <= 1'b0;
+            if (ex_stage_i.ex_ready_o)
+                rvfi_valid_ex <= rvfi_valid_id && ex_stage_i.ex_valid_o;
+            else
+                rvfi_valid_ex <= 1'b0;
+            if (load_store_unit_i.lsu_ready_wb_o)
+                rvfi_valid_wb <= rvfi_valid_ex && wb_valid;
+            else
+                rvfi_valid_wb <= 1'b0;
         end
     end
     assign rvfi_valid = rvfi_valid_wb;
@@ -1274,7 +1289,7 @@ module riscv_core
             rvfi_order <= '0;
         end
         else begin
-            if (!misaligned_stall_q)
+            // if (!misaligned_stall_q)
                 rvfi_order <= rvfi_order + rvfi_valid;
         end
     end
@@ -1287,10 +1302,19 @@ module riscv_core
             rvfi_insn_wb <= '0;
         end
         else begin
-            rvfi_insn_if <= (if_stage_i.instr_compressed_int) ? {16'b0, if_stage_i.fetch_rdata[15:0]} : if_stage_i.instr_decompressed;
-            rvfi_insn_id <= rvfi_insn_if;
-            rvfi_insn_ex <= rvfi_insn_id;
-            if (!misaligned_stall_q)
+            // rvfi_insn_if <= (if_stage_i.instr_compressed_int) ? {16'b0, if_stage_i.fetch_rdata[15:0]} : if_stage_i.instr_decompressed;
+            // rvfi_insn_id <= rvfi_insn_if;
+            // rvfi_insn_ex <= rvfi_insn_id;
+            // if (!misaligned_stall_q)
+            //     rvfi_insn_wb <= rvfi_insn_ex;
+                
+            if (if_stage_i.if_ready)
+                rvfi_insn_if <= (if_stage_i.instr_compressed_int) ? {16'b0, if_stage_i.fetch_rdata[15:0]} : if_stage_i.instr_decompressed;
+            if (id_stage_i.id_ready_o)
+                rvfi_insn_id <= rvfi_insn_if;
+            if (ex_stage_i.ex_ready_o)
+                rvfi_insn_ex <= rvfi_insn_id;
+            if (load_store_unit_i.lsu_ready_wb_o)
                 rvfi_insn_wb <= rvfi_insn_ex;
         end
     end
@@ -1305,7 +1329,8 @@ module riscv_core
         else begin
             rvfi_trap_id <= id_stage_i.illegal_insn_dec;
             rvfi_trap_ex <= rvfi_trap_id;
-            if (!misaligned_stall_q)
+            // COMEÇA AQUI OS misaligned_stall_q COMENTADOS!!!
+            // if (!misaligned_stall_q)
                 rvfi_trap_wb <= rvfi_trap_ex;
         end
     end
@@ -1347,7 +1372,7 @@ module riscv_core
             rvfi_intr_if <= next_is_intr;
             rvfi_intr_id <= rvfi_intr_if;
             rvfi_intr_ex <= rvfi_intr_id;
-            if (!misaligned_stall_q)
+            // if (!misaligned_stall_q)
                 rvfi_intr_wb <= rvfi_intr_ex;
         end
     end
@@ -1365,7 +1390,7 @@ module riscv_core
         else begin
             rvfi_mode_id <= id_stage_i.current_priv_lvl_i;
             rvfi_mode_ex <= rvfi_mode_id;
-            if (!misaligned_stall_q)
+            // if (!misaligned_stall_q)
                 rvfi_mode_wb <= rvfi_mode_ex;
         end
     end
@@ -1400,9 +1425,16 @@ module riscv_core
             rvfi_rs1_addr_wb <= '0;
         end
         else begin
-            rvfi_rs1_addr_id <= id_stage_i.regfile_addr_ra_id;
-            rvfi_rs1_addr_ex <= rvfi_rs1_addr_id;
-            if (!misaligned_stall_q)
+            // rvfi_rs1_addr_id <= id_stage_i.regfile_addr_ra_id;
+            // rvfi_rs1_addr_ex <= rvfi_rs1_addr_id;
+            // if (!misaligned_stall_q)
+            //     rvfi_rs1_addr_wb <= rvfi_rs1_addr_ex;
+                
+            if (id_stage_i.id_ready_o)
+                rvfi_rs1_addr_id <= id_stage_i.regfile_addr_ra_id;
+            if (ex_stage_i.ex_ready_o)
+                rvfi_rs1_addr_ex <= rvfi_rs1_addr_id;
+            if (load_store_unit_i.lsu_ready_wb_o)
                 rvfi_rs1_addr_wb <= rvfi_rs1_addr_ex;
         end
     end
@@ -1415,9 +1447,16 @@ module riscv_core
             rvfi_rs2_addr_wb <= '0;
         end
         else begin
-            rvfi_rs2_addr_id <= id_stage_i.regfile_addr_rb_id;
-            rvfi_rs2_addr_ex <= rvfi_rs2_addr_id;
-            if (!misaligned_stall_q)
+            // rvfi_rs2_addr_id <= id_stage_i.regfile_addr_rb_id;
+            // rvfi_rs2_addr_ex <= rvfi_rs2_addr_id;
+            // if (!misaligned_stall_q)
+            //     rvfi_rs2_addr_wb <= rvfi_rs2_addr_ex;
+            
+            if (id_stage_i.id_ready_o)
+                rvfi_rs2_addr_id <= id_stage_i.regfile_addr_rb_id;
+            if (ex_stage_i.ex_ready_o)
+                rvfi_rs2_addr_ex <= rvfi_rs2_addr_id;
+            if (load_store_unit_i.lsu_ready_wb_o)
                 rvfi_rs2_addr_wb <= rvfi_rs2_addr_ex;
         end
     end
@@ -1430,9 +1469,16 @@ module riscv_core
             rvfi_rs1_rdata_wb <= '0;
         end
         else begin
-            rvfi_rs1_rdata_id <= id_stage_i.operand_a_fw_id;
-            rvfi_rs1_rdata_ex <= rvfi_rs1_rdata_id;
-            if (!misaligned_stall_q)
+            // rvfi_rs1_rdata_id <= id_stage_i.operand_a_fw_id;
+            // rvfi_rs1_rdata_ex <= rvfi_rs1_rdata_id;
+            // if (!misaligned_stall_q)
+            //     rvfi_rs1_rdata_wb <= rvfi_rs1_rdata_ex;
+                
+            if (id_stage_i.id_ready_o)
+                rvfi_rs1_rdata_id <= id_stage_i.operand_a_fw_id;
+            if (ex_stage_i.ex_ready_o)
+                rvfi_rs1_rdata_ex <= rvfi_rs1_rdata_id;
+            if (load_store_unit_i.lsu_ready_wb_o)
                 rvfi_rs1_rdata_wb <= rvfi_rs1_rdata_ex;
         end
     end
@@ -1445,9 +1491,16 @@ module riscv_core
             rvfi_rs2_rdata_wb <= '0;
         end
         else begin
-            rvfi_rs2_rdata_id <= id_stage_i.operand_b_fw_id;
-            rvfi_rs2_rdata_ex <= rvfi_rs2_rdata_id;
-            if (!misaligned_stall_q)
+            // rvfi_rs2_rdata_id <= id_stage_i.operand_b_fw_id;
+            // rvfi_rs2_rdata_ex <= rvfi_rs2_rdata_id;
+            // if (!misaligned_stall_q)
+            //     rvfi_rs2_rdata_wb <= rvfi_rs2_rdata_ex;
+                
+            if (id_stage_i.id_ready_o)
+                rvfi_rs2_rdata_id <= id_stage_i.operand_b_fw_id;
+            if (ex_stage_i.ex_ready_o)
+                rvfi_rs2_rdata_ex <= rvfi_rs2_rdata_id;
+            if (load_store_unit_i.lsu_ready_wb_o)
                 rvfi_rs2_rdata_wb <= rvfi_rs2_rdata_ex;
         end
     end
@@ -1459,9 +1512,17 @@ module riscv_core
             rvfi_rd_addr_wb <= '0;
         end
         else begin
+            // rvfi_rd_addr_ex <= (ex_stage_i.regfile_alu_we_fw_o) ? (ex_stage_i.regfile_alu_waddr_fw_o) : '0;
+            // if (!misaligned_stall_q)
+            //     rvfi_rd_addr_wb <= (id_stage_i.regfile_we_wb_i) ? id_stage_i.regfile_waddr_wb_i : rvfi_rd_addr_ex;
+            
+            // if (ex_stage_i.ex_ready_o)
+            //     rvfi_rd_addr_ex <= (ex_stage_i.regfile_alu_we_fw_o) ? (ex_stage_i.regfile_alu_waddr_fw_o) : '0;
+            // if (load_store_unit_i.lsu_ready_wb_o)
+            //     rvfi_rd_addr_wb <= (id_stage_i.regfile_we_wb_i) ? id_stage_i.regfile_waddr_wb_i : rvfi_rd_addr_ex;
+            
             rvfi_rd_addr_ex <= (ex_stage_i.regfile_alu_we_fw_o) ? (ex_stage_i.regfile_alu_waddr_fw_o) : '0;
-            if (!misaligned_stall_q)
-                rvfi_rd_addr_wb <= (id_stage_i.regfile_we_wb_i) ? id_stage_i.regfile_waddr_wb_i : rvfi_rd_addr_ex;
+            rvfi_rd_addr_wb <= (id_stage_i.regfile_we_wb_i) ? id_stage_i.regfile_waddr_wb_i : rvfi_rd_addr_ex;
         end
     end
     assign rvfi_rd_addr = rvfi_rd_addr_wb;
@@ -1506,10 +1567,19 @@ module riscv_core
             rvfi_pc_rdata_wb <= '0;
         end
         else begin
-            rvfi_pc_rdata_if <= if_stage_i.pc_if_o;
-            rvfi_pc_rdata_id <= rvfi_pc_rdata_if;
-            rvfi_pc_rdata_ex <= rvfi_pc_rdata_id;
-            if (!misaligned_stall_q)
+            // rvfi_pc_rdata_if <= if_stage_i.pc_if_o;
+            // rvfi_pc_rdata_id <= rvfi_pc_rdata_if;
+            // rvfi_pc_rdata_ex <= rvfi_pc_rdata_id;
+            // if (!misaligned_stall_q)
+            //     rvfi_pc_rdata_wb <= rvfi_pc_rdata_ex;
+                
+            if (if_stage_i.if_ready)
+                rvfi_pc_rdata_if <= if_stage_i.pc_if_o;
+            if (id_stage_i.id_ready_o)
+                rvfi_pc_rdata_id <= rvfi_pc_rdata_if;
+            if (ex_stage_i.ex_ready_o)
+                rvfi_pc_rdata_ex <= rvfi_pc_rdata_id;
+            if (load_store_unit_i.lsu_ready_wb_o)
                 rvfi_pc_rdata_wb <= rvfi_pc_rdata_ex;
         end
     end
@@ -1522,12 +1592,26 @@ module riscv_core
             rvfi_pc_wdata_wb <= '0;
         end
         else begin
-            if (id_stage_i.jump_in_id inside {BRANCH_JAL, BRANCH_JALR})
-                rvfi_pc_wdata_id <= {id_stage_i.jump_target_o[31:1], 1'b0};
-            else
-                rvfi_pc_wdata_id <= id_stage_i.pc_if_i;
-            rvfi_pc_wdata_ex <= (id_stage_i.branch_taken_ex) ? (ex_stage_i.jump_target_o) : rvfi_pc_wdata_id;
-            if (!misaligned_stall_q)
+            // if (id_stage_i.jump_in_id inside {BRANCH_JAL, BRANCH_JALR})
+            //     rvfi_pc_wdata_id <= {id_stage_i.jump_target_o[31:1], 1'b0};
+            // else
+            //     rvfi_pc_wdata_id <= id_stage_i.pc_if_i;
+            // rvfi_pc_wdata_ex <= (id_stage_i.branch_taken_ex) ? (ex_stage_i.jump_target_o) : rvfi_pc_wdata_id;
+            // if (!misaligned_stall_q)
+            //     rvfi_pc_wdata_wb <= rvfi_pc_wdata_ex;
+                
+                
+            if (id_stage_i.id_ready_o)
+                if (id_stage_i.jump_in_id inside {BRANCH_JAL, BRANCH_JALR})
+                    rvfi_pc_wdata_id <= {id_stage_i.jump_target_o[31:1], 1'b0};
+                else
+                    rvfi_pc_wdata_id <= id_stage_i.pc_if_i;
+            if (ex_stage_i.ex_ready_o)
+                if (id_stage_i.branch_taken_ex)
+                    rvfi_pc_wdata_ex <= ex_stage_i.jump_target_o;
+                else
+                    rvfi_pc_wdata_ex <= rvfi_pc_wdata_id;
+            if (load_store_unit_i.lsu_ready_wb_o)
                 rvfi_pc_wdata_wb <= rvfi_pc_wdata_ex;
         end
     end
@@ -1549,7 +1633,7 @@ module riscv_core
         end
         else begin
             rvfi_mem_addr_ex <= load_store_unit_i.data_addr_o;
-            if (!misaligned_stall_q)
+            // if (!misaligned_stall_q)
                 rvfi_mem_addr_wb <= rvfi_mem_addr_ex;
         end
     end

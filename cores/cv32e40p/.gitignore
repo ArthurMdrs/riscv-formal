@@ -1,12 +1,6 @@
-xcelium*
-xrun*
-.simvision
-waves*
 *.log
-*.diag
 *.sig~
 jgproject
-.symbol*
 ignore*
 ignore/
 TOKEN

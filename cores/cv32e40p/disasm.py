@@ -70,6 +70,7 @@ prog = list()
 
 for tv_valid, tv_order, tv_insn in zip(rvfi_valid, rvfi_order, rvfi_insn):
     if tv_valid[1] == '1':
+    # if tv_valid[1] == '1' or tv_valid[1] == '0':
         prog.append((int(tv_order[1], 2), int(tv_insn[1], 2)))
 
 with open("disasm.s", "w") as f:

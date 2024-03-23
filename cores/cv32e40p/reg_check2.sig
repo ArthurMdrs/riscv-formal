@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <wavelist version="3">
-  <insertion-point-position>16</insertion-point-position>
+  <insertion-point-position>30</insertion-point-position>
   <wave>
     <expr>clock</expr>
     <label/>
@@ -38,11 +38,6 @@
   </wave>
   <wave collapsed="true">
     <expr>wrapper.uut.rvfi_rd_wdata_wb</expr>
-    <label/>
-    <radix>checker_inst.register_shadow</radix>
-  </wave>
-  <wave collapsed="true">
-    <expr>wrapper.uut.id_stage_i.registers_i.riscv_register_file_i.mem[4]</expr>
     <label/>
     <radix>checker_inst.register_shadow</radix>
   </wave>
@@ -301,6 +296,22 @@
     <expr>wrapper.uut.ex_stage_i.regfile_alu_wdata_fw_o</expr>
     <label/>
     <radix>checker_inst.register_shadow</radix>
+  </wave>
+  <spacer/>
+  <wave>
+    <expr>wrapper.uut.load_store_unit_i.data_req_o</expr>
+    <label/>
+    <radix/>
+  </wave>
+  <wave>
+    <expr>wrapper.uut.load_store_unit_i.data_gnt_i</expr>
+    <label/>
+    <radix/>
+  </wave>
+  <wave>
+    <expr>wrapper.uut.load_store_unit_i.data_rvalid_i</expr>
+    <label/>
+    <radix/>
   </wave>
   <spacer/>
   <wave collapsed="true">

@@ -373,8 +373,8 @@ def check_insn(grp, insn, chanidx, csr_mode=False, illegal_csr=False):
     
     os.mkdir(f"{cfgname}/{check}")
 
-    with open(f"{cfgname}/{check}/{check}_jg.tcl", "w") as sby_file:
-        print_hfmt(sby_file, """
+    with open(f"{cfgname}/{check}/{check}_jg.tcl", "w") as tcl_file:
+        print_hfmt(tcl_file, """
                 : clear -all
                 :
                 : set depth @depth@
@@ -382,7 +382,7 @@ def check_insn(grp, insn, chanidx, csr_mode=False, illegal_csr=False):
         """, **hargs)
 
         if "script-defines" in config:
-            print_hfmt(sby_file, config["script-defines"], **hargs)
+            print_hfmt(tcl_file, config["script-defines"], **hargs)
         
         inc_dirs = []
         if "include-dirs" in config:
@@ -397,52 +397,49 @@ def check_insn(grp, insn, chanidx, csr_mode=False, illegal_csr=False):
             vhdl_files += hfmt(config["vhdl-files"], **hargs)
 
         if len(sv_files):
-            print("analyze -sv12 \\", file=sby_file)
+            print("analyze -sv12 \\", file=tcl_file)
             if len(inc_dirs):
                 for x in inc_dirs:
-                    print(f"    +incdir+{x} \\", file=sby_file)
+                    print(f"    +incdir+{x} \\", file=tcl_file)
             for x in sv_files:
                 mystr = f"    {x} "
                 if x != sv_files[-1]: mystr += "\\"
                 else: mystr += "\n"
-                print(mystr, file=sby_file)
+                print(mystr, file=tcl_file)
 
         if len(vhdl_files):
-            print("analyze -vhdl08 \\", file=sby_file)
+            print("analyze -vhdl08 \\", file=tcl_file)
             if len(inc_dirs):
                 for x in inc_dirs:
-                    print(f"    +incdir+{x} \\", file=sby_file)
+                    print(f"    +incdir+{x} \\", file=tcl_file)
             for x in vhdl_files:
                 mystr = f"    {x} "
                 if x != vhdl_files[-1]: mystr += "\\"
                 else: mystr += "\n"
-                print(mystr, file=sby_file)
+                print(mystr, file=tcl_file)
 
         if "script-sources" in config:
-            print_hfmt(sby_file, config["script-sources"], **hargs)
+            print_hfmt(tcl_file, config["script-sources"], **hargs)
         
         if "mul" in insn: bbox_mul_str = "-bbox_mul 256"
         else: bbox_mul_str = ""
         
-        print(f"elaborate -top rvfi_testbench -create_related_covers witness {bbox_mul_str}\n", file=sby_file)
-        print("clock clock\nreset reset\n", file=sby_file)
+        # print(f"elaborate -top rvfi_testbench -create_related_covers witness {bbox_mul_str}\n", file=tcl_file)
+        print(f"elaborate -top rvfi_testbench -no_preconditions {bbox_mul_str}\n", file=tcl_file)
+        print("clock clock\nreset reset\n", file=tcl_file)
 
         if "script-link" in config:
-            print_hfmt(sby_file, config["script-link"], **hargs)
+            print_hfmt(tcl_file, config["script-link"], **hargs)
         
-        print_hfmt(sby_file, """
+        print_hfmt(tcl_file, """
                 : check_assumptions -show -dead_end
                 : 
                 : set_prove_target_bound $depth
                 : set_trace_optimization standard
-                : prove -instance checker_inst -iter $depth -dump_trace -dump_trace_type vcd -dump_trace_dir traces -prefer_quiet
+                : prove -instance checker_inst -iter $depth -dump_trace -dump_trace_type vcd -dump_trace_dir traces
                 : 
         """, **hargs)
-                # : cd traces
-                # : set compressed [glob -nocomplain *.gz]
-                # : foreach file $compressed {
-                # :     gzip -fd $file
-                # : }
+                # : prove -instance checker_inst -iter $depth -dump_trace -dump_trace_type vcd -dump_trace_dir traces -prefer_quiet
         
         check_dir = f"{cfgname}/{check}/"
         shutil.copy(basedir+"/checks/rvfi_macros.vh", check_dir)
@@ -501,7 +498,7 @@ def check_insn(grp, insn, chanidx, csr_mode=False, illegal_csr=False):
         
         # DONE!!! if block below
         if custom_csrs:
-            defines_str += print_custom_csrs(sby_file)
+            defines_str += print_custom_csrs(tcl_file)
 
         if blackbox:
             defines_str += hfmt("`define RISCV_FORMAL_BLACKBOX_REGS", **hargs)
@@ -658,8 +655,8 @@ def check_cons(grp, check, chanidx=None, start=None, trig=None, depth=None, csr_
     
     os.mkdir(f"{cfgname}/{check}")
 
-    with open(f"{cfgname}/{check}/{check}_jg.tcl", "w") as sby_file:
-        print_hfmt(sby_file, """
+    with open(f"{cfgname}/{check}/{check}_jg.tcl", "w") as tcl_file:
+        print_hfmt(tcl_file, """
                 : clear -all
                 :
                 : set depth @depth@
@@ -667,10 +664,10 @@ def check_cons(grp, check, chanidx=None, start=None, trig=None, depth=None, csr_
         """, **hargs)
 
         if "script-defines" in config:
-            print_hfmt(sby_file, config["script-defines"], **hargs)
+            print_hfmt(tcl_file, config["script-defines"], **hargs)
 
         if (f"script-defines {hargs['check']}") in config:
-            print_hfmt(sby_file, config[f"script-defines {hargs['check']}"], **hargs)
+            print_hfmt(tcl_file, config[f"script-defines {hargs['check']}"], **hargs)
         
         inc_dirs = []
         if "include-dirs" in config:
@@ -685,35 +682,36 @@ def check_cons(grp, check, chanidx=None, start=None, trig=None, depth=None, csr_
             vhdl_files += hfmt(config["vhdl-files"], **hargs)
 
         if len(sv_files):
-            print("analyze -sv12 \\", file=sby_file)
+            print("analyze -sv12 \\", file=tcl_file)
             if len(inc_dirs):
                 for x in inc_dirs:
-                    print(f"    +incdir+{x} \\", file=sby_file)
+                    print(f"    +incdir+{x} \\", file=tcl_file)
             for x in sv_files:
                 mystr = f"    {x} "
                 if x != sv_files[-1]: mystr += "\\"
                 else: mystr += "\n"
-                print(mystr, file=sby_file)
+                print(mystr, file=tcl_file)
 
         if len(vhdl_files):
-            print("analyze -vhdl08 \\", file=sby_file)
+            print("analyze -vhdl08 \\", file=tcl_file)
             if len(inc_dirs):
                 for x in inc_dirs:
-                    print(f"    +incdir+{x} \\", file=sby_file)
+                    print(f"    +incdir+{x} \\", file=tcl_file)
             for x in vhdl_files:
                 mystr = f"    {x} "
                 if x != vhdl_files[-1]: mystr += "\\"
                 else: mystr += "\n"
-                print(mystr, file=sby_file)
+                print(mystr, file=tcl_file)
 
         if "script-sources" in config:
-            print_hfmt(sby_file, config["script-sources"], **hargs)
+            print_hfmt(tcl_file, config["script-sources"], **hargs)
 
-        print("elaborate -top rvfi_testbench -create_related_covers witness\n", file=sby_file)
-        print("clock clock\nreset reset\n", file=sby_file)
+        # print("elaborate -top rvfi_testbench -create_related_covers witness\n", file=tcl_file)
+        print(f"elaborate -top rvfi_testbench -no_preconditions \n", file=tcl_file)
+        print("clock clock\nreset reset\n", file=tcl_file)
 
         if "script-link" in config:
-            print_hfmt(sby_file, config["script-link"], **hargs)
+            print_hfmt(tcl_file, config["script-link"], **hargs)
         
         check_dir = f"{cfgname}/{check}/"
         shutil.copy(basedir+"/checks/rvfi_macros.vh", check_dir)
@@ -728,22 +726,18 @@ def check_cons(grp, check, chanidx=None, start=None, trig=None, depth=None, csr_
                 if "rvformal_rand_const_reg" in line:
                     ndc = line.split()[-1][:-1]
                     print(ndc)
-                    print(f"assume -name ASM_{ndc}_const {{@(posedge clock) (checker_inst.{ndc} == $past(checker_inst.{ndc}))}}", file=sby_file)
+                    print(f"assume -name ASM_{ndc}_const {{@(posedge clock) (checker_inst.{ndc} == $past(checker_inst.{ndc}))}}", file=tcl_file)
         
-        print_hfmt(sby_file, """
+        print_hfmt(tcl_file, """
                 :
                 : check_assumptions -show -dead_end
                 : 
                 : set_prove_target_bound $depth
                 : set_trace_optimization standard
-                : prove -instance checker_inst -iter $depth -dump_trace -dump_trace_type vcd -dump_trace_dir traces -prefer_quiet
+                : prove -instance checker_inst -iter $depth -dump_trace -dump_trace_type vcd -dump_trace_dir traces
                 : 
         """, **hargs)
-                # : cd traces
-                # : set compressed [glob -nocomplain *.gz]
-                # : foreach file $compressed {
-                # :     gzip -fd $file
-                # : }
+                # : prove -instance checker_inst -iter $depth -dump_trace -dump_trace_type vcd -dump_trace_dir traces -prefer_quiet
 
         defines_str = hfmt("""
                 : `define RISCV_FORMAL
@@ -778,7 +772,7 @@ def check_cons(grp, check, chanidx=None, start=None, trig=None, depth=None, csr_
         
         # DONE!!! if block below
         if custom_csrs:
-            defines_str += print_custom_csrs(sby_file)
+            defines_str += print_custom_csrs(tcl_file)
 
         if blackbox and hargs["check"] != "liveness":
             defines_str += hfmt("`define RISCV_FORMAL_BLACKBOX_ALU", **hargs)
@@ -906,9 +900,11 @@ with open(f"{cfgname}/Makefile", "w") as mkfile:
         if abspath:
             print(f"\tcd $(shell pwd)/{check} && {jgcmd} $(shell pwd)/{check}_jg.tcl -batch", file=mkfile)
             print(f"\tgzip -rfd $(shell pwd)/{check}/traces", file=mkfile)
+            print(f"\tcd $(shell pwd)/{check} && python3 $(shell pwd)/../../../../checks/get_jg_summary.py", file=mkfile)
         else:
             print(f"\tcd {check} && {jgcmd} {check}_jg.tcl -batch", file=mkfile)
             print(f"\tgzip -rfd {check}/traces", file=mkfile)
+            print(f"\tcd {check} && python3 ../../../../checks/get_jg_summary.py", file=mkfile)
         print(f".PHONY: {check}", file=mkfile)
 
 print(f"Generated {len(consistency_checks) + len(instruction_checks)} checks.")

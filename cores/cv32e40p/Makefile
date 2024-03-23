@@ -26,3 +26,14 @@ disasm:
 clean:
 	@echo "Removing checks folder."
 	@rm -rf checks *.sig~ jgproject
+
+summary:
+	@FOLDERS=$$(find checks -mindepth 1 -maxdepth 1 -type d); \
+	for folder in $$FOLDERS; do \
+		cd $$folder; \
+		rm PASS FAIL ERROR 2> /dev/null; \
+		python3 ../../../../checks/get_jg_summary.py; \
+		cd ../..;\
+    done
+	@python3 gen_summary.py
+	
