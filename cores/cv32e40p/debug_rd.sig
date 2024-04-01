@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <wavelist version="3">
-  <insertion-point-position>28</insertion-point-position>
+  <insertion-point-position>44</insertion-point-position>
   <wave>
     <expr>clock</expr>
     <label/>
@@ -89,27 +89,45 @@
     <radix/>
   </wave>
   <spacer/>
-  <wave>
-    <expr>wrapper.uut.ex_stage_i.regfile_alu_we_fw_o</expr>
-    <label/>
-    <radix/>
-  </wave>
-  <wave collapsed="true">
-    <expr>wrapper.uut.ex_stage_i.regfile_alu_waddr_fw_o</expr>
-    <label/>
-    <radix>rvfi_insn</radix>
-  </wave>
+  <group collapsed="false">
+    <expr/>
+    <label>Regfile EX port</label>
+    <wave>
+      <expr>wrapper.uut.ex_stage_i.regfile_alu_we_fw_o</expr>
+      <label/>
+      <radix/>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.uut.ex_stage_i.regfile_alu_waddr_fw_o</expr>
+      <label/>
+      <radix>rvfi_insn</radix>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.uut.id_stage_i.regfile_alu_wdata_fw_i</expr>
+      <label/>
+      <radix>checker_inst.rd_wdata</radix>
+    </wave>
+  </group>
   <spacer/>
-  <wave>
-    <expr>wrapper.uut.id_stage_i.regfile_we_wb_i</expr>
-    <label/>
-    <radix/>
-  </wave>
-  <wave collapsed="true">
-    <expr>wrapper.uut.id_stage_i.regfile_waddr_wb_i</expr>
-    <label/>
-    <radix>rvfi_insn</radix>
-  </wave>
+  <group collapsed="false">
+    <expr/>
+    <label>Regfile WB port</label>
+    <wave>
+      <expr>wrapper.uut.id_stage_i.regfile_we_wb_i</expr>
+      <label/>
+      <radix/>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.uut.id_stage_i.regfile_waddr_wb_i</expr>
+      <label/>
+      <radix>rvfi_insn</radix>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.uut.id_stage_i.regfile_wdata_wb_i</expr>
+      <label/>
+      <radix>checker_inst.rvfi_rs1_rdata</radix>
+    </wave>
+  </group>
   <spacer/>
   <wave collapsed="true">
     <expr>wrapper.uut.rvfi_rd_wdata_wb</expr>
@@ -299,26 +317,35 @@
     </wave>
   </wave>
   <wave>
+    <expr>wrapper.uut.rvfi_valid_wb</expr>
+    <label/>
+    <radix/>
+  </wave>
+  <wave>
     <expr>rvfi_trap</expr>
     <label/>
     <radix/>
   </wave>
   <spacer/>
-  <wave>
-    <expr>wrapper.uut.load_store_unit_i.data_req_o</expr>
-    <label/>
-    <radix/>
-  </wave>
-  <wave>
-    <expr>wrapper.uut.load_store_unit_i.data_gnt_i</expr>
-    <label/>
-    <radix/>
-  </wave>
-  <wave>
-    <expr>wrapper.uut.load_store_unit_i.data_rvalid_i</expr>
-    <label/>
-    <radix/>
-  </wave>
+  <group collapsed="false">
+    <expr/>
+    <label>Data mem access</label>
+    <wave>
+      <expr>wrapper.uut.load_store_unit_i.data_req_o</expr>
+      <label/>
+      <radix/>
+    </wave>
+    <wave>
+      <expr>wrapper.uut.load_store_unit_i.data_gnt_i</expr>
+      <label/>
+      <radix/>
+    </wave>
+    <wave>
+      <expr>wrapper.uut.load_store_unit_i.data_rvalid_i</expr>
+      <label/>
+      <radix/>
+    </wave>
+  </group>
   <spacer/>
   <highlightlist>
     <!--Users can remove the highlightlist block if they want to load the signal save file into older version of Jasper-->
@@ -335,12 +362,28 @@
       <color>builtin_blue</color>
     </highlight>
     <highlight>
+      <expr>wrapper.uut.data_err_pmp</expr>
+      <color>builtin_yellow</color>
+    </highlight>
+    <highlight>
       <expr>wrapper.uut.id_stage_i.decoder_i.instr_rdata_i</expr>
       <color>builtin_blue</color>
     </highlight>
     <highlight>
       <expr>wrapper.uut.if_stage_i.fetch_rdata</expr>
       <color>builtin_blue</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.uut.load_store_unit_i.data_gnt_i</expr>
+      <color>builtin_yellow</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.uut.load_store_unit_i.data_req_o</expr>
+      <color>builtin_yellow</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.uut.load_store_unit_i.data_rvalid_i</expr>
+      <color>builtin_yellow</color>
     </highlight>
     <highlight>
       <expr>wrapper.uut.rvfi_insn_wb</expr>
@@ -361,6 +404,10 @@
     <highlight>
       <expr>wrapper.uut.rvfi_rd_wdata_wb</expr>
       <color>builtin_green</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.uut.rvfi_valid_wb</expr>
+      <color>builtin_red</color>
     </highlight>
   </highlightlist>
 </wavelist>

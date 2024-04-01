@@ -2,7 +2,17 @@ import os
 
 # ====================  FUNCTIONS BEGIN  ==================== #
 
-def get_summary_from_log():
+def get_cex_from_log(file_path):
+    vec = []    
+    with open(file_path, 'r') as file:
+        for line in file:
+            if 'A counterexample (cex)' in line:
+                vec.append(line)
+    return vec
+
+
+
+def get_summary_from_log(file_path):
     vec = []
     status = "PASS"
     assertions     = 0
@@ -21,7 +31,7 @@ def get_summary_from_log():
     covered             = 0
     ar_covered          = 0
     
-    with open('jgproject/jg.log', 'r') as file:
+    with open(file_path, 'r') as file:
         found_summary = False
         no_lines = 21
         for line in file:
@@ -70,9 +80,14 @@ def get_summary_from_log():
 
 # ====================  MAIN CODE BEGIN  ==================== #  
 
-if os.path.exists('jgproject/jg.log'):
-    summary_vec, status = get_summary_from_log()
+file_path = 'jgproject/jg.log'
+if os.path.exists(file_path):
+    cex_vec = get_cex_from_log(file_path)
+    summary_vec, status = get_summary_from_log(file_path)
     with open(status, 'w') as file:
+        for line in cex_vec:
+            file.write(line)
+        file.write('\n')
         for line in summary_vec:
             file.write(line)
 else:

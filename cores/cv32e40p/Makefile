@@ -1,5 +1,7 @@
 VCD = ./violation.vcd
 
+TIME_START = "$$(date)"
+
 # .SILENT:
 
 run: run_checks
@@ -7,6 +9,8 @@ run: run_checks
 run_checks:
 	@if [ ! -d checks ]; then $(MAKE) gen_jg; fi
 	@make -C checks
+	@echo Proccess start: $(TIME_START)
+	@echo Proccess end: $$(date)
 
 gen_sby:
 	@if [ -d checks ]; then $(MAKE) clean; fi
@@ -25,15 +29,9 @@ disasm:
 	
 clean:
 	@echo "Removing checks folder."
-	@rm -rf checks *.sig~ jgproject
+	@rm -rf checks *.sig~ jgproject 2> /dev/null || true
 
 summary:
-	@FOLDERS=$$(find checks -mindepth 1 -maxdepth 1 -type d); \
-	for folder in $$FOLDERS; do \
-		cd $$folder; \
-		rm PASS FAIL ERROR 2> /dev/null; \
-		python3 ../../../../checks/get_jg_summary.py; \
-		cd ../..;\
-    done
 	@python3 gen_summary.py
+	@if [ -e summary.txt ]; then echo Created file \"summary.txt\".; fi
 	

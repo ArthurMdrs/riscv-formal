@@ -1230,18 +1230,34 @@ module riscv_core
     reg [ 1:0]                rvfi_mode_id , rvfi_mode_ex , rvfi_mode_wb ;
     
     localparam COMP_LW = 5'b00_010, COMP_LWSP = 5'b10_010, COMP_SW = 5'b00_110, COMP_SWSP = 5'b10_110;
-    wire [5:0] comp_op_funct = {rvfi_insn_ex[1:0], rvfi_insn_ex[15:13]};
+    // wire [5:0] comp_op_funct = {rvfi_insn_ex[1:0], rvfi_insn_ex[15:13]};
     
-    wire is_mem_access = rvfi_insn_ex[6:0] inside {OPCODE_LOAD, OPCODE_LOAD_FP, OPCODE_LOAD_POST, OPCODE_STORE, OPCODE_STORE_FP, OPCODE_STORE_POST}
-                      || comp_op_funct     inside {COMP_LW, COMP_LWSP, COMP_SW, COMP_SWSP};
-                      
-    wire misaligned_stall = load_store_unit_i.data_misaligned_ex_i && is_mem_access;
-    logic misaligned_stall_q;
+    // wire insn_ex_is_mem = rvfi_insn_ex[6:0] inside {OPCODE_LOAD, OPCODE_LOAD_FP, OPCODE_LOAD_POST, OPCODE_STORE, OPCODE_STORE_FP, OPCODE_STORE_POST}
+    //                    || comp_op_funct     inside {COMP_LW, COMP_LWSP, COMP_SW, COMP_SWSP};
+                       
+                       
     
-    always @(posedge clk or negedge rst_ni)
-        if (!rst_ni) misaligned_stall_q <= 0;
-        else misaligned_stall_q <= misaligned_stall;
-        
+    wire insn_id_is_div = rvfi_insn_id[ 6: 0] == OPCODE_OP 
+                       && rvfi_insn_id[31:25] == 7'h01
+                       && rvfi_insn_id[14:12] inside {3'h4, 3'h5, 3'h6, 3'h7}; // div, divu, rem, remu
+                       
+    wire insn_id_is_mulh = rvfi_insn_id[ 6: 0] == OPCODE_OP 
+                        && rvfi_insn_id[31:25] == 7'h01
+                        && rvfi_insn_id[14:12] inside {3'h1, 3'h2, 3'h3}; // mulh, mulhu, mulhsu
+                        
+    wire insn_ex_is_c_load = {rvfi_insn_ex[1:0], rvfi_insn_ex[15:13]} inside {COMP_LW, COMP_LWSP}; // Compressed load
+    wire insn_ex_is_load   = rvfi_insn_ex[6:0] inside {OPCODE_LOAD, OPCODE_LOAD_FP, OPCODE_LOAD_POST}
+                          || insn_ex_is_c_load;
+                        
+    wire insn_ex_is_c_store = {rvfi_insn_ex[1:0], rvfi_insn_ex[15:13]} inside {COMP_SW, COMP_SWSP}; // Compressed store
+    wire insn_ex_is_store   = rvfi_insn_ex[6:0] inside {OPCODE_STORE, OPCODE_STORE_FP, OPCODE_STORE_POST}
+                           || insn_ex_is_c_store;
+    
+    logic misaligned_access;
+    logic data_access_error;
+    
+    
+    
     always @(posedge clk or negedge rst_ni) begin
         if (!rst_ni) begin
             rvfi_valid_if <= '0;
@@ -1268,18 +1284,48 @@ module riscv_core
             
             if (if_stage_i.if_ready)
                 rvfi_valid_if <= if_stage_i.if_valid;
+                
+                
             if (id_stage_i.id_ready_o)
                 rvfi_valid_id <= rvfi_valid_if && id_stage_i.id_valid_o;
             else
                 rvfi_valid_id <= 1'b0;
-            if (ex_stage_i.ex_ready_o)
-                rvfi_valid_ex <= rvfi_valid_id && ex_stage_i.ex_valid_o;
+                
+                
+            if (ex_stage_i.ex_ready_o) begin
+                // Assert valid when div/rem instr finishes
+                if (insn_id_is_div && ex_stage_i.alu_i.int_div.div_i.State_SP == 2'b10) // 2'b10 = FINISH
+                    rvfi_valid_ex <= 1'b1;
+                else
+                // Assert valid when mulh instr finishes
+                if (insn_id_is_mulh && ex_stage_i.mult_i.mulh_CS == ex_stage_i.mult_i.mulh_CS.last()) // CS = FINISH
+                    rvfi_valid_ex <= 1'b1;
+                else
+                // Assert valid when a misaligned store completes
+                if (insn_ex_is_store && misaligned_access && !load_store_unit_i.data_misaligned_o) // Misaligned store completed 
+                    rvfi_valid_ex <= 1'b1;
+                else
+                    rvfi_valid_ex <= rvfi_valid_id && ex_stage_i.ex_valid_o;
+                // Save status of misaligned access and data error for WB stage
+                misaligned_access <= load_store_unit_i.data_misaligned_o;
+                data_access_error <= load_store_unit_i.data_err_i;
+            end
             else
                 rvfi_valid_ex <= 1'b0;
+                
+                
             if (load_store_unit_i.lsu_ready_wb_o)
-                rvfi_valid_wb <= rvfi_valid_ex && wb_valid;
+                // De-assert valid if we're waiting for a misaligned access to complete
+                if ((insn_ex_is_load || insn_ex_is_store) && misaligned_access) // Misaligned memory access, stall 1 cycle
+                    rvfi_valid_wb <= 1'b0;
+                else
+                // Assert valid when a load instr completes (except if there's a data error)
+                if (insn_ex_is_load && load_store_unit_i.data_rvalid_i && load_store_unit_i.CS == 2'b01) // 2'b01 = WAIT_RVALID
+                    rvfi_valid_wb <= (data_access_error) ? 1'b0 : 1'b1; // Don't assert valid if there is a data error!
+                else
+                    rvfi_valid_wb <= rvfi_valid_ex && wb_valid;
             else
-                rvfi_valid_wb <= 1'b0;
+                rvfi_valid_wb <= 1'b0; 
         end
     end
     assign rvfi_valid = rvfi_valid_wb;
@@ -1289,8 +1335,7 @@ module riscv_core
             rvfi_order <= '0;
         end
         else begin
-            // if (!misaligned_stall_q)
-                rvfi_order <= rvfi_order + rvfi_valid;
+            rvfi_order <= rvfi_order + rvfi_valid;
         end
     end
     
@@ -1327,10 +1372,16 @@ module riscv_core
             rvfi_trap_wb <= '0;
         end
         else begin
-            rvfi_trap_id <= id_stage_i.illegal_insn_dec;
-            rvfi_trap_ex <= rvfi_trap_id;
-            // COMEÇA AQUI OS misaligned_stall_q COMENTADOS!!!
-            // if (!misaligned_stall_q)
+            // rvfi_trap_id <= id_stage_i.illegal_insn_dec;
+            // rvfi_trap_ex <= rvfi_trap_id;
+            // // if (!misaligned_stall_q)
+            //     rvfi_trap_wb <= rvfi_trap_ex;
+            
+            if (id_stage_i.id_ready_o)
+                rvfi_trap_id <= id_stage_i.illegal_insn_dec;
+            if (ex_stage_i.ex_ready_o)
+                rvfi_trap_ex <= rvfi_trap_id;
+            if (load_store_unit_i.lsu_ready_wb_o)
                 rvfi_trap_wb <= rvfi_trap_ex;
         end
     end
@@ -1388,9 +1439,16 @@ module riscv_core
             rvfi_mode_wb <= '0;
         end
         else begin
-            rvfi_mode_id <= id_stage_i.current_priv_lvl_i;
-            rvfi_mode_ex <= rvfi_mode_id;
-            // if (!misaligned_stall_q)
+            // rvfi_mode_id <= id_stage_i.current_priv_lvl_i;
+            // rvfi_mode_ex <= rvfi_mode_id;
+            // // if (!misaligned_stall_q)
+            //     rvfi_mode_wb <= rvfi_mode_ex;
+                
+            if (id_stage_i.id_ready_o)
+                rvfi_mode_id <= id_stage_i.current_priv_lvl_i;
+            if (ex_stage_i.ex_ready_o)
+                rvfi_mode_ex <= rvfi_mode_id;
+            if (load_store_unit_i.lsu_ready_wb_o)
                 rvfi_mode_wb <= rvfi_mode_ex;
         end
     end
@@ -1516,13 +1574,13 @@ module riscv_core
             // if (!misaligned_stall_q)
             //     rvfi_rd_addr_wb <= (id_stage_i.regfile_we_wb_i) ? id_stage_i.regfile_waddr_wb_i : rvfi_rd_addr_ex;
             
-            // if (ex_stage_i.ex_ready_o)
-            //     rvfi_rd_addr_ex <= (ex_stage_i.regfile_alu_we_fw_o) ? (ex_stage_i.regfile_alu_waddr_fw_o) : '0;
-            // if (load_store_unit_i.lsu_ready_wb_o)
-            //     rvfi_rd_addr_wb <= (id_stage_i.regfile_we_wb_i) ? id_stage_i.regfile_waddr_wb_i : rvfi_rd_addr_ex;
+            if (ex_stage_i.ex_ready_o)
+                rvfi_rd_addr_ex <= (ex_stage_i.regfile_alu_we_fw_o) ? (ex_stage_i.regfile_alu_waddr_fw_o) : '0;
+            if (load_store_unit_i.lsu_ready_wb_o)
+                rvfi_rd_addr_wb <= (id_stage_i.regfile_we_wb_i) ? id_stage_i.regfile_waddr_wb_i : rvfi_rd_addr_ex;
             
-            rvfi_rd_addr_ex <= (ex_stage_i.regfile_alu_we_fw_o) ? (ex_stage_i.regfile_alu_waddr_fw_o) : '0;
-            rvfi_rd_addr_wb <= (id_stage_i.regfile_we_wb_i) ? id_stage_i.regfile_waddr_wb_i : rvfi_rd_addr_ex;
+            // rvfi_rd_addr_ex <= (ex_stage_i.regfile_alu_we_fw_o) ? (ex_stage_i.regfile_alu_waddr_fw_o) : '0;
+            // rvfi_rd_addr_wb <= (id_stage_i.regfile_we_wb_i) ? id_stage_i.regfile_waddr_wb_i : rvfi_rd_addr_ex;
         end
     end
     assign rvfi_rd_addr = rvfi_rd_addr_wb;
@@ -1532,7 +1590,7 @@ module riscv_core
             rvfi_rd_wdata_ex <= '0;
             rvfi_rd_wdata_wb <= '0;
         end
-        else begin                
+        else begin
             if (ex_stage_i.regfile_alu_we_fw_o)
                 if (ex_stage_i.regfile_alu_waddr_fw_o == '0)
                     rvfi_rd_wdata_ex <= '0;
@@ -1632,8 +1690,15 @@ module riscv_core
             rvfi_mem_addr_wb <= '0;
         end
         else begin
-            rvfi_mem_addr_ex <= load_store_unit_i.data_addr_o;
-            // if (!misaligned_stall_q)
+            // rvfi_mem_addr_ex <= load_store_unit_i.data_addr_o;
+            // // if (!misaligned_stall_q)
+            //     rvfi_mem_addr_wb <= rvfi_mem_addr_ex;
+            
+            if (ex_stage_i.ex_ready_o)
+                // rvfi_mem_addr_ex <= load_store_unit_i.data_addr_o;
+                rvfi_mem_addr_ex <= (misaligned_access) ? rvfi_mem_addr_ex : load_store_unit_i.data_addr_o;
+            if (load_store_unit_i.lsu_ready_wb_o)
+                // rvfi_mem_addr_wb <= (misaligned_access) ? rvfi_mem_addr_wb : rvfi_mem_addr_ex;
                 rvfi_mem_addr_wb <= rvfi_mem_addr_ex;
         end
     end
@@ -1653,60 +1718,85 @@ module riscv_core
     end
     assign rvfi_mem_rmask = rvfi_mem_rmask_wb;
     
-    logic misaligned_st;
-    logic [1:0] shamt; // Max of 3
+    // logic misaligned_st;
+    // Count zeros in data byte enable mask
+    // logic [1:0] zeros_in_data_be; // Max of 3
+    // always_comb begin
+    //     zeros_in_data_be = 0;
+    //     foreach (load_store_unit_i.data_be[i])
+    //         zeros_in_data_be += !load_store_unit_i.data_be[i]; // Count 0's
+    // end
     always @(posedge clk or negedge rst_ni) begin
         if (!rst_ni) begin
             rvfi_mem_wmask_ex <= '0;
             rvfi_mem_wmask_wb <= '0;
-            misaligned_st     <= '0;
-            shamt             <= '0;
+            // misaligned_st     <= '0;
+            // zeros_in_data_be             <= '0;
         end
         else begin
-            if (load_store_unit_i.data_req_o && load_store_unit_i.data_we_o) begin
-                if (load_store_unit_i.data_be[0] != 1'b1) begin // Misaligned access
-                    case (load_store_unit_i.data_type_ex_i)
-                    2'b00: begin // Word access
-                        logic [1:0] shamt_temp = 0;
-                        foreach(load_store_unit_i.data_be[i]) 
-                            if (load_store_unit_i.data_be[i]==1'b0) shamt_temp++;
-                        rvfi_mem_wmask_ex <= load_store_unit_i.data_be >> shamt_temp;
-                        misaligned_st     <= 1'b1;
-                        shamt             <= 3'b100 - shamt_temp;
-                    end
-                    2'b01: begin // Half-Word access
-                        logic [1:0] shamt_temp = 1;
-                        if (load_store_unit_i.data_be[2:1] == 2'b10) shamt_temp = 2;
-                        if (load_store_unit_i.data_be[2:1] == 2'b00) shamt_temp = 3;
-                        rvfi_mem_wmask_ex <= load_store_unit_i.data_be >> shamt_temp;
-                        misaligned_st     <= (load_store_unit_i.data_be[2:0] == 3'b0) ? 1'b1 : 1'b0;
-                        shamt             <= (load_store_unit_i.data_be[2:0] == 3'b0) ? 2'b1 : 2'b0;
-                    end
-                    default: begin // Byte Access
-                        logic [1:0] shamt_temp = 1;
-                        if (load_store_unit_i.data_be[3:1] == 3'b010) shamt_temp = 2;
-                        if (load_store_unit_i.data_be[3:1] == 3'b100) shamt_temp = 3;
-                        rvfi_mem_wmask_ex <= load_store_unit_i.data_be >> shamt_temp;
-                        misaligned_st     <= 1'b0;
-                        shamt             <= '0;
-                    end
-                    endcase
-                end
-                else begin // Aligned access
-                    rvfi_mem_wmask_ex <= load_store_unit_i.data_be;
-                    misaligned_st     <= 1'b0;
-                    shamt             <= '0;
-                end
-            end
-            else begin // Not a write operation
-                rvfi_mem_wmask_ex <= '0;
-                misaligned_st     <= '0;
-            end
+            // if (load_store_unit_i.data_req_o && load_store_unit_i.data_we_o) begin
+            //     if (load_store_unit_i.data_be[0] != 1'b1) begin // Misaligned access
+            //         case (load_store_unit_i.data_type_ex_i)
+            //         2'b00: begin // Word access
+            //             logic [1:0] zeros_in_data_be_temp = 0;
+            //             foreach(load_store_unit_i.data_be[i]) 
+            //                 if (load_store_unit_i.data_be[i]==1'b0) zeros_in_data_be_temp++;
+            //             rvfi_mem_wmask_ex <= load_store_unit_i.data_be >> zeros_in_data_be_temp;
+            //             misaligned_st     <= 1'b1;
+            //             zeros_in_data_be             <= 3'b100 - zeros_in_data_be_temp;
+            //         end
+            //         2'b01: begin // Half-Word access
+            //             logic [1:0] zeros_in_data_be_temp = 1;
+            //             if (load_store_unit_i.data_be[2:1] == 2'b10) zeros_in_data_be_temp = 2;
+            //             if (load_store_unit_i.data_be[2:1] == 2'b00) zeros_in_data_be_temp = 3;
+            //             rvfi_mem_wmask_ex <= load_store_unit_i.data_be >> zeros_in_data_be_temp;
+            //             misaligned_st     <= (load_store_unit_i.data_be[2:0] == 3'b0) ? 1'b1 : 1'b0;
+            //             zeros_in_data_be             <= (load_store_unit_i.data_be[2:0] == 3'b0) ? 2'b1 : 2'b0;
+            //         end
+            //         default: begin // Byte Access
+            //             logic [1:0] zeros_in_data_be_temp = 1;
+            //             if (load_store_unit_i.data_be[3:1] == 3'b010) zeros_in_data_be_temp = 2;
+            //             if (load_store_unit_i.data_be[3:1] == 3'b100) zeros_in_data_be_temp = 3;
+            //             rvfi_mem_wmask_ex <= load_store_unit_i.data_be >> zeros_in_data_be_temp;
+            //             misaligned_st     <= 1'b0;
+            //             zeros_in_data_be             <= '0;
+            //         end
+            //         endcase
+            //     end
+            //     else begin // Aligned access
+            //         rvfi_mem_wmask_ex <= load_store_unit_i.data_be;
+            //         misaligned_st     <= 1'b0;
+            //         zeros_in_data_be             <= '0;
+            //     end
+            // end
+            // else begin // Not a write operation
+            //     rvfi_mem_wmask_ex <= '0;
+            //     misaligned_st     <= '0;
+            // end
             
-            if (misaligned_st) begin
-                rvfi_mem_wmask_wb <= load_store_unit_i.data_be<<shamt | rvfi_mem_wmask_ex;
-            end
-            else
+            // if (misaligned_st) begin
+            //     rvfi_mem_wmask_wb <= load_store_unit_i.data_be<<zeros_in_data_be | rvfi_mem_wmask_ex;
+            // end
+            // else
+            //     rvfi_mem_wmask_wb <= rvfi_mem_wmask_ex;
+            
+            
+            if (ex_stage_i.ex_ready_o)
+                // Drive mask if it's a write operation
+                if (load_store_unit_i.data_req_o && load_store_unit_i.data_we_o) begin
+                    if (!misaligned_access)
+                        rvfi_mem_wmask_ex <= load_store_unit_i.data_be >> load_store_unit_i.data_addr_int[1:0];
+                    else 
+                        if (load_store_unit_i.data_type_ex_i == 2'b00) // Store word
+                            rvfi_mem_wmask_ex <= (load_store_unit_i.data_be << 4-load_store_unit_i.data_addr_int[1:0]) | rvfi_mem_wmask_ex;
+                        else if (load_store_unit_i.data_type_ex_i == 2'b01) // Store half-word
+                            rvfi_mem_wmask_ex <= (load_store_unit_i.data_be << 1) | rvfi_mem_wmask_ex;
+                end
+                else // Not a write operation
+                    rvfi_mem_wmask_ex <= '0;
+            
+            
+            if (load_store_unit_i.lsu_ready_wb_o)
                 rvfi_mem_wmask_wb <= rvfi_mem_wmask_ex;
         end
     end

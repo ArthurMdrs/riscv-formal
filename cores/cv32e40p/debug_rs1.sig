@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <wavelist version="3">
-  <insertion-point-position>15</insertion-point-position>
+  <insertion-point-position>5</insertion-point-position>
   <wave>
     <expr>clock</expr>
     <label/>
@@ -20,6 +20,11 @@
     <expr>checker_inst.reset</expr>
     <label/>
     <radix/>
+  </wave>
+  <wave collapsed="true">
+    <expr>checker_inst.spec_rs1_addr</expr>
+    <label/>
+    <radix>checker_inst.rs1_addr</radix>
   </wave>
   <wave collapsed="true">
     <expr>checker_inst.rvfi_rs1_addr</expr>

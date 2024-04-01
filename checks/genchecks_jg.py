@@ -435,6 +435,7 @@ def check_insn(grp, insn, chanidx, csr_mode=False, illegal_csr=False):
                 : check_assumptions -show -dead_end
                 : 
                 : set_prove_target_bound $depth
+                : set_max_trace_length $depth
                 : set_trace_optimization standard
                 : prove -instance checker_inst -iter $depth -dump_trace -dump_trace_type vcd -dump_trace_dir traces
                 : 
@@ -725,7 +726,7 @@ def check_cons(grp, check, chanidx=None, start=None, trig=None, depth=None, csr_
             for line in f.readlines():
                 if "rvformal_rand_const_reg" in line:
                     ndc = line.split()[-1][:-1]
-                    print(ndc)
+                    # print(ndc)
                     print(f"assume -name ASM_{ndc}_const {{@(posedge clock) (checker_inst.{ndc} == $past(checker_inst.{ndc}))}}", file=tcl_file)
         
         print_hfmt(tcl_file, """
@@ -733,6 +734,7 @@ def check_cons(grp, check, chanidx=None, start=None, trig=None, depth=None, csr_
                 : check_assumptions -show -dead_end
                 : 
                 : set_prove_target_bound $depth
+                : set_max_trace_length $depth
                 : set_trace_optimization standard
                 : prove -instance checker_inst -iter $depth -dump_trace -dump_trace_type vcd -dump_trace_dir traces
                 : 

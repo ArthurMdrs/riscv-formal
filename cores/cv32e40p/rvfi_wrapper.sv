@@ -279,32 +279,17 @@ module rvfi_wrapper (
                                              uut.if_stage_i.fetch_rdata[31:20] != 12'h7C5 && 
                                              uut.if_stage_i.fetch_rdata[31:20] != 12'h7C6    );
 	end
-            
-    
 
-`ifdef CV32P_FAIRNESS    
-	// reg  mem_wait = 0;
-	// always @(posedge clock) begin
-	// 	mem_wait <= {mem_wait, mem_valid && !mem_ready};
-	// 	assume (~mem_wait || trap);
-	// end
+
+
+`ifdef CV32P_REG_CHECK
+    // Post-Incrementing Load instructions write to 2 registers
+    // This breaks the register consistency check, that assumes 1 write per instruction
+	always @(posedge clock) begin
+        // Don't allow the Pulp custom Post-Incrementing Load instructions
+		ASM_no_loadpost_instr: assume (uut.if_stage_i.fetch_rdata[6:0] != OPCODE_STORE_POST);
+	end
 `endif
 
-`ifdef CV32P_CSR_RESTRICT
-	// always @* begin
-	// 	if (rvfi_valid && rvfi_insn== 7'b1110011) begin
-	// 		if (rvfi_insn[14:12] == 3'b010) begin
-	// 			assume (rvfi_insn[31:20] == 12'hC00 || rvfi_insn[31:20] == 12'hC01 || rvfi_insn[31:20] == 12'hC02 ||
-	// 					rvfi_insn[31:20] == 12'hC80 || rvfi_insn[31:20] == 12'hC81 || rvfi_insn[31:20] == 12'hC82);
-	// 			assume (rvfi_insn[19:15] == 0);
-	// 		end
-	// 		assume (rvfi_insn[14:12] != 3'b001);
-	// 		assume (rvfi_insn[14:12] != 3'b011);
-	// 		assume (rvfi_insn[14:12] != 3'b101);
-	// 		assume (rvfi_insn[14:12] != 3'b110);
-	// 		assume (rvfi_insn[14:12] != 3'b111);
-	// 	end
-	// end
-`endif
 endmodule
 

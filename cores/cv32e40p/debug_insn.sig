@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <wavelist version="3">
-  <insertion-point-position>10</insertion-point-position>
+  <insertion-point-position>22</insertion-point-position>
   <wave>
     <expr>clock</expr>
     <label/>
@@ -70,6 +70,37 @@
   </wave>
   <spacer/>
   <wave>
+    <expr>wrapper.uut.rvfi_valid_if</expr>
+    <label/>
+    <radix/>
+  </wave>
+  <wave>
+    <expr>wrapper.uut.rvfi_valid_id</expr>
+    <label/>
+    <radix/>
+  </wave>
+  <wave>
+    <expr>wrapper.uut.rvfi_valid_ex</expr>
+    <label/>
+    <radix/>
+  </wave>
+  <wave>
+    <expr>wrapper.uut.rvfi_valid_wb</expr>
+    <label/>
+    <radix/>
+  </wave>
+  <wave>
+    <expr>rvfi_trap</expr>
+    <label/>
+    <radix/>
+  </wave>
+  <wave>
+    <expr>checker_inst.spec_trap</expr>
+    <label/>
+    <radix/>
+  </wave>
+  <spacer/>
+  <wave>
     <expr>wrapper.uut.if_stage_i.if_ready</expr>
     <label/>
     <radix/>
@@ -112,32 +143,15 @@
   </wave>
   <spacer/>
   <wave>
-    <expr>wrapper.uut.rvfi_valid_if</expr>
+    <expr>wrapper.uut.id_stage_i.data_req_id</expr>
     <label/>
     <radix/>
   </wave>
   <wave>
-    <expr>wrapper.uut.rvfi_valid_id</expr>
+    <expr>wrapper.uut.load_store_unit_i.data_req_ex_i</expr>
     <label/>
     <radix/>
   </wave>
-  <wave>
-    <expr>wrapper.uut.rvfi_valid_ex</expr>
-    <label/>
-    <radix/>
-  </wave>
-  <wave>
-    <expr>wrapper.uut.rvfi_valid_wb</expr>
-    <label/>
-    <radix/>
-  </wave>
-  <spacer/>
-  <wave>
-    <expr>rvfi_trap</expr>
-    <label/>
-    <radix/>
-  </wave>
-  <spacer/>
   <wave>
     <expr>wrapper.uut.load_store_unit_i.data_req_o</expr>
     <label/>
@@ -153,12 +167,35 @@
     <label/>
     <radix/>
   </wave>
+  <wave>
+    <expr>wrapper.uut.load_store_unit_i.data_err_i</expr>
+    <label/>
+    <radix/>
+  </wave>
+  <wave collapsed="true">
+    <expr>wrapper.uut.load_store_unit_i.CS</expr>
+    <label/>
+    <radix>wrapper.uut.load_store_unit_i.CS</radix>
+  </wave>
+  <wave collapsed="true">
+    <expr>wrapper.uut.load_store_unit_i.NS</expr>
+    <label/>
+    <radix>wrapper.uut.load_store_unit_i.CS</radix>
+  </wave>
   <spacer/>
   <highlightlist>
     <!--Users can remove the highlightlist block if they want to load the signal save file into older version of Jasper-->
     <highlight>
       <expr>checker_inst.register_shadow</expr>
       <color>builtin_red</color>
+    </highlight>
+    <highlight>
+      <expr>checker_inst.rvfi_rs1_rdata</expr>
+      <color>builtin_blue</color>
+    </highlight>
+    <highlight>
+      <expr>checker_inst.rvfi_rs2_rdata</expr>
+      <color>builtin_blue</color>
     </highlight>
     <highlight>
       <expr>wrapper.uut.id_stage_i.decoder_i.instr_rdata_i</expr>
@@ -170,6 +207,26 @@
     </highlight>
     <highlight>
       <expr>wrapper.uut.rvfi_insn_wb</expr>
+      <color>builtin_red</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.uut.rvfi_pc_rdata_wb</expr>
+      <color>builtin_green</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.uut.rvfi_pc_wdata_wb</expr>
+      <color>builtin_green</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.uut.rvfi_rd_addr_wb</expr>
+      <color>builtin_green</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.uut.rvfi_rd_wdata_wb</expr>
+      <color>builtin_green</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.uut.rvfi_valid_wb</expr>
       <color>builtin_red</color>
     </highlight>
   </highlightlist>
