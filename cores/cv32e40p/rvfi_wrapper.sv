@@ -253,32 +253,16 @@ module rvfi_wrapper (
     
 	// always @(posedge clock) begin
     //     // Don't allow the Pulp custom hardware loop instructions
-	// 	ASM_no_hwloop_instr: assume (uut.if_stage_i.instr_decompressed[6:0] != OPCODE_HWLOOP);
+	// 	ASM_no_hwloop_instr: assume (uut.if_stage_i.fetch_rdata[6:0] != OPCODE_HWLOOP);
     //     // Don't allow hwloop CSRs access in a CSR instruction 
-    //     if (uut.if_stage_i.instr_decompressed[6:0] == OPCODE_SYSTEM && uut.if_stage_i.instr_decompressed[14:12] != 3'b0) // This is a CSR instruction
-	// 	    ASM_no_hwloop_csr_instr: assume (uut.if_stage_i.instr_decompressed[31:20] != 12'h7C0 && 
-    //                                          uut.if_stage_i.instr_decompressed[31:20] != 12'h7C1 && 
-    //                                          uut.if_stage_i.instr_decompressed[31:20] != 12'h7C2 && 
-    //                                          uut.if_stage_i.instr_decompressed[31:20] != 12'h7C4 && 
-    //                                          uut.if_stage_i.instr_decompressed[31:20] != 12'h7C5 && 
-    //                                          uut.if_stage_i.instr_decompressed[31:20] != 12'h7C6    );
+    //     if (uut.if_stage_i.fetch_rdata[6:0] == OPCODE_SYSTEM && uut.if_stage_i.fetch_rdata[14:12] != 3'b0) // This is a CSR instruction
+	// 	    ASM_no_hwloop_csr_instr: assume (uut.if_stage_i.fetch_rdata[31:20] != 12'h7C0 && 
+    //                                          uut.if_stage_i.fetch_rdata[31:20] != 12'h7C1 && 
+    //                                          uut.if_stage_i.fetch_rdata[31:20] != 12'h7C2 && 
+    //                                          uut.if_stage_i.fetch_rdata[31:20] != 12'h7C4 && 
+    //                                          uut.if_stage_i.fetch_rdata[31:20] != 12'h7C5 && 
+    //                                          uut.if_stage_i.fetch_rdata[31:20] != 12'h7C6    );
 	// end
-    
-    
-    
-    // Does the code below reduce complexity compared to the above?
-	always @(posedge clock) begin
-        // Don't allow the Pulp custom hardware loop instructions
-		ASM_no_hwloop_instr: assume (uut.if_stage_i.fetch_rdata[6:0] != OPCODE_HWLOOP);
-        // Don't allow hwloop CSRs access in a CSR instruction 
-        if (uut.if_stage_i.fetch_rdata[6:0] == OPCODE_SYSTEM && uut.if_stage_i.fetch_rdata[14:12] != 3'b0) // This is a CSR instruction
-		    ASM_no_hwloop_csr_instr: assume (uut.if_stage_i.fetch_rdata[31:20] != 12'h7C0 && 
-                                             uut.if_stage_i.fetch_rdata[31:20] != 12'h7C1 && 
-                                             uut.if_stage_i.fetch_rdata[31:20] != 12'h7C2 && 
-                                             uut.if_stage_i.fetch_rdata[31:20] != 12'h7C4 && 
-                                             uut.if_stage_i.fetch_rdata[31:20] != 12'h7C5 && 
-                                             uut.if_stage_i.fetch_rdata[31:20] != 12'h7C6    );
-	end
 
 
 
@@ -287,7 +271,7 @@ module rvfi_wrapper (
     // This breaks the register consistency check, that assumes 1 write per instruction
 	always @(posedge clock) begin
         // Don't allow the Pulp custom Post-Incrementing Load instructions
-		ASM_no_loadpost_instr: assume (uut.if_stage_i.fetch_rdata[6:0] != OPCODE_STORE_POST);
+		ASM_no_loadpost_instr: assume (uut.if_stage_i.fetch_rdata[6:0] != OPCODE_LOAD_POST);
 	end
 `endif
 

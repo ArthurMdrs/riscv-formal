@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <wavelist version="3">
-  <insertion-point-position>68</insertion-point-position>
+  <insertion-point-position>71</insertion-point-position>
   <wave>
     <expr>clock</expr>
     <label/>
@@ -244,20 +244,20 @@
     <radix/>
   </wave>
   <spacer/>
-  <wave collapsed="true">
-    <expr>wrapper.uut.id_stage_i.decoder_i.instr_rdata_i</expr>
+  <wave>
+    <expr>wrapper.uut.id_stage_i.data_misaligned_i</expr>
     <label/>
-    <radix>wrapper.uut.if_stage_i.instr_decompressed</radix>
+    <radix/>
   </wave>
   <wave collapsed="true">
     <expr>wrapper.uut.id_stage_i.decoder_i.instr_rdata_i[6:0]</expr>
     <label/>
     <radix/>
   </wave>
-  <wave>
-    <expr>wrapper.uut.id_stage_i.data_misaligned_i</expr>
+  <wave collapsed="true">
+    <expr>wrapper.uut.id_stage_i.decoder_i.instr_rdata_i</expr>
     <label/>
-    <radix/>
+    <radix>wrapper.uut.if_stage_i.instr_decompressed</radix>
   </wave>
   <group collapsed="false">
     <expr/>
@@ -300,6 +300,11 @@
   </wave>
   <wave>
     <expr>wrapper.uut.ex_valid</expr>
+    <label/>
+    <radix/>
+  </wave>
+  <wave>
+    <expr>wrapper.uut.lsu_ready_wb</expr>
     <label/>
     <radix/>
   </wave>
@@ -418,24 +423,24 @@
     <expr/>
     <label>spec_mem</label>
     <wave collapsed="true">
-      <expr>checker_inst.spec_mem_addr</expr>
+      <expr>checker_inst.insn_spec.spec_mem_addr</expr>
       <label/>
-      <radix>checker_inst.mem_addr</radix>
+      <radix>checker_inst.rd_wdata</radix>
     </wave>
     <wave collapsed="true">
-      <expr>checker_inst.spec_mem_rmask</expr>
+      <expr>checker_inst.insn_spec.spec_mem_wdata</expr>
+      <label/>
+      <radix>checker_inst.rd_wdata</radix>
+    </wave>
+    <wave collapsed="true">
+      <expr>checker_inst.insn_spec.spec_mem_wmask</expr>
       <label/>
       <radix/>
     </wave>
     <wave collapsed="true">
-      <expr>checker_inst.spec_mem_wmask</expr>
+      <expr>checker_inst.insn_spec.spec_mem_rmask</expr>
       <label/>
       <radix/>
-    </wave>
-    <wave collapsed="true">
-      <expr>checker_inst.spec_mem_wdata</expr>
-      <label/>
-      <radix>wrapper.uut.ex_stage_i.regfile_alu_wdata_fw_o</radix>
     </wave>
   </group>
   <spacer/>
@@ -449,11 +454,6 @@
     </wave>
     <wave>
       <expr>wrapper.uut.ex_ready</expr>
-      <label/>
-      <radix/>
-    </wave>
-    <wave>
-      <expr>wrapper.uut.lsu_ready_wb</expr>
       <label/>
       <radix/>
     </wave>
@@ -482,17 +482,56 @@
       <label/>
       <radix/>
     </wave>
+    <wave collapsed="true">
+      <expr>wrapper.uut.rvfi_mem_wmask_ex</expr>
+      <label/>
+      <radix/>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.uut.rvfi_rd_wdata_wb</expr>
+      <label/>
+      <radix>checker_inst.rd_wdata</radix>
+    </wave>
+    <wave collapsed="true">
+      <expr>checker_inst.insn_spec.spec_rd_wdata</expr>
+      <label/>
+      <radix>checker_inst.rd_wdata</radix>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.uut.rvfi_rd_wdata_ex</expr>
+      <label/>
+      <radix>checker_inst.rd_wdata</radix>
+    </wave>
   </group>
-  <wave collapsed="true">
-    <expr>wrapper.uut.rvfi_mem_wmask_ex</expr>
-    <label/>
-    <radix/>
-  </wave>
   <highlightlist>
     <!--Users can remove the highlightlist block if they want to load the signal save file into older version of Jasper-->
     <highlight>
+      <expr>checker_inst.insn_spec.spec_mem_addr</expr>
+      <color>builtin_green</color>
+    </highlight>
+    <highlight>
+      <expr>checker_inst.insn_spec.spec_mem_rmask</expr>
+      <color>builtin_green</color>
+    </highlight>
+    <highlight>
+      <expr>checker_inst.insn_spec.spec_mem_wdata</expr>
+      <color>builtin_green</color>
+    </highlight>
+    <highlight>
+      <expr>checker_inst.insn_spec.spec_mem_wmask</expr>
+      <color>builtin_green</color>
+    </highlight>
+    <highlight>
+      <expr>checker_inst.insn_spec.spec_rd_wdata</expr>
+      <color>builtin_red</color>
+    </highlight>
+    <highlight>
       <expr>checker_inst.register_shadow</expr>
       <color>builtin_red</color>
+    </highlight>
+    <highlight>
+      <expr>checker_inst.rvfi_rs1_addr</expr>
+      <color>builtin_orange</color>
     </highlight>
     <highlight>
       <expr>checker_inst.rvfi_rs1_rdata</expr>
@@ -539,6 +578,26 @@
       <color>builtin_red</color>
     </highlight>
     <highlight>
+      <expr>wrapper.uut.rvfi_mem_addr_wb</expr>
+      <color>builtin_red</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.uut.rvfi_mem_rdata_wb</expr>
+      <color>builtin_red</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.uut.rvfi_mem_rmask_wb</expr>
+      <color>builtin_red</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.uut.rvfi_mem_wdata_wb</expr>
+      <color>builtin_red</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.uut.rvfi_mem_wmask_wb</expr>
+      <color>builtin_red</color>
+    </highlight>
+    <highlight>
       <expr>wrapper.uut.rvfi_pc_rdata_wb</expr>
       <color>builtin_green</color>
     </highlight>
@@ -552,7 +611,23 @@
     </highlight>
     <highlight>
       <expr>wrapper.uut.rvfi_rd_wdata_wb</expr>
-      <color>builtin_blue</color>
+      <color>builtin_red</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.uut.rvfi_rs1_addr_wb</expr>
+      <color>builtin_orange</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.uut.rvfi_rs1_rdata_wb</expr>
+      <color>builtin_orange</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.uut.rvfi_rs2_addr_wb</expr>
+      <color>builtin_yellow</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.uut.rvfi_rs2_rdata_wb</expr>
+      <color>builtin_yellow</color>
     </highlight>
     <highlight>
       <expr>wrapper.uut.rvfi_valid_wb</expr>

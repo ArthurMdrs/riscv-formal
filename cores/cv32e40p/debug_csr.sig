@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <wavelist version="3">
-  <insertion-point-position>44</insertion-point-position>
+  <insertion-point-position>12</insertion-point-position>
   <wave>
     <expr>clock</expr>
     <label/>
@@ -21,21 +21,61 @@
     <label/>
     <radix/>
   </wave>
-  <wave collapsed="true">
-    <expr>checker_inst.register_index</expr>
-    <label/>
-    <radix>checker_inst.register_index</radix>
-  </wave>
-  <wave collapsed="true">
-    <expr>checker_inst.register_shadow</expr>
-    <label/>
-    <radix>checker_inst.register_shadow</radix>
-  </wave>
-  <wave>
-    <expr>checker_inst.register_written</expr>
-    <label/>
-    <radix/>
-  </wave>
+  <spacer/>
+  <group collapsed="false">
+    <expr/>
+    <label>Spec</label>
+    <wave collapsed="true">
+      <expr>checker_inst.rvfi.insn[11:7]</expr>
+      <label/>
+      <radix/>
+    </wave>
+    <wave collapsed="true">
+      <expr>checker_inst.csr_insn_smask</expr>
+      <label/>
+      <radix>checker_inst.rvfi.pc_wdata</radix>
+    </wave>
+    <wave collapsed="true">
+      <expr>checker_inst.csr_insn_cmask</expr>
+      <label/>
+      <radix>checker_inst.rvfi.pc_wdata</radix>
+    </wave>
+    <wave collapsed="true">
+      <expr>checker_inst.effective_csr_insn_wdata</expr>
+      <label/>
+      <radix/>
+    </wave>
+    <group collapsed="true">
+      <expr>(checker_inst.csr_insn_smask &amp; ~checker_inst.effective_csr_insn_wdata)</expr>
+      <label>(checker_inst.csr_insn_smask &amp; ~checker_inst.effective_csr_insn_wdata)</label>
+      <radix/>
+      <wave collapsed="true">
+        <expr>checker_inst.csr_insn_smask</expr>
+        <label/>
+        <radix>checker_inst.rvfi.pc_wdata</radix>
+      </wave>
+      <wave collapsed="true">
+        <expr>checker_inst.effective_csr_insn_wdata</expr>
+        <label/>
+        <radix/>
+      </wave>
+    </group>
+    <group collapsed="true">
+      <expr>(checker_inst.csr_insn_cmask &amp; checker_inst.effective_csr_insn_wdata)</expr>
+      <label>(checker_inst.csr_insn_cmask &amp; checker_inst.effective_csr_insn_wdata)</label>
+      <radix/>
+      <wave collapsed="true">
+        <expr>checker_inst.csr_insn_cmask</expr>
+        <label/>
+        <radix>checker_inst.csr_insn_cmask</radix>
+      </wave>
+      <wave collapsed="true">
+        <expr>checker_inst.effective_csr_insn_wdata</expr>
+        <label/>
+        <radix/>
+      </wave>
+    </group>
+  </group>
   <spacer/>
   <group collapsed="false">
     <expr/>
@@ -69,6 +109,36 @@
       <expr>wrapper.uut.rvfi_rd_wdata_wb</expr>
       <label/>
       <radix>checker_inst.register_shadow</radix>
+    </wave>
+  </group>
+  <spacer/>
+  <group collapsed="false">
+    <expr/>
+    <label>CSR</label>
+    <wave>
+      <expr>wrapper.uut.csr_access_ex</expr>
+      <label/>
+      <radix/>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.uut.csr_op_ex</expr>
+      <label/>
+      <radix>wrapper.uut.csr_op_ex</radix>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.uut.csr_wdata</expr>
+      <label/>
+      <radix>checker_inst.register_shadow</radix>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.uut.csr_rdata</expr>
+      <label/>
+      <radix>checker_inst.register_shadow</radix>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.uut.cs_registers_i.csr_addr_i</expr>
+      <label/>
+      <radix>wrapper.uut.cs_registers_i.csr_addr_i</radix>
     </wave>
   </group>
   <spacer/>
@@ -382,7 +452,7 @@
     </wave>
   </group>
   <spacer/>
-  <group collapsed="false">
+  <group collapsed="true">
     <expr/>
     <label>Mem Access</label>
     <wave>
@@ -399,6 +469,11 @@
       <expr>wrapper.uut.load_store_unit_i.data_rvalid_i</expr>
       <label/>
       <radix/>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.uut.load_store_unit_i.CS</expr>
+      <label/>
+      <radix>wrapper.uut.load_store_unit_i.CS</radix>
     </wave>
   </group>
   <spacer/>

@@ -122,35 +122,37 @@ module riscv_core
   input  logic        fetch_enable_i,
   output logic        core_busy_o,
 
-`ifdef RISCV_FORMAL
-    // Instruction Metadata
-    output reg        rvfi_valid,
-    output reg [63:0] rvfi_order,
-    output reg [31:0] rvfi_insn,
-    output reg        rvfi_trap,
-    output reg        rvfi_halt,
-    output reg        rvfi_intr,
-    output reg [ 1:0] rvfi_mode,
-    output reg [ 1:0] rvfi_ixl,
-    // Integer Register Read/Write
-    output reg [ 4:0] rvfi_rs1_addr,
-    output reg [ 4:0] rvfi_rs2_addr,
-    output reg [31:0] rvfi_rs1_rdata,
-    output reg [31:0] rvfi_rs2_rdata,
-    output reg [ 4:0] rvfi_rd_addr,
-    output reg [31:0] rvfi_rd_wdata,
-    // Program Counter
-    output reg [31:0] rvfi_pc_rdata,
-    output reg [31:0] rvfi_pc_wdata,
-    // Memory Access
-    output reg [31:0] rvfi_mem_addr,
-    output reg [ 3:0] rvfi_mem_rmask,
-    output reg [ 3:0] rvfi_mem_wmask,
-    output reg [31:0] rvfi_mem_rdata,
-    output reg [31:0] rvfi_mem_wdata,
-`endif
-
   input  logic [N_EXT_PERF_COUNTERS-1:0] ext_perf_counters_i
+
+`ifdef RISCV_FORMAL
+    // // Instruction Metadata
+    // output reg        rvfi_valid,
+    // output reg [63:0] rvfi_order,
+    // output reg [31:0] rvfi_insn,
+    // output reg        rvfi_trap,
+    // output reg        rvfi_halt,
+    // output reg        rvfi_intr,
+    // output reg [ 1:0] rvfi_mode,
+    // output reg [ 1:0] rvfi_ixl,
+    // // Integer Register Read/Write
+    // output reg [ 4:0] rvfi_rs1_addr,
+    // output reg [ 4:0] rvfi_rs2_addr,
+    // output reg [31:0] rvfi_rs1_rdata,
+    // output reg [31:0] rvfi_rs2_rdata,
+    // output reg [ 4:0] rvfi_rd_addr,
+    // output reg [31:0] rvfi_rd_wdata,
+    // // Program Counter
+    // output reg [31:0] rvfi_pc_rdata,
+    // output reg [31:0] rvfi_pc_wdata,
+    // // Memory Access
+    // output reg [31:0] rvfi_mem_addr,
+    // output reg [ 3:0] rvfi_mem_rmask,
+    // output reg [ 3:0] rvfi_mem_wmask,
+    // output reg [31:0] rvfi_mem_rdata,
+    // output reg [31:0] rvfi_mem_wdata,
+    ,
+    `RVFI_OUTPUTS
+`endif
 );
 
   localparam N_HWLP      = 2;
@@ -1228,14 +1230,9 @@ module riscv_core
     reg        rvfi_halt_if , rvfi_halt_id , rvfi_halt_ex , rvfi_halt_wb ;
     reg        rvfi_intr_if , rvfi_intr_id , rvfi_intr_ex , rvfi_intr_wb ;
     reg [ 1:0]                rvfi_mode_id , rvfi_mode_ex , rvfi_mode_wb ;
+    reg [63:0]                                              rvfi_order_wb;
     
     localparam COMP_LW = 5'b00_010, COMP_LWSP = 5'b10_010, COMP_SW = 5'b00_110, COMP_SWSP = 5'b10_110;
-    // wire [5:0] comp_op_funct = {rvfi_insn_ex[1:0], rvfi_insn_ex[15:13]};
-    
-    // wire insn_ex_is_mem = rvfi_insn_ex[6:0] inside {OPCODE_LOAD, OPCODE_LOAD_FP, OPCODE_LOAD_POST, OPCODE_STORE, OPCODE_STORE_FP, OPCODE_STORE_POST}
-    //                    || comp_op_funct     inside {COMP_LW, COMP_LWSP, COMP_SW, COMP_SWSP};
-                       
-                       
     
     wire insn_id_is_div = rvfi_insn_id[ 6: 0] == OPCODE_OP 
                        && rvfi_insn_id[31:25] == 7'h01
@@ -1253,6 +1250,11 @@ module riscv_core
     wire insn_ex_is_store   = rvfi_insn_ex[6:0] inside {OPCODE_STORE, OPCODE_STORE_FP, OPCODE_STORE_POST}
                            || insn_ex_is_c_store;
     
+    wire insn_ex_is_mem = insn_ex_is_load || insn_ex_is_store;
+    
+    wire insn_if_is_csr = rvfi_insn_if[ 6: 0] == OPCODE_SYSTEM 
+                       && rvfi_insn_if[14:12] != 3'b000; // Read/modify CSR
+    
     logic misaligned_access;
     logic data_access_error;
     
@@ -1266,28 +1268,16 @@ module riscv_core
             rvfi_valid_wb <= '0;
         end
         else begin
-            // rvfi_valid_if <= if_stage_i.if_valid && !id_stage_i.halt_id;
-            // rvfi_valid_id <= rvfi_valid_if       && id_stage_i.id_ready_o && id_stage_i.is_decoding_o;
-            // rvfi_valid_ex <= rvfi_valid_id       && ex_stage_i.ex_ready_o;
-            // if (!misaligned_stall_q)
-            //     rvfi_valid_wb <= rvfi_valid_ex   && load_store_unit_i.lsu_ready_wb_o;
-            // else
-            //     rvfi_valid_wb <= '0;
-            
-            // rvfi_valid_if <=        id_stage_i.id_ready_o     && if_stage_i.if_valid;
-            // rvfi_valid_id <=        ex_stage_i.ex_ready_o     && rvfi_valid_if;
-            // rvfi_valid_ex <= load_store_unit_i.lsu_ready_wb_o && rvfi_valid_id;
-            // if (!misaligned_stall_q)
-            //     rvfi_valid_wb <=                                 rvfi_valid_ex;
-            // else
-            //     rvfi_valid_wb <= '0;
-            
             if (if_stage_i.if_ready)
                 rvfi_valid_if <= if_stage_i.if_valid;
                 
                 
             if (id_stage_i.id_ready_o)
-                rvfi_valid_id <= rvfi_valid_if && id_stage_i.id_valid_o;
+                // if (insn_if_is_csr && id_stage_i.branch_taken_ex)
+                if (insn_if_is_csr && !id_stage_i.is_decoding_o)
+                    rvfi_valid_id <= 1'b0;
+                else
+                    rvfi_valid_id <= rvfi_valid_if && id_stage_i.id_valid_o;
             else
                 rvfi_valid_id <= 1'b0;
                 
@@ -1298,7 +1288,7 @@ module riscv_core
                     rvfi_valid_ex <= 1'b1;
                 else
                 // Assert valid when mulh instr finishes
-                if (insn_id_is_mulh && ex_stage_i.mult_i.mulh_CS == ex_stage_i.mult_i.mulh_CS.last()) // CS = FINISH
+                if (insn_id_is_mulh && ex_stage_i.mult_i.mulh_CS == ex_stage_i.mult_i.mulh_CS.last()) // mulh_CS = FINISH
                     rvfi_valid_ex <= 1'b1;
                 else
                 // Assert valid when a misaligned store completes
@@ -1313,17 +1303,18 @@ module riscv_core
             else
                 rvfi_valid_ex <= 1'b0;
                 
-                
+            
+            // De-assert valid if we're waiting for a misaligned access to complete
+            if (insn_ex_is_mem && misaligned_access) // Misaligned memory access, stall 1 cycle
+                rvfi_valid_wb <= 1'b0;
+            else
+            // Assert valid when a mem instr completes (except if there's a data error)
+            // if (insn_ex_is_load && load_store_unit_i.data_rvalid_i && load_store_unit_i.CS == 2'b01) // 2'b01 = WAIT_RVALID
+            if (insn_ex_is_mem && load_store_unit_i.data_rvalid_i && load_store_unit_i.CS == 2'b01) // 2'b01 = WAIT_RVALID
+                rvfi_valid_wb <= (data_access_error) ? 1'b0 : 1'b1; // Don't assert valid if there is a data error!
+            else
             if (load_store_unit_i.lsu_ready_wb_o)
-                // De-assert valid if we're waiting for a misaligned access to complete
-                if ((insn_ex_is_load || insn_ex_is_store) && misaligned_access) // Misaligned memory access, stall 1 cycle
-                    rvfi_valid_wb <= 1'b0;
-                else
-                // Assert valid when a load instr completes (except if there's a data error)
-                if (insn_ex_is_load && load_store_unit_i.data_rvalid_i && load_store_unit_i.CS == 2'b01) // 2'b01 = WAIT_RVALID
-                    rvfi_valid_wb <= (data_access_error) ? 1'b0 : 1'b1; // Don't assert valid if there is a data error!
-                else
-                    rvfi_valid_wb <= rvfi_valid_ex && wb_valid;
+                rvfi_valid_wb <= rvfi_valid_ex && wb_valid;
             else
                 rvfi_valid_wb <= 1'b0; 
         end
@@ -1332,12 +1323,13 @@ module riscv_core
     
     always @(posedge clk or negedge rst_ni) begin
         if (!rst_ni) begin
-            rvfi_order <= '0;
+            rvfi_order_wb <= '0;
         end
         else begin
-            rvfi_order <= rvfi_order + rvfi_valid;
+            rvfi_order_wb <= rvfi_order_wb + rvfi_valid;
         end
     end
+    assign rvfi_order = rvfi_order_wb;
     
     always @(posedge clk or negedge rst_ni) begin
         if (!rst_ni) begin
@@ -1347,19 +1339,13 @@ module riscv_core
             rvfi_insn_wb <= '0;
         end
         else begin
-            // rvfi_insn_if <= (if_stage_i.instr_compressed_int) ? {16'b0, if_stage_i.fetch_rdata[15:0]} : if_stage_i.instr_decompressed;
-            // rvfi_insn_id <= rvfi_insn_if;
-            // rvfi_insn_ex <= rvfi_insn_id;
-            // if (!misaligned_stall_q)
-            //     rvfi_insn_wb <= rvfi_insn_ex;
-                
             if (if_stage_i.if_ready)
                 rvfi_insn_if <= (if_stage_i.instr_compressed_int) ? {16'b0, if_stage_i.fetch_rdata[15:0]} : if_stage_i.instr_decompressed;
             if (id_stage_i.id_ready_o)
                 rvfi_insn_id <= rvfi_insn_if;
             if (ex_stage_i.ex_ready_o)
                 rvfi_insn_ex <= rvfi_insn_id;
-            if (load_store_unit_i.lsu_ready_wb_o)
+            // if (load_store_unit_i.lsu_ready_wb_o)
                 rvfi_insn_wb <= rvfi_insn_ex;
         end
     end
@@ -1372,11 +1358,6 @@ module riscv_core
             rvfi_trap_wb <= '0;
         end
         else begin
-            // rvfi_trap_id <= id_stage_i.illegal_insn_dec;
-            // rvfi_trap_ex <= rvfi_trap_id;
-            // // if (!misaligned_stall_q)
-            //     rvfi_trap_wb <= rvfi_trap_ex;
-            
             if (id_stage_i.id_ready_o)
                 rvfi_trap_id <= id_stage_i.illegal_insn_dec;
             if (ex_stage_i.ex_ready_o)
@@ -1406,7 +1387,7 @@ module riscv_core
         end
     end
     // assign rvfi_halt = rvfi_halt_wb;
-    assign rvfi_halt = '0; // To do!!! Make this work with actual halts!!
+    assign rvfi_halt = '0; // Todo!!! Make this work with actual halts!!
     
     
     logic next_is_intr;
@@ -1423,8 +1404,7 @@ module riscv_core
             rvfi_intr_if <= next_is_intr;
             rvfi_intr_id <= rvfi_intr_if;
             rvfi_intr_ex <= rvfi_intr_id;
-            // if (!misaligned_stall_q)
-                rvfi_intr_wb <= rvfi_intr_ex;
+            rvfi_intr_wb <= rvfi_intr_ex;
         end
     end
     assign rvfi_intr = rvfi_intr_wb;
@@ -1439,11 +1419,6 @@ module riscv_core
             rvfi_mode_wb <= '0;
         end
         else begin
-            // rvfi_mode_id <= id_stage_i.current_priv_lvl_i;
-            // rvfi_mode_ex <= rvfi_mode_id;
-            // // if (!misaligned_stall_q)
-            //     rvfi_mode_wb <= rvfi_mode_ex;
-                
             if (id_stage_i.id_ready_o)
                 rvfi_mode_id <= id_stage_i.current_priv_lvl_i;
             if (ex_stage_i.ex_ready_o)
@@ -1469,99 +1444,134 @@ module riscv_core
     
 
     //====================   Integer Register Read/Write   ====================//
-    reg [ 4:0] rvfi_rs1_addr_id , rvfi_rs1_addr_ex , rvfi_rs1_addr_wb ; 
-    reg [ 4:0] rvfi_rs2_addr_id , rvfi_rs2_addr_ex , rvfi_rs2_addr_wb ; 
-    reg [31:0] rvfi_rs1_rdata_id, rvfi_rs1_rdata_ex, rvfi_rs1_rdata_wb; 
-    reg [31:0] rvfi_rs2_rdata_id, rvfi_rs2_rdata_ex, rvfi_rs2_rdata_wb; 
-    reg [ 4:0]                    rvfi_rd_addr_ex  , rvfi_rd_addr_wb  ; 
-    reg [31:0]                    rvfi_rd_wdata_ex , rvfi_rd_wdata_wb ; 
+    reg [ 4:0] rvfi_rs1_addr_id , rvfi_rs1_addr_ex , rvfi_rs1_addr_wb ;
+    reg [ 4:0] rvfi_rs2_addr_id , rvfi_rs2_addr_ex , rvfi_rs2_addr_wb ;
+    reg [31:0] rvfi_rs1_rdata_id, rvfi_rs1_rdata_ex, rvfi_rs1_rdata_wb;
+    reg [31:0] rvfi_rs2_rdata_id, rvfi_rs2_rdata_ex, rvfi_rs2_rdata_wb;
+    reg [ 4:0]                    rvfi_rd_addr_ex  , rvfi_rd_addr_wb  ;
+    reg [31:0]                    rvfi_rd_wdata_ex , rvfi_rd_wdata_wb ;
+    
+    wire insn_if_uses_rs1 = rvfi_insn_if[6:0] inside {OPCODE_SYSTEM   , OPCODE_FENCE     , OPCODE_OP     , OPCODE_OPIMM,
+                                                      OPCODE_STORE    , OPCODE_LOAD      , OPCODE_BRANCH , OPCODE_JALR ,
+                                                      OPCODE_LOAD_POST, OPCODE_STORE_POST, OPCODE_PULP_OP, OPCODE_VECOP,
+                                                      OPCODE_HWLOOP};
+                                                      
+    wire insn_if_uses_rs2 = rvfi_insn_if[6:0] inside {OPCODE_OP       , OPCODE_STORE     , OPCODE_BRANCH , OPCODE_STORE_POST, 
+                                                      OPCODE_PULP_OP  , OPCODE_VECOP};
+                                                      
+    wire insn_if_is_div = rvfi_insn_if[ 6: 0] == OPCODE_OP 
+                       && rvfi_insn_if[31:25] == 7'h01
+                       && rvfi_insn_if[14:12] inside {3'h4, 3'h5, 3'h6, 3'h7}; // div, divu, rem, remu
+    
+    logic op_a_is_reg;
+    always_comb
+        if (rvfi_insn_if[6:0] == OPCODE_HWLOOP)
+            op_a_is_reg = (rvfi_insn_if[14:12] inside {3'b010, 3'b100});
+        else
+            op_a_is_reg = !(id_stage_i.alu_op_a_mux_sel inside {OP_A_CURRPC, OP_A_IMM});
+    wire op_b_is_reg = !(id_stage_i.alu_op_b_mux_sel inside {OP_B_IMM});
+    
+    logic [ 4:0] store_post_rd_addr;
+    logic [31:0] store_post_rd_data;
     
     always @(posedge clk or negedge rst_ni) begin
         if (!rst_ni) begin
             rvfi_rs1_addr_id <= '0;
             rvfi_rs1_addr_ex <= '0;
             rvfi_rs1_addr_wb <= '0;
+            rvfi_rs1_rdata_id <= '0;
+            rvfi_rs1_rdata_ex <= '0;
+            rvfi_rs1_rdata_wb <= '0;
         end
         else begin
-            // rvfi_rs1_addr_id <= id_stage_i.regfile_addr_ra_id;
-            // rvfi_rs1_addr_ex <= rvfi_rs1_addr_id;
-            // if (!misaligned_stall_q)
-            //     rvfi_rs1_addr_wb <= rvfi_rs1_addr_ex;
-                
-            if (id_stage_i.id_ready_o)
-                rvfi_rs1_addr_id <= id_stage_i.regfile_addr_ra_id;
-            if (ex_stage_i.ex_ready_o)
+            if (id_stage_i.id_ready_o) begin
+                if (insn_if_is_div) begin
+                    rvfi_rs1_addr_id <= id_stage_i.regfile_addr_rc_id;
+                    rvfi_rs1_rdata_id <= id_stage_i.operand_c_fw_id;
+                end
+                else 
+                if (op_a_is_reg) begin
+                    rvfi_rs1_addr_id <= id_stage_i.regfile_addr_ra_id;
+                    rvfi_rs1_rdata_id <= id_stage_i.operand_a_fw_id;
+                end
+                else 
+                begin
+                    rvfi_rs1_addr_id <= '0;
+                    rvfi_rs1_rdata_id <= '0;
+                end
+            end
+            if (ex_stage_i.ex_ready_o) begin
                 rvfi_rs1_addr_ex <= rvfi_rs1_addr_id;
-            if (load_store_unit_i.lsu_ready_wb_o)
+                rvfi_rs1_rdata_ex <= rvfi_rs1_rdata_id;
+            end
+            if (load_store_unit_i.lsu_ready_wb_o) begin
                 rvfi_rs1_addr_wb <= rvfi_rs1_addr_ex;
+                rvfi_rs1_rdata_wb <= rvfi_rs1_rdata_ex;
+            end
         end
     end
     assign rvfi_rs1_addr = rvfi_rs1_addr_wb;
+    assign rvfi_rs1_rdata = rvfi_rs1_rdata_wb;
+    
+    // always @(posedge clk or negedge rst_ni) begin
+    //     if (!rst_ni) begin
+    //         rvfi_rs2_addr_id <= '0;
+    //         rvfi_rs2_addr_ex <= '0;
+    //         rvfi_rs2_addr_wb <= '0;
+    //     end
+    //     else begin
+    //         if (id_stage_i.id_ready_o)
+    //             rvfi_rs2_addr_id <= id_stage_i.regfile_addr_rb_id;
+    //         if (ex_stage_i.ex_ready_o)
+    //             rvfi_rs2_addr_ex <= rvfi_rs2_addr_id;
+    //         if (load_store_unit_i.lsu_ready_wb_o)
+    //             rvfi_rs2_addr_wb <= rvfi_rs2_addr_ex;
+    //     end
+    // end
+    // assign rvfi_rs2_addr = rvfi_rs2_addr_wb;
+    
+    // always @(posedge clk or negedge rst_ni) begin
+    //     if (!rst_ni) begin
+    //         rvfi_rs1_rdata_id <= '0;
+    //         rvfi_rs1_rdata_ex <= '0;
+    //         rvfi_rs1_rdata_wb <= '0;
+    //     end
+    //     else begin
+    //         if (id_stage_i.id_ready_o)
+    //             rvfi_rs1_rdata_id <= id_stage_i.operand_a_fw_id;
+    //         if (ex_stage_i.ex_ready_o)
+    //             rvfi_rs1_rdata_ex <= rvfi_rs1_rdata_id;
+    //         if (load_store_unit_i.lsu_ready_wb_o)
+    //             rvfi_rs1_rdata_wb <= rvfi_rs1_rdata_ex;
+    //     end
+    // end
+    // assign rvfi_rs1_rdata = rvfi_rs1_rdata_wb;
     
     always @(posedge clk or negedge rst_ni) begin
         if (!rst_ni) begin
             rvfi_rs2_addr_id <= '0;
             rvfi_rs2_addr_ex <= '0;
             rvfi_rs2_addr_wb <= '0;
-        end
-        else begin
-            // rvfi_rs2_addr_id <= id_stage_i.regfile_addr_rb_id;
-            // rvfi_rs2_addr_ex <= rvfi_rs2_addr_id;
-            // if (!misaligned_stall_q)
-            //     rvfi_rs2_addr_wb <= rvfi_rs2_addr_ex;
-            
-            if (id_stage_i.id_ready_o)
-                rvfi_rs2_addr_id <= id_stage_i.regfile_addr_rb_id;
-            if (ex_stage_i.ex_ready_o)
-                rvfi_rs2_addr_ex <= rvfi_rs2_addr_id;
-            if (load_store_unit_i.lsu_ready_wb_o)
-                rvfi_rs2_addr_wb <= rvfi_rs2_addr_ex;
-        end
-    end
-    assign rvfi_rs2_addr = rvfi_rs2_addr_wb;
-    
-    always @(posedge clk or negedge rst_ni) begin
-        if (!rst_ni) begin
-            rvfi_rs1_rdata_id <= '0;
-            rvfi_rs1_rdata_ex <= '0;
-            rvfi_rs1_rdata_wb <= '0;
-        end
-        else begin
-            // rvfi_rs1_rdata_id <= id_stage_i.operand_a_fw_id;
-            // rvfi_rs1_rdata_ex <= rvfi_rs1_rdata_id;
-            // if (!misaligned_stall_q)
-            //     rvfi_rs1_rdata_wb <= rvfi_rs1_rdata_ex;
-                
-            if (id_stage_i.id_ready_o)
-                rvfi_rs1_rdata_id <= id_stage_i.operand_a_fw_id;
-            if (ex_stage_i.ex_ready_o)
-                rvfi_rs1_rdata_ex <= rvfi_rs1_rdata_id;
-            if (load_store_unit_i.lsu_ready_wb_o)
-                rvfi_rs1_rdata_wb <= rvfi_rs1_rdata_ex;
-        end
-    end
-    assign rvfi_rs1_rdata = rvfi_rs1_rdata_wb;
-    
-    always @(posedge clk or negedge rst_ni) begin
-        if (!rst_ni) begin
             rvfi_rs2_rdata_id <= '0;
             rvfi_rs2_rdata_ex <= '0;
             rvfi_rs2_rdata_wb <= '0;
         end
         else begin
-            // rvfi_rs2_rdata_id <= id_stage_i.operand_b_fw_id;
-            // rvfi_rs2_rdata_ex <= rvfi_rs2_rdata_id;
-            // if (!misaligned_stall_q)
-            //     rvfi_rs2_rdata_wb <= rvfi_rs2_rdata_ex;
-                
-            if (id_stage_i.id_ready_o)
+            if (id_stage_i.id_ready_o) begin
+                rvfi_rs2_addr_id <= id_stage_i.regfile_addr_rb_id;
                 rvfi_rs2_rdata_id <= id_stage_i.operand_b_fw_id;
-            if (ex_stage_i.ex_ready_o)
+            end
+            if (ex_stage_i.ex_ready_o) begin
+                rvfi_rs2_addr_ex <= rvfi_rs2_addr_id;
                 rvfi_rs2_rdata_ex <= rvfi_rs2_rdata_id;
-            if (load_store_unit_i.lsu_ready_wb_o)
+            end
+            if (load_store_unit_i.lsu_ready_wb_o) begin
+                rvfi_rs2_addr_wb <= rvfi_rs2_addr_ex;
                 rvfi_rs2_rdata_wb <= rvfi_rs2_rdata_ex;
+            end
         end
     end
+    assign rvfi_rs2_addr = rvfi_rs2_addr_wb;
     assign rvfi_rs2_rdata = rvfi_rs2_rdata_wb;
     
     always @(posedge clk or negedge rst_ni) begin
@@ -1570,17 +1580,21 @@ module riscv_core
             rvfi_rd_addr_wb <= '0;
         end
         else begin
-            // rvfi_rd_addr_ex <= (ex_stage_i.regfile_alu_we_fw_o) ? (ex_stage_i.regfile_alu_waddr_fw_o) : '0;
-            // if (!misaligned_stall_q)
-            //     rvfi_rd_addr_wb <= (id_stage_i.regfile_we_wb_i) ? id_stage_i.regfile_waddr_wb_i : rvfi_rd_addr_ex;
-            
-            if (ex_stage_i.ex_ready_o)
+            if (ex_stage_i.ex_ready_o) begin
                 rvfi_rd_addr_ex <= (ex_stage_i.regfile_alu_we_fw_o) ? (ex_stage_i.regfile_alu_waddr_fw_o) : '0;
-            if (load_store_unit_i.lsu_ready_wb_o)
-                rvfi_rd_addr_wb <= (id_stage_i.regfile_we_wb_i) ? id_stage_i.regfile_waddr_wb_i : rvfi_rd_addr_ex;
-            
-            // rvfi_rd_addr_ex <= (ex_stage_i.regfile_alu_we_fw_o) ? (ex_stage_i.regfile_alu_waddr_fw_o) : '0;
-            // rvfi_rd_addr_wb <= (id_stage_i.regfile_we_wb_i) ? id_stage_i.regfile_waddr_wb_i : rvfi_rd_addr_ex;
+                if (rvfi_insn_id[6:0] == OPCODE_STORE_POST && ex_stage_i.regfile_alu_we_fw_o)
+                    store_post_rd_addr <= ex_stage_i.regfile_alu_waddr_fw_o;
+            end
+                
+            // if (rvfi_insn_ex[6:0] == OPCODE_STORE_POST && load_store_unit_i.CS == 2'b01) // 2'b01 = WAIT_RVALID
+            //     rvfi_rd_addr_wb <= rvfi_rd_addr_wb;
+            // else
+            if (load_store_unit_i.lsu_ready_wb_o) begin
+                if (rvfi_insn_ex[6:0] == OPCODE_STORE_POST)
+                    rvfi_rd_addr_wb <= store_post_rd_addr;
+                else
+                    rvfi_rd_addr_wb <= (id_stage_i.regfile_we_wb_i) ? id_stage_i.regfile_waddr_wb_i : rvfi_rd_addr_ex;
+            end
         end
     end
     assign rvfi_rd_addr = rvfi_rd_addr_wb;
@@ -1591,21 +1605,37 @@ module riscv_core
             rvfi_rd_wdata_wb <= '0;
         end
         else begin
-            if (ex_stage_i.regfile_alu_we_fw_o)
-                if (ex_stage_i.regfile_alu_waddr_fw_o == '0)
+            if (ex_stage_i.ex_ready_o) begin
+                if (ex_stage_i.regfile_alu_we_fw_o) begin
+                    if (rvfi_insn_id[6:0] == OPCODE_STORE_POST)
+                        if (ex_stage_i.regfile_alu_waddr_fw_o != '0)
+                            store_post_rd_data <= ex_stage_i.regfile_alu_wdata_fw_o;
+                        else
+                            store_post_rd_data <= '0;
+                    if (ex_stage_i.regfile_alu_waddr_fw_o == '0)
+                        rvfi_rd_wdata_ex <= '0;
+                    else 
+                        rvfi_rd_wdata_ex <= ex_stage_i.regfile_alu_wdata_fw_o;
+                end
+                else
                     rvfi_rd_wdata_ex <= '0;
-                else 
-                    rvfi_rd_wdata_ex <= ex_stage_i.regfile_alu_wdata_fw_o;
-            else
-                rvfi_rd_wdata_ex <= '0;
+            end
             
-            if (id_stage_i.regfile_we_wb_i)
-                if (id_stage_i.regfile_waddr_wb_i == '0)
-                    rvfi_rd_wdata_wb <= '0;
-                else 
-                    rvfi_rd_wdata_wb <= id_stage_i.regfile_wdata_wb_i;
-            else
-                rvfi_rd_wdata_wb <= rvfi_rd_wdata_ex;
+            if (load_store_unit_i.lsu_ready_wb_o) begin
+                if (rvfi_insn_ex[6:0] == OPCODE_STORE_POST)
+                    rvfi_rd_wdata_wb <= store_post_rd_data;
+                else
+                if (id_stage_i.regfile_we_wb_i)
+                    if (id_stage_i.regfile_waddr_wb_i == '0)
+                        rvfi_rd_wdata_wb <= '0;
+                    else 
+                        rvfi_rd_wdata_wb <= id_stage_i.regfile_wdata_wb_i;
+                else
+                    // if (insn_ex_is_store && rvfi_insn_ex[6:0] != OPCODE_STORE_POST)
+                    //     rvfi_rd_wdata_wb <= '0;
+                    // else
+                        rvfi_rd_wdata_wb <= rvfi_rd_wdata_ex;
+            end
         end
     end
     assign rvfi_rd_wdata = rvfi_rd_wdata_wb;
@@ -1625,12 +1655,6 @@ module riscv_core
             rvfi_pc_rdata_wb <= '0;
         end
         else begin
-            // rvfi_pc_rdata_if <= if_stage_i.pc_if_o;
-            // rvfi_pc_rdata_id <= rvfi_pc_rdata_if;
-            // rvfi_pc_rdata_ex <= rvfi_pc_rdata_id;
-            // if (!misaligned_stall_q)
-            //     rvfi_pc_rdata_wb <= rvfi_pc_rdata_ex;
-                
             if (if_stage_i.if_ready)
                 rvfi_pc_rdata_if <= if_stage_i.pc_if_o;
             if (id_stage_i.id_ready_o)
@@ -1650,15 +1674,6 @@ module riscv_core
             rvfi_pc_wdata_wb <= '0;
         end
         else begin
-            // if (id_stage_i.jump_in_id inside {BRANCH_JAL, BRANCH_JALR})
-            //     rvfi_pc_wdata_id <= {id_stage_i.jump_target_o[31:1], 1'b0};
-            // else
-            //     rvfi_pc_wdata_id <= id_stage_i.pc_if_i;
-            // rvfi_pc_wdata_ex <= (id_stage_i.branch_taken_ex) ? (ex_stage_i.jump_target_o) : rvfi_pc_wdata_id;
-            // if (!misaligned_stall_q)
-            //     rvfi_pc_wdata_wb <= rvfi_pc_wdata_ex;
-                
-                
             if (id_stage_i.id_ready_o)
                 if (id_stage_i.jump_in_id inside {BRANCH_JAL, BRANCH_JALR})
                     rvfi_pc_wdata_id <= {id_stage_i.jump_target_o[31:1], 1'b0};
@@ -1690,15 +1705,9 @@ module riscv_core
             rvfi_mem_addr_wb <= '0;
         end
         else begin
-            // rvfi_mem_addr_ex <= load_store_unit_i.data_addr_o;
-            // // if (!misaligned_stall_q)
-            //     rvfi_mem_addr_wb <= rvfi_mem_addr_ex;
-            
             if (ex_stage_i.ex_ready_o)
-                // rvfi_mem_addr_ex <= load_store_unit_i.data_addr_o;
                 rvfi_mem_addr_ex <= (misaligned_access) ? rvfi_mem_addr_ex : load_store_unit_i.data_addr_o;
             if (load_store_unit_i.lsu_ready_wb_o)
-                // rvfi_mem_addr_wb <= (misaligned_access) ? rvfi_mem_addr_wb : rvfi_mem_addr_ex;
                 rvfi_mem_addr_wb <= rvfi_mem_addr_ex;
         end
     end
@@ -1718,69 +1727,12 @@ module riscv_core
     end
     assign rvfi_mem_rmask = rvfi_mem_rmask_wb;
     
-    // logic misaligned_st;
-    // Count zeros in data byte enable mask
-    // logic [1:0] zeros_in_data_be; // Max of 3
-    // always_comb begin
-    //     zeros_in_data_be = 0;
-    //     foreach (load_store_unit_i.data_be[i])
-    //         zeros_in_data_be += !load_store_unit_i.data_be[i]; // Count 0's
-    // end
     always @(posedge clk or negedge rst_ni) begin
         if (!rst_ni) begin
             rvfi_mem_wmask_ex <= '0;
             rvfi_mem_wmask_wb <= '0;
-            // misaligned_st     <= '0;
-            // zeros_in_data_be             <= '0;
         end
         else begin
-            // if (load_store_unit_i.data_req_o && load_store_unit_i.data_we_o) begin
-            //     if (load_store_unit_i.data_be[0] != 1'b1) begin // Misaligned access
-            //         case (load_store_unit_i.data_type_ex_i)
-            //         2'b00: begin // Word access
-            //             logic [1:0] zeros_in_data_be_temp = 0;
-            //             foreach(load_store_unit_i.data_be[i]) 
-            //                 if (load_store_unit_i.data_be[i]==1'b0) zeros_in_data_be_temp++;
-            //             rvfi_mem_wmask_ex <= load_store_unit_i.data_be >> zeros_in_data_be_temp;
-            //             misaligned_st     <= 1'b1;
-            //             zeros_in_data_be             <= 3'b100 - zeros_in_data_be_temp;
-            //         end
-            //         2'b01: begin // Half-Word access
-            //             logic [1:0] zeros_in_data_be_temp = 1;
-            //             if (load_store_unit_i.data_be[2:1] == 2'b10) zeros_in_data_be_temp = 2;
-            //             if (load_store_unit_i.data_be[2:1] == 2'b00) zeros_in_data_be_temp = 3;
-            //             rvfi_mem_wmask_ex <= load_store_unit_i.data_be >> zeros_in_data_be_temp;
-            //             misaligned_st     <= (load_store_unit_i.data_be[2:0] == 3'b0) ? 1'b1 : 1'b0;
-            //             zeros_in_data_be             <= (load_store_unit_i.data_be[2:0] == 3'b0) ? 2'b1 : 2'b0;
-            //         end
-            //         default: begin // Byte Access
-            //             logic [1:0] zeros_in_data_be_temp = 1;
-            //             if (load_store_unit_i.data_be[3:1] == 3'b010) zeros_in_data_be_temp = 2;
-            //             if (load_store_unit_i.data_be[3:1] == 3'b100) zeros_in_data_be_temp = 3;
-            //             rvfi_mem_wmask_ex <= load_store_unit_i.data_be >> zeros_in_data_be_temp;
-            //             misaligned_st     <= 1'b0;
-            //             zeros_in_data_be             <= '0;
-            //         end
-            //         endcase
-            //     end
-            //     else begin // Aligned access
-            //         rvfi_mem_wmask_ex <= load_store_unit_i.data_be;
-            //         misaligned_st     <= 1'b0;
-            //         zeros_in_data_be             <= '0;
-            //     end
-            // end
-            // else begin // Not a write operation
-            //     rvfi_mem_wmask_ex <= '0;
-            //     misaligned_st     <= '0;
-            // end
-            
-            // if (misaligned_st) begin
-            //     rvfi_mem_wmask_wb <= load_store_unit_i.data_be<<zeros_in_data_be | rvfi_mem_wmask_ex;
-            // end
-            // else
-            //     rvfi_mem_wmask_wb <= rvfi_mem_wmask_ex;
-            
-            
             if (ex_stage_i.ex_ready_o)
                 // Drive mask if it's a write operation
                 if (load_store_unit_i.data_req_o && load_store_unit_i.data_we_o) begin
@@ -1818,12 +1770,71 @@ module riscv_core
             rvfi_mem_wdata_wb <= '0;
         end
         else begin
-            // rvfi_mem_wdata_ex <= rvfi_mem_wdata <= (load_store_unit_i.data_req_o) ? load_store_unit_i.data_wdata_o : '0;
-            rvfi_mem_wdata_ex <= load_store_unit_i.data_wdata_ex_i;
-            rvfi_mem_wdata_wb <= rvfi_mem_wdata_ex;
+            if (ex_stage_i.ex_ready_o)
+                rvfi_mem_wdata_ex <= load_store_unit_i.data_wdata_ex_i;
+            if (load_store_unit_i.lsu_ready_wb_o)
+                rvfi_mem_wdata_wb <= rvfi_mem_wdata_ex;
         end
     end
     assign rvfi_mem_wdata = rvfi_mem_wdata_wb;
+
+    //====================   CSR - misa   ====================//
+    logic [31:0] rvfi_csr_misa_rmask_ex, rvfi_csr_misa_rmask_wb;
+    logic [31:0] rvfi_csr_misa_rdata_ex, rvfi_csr_misa_rdata_wb;
+    logic [31:0] rvfi_csr_misa_wdata_ex, rvfi_csr_misa_wdata_wb;
+    
+    always @(posedge clk or negedge rst_ni) begin
+        if (!rst_ni) begin
+            rvfi_csr_misa_rmask_ex <= '0;
+            rvfi_csr_misa_rmask_wb <= '0;
+            rvfi_csr_misa_rdata_ex <= '0;
+            rvfi_csr_misa_rdata_wb <= '0;
+            rvfi_csr_misa_wdata_ex <= '0;
+            rvfi_csr_misa_wdata_wb <= '0;
+        end
+        else begin
+            if (ex_stage_i.ex_ready_o && cs_registers_i.csr_we_int) begin
+                rvfi_csr_misa_rmask_ex <= '1;
+                rvfi_csr_misa_rdata_ex <= cs_registers_i.csr_rdata_o;
+                rvfi_csr_misa_wdata_ex <= cs_registers_i.csr_wdata_i;
+            end
+            if (load_store_unit_i.lsu_ready_wb_o) begin
+                rvfi_csr_misa_rmask_wb <= rvfi_csr_misa_rmask_ex;
+                rvfi_csr_misa_rdata_wb <= rvfi_csr_misa_rdata_ex;
+                rvfi_csr_misa_wdata_wb <= rvfi_csr_misa_wdata_ex;
+            end
+        end
+    end
+    
+    // always @(posedge clk or negedge rst_ni) begin
+    //     if (!rst_ni) begin
+    //         rvfi_csr_misa_wdata_ex <= '0;
+    //         rvfi_csr_misa_wdata_wb <= '0;
+    //     end
+    //     else begin
+    //         if (ex_stage_i.ex_ready_o)
+    //             rvfi_csr_misa_wdata_ex <= cs_registers_i.csr_wdata_i;
+    //             // rvfi_csr_misa_wdata_ex <= cs_registers_i.csr_wdata_int;
+    //         if (load_store_unit_i.lsu_ready_wb_o)
+    //             rvfi_csr_misa_wdata_wb <= rvfi_csr_misa_wdata_ex;
+    //     end
+    // end
+    
+    // assign rvfi_csr_misa_rmask = '1;
+    assign rvfi_csr_misa_rmask = rvfi_csr_misa_rmask_wb;
+    // assign rvfi_csr_misa_rdata = cs_registers_i.MISA_VALUE;
+    assign rvfi_csr_misa_rdata = rvfi_csr_misa_rdata_wb;
+    // assign rvfi_csr_misa_wmask = '0;
+    assign rvfi_csr_misa_wmask = rvfi_csr_misa_rmask_wb;
+    // assign rvfi_csr_misa_wdata = '0;
+    assign rvfi_csr_misa_wdata = rvfi_csr_misa_wdata_wb;
+
+    //====================   CSR - mstatus   ====================//
+    
+    assign rvfi_csr_mstatus_rmask = rvfi_csr_misa_rmask_wb;
+    assign rvfi_csr_mstatus_rdata = rvfi_csr_misa_rdata_wb;
+    assign rvfi_csr_mstatus_wmask = rvfi_csr_misa_rmask_wb;
+    assign rvfi_csr_mstatus_wdata = rvfi_csr_misa_wdata_wb;
 `endif
 
 endmodule

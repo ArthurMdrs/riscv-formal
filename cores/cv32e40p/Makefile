@@ -1,16 +1,15 @@
 VCD = ./violation.vcd
 
-TIME_START = "$$(date)"
-
 # .SILENT:
 
 run: run_checks
 
 run_checks:
+	@$(eval TIME_START = $(shell date))
 	@if [ ! -d checks ]; then $(MAKE) gen_jg; fi
 	@make -C checks
 	@echo Proccess start: $(TIME_START)
-	@echo Proccess end: $$(date)
+	@echo Proccess end  : $$(date)
 
 gen_sby:
 	@if [ -d checks ]; then $(MAKE) clean; fi

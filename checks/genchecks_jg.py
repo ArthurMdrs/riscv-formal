@@ -29,6 +29,7 @@ illegal_csrs = set()
 csr_tests = {}
 csr_spec = None
 compr = False
+xpulp = False
 
 depths = list()
 groups = [None]
@@ -134,6 +135,9 @@ if "64" in isa:
 
 if "c" in isa:
     compr = True
+
+if "xpulp" in isa:
+    xpulp = True
 
 def add_csr_tests(name, test_str):
     # use regex to split by spaces, unless those spaces are inside quotation marks
@@ -421,11 +425,13 @@ def check_insn(grp, insn, chanidx, csr_mode=False, illegal_csr=False):
         if "script-sources" in config:
             print_hfmt(tcl_file, config["script-sources"], **hargs)
         
-        if "mul" in insn: bbox_mul_str = "-bbox_mul 256"
-        else: bbox_mul_str = ""
+        if "mul" in insn: bbox_str = "-bbox_mul 256"
+        elif "div" in insn: bbox_str = "-bbox_div 256"
+        elif "rem" in insn: bbox_str = "-bbox_div 256"
+        else: bbox_str = ""
         
-        # print(f"elaborate -top rvfi_testbench -create_related_covers witness {bbox_mul_str}\n", file=tcl_file)
-        print(f"elaborate -top rvfi_testbench -no_preconditions {bbox_mul_str}\n", file=tcl_file)
+        # print(f"elaborate -top rvfi_testbench -create_related_covers witness {bbox_str}\n", file=tcl_file)
+        print(f"elaborate -top rvfi_testbench -no_preconditions {bbox_str}\n", file=tcl_file)
         print("clock clock\nreset reset\n", file=tcl_file)
 
         if "script-link" in config:
@@ -507,6 +513,9 @@ def check_insn(grp, insn, chanidx, csr_mode=False, illegal_csr=False):
         if compr:
             defines_str += hfmt("`define RISCV_FORMAL_COMPRESSED", **hargs)
 
+        if xpulp:
+            defines_str += hfmt("`define RISCV_FORMAL_XPULP", **hargs)
+            
         if "defines" in config:
             defines_str += hfmt(config["defines"], **hargs)
         
@@ -904,7 +913,7 @@ with open(f"{cfgname}/Makefile", "w") as mkfile:
             print(f"\tgzip -rfd $(shell pwd)/{check}/traces", file=mkfile)
             print(f"\tcd $(shell pwd)/{check} && python3 $(shell pwd)/../../../../checks/get_jg_summary.py", file=mkfile)
         else:
-            print(f"\tcd {check} && {jgcmd} {check}_jg.tcl -batch", file=mkfile)
+            print(f"\tcd {check} && {jgcmd} {check}_jg.tcl ", file=mkfile)
             print(f"\tgzip -rfd {check}/traces", file=mkfile)
             print(f"\tcd {check} && python3 ../../../../checks/get_jg_summary.py", file=mkfile)
         print(f".PHONY: {check}", file=mkfile)

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <wavelist version="3">
-  <insertion-point-position>44</insertion-point-position>
+  <insertion-point-position>25</insertion-point-position>
   <wave>
     <expr>clock</expr>
     <label/>
@@ -73,23 +73,52 @@
     <radix/>
   </wave>
   <spacer/>
+  <group collapsed="false">
+    <expr/>
+    <label>Rd</label>
+    <wave collapsed="true">
+      <expr>wrapper.uut.rvfi_rd_addr_ex</expr>
+      <label/>
+      <radix/>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.uut.rvfi_rd_addr_wb</expr>
+      <label/>
+      <radix/>
+    </wave>
+    <wave collapsed="true">
+      <expr>checker_inst.spec_rd_addr</expr>
+      <label/>
+      <radix/>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.uut.rvfi_rd_wdata_ex</expr>
+      <label/>
+      <radix>checker_inst.rd_wdata</radix>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.uut.rvfi_rd_wdata_wb</expr>
+      <label/>
+      <radix>checker_inst.register_shadow</radix>
+    </wave>
+    <wave collapsed="true">
+      <expr>checker_inst.spec_rd_wdata</expr>
+      <label/>
+      <radix>checker_inst.rvfi_rs1_rdata</radix>
+    </wave>
+  </group>
   <wave collapsed="true">
-    <expr>wrapper.uut.rvfi_rd_addr_ex</expr>
+    <expr>wrapper.uut.store_post_rd_data</expr>
     <label/>
-    <radix/>
+    <radix>checker_inst.rd_wdata</radix>
   </wave>
   <wave collapsed="true">
-    <expr>wrapper.uut.rvfi_rd_addr_wb</expr>
-    <label/>
-    <radix/>
-  </wave>
-  <wave collapsed="true">
-    <expr>checker_inst.spec_rd_addr</expr>
+    <expr>wrapper.uut.store_post_rd_addr</expr>
     <label/>
     <radix/>
   </wave>
   <spacer/>
-  <group collapsed="false">
+  <group collapsed="true">
     <expr/>
     <label>Regfile EX port</label>
     <wave>
@@ -109,7 +138,7 @@
     </wave>
   </group>
   <spacer/>
-  <group collapsed="false">
+  <group collapsed="true">
     <expr/>
     <label>Regfile WB port</label>
     <wave>
@@ -128,18 +157,6 @@
       <radix>checker_inst.rvfi_rs1_rdata</radix>
     </wave>
   </group>
-  <spacer/>
-  <wave collapsed="true">
-    <expr>wrapper.uut.rvfi_rd_wdata_wb</expr>
-    <label/>
-    <radix>checker_inst.register_shadow</radix>
-  </wave>
-  <wave collapsed="true">
-    <expr>checker_inst.spec_rd_wdata</expr>
-    <label/>
-    <radix>checker_inst.rvfi_rs1_rdata</radix>
-  </wave>
-  <spacer/>
   <spacer/>
   <wave collapsed="true">
     <expr>wrapper.uut.rvfi_insn_id</expr>
@@ -345,6 +362,16 @@
       <label/>
       <radix/>
     </wave>
+    <wave collapsed="true">
+      <expr>wrapper.uut.load_store_unit_i.CS</expr>
+      <label/>
+      <radix>wrapper.uut.load_store_unit_i.CS</radix>
+    </wave>
+    <wave>
+      <expr>wrapper.uut.misaligned_access</expr>
+      <label/>
+      <radix/>
+    </wave>
   </group>
   <spacer/>
   <highlightlist>
@@ -354,8 +381,16 @@
       <color>builtin_red</color>
     </highlight>
     <highlight>
+      <expr>checker_inst.rvfi_rs1_addr</expr>
+      <color>builtin_orange</color>
+    </highlight>
+    <highlight>
       <expr>checker_inst.rvfi_rs1_rdata</expr>
       <color>builtin_blue</color>
+    </highlight>
+    <highlight>
+      <expr>checker_inst.rvfi_rs2_addr</expr>
+      <color>builtin_orange</color>
     </highlight>
     <highlight>
       <expr>checker_inst.rvfi_rs2_rdata</expr>
@@ -374,6 +409,10 @@
       <color>builtin_blue</color>
     </highlight>
     <highlight>
+      <expr>wrapper.uut.load_store_unit_i.data_addr_o</expr>
+      <color>builtin_orange</color>
+    </highlight>
+    <highlight>
       <expr>wrapper.uut.load_store_unit_i.data_gnt_i</expr>
       <color>builtin_yellow</color>
     </highlight>
@@ -383,6 +422,10 @@
     </highlight>
     <highlight>
       <expr>wrapper.uut.load_store_unit_i.data_rvalid_i</expr>
+      <color>builtin_yellow</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.uut.load_store_unit_i.data_we_o</expr>
       <color>builtin_yellow</color>
     </highlight>
     <highlight>
@@ -406,8 +449,32 @@
       <color>builtin_green</color>
     </highlight>
     <highlight>
+      <expr>wrapper.uut.rvfi_rs1_addr_wb</expr>
+      <color>builtin_orange</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.uut.rvfi_rs1_rdata_wb</expr>
+      <color>builtin_orange</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.uut.rvfi_rs2_addr_wb</expr>
+      <color>builtin_yellow</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.uut.rvfi_rs2_rdata_wb</expr>
+      <color>builtin_yellow</color>
+    </highlight>
+    <highlight>
       <expr>wrapper.uut.rvfi_valid_wb</expr>
       <color>builtin_red</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.uut.store_post_rd_addr</expr>
+      <color>builtin_orange</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.uut.store_post_rd_data</expr>
+      <color>builtin_orange</color>
     </highlight>
   </highlightlist>
 </wavelist>
