@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <wavelist version="3">
-  <insertion-point-position>28</insertion-point-position>
+  <insertion-point-position>23</insertion-point-position>
   <wave>
     <expr>clock</expr>
     <label/>
@@ -68,247 +68,437 @@
     <radix>wrapper.uut.id_stage_i.controller_i.ctrl_fsm_cs</radix>
   </wave>
   <spacer/>
+  <group collapsed="false">
+    <expr/>
+    <label>HwLoop</label>
+    <wave collapsed="true">
+      <expr>wrapper.uut.if_stage_i.fetch_rdata</expr>
+      <label/>
+      <radix/>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.uut.if_stage_i.fetch_addr</expr>
+      <label/>
+      <radix>checker_inst.pc_wdata</radix>
+    </wave>
+    <wave>
+      <expr>wrapper.uut.if_stage_i.hwlp_branch</expr>
+      <label/>
+      <radix/>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.uut.if_stage_i.hwlp_target</expr>
+      <label/>
+      <radix>checker_inst.pc_wdata</radix>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.uut.if_stage_i.prefetch_32.prefetch_buffer_i.hwlp_CS</expr>
+      <label/>
+      <radix>wrapper.uut.if_stage_i.prefetch_32.prefetch_buffer_i.hwlp_CS</radix>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.uut.if_stage_i.prefetch_32.prefetch_buffer_i.hwlp_NS</expr>
+      <label/>
+      <radix>wrapper.uut.if_stage_i.prefetch_32.prefetch_buffer_i.hwlp_CS</radix>
+    </wave>
+    <wave>
+      <expr>wrapper.uut.if_stage_i.prefetch_32.prefetch_buffer_i.hwlp_masked</expr>
+      <label/>
+      <radix/>
+    </wave>
+    <wave>
+      <expr>wrapper.uut.if_stage_i.if_ready</expr>
+      <label/>
+      <radix/>
+    </wave>
+    <wave>
+      <expr>wrapper.uut.if_stage_i.hwlp_jump</expr>
+      <label/>
+      <radix/>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.uut.if_stage_i.hwlp_target</expr>
+      <label/>
+      <radix>checker_inst.pc_wdata</radix>
+    </wave>
+    <wave>
+      <expr>wrapper.uut.if_stage_i.prefetch_32.prefetch_buffer_i.fetch_is_hwlp</expr>
+      <label/>
+      <radix/>
+    </wave>
+    <wave>
+      <expr>wrapper.uut.if_stage_i.prefetch_32.prefetch_buffer_i.fifo_hwlp</expr>
+      <label/>
+      <radix/>
+    </wave>
+    <wave>
+      <expr>wrapper.uut.if_stage_i.fetch_is_hwlp</expr>
+      <label/>
+      <radix/>
+    </wave>
+    <wave>
+      <expr>wrapper.uut.id_stage_i.is_hwlp_i</expr>
+      <label/>
+      <radix/>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.uut.id_stage_i.instr</expr>
+      <label/>
+      <radix>wrapper.uut.if_stage_i.instr_decompressed</radix>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.uut.if_stage_i.hwlp_start_i[0]</expr>
+      <label/>
+      <radix/>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.uut.if_stage_i.hwlp_start_i[1]</expr>
+      <label/>
+      <radix/>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.uut.if_stage_i.hwlp_end_i[0]</expr>
+      <label/>
+      <radix/>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.uut.if_stage_i.hwlp_end_i[1]</expr>
+      <label/>
+      <radix/>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.uut.if_stage_i.hwlp_cnt_i[0]</expr>
+      <label/>
+      <radix/>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.uut.if_stage_i.hwlp_cnt_i[1]</expr>
+      <label/>
+      <radix/>
+    </wave>
+  </group>
   <spacer/>
-  <wave collapsed="true">
-    <expr>wrapper.uut.if_stage_i.pc_if_o</expr>
-    <label/>
-    <radix>checker_inst.pc_wdata</radix>
-  </wave>
-  <wave collapsed="true">
-    <expr>wrapper.uut.if_stage_i.pc_id_o</expr>
-    <label/>
-    <radix>checker_inst.pc_wdata</radix>
-  </wave>
+  <group collapsed="false">
+    <expr/>
+    <label>PC</label>
+    <wave collapsed="true">
+      <expr>wrapper.uut.if_stage_i.pc_mux_i</expr>
+      <label/>
+      <radix>wrapper.uut.if_stage_i.pc_mux_i</radix>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.uut.pc_if</expr>
+      <label/>
+      <radix>checker_inst.pc_wdata</radix>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.uut.pc_id</expr>
+      <label/>
+      <radix>checker_inst.pc_wdata</radix>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.uut.rvfi_pc_rdata_if</expr>
+      <label/>
+      <radix>checker_inst.pc_wdata</radix>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.uut.rvfi_pc_rdata_id</expr>
+      <label/>
+      <radix>checker_inst.pc_wdata</radix>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.uut.rvfi_pc_rdata_ex</expr>
+      <label/>
+      <radix>checker_inst.pc_wdata</radix>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.uut.rvfi_pc_rdata_wb</expr>
+      <label/>
+      <radix>checker_inst.pc_wdata</radix>
+    </wave>
+    <spacer/>
+    <wave collapsed="true">
+      <expr>wrapper.uut.if_stage_i.pc_if_o</expr>
+      <label/>
+      <radix>checker_inst.pc_wdata</radix>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.uut.rvfi_pc_wdata_id</expr>
+      <label/>
+      <radix>checker_inst.pc_wdata</radix>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.uut.rvfi_pc_wdata_ex</expr>
+      <label/>
+      <radix>checker_inst.pc_wdata</radix>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.uut.rvfi_pc_wdata_wb</expr>
+      <label/>
+      <radix>checker_inst.pc_wdata</radix>
+    </wave>
+    <wave collapsed="true">
+      <expr>checker_inst.spec_pc_wdata</expr>
+      <label/>
+      <radix>checker_inst.rvfi_rs1_rdata</radix>
+    </wave>
+  </group>
   <spacer/>
-  <wave collapsed="true">
-    <expr>wrapper.uut.rvfi_pc_rdata_if</expr>
-    <label/>
-    <radix>checker_inst.pc_wdata</radix>
-  </wave>
-  <wave collapsed="true">
-    <expr>wrapper.uut.rvfi_pc_rdata_id</expr>
-    <label/>
-    <radix>checker_inst.pc_wdata</radix>
-  </wave>
-  <wave collapsed="true">
-    <expr>wrapper.uut.rvfi_pc_rdata_ex</expr>
-    <label/>
-    <radix>checker_inst.pc_wdata</radix>
-  </wave>
-  <wave collapsed="true">
-    <expr>wrapper.uut.rvfi_pc_rdata_wb</expr>
-    <label/>
-    <radix>checker_inst.pc_wdata</radix>
-  </wave>
-  <spacer/>
-  <wave collapsed="true">
-    <expr>wrapper.uut.rvfi_pc_wdata_id</expr>
-    <label/>
-    <radix>checker_inst.pc_wdata</radix>
-  </wave>
-  <wave collapsed="true">
-    <expr>wrapper.uut.rvfi_pc_wdata_ex</expr>
-    <label/>
-    <radix>checker_inst.pc_wdata</radix>
-  </wave>
-  <wave collapsed="true">
-    <expr>wrapper.uut.rvfi_pc_wdata_wb</expr>
-    <label/>
-    <radix>checker_inst.pc_wdata</radix>
-  </wave>
-  <wave collapsed="true">
-    <expr>checker_inst.spec_pc_wdata</expr>
-    <label/>
-    <radix>checker_inst.rvfi_rs1_rdata</radix>
-  </wave>
-  <spacer/>
-  <spacer/>
-  <wave collapsed="true">
-    <expr>wrapper.uut.rvfi_insn_id</expr>
-    <label/>
-    <radix>checker_inst.register_index</radix>
-  </wave>
-  <wave collapsed="true">
-    <expr>wrapper.uut.rvfi_insn_ex</expr>
-    <label/>
-    <radix>checker_inst.register_index</radix>
-  </wave>
-  <wave collapsed="true">
-    <expr>wrapper.uut.rvfi_insn_wb</expr>
-    <label/>
-    <radix>checker_inst.register_index</radix>
+  <group collapsed="false">
+    <expr/>
+    <label>Insn</label>
+    <wave collapsed="true">
+      <expr>wrapper.uut.rvfi_insn_if</expr>
+      <label/>
+      <radix>wrapper.uut.if_stage_i.instr_decompressed</radix>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.uut.rvfi_insn_id</expr>
+      <label/>
+      <radix>checker_inst.register_index</radix>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.uut.rvfi_insn_ex</expr>
+      <label/>
+      <radix>checker_inst.register_index</radix>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.uut.rvfi_insn_wb</expr>
+      <label/>
+      <radix>checker_inst.register_index</radix>
+      <wave>
+        <expr>wrapper.uut.rvfi_insn_wb[31]</expr>
+        <label/>
+        <radix/>
+      </wave>
+      <wave>
+        <expr>wrapper.uut.rvfi_insn_wb[30]</expr>
+        <label/>
+        <radix/>
+      </wave>
+      <wave>
+        <expr>wrapper.uut.rvfi_insn_wb[29]</expr>
+        <label/>
+        <radix/>
+      </wave>
+      <wave>
+        <expr>wrapper.uut.rvfi_insn_wb[28]</expr>
+        <label/>
+        <radix/>
+      </wave>
+      <wave>
+        <expr>wrapper.uut.rvfi_insn_wb[27]</expr>
+        <label/>
+        <radix/>
+      </wave>
+      <wave>
+        <expr>wrapper.uut.rvfi_insn_wb[26]</expr>
+        <label/>
+        <radix/>
+      </wave>
+      <wave>
+        <expr>wrapper.uut.rvfi_insn_wb[25]</expr>
+        <label/>
+        <radix/>
+      </wave>
+      <wave>
+        <expr>wrapper.uut.rvfi_insn_wb[24]</expr>
+        <label/>
+        <radix/>
+      </wave>
+      <wave>
+        <expr>wrapper.uut.rvfi_insn_wb[23]</expr>
+        <label/>
+        <radix/>
+      </wave>
+      <wave>
+        <expr>wrapper.uut.rvfi_insn_wb[22]</expr>
+        <label/>
+        <radix/>
+      </wave>
+      <wave>
+        <expr>wrapper.uut.rvfi_insn_wb[21]</expr>
+        <label/>
+        <radix/>
+      </wave>
+      <wave>
+        <expr>wrapper.uut.rvfi_insn_wb[20]</expr>
+        <label/>
+        <radix/>
+      </wave>
+      <wave>
+        <expr>wrapper.uut.rvfi_insn_wb[19]</expr>
+        <label/>
+        <radix/>
+      </wave>
+      <wave>
+        <expr>wrapper.uut.rvfi_insn_wb[18]</expr>
+        <label/>
+        <radix/>
+      </wave>
+      <wave>
+        <expr>wrapper.uut.rvfi_insn_wb[17]</expr>
+        <label/>
+        <radix/>
+      </wave>
+      <wave>
+        <expr>wrapper.uut.rvfi_insn_wb[16]</expr>
+        <label/>
+        <radix/>
+      </wave>
+      <wave>
+        <expr>wrapper.uut.rvfi_insn_wb[15]</expr>
+        <label/>
+        <radix/>
+      </wave>
+      <wave>
+        <expr>wrapper.uut.rvfi_insn_wb[14]</expr>
+        <label/>
+        <radix/>
+      </wave>
+      <wave>
+        <expr>wrapper.uut.rvfi_insn_wb[13]</expr>
+        <label/>
+        <radix/>
+      </wave>
+      <wave>
+        <expr>wrapper.uut.rvfi_insn_wb[12]</expr>
+        <label/>
+        <radix/>
+      </wave>
+      <wave>
+        <expr>wrapper.uut.rvfi_insn_wb[11]</expr>
+        <label/>
+        <radix/>
+      </wave>
+      <wave>
+        <expr>wrapper.uut.rvfi_insn_wb[10]</expr>
+        <label/>
+        <radix/>
+      </wave>
+      <wave>
+        <expr>wrapper.uut.rvfi_insn_wb[9]</expr>
+        <label/>
+        <radix/>
+      </wave>
+      <wave>
+        <expr>wrapper.uut.rvfi_insn_wb[8]</expr>
+        <label/>
+        <radix/>
+      </wave>
+      <wave>
+        <expr>wrapper.uut.rvfi_insn_wb[7]</expr>
+        <label/>
+        <radix/>
+      </wave>
+      <wave>
+        <expr>wrapper.uut.rvfi_insn_wb[6]</expr>
+        <label/>
+        <radix/>
+      </wave>
+      <wave>
+        <expr>wrapper.uut.rvfi_insn_wb[5]</expr>
+        <label/>
+        <radix/>
+      </wave>
+      <wave>
+        <expr>wrapper.uut.rvfi_insn_wb[4]</expr>
+        <label/>
+        <radix/>
+      </wave>
+      <wave>
+        <expr>wrapper.uut.rvfi_insn_wb[3]</expr>
+        <label/>
+        <radix/>
+      </wave>
+      <wave>
+        <expr>wrapper.uut.rvfi_insn_wb[2]</expr>
+        <label/>
+        <radix/>
+      </wave>
+      <wave>
+        <expr>wrapper.uut.rvfi_insn_wb[1]</expr>
+        <label/>
+        <radix/>
+      </wave>
+      <wave>
+        <expr>wrapper.uut.rvfi_insn_wb[0]</expr>
+        <label/>
+        <radix/>
+      </wave>
+    </wave>
     <wave>
-      <expr>wrapper.uut.rvfi_insn_wb[31]</expr>
+      <expr>wrapper.uut.rvfi_valid_wb</expr>
       <label/>
       <radix/>
     </wave>
     <wave>
-      <expr>wrapper.uut.rvfi_insn_wb[30]</expr>
+      <expr>rvfi_trap</expr>
+      <label/>
+      <radix/>
+    </wave>
+    <spacer/>
+  </group>
+  <group collapsed="false">
+    <expr/>
+    <label>rvfi HwLoop</label>
+    <wave collapsed="true">
+      <expr>wrapper.uut.insn_end_if</expr>
+      <label/>
+      <radix>wrapper.uut.if_stage_i.instr_decompressed</radix>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.uut.insn_end_id</expr>
+      <label/>
+      <radix>wrapper.uut.if_stage_i.instr_decompressed</radix>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.uut.insn_end_ex</expr>
+      <label/>
+      <radix>wrapper.uut.if_stage_i.instr_decompressed</radix>
+    </wave>
+    <wave>
+      <expr>wrapper.uut.rvfi_is_hwlp_if</expr>
       <label/>
       <radix/>
     </wave>
     <wave>
-      <expr>wrapper.uut.rvfi_insn_wb[29]</expr>
+      <expr>wrapper.uut.rvfi_is_hwlp_id</expr>
       <label/>
       <radix/>
     </wave>
     <wave>
-      <expr>wrapper.uut.rvfi_insn_wb[28]</expr>
+      <expr>wrapper.uut.rvfi_is_hwlp_ex</expr>
       <label/>
       <radix/>
     </wave>
     <wave>
-      <expr>wrapper.uut.rvfi_insn_wb[27]</expr>
+      <expr>wrapper.uut.rvfi_is_hwlp_wb</expr>
       <label/>
       <radix/>
     </wave>
-    <wave>
-      <expr>wrapper.uut.rvfi_insn_wb[26]</expr>
+    <wave collapsed="true">
+      <expr>wrapper.uut.rvfi_hwlp_start_if</expr>
       <label/>
-      <radix/>
+      <radix>checker_inst.pc_wdata</radix>
     </wave>
-    <wave>
-      <expr>wrapper.uut.rvfi_insn_wb[25]</expr>
+    <wave collapsed="true">
+      <expr>wrapper.uut.rvfi_hwlp_start_id</expr>
       <label/>
-      <radix/>
+      <radix>checker_inst.pc_wdata</radix>
     </wave>
-    <wave>
-      <expr>wrapper.uut.rvfi_insn_wb[24]</expr>
+    <wave collapsed="true">
+      <expr>wrapper.uut.rvfi_hwlp_start_ex</expr>
       <label/>
-      <radix/>
+      <radix>checker_inst.pc_wdata</radix>
     </wave>
-    <wave>
-      <expr>wrapper.uut.rvfi_insn_wb[23]</expr>
+    <wave collapsed="true">
+      <expr>wrapper.uut.rvfi_hwlp_start_wb</expr>
       <label/>
-      <radix/>
+      <radix>checker_inst.pc_wdata</radix>
     </wave>
-    <wave>
-      <expr>wrapper.uut.rvfi_insn_wb[22]</expr>
-      <label/>
-      <radix/>
-    </wave>
-    <wave>
-      <expr>wrapper.uut.rvfi_insn_wb[21]</expr>
-      <label/>
-      <radix/>
-    </wave>
-    <wave>
-      <expr>wrapper.uut.rvfi_insn_wb[20]</expr>
-      <label/>
-      <radix/>
-    </wave>
-    <wave>
-      <expr>wrapper.uut.rvfi_insn_wb[19]</expr>
-      <label/>
-      <radix/>
-    </wave>
-    <wave>
-      <expr>wrapper.uut.rvfi_insn_wb[18]</expr>
-      <label/>
-      <radix/>
-    </wave>
-    <wave>
-      <expr>wrapper.uut.rvfi_insn_wb[17]</expr>
-      <label/>
-      <radix/>
-    </wave>
-    <wave>
-      <expr>wrapper.uut.rvfi_insn_wb[16]</expr>
-      <label/>
-      <radix/>
-    </wave>
-    <wave>
-      <expr>wrapper.uut.rvfi_insn_wb[15]</expr>
-      <label/>
-      <radix/>
-    </wave>
-    <wave>
-      <expr>wrapper.uut.rvfi_insn_wb[14]</expr>
-      <label/>
-      <radix/>
-    </wave>
-    <wave>
-      <expr>wrapper.uut.rvfi_insn_wb[13]</expr>
-      <label/>
-      <radix/>
-    </wave>
-    <wave>
-      <expr>wrapper.uut.rvfi_insn_wb[12]</expr>
-      <label/>
-      <radix/>
-    </wave>
-    <wave>
-      <expr>wrapper.uut.rvfi_insn_wb[11]</expr>
-      <label/>
-      <radix/>
-    </wave>
-    <wave>
-      <expr>wrapper.uut.rvfi_insn_wb[10]</expr>
-      <label/>
-      <radix/>
-    </wave>
-    <wave>
-      <expr>wrapper.uut.rvfi_insn_wb[9]</expr>
-      <label/>
-      <radix/>
-    </wave>
-    <wave>
-      <expr>wrapper.uut.rvfi_insn_wb[8]</expr>
-      <label/>
-      <radix/>
-    </wave>
-    <wave>
-      <expr>wrapper.uut.rvfi_insn_wb[7]</expr>
-      <label/>
-      <radix/>
-    </wave>
-    <wave>
-      <expr>wrapper.uut.rvfi_insn_wb[6]</expr>
-      <label/>
-      <radix/>
-    </wave>
-    <wave>
-      <expr>wrapper.uut.rvfi_insn_wb[5]</expr>
-      <label/>
-      <radix/>
-    </wave>
-    <wave>
-      <expr>wrapper.uut.rvfi_insn_wb[4]</expr>
-      <label/>
-      <radix/>
-    </wave>
-    <wave>
-      <expr>wrapper.uut.rvfi_insn_wb[3]</expr>
-      <label/>
-      <radix/>
-    </wave>
-    <wave>
-      <expr>wrapper.uut.rvfi_insn_wb[2]</expr>
-      <label/>
-      <radix/>
-    </wave>
-    <wave>
-      <expr>wrapper.uut.rvfi_insn_wb[1]</expr>
-      <label/>
-      <radix/>
-    </wave>
-    <wave>
-      <expr>wrapper.uut.rvfi_insn_wb[0]</expr>
-      <label/>
-      <radix/>
-    </wave>
-  </wave>
-  <wave>
-    <expr>wrapper.uut.rvfi_valid_wb</expr>
-    <label/>
-    <radix/>
-  </wave>
-  <wave>
-    <expr>rvfi_trap</expr>
-    <label/>
-    <radix/>
-  </wave>
-  <spacer/>
+    <spacer/>
+  </group>
   <wave>
     <expr>wrapper.uut.load_store_unit_i.data_req_o</expr>
     <label/>
@@ -340,6 +530,10 @@
       <color>builtin_blue</color>
     </highlight>
     <highlight>
+      <expr>checker_inst.spec_pc_wdata</expr>
+      <color>builtin_green</color>
+    </highlight>
+    <highlight>
       <expr>wrapper.uut.id_stage_i.decoder_i.instr_rdata_i</expr>
       <color>builtin_blue</color>
     </highlight>
@@ -348,16 +542,60 @@
       <color>builtin_blue</color>
     </highlight>
     <highlight>
+      <expr>wrapper.uut.if_stage_i.hwlp_cnt_i[0]</expr>
+      <color>builtin_orange</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.uut.if_stage_i.hwlp_cnt_i[1]</expr>
+      <color>builtin_yellow</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.uut.if_stage_i.hwlp_dec_cnt_id_o</expr>
+      <color>builtin_blue</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.uut.if_stage_i.hwlp_end_i[0]</expr>
+      <color>builtin_orange</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.uut.if_stage_i.hwlp_end_i[1]</expr>
+      <color>builtin_yellow</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.uut.if_stage_i.hwlp_start_i[0]</expr>
+      <color>builtin_orange</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.uut.if_stage_i.hwlp_start_i[1]</expr>
+      <color>builtin_yellow</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.uut.if_stage_i.is_hwlp_id_o</expr>
+      <color>builtin_red</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.uut.if_stage_i.pc_if_o</expr>
+      <color>builtin_blue</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.uut.rvfi_hwlp_start_wb</expr>
+      <color>builtin_red</color>
+    </highlight>
+    <highlight>
       <expr>wrapper.uut.rvfi_insn_wb</expr>
       <color>builtin_red</color>
     </highlight>
     <highlight>
+      <expr>wrapper.uut.rvfi_is_hwlp_wb</expr>
+      <color>builtin_red</color>
+    </highlight>
+    <highlight>
       <expr>wrapper.uut.rvfi_pc_rdata_wb</expr>
-      <color>builtin_green</color>
+      <color>builtin_red</color>
     </highlight>
     <highlight>
       <expr>wrapper.uut.rvfi_pc_wdata_wb</expr>
-      <color>builtin_green</color>
+      <color>builtin_red</color>
     </highlight>
     <highlight>
       <expr>wrapper.uut.rvfi_rd_addr_wb</expr>
@@ -366,6 +604,34 @@
     <highlight>
       <expr>wrapper.uut.rvfi_rd_wdata_wb</expr>
       <color>builtin_blue</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.uut.rvfi_valid_wb</expr>
+      <color>builtin_red</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.uut.id_stage_i.instr</expr>
+      <color>#aaffff</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.uut.id_stage_i.is_hwlp_i</expr>
+      <color>#aaffff</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.uut.if_stage_i.hwlp_jump</expr>
+      <color>#aaffff</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.uut.if_stage_i.hwlp_target</expr>
+      <color>#aaffff</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.uut.if_stage_i.prefetch_32.prefetch_buffer_i.hwlp_CS</expr>
+      <color>#aaffff</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.uut.if_stage_i.prefetch_32.prefetch_buffer_i.hwlp_NS</expr>
+      <color>#aaffff</color>
     </highlight>
   </highlightlist>
 </wavelist>

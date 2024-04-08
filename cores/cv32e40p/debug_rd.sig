@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <wavelist version="3">
-  <insertion-point-position>25</insertion-point-position>
+  <insertion-point-position>27</insertion-point-position>
   <wave>
     <expr>clock</expr>
     <label/>
@@ -106,17 +106,38 @@
       <label/>
       <radix>checker_inst.rvfi_rs1_rdata</radix>
     </wave>
+    <spacer/>
+    <wave collapsed="true">
+      <expr>wrapper.uut.rvfi_post_rd_wdata_ex</expr>
+      <label/>
+      <radix>checker_inst.rvfi_rs1_rdata</radix>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.uut.rvfi_post_rd_wdata_wb</expr>
+      <label/>
+      <radix>checker_inst.rvfi_rs1_rdata</radix>
+    </wave>
+    <wave collapsed="true">
+      <expr>checker_inst.spec_post_rd_wdata</expr>
+      <label/>
+      <radix>checker_inst.rvfi_rs1_rdata</radix>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.uut.rvfi_post_rd_addr_ex</expr>
+      <label/>
+      <radix/>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.uut.rvfi_post_rd_addr_wb</expr>
+      <label/>
+      <radix/>
+    </wave>
+    <wave collapsed="true">
+      <expr>checker_inst.spec_post_rd_addr</expr>
+      <label/>
+      <radix/>
+    </wave>
   </group>
-  <wave collapsed="true">
-    <expr>wrapper.uut.store_post_rd_data</expr>
-    <label/>
-    <radix>checker_inst.rd_wdata</radix>
-  </wave>
-  <wave collapsed="true">
-    <expr>wrapper.uut.store_post_rd_addr</expr>
-    <label/>
-    <radix/>
-  </wave>
   <spacer/>
   <group collapsed="true">
     <expr/>
@@ -475,6 +496,14 @@
     <highlight>
       <expr>wrapper.uut.store_post_rd_data</expr>
       <color>builtin_orange</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.uut.rvfi_post_rd_addr_wb</expr>
+      <color>#aaffff</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.uut.rvfi_post_rd_wdata_wb</expr>
+      <color>#aaffff</color>
     </highlight>
   </highlightlist>
 </wavelist>

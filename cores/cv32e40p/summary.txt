@@ -1,6 +1,8 @@
-mygrp_insn_add_ch0: PASS
-mygrp_insn_blt_ch0: PASS
-mygrp_insn_jal_ch0: PASS
-mygrp_insn_lh_ch0: PASS
-mygrp_insn_lui_ch0: PASS
-mygrp_insn_sh_ch0: PASS
+insn_p_lb_ch0: PASS
+insn_p_lbu_ch0: PASS
+insn_p_lh_ch0: PASS
+insn_p_lhu_ch0: PASS
+insn_p_lw_ch0: PASS
+insn_p_sb_ch0: PASS
+insn_p_sh_ch0: PASS
+insn_p_sw_ch0: PASS

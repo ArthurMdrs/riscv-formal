@@ -12,6 +12,16 @@ module rvfi_isa_rv64ic (
   output [`RISCV_FORMAL_XLEN   - 1 : 0] spec_csr_misa_rmask,
 `endif
 
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  input  [`RISCV_FORMAL_XLEN   - 1 : 0] rvfi_rs3_rdata,
+  input                                 rvfi_is_hwlp,
+  input  [`RISCV_FORMAL_XLEN   - 1 : 0] rvfi_hwlp_start,
+
+  output [                       4 : 0] spec_rs3_addr,
+  output [                       4 : 0] spec_post_rd_addr,
+  output [`RISCV_FORMAL_XLEN   - 1 : 0] spec_post_rd_wdata,
+`endif
+
   output                                spec_valid,
   output                                spec_trap,
   output [                       4 : 0] spec_rs1_addr,
@@ -38,6 +48,9 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
   wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_add_csr_misa_rmask;
 `endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  wire [                       4 : 0] spec_insn_add_rs3_addr;
+`endif
 
   rvfi_insn_add insn_add (
     .rvfi_valid(rvfi_valid),
@@ -49,6 +62,10 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
     .rvfi_csr_misa_rdata(rvfi_csr_misa_rdata),
     .spec_csr_misa_rmask(spec_insn_add_csr_misa_rmask),
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+    .rvfi_rs3_rdata(rvfi_rs3_rdata),
+    .spec_rs3_addr(spec_insn_add_rs3_addr),
 `endif
     .spec_valid(spec_insn_add_valid),
     .spec_trap(spec_insn_add_trap),
@@ -77,6 +94,9 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
   wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_addi_csr_misa_rmask;
 `endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  wire [                       4 : 0] spec_insn_addi_rs3_addr;
+`endif
 
   rvfi_insn_addi insn_addi (
     .rvfi_valid(rvfi_valid),
@@ -88,6 +108,10 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
     .rvfi_csr_misa_rdata(rvfi_csr_misa_rdata),
     .spec_csr_misa_rmask(spec_insn_addi_csr_misa_rmask),
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+    .rvfi_rs3_rdata(rvfi_rs3_rdata),
+    .spec_rs3_addr(spec_insn_addi_rs3_addr),
 `endif
     .spec_valid(spec_insn_addi_valid),
     .spec_trap(spec_insn_addi_trap),
@@ -116,6 +140,9 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
   wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_addiw_csr_misa_rmask;
 `endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  wire [                       4 : 0] spec_insn_addiw_rs3_addr;
+`endif
 
   rvfi_insn_addiw insn_addiw (
     .rvfi_valid(rvfi_valid),
@@ -127,6 +154,10 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
     .rvfi_csr_misa_rdata(rvfi_csr_misa_rdata),
     .spec_csr_misa_rmask(spec_insn_addiw_csr_misa_rmask),
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+    .rvfi_rs3_rdata(rvfi_rs3_rdata),
+    .spec_rs3_addr(spec_insn_addiw_rs3_addr),
 `endif
     .spec_valid(spec_insn_addiw_valid),
     .spec_trap(spec_insn_addiw_trap),
@@ -155,6 +186,9 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
   wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_addw_csr_misa_rmask;
 `endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  wire [                       4 : 0] spec_insn_addw_rs3_addr;
+`endif
 
   rvfi_insn_addw insn_addw (
     .rvfi_valid(rvfi_valid),
@@ -166,6 +200,10 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
     .rvfi_csr_misa_rdata(rvfi_csr_misa_rdata),
     .spec_csr_misa_rmask(spec_insn_addw_csr_misa_rmask),
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+    .rvfi_rs3_rdata(rvfi_rs3_rdata),
+    .spec_rs3_addr(spec_insn_addw_rs3_addr),
 `endif
     .spec_valid(spec_insn_addw_valid),
     .spec_trap(spec_insn_addw_trap),
@@ -194,6 +232,9 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
   wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_and_csr_misa_rmask;
 `endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  wire [                       4 : 0] spec_insn_and_rs3_addr;
+`endif
 
   rvfi_insn_and insn_and (
     .rvfi_valid(rvfi_valid),
@@ -205,6 +246,10 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
     .rvfi_csr_misa_rdata(rvfi_csr_misa_rdata),
     .spec_csr_misa_rmask(spec_insn_and_csr_misa_rmask),
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+    .rvfi_rs3_rdata(rvfi_rs3_rdata),
+    .spec_rs3_addr(spec_insn_and_rs3_addr),
 `endif
     .spec_valid(spec_insn_and_valid),
     .spec_trap(spec_insn_and_trap),
@@ -233,6 +278,9 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
   wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_andi_csr_misa_rmask;
 `endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  wire [                       4 : 0] spec_insn_andi_rs3_addr;
+`endif
 
   rvfi_insn_andi insn_andi (
     .rvfi_valid(rvfi_valid),
@@ -244,6 +292,10 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
     .rvfi_csr_misa_rdata(rvfi_csr_misa_rdata),
     .spec_csr_misa_rmask(spec_insn_andi_csr_misa_rmask),
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+    .rvfi_rs3_rdata(rvfi_rs3_rdata),
+    .spec_rs3_addr(spec_insn_andi_rs3_addr),
 `endif
     .spec_valid(spec_insn_andi_valid),
     .spec_trap(spec_insn_andi_trap),
@@ -272,6 +324,9 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
   wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_auipc_csr_misa_rmask;
 `endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  wire [                       4 : 0] spec_insn_auipc_rs3_addr;
+`endif
 
   rvfi_insn_auipc insn_auipc (
     .rvfi_valid(rvfi_valid),
@@ -283,6 +338,10 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
     .rvfi_csr_misa_rdata(rvfi_csr_misa_rdata),
     .spec_csr_misa_rmask(spec_insn_auipc_csr_misa_rmask),
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+    .rvfi_rs3_rdata(rvfi_rs3_rdata),
+    .spec_rs3_addr(spec_insn_auipc_rs3_addr),
 `endif
     .spec_valid(spec_insn_auipc_valid),
     .spec_trap(spec_insn_auipc_trap),
@@ -311,6 +370,9 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
   wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_beq_csr_misa_rmask;
 `endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  wire [                       4 : 0] spec_insn_beq_rs3_addr;
+`endif
 
   rvfi_insn_beq insn_beq (
     .rvfi_valid(rvfi_valid),
@@ -322,6 +384,10 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
     .rvfi_csr_misa_rdata(rvfi_csr_misa_rdata),
     .spec_csr_misa_rmask(spec_insn_beq_csr_misa_rmask),
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+    .rvfi_rs3_rdata(rvfi_rs3_rdata),
+    .spec_rs3_addr(spec_insn_beq_rs3_addr),
 `endif
     .spec_valid(spec_insn_beq_valid),
     .spec_trap(spec_insn_beq_trap),
@@ -350,6 +416,9 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
   wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_bge_csr_misa_rmask;
 `endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  wire [                       4 : 0] spec_insn_bge_rs3_addr;
+`endif
 
   rvfi_insn_bge insn_bge (
     .rvfi_valid(rvfi_valid),
@@ -361,6 +430,10 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
     .rvfi_csr_misa_rdata(rvfi_csr_misa_rdata),
     .spec_csr_misa_rmask(spec_insn_bge_csr_misa_rmask),
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+    .rvfi_rs3_rdata(rvfi_rs3_rdata),
+    .spec_rs3_addr(spec_insn_bge_rs3_addr),
 `endif
     .spec_valid(spec_insn_bge_valid),
     .spec_trap(spec_insn_bge_trap),
@@ -389,6 +462,9 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
   wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_bgeu_csr_misa_rmask;
 `endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  wire [                       4 : 0] spec_insn_bgeu_rs3_addr;
+`endif
 
   rvfi_insn_bgeu insn_bgeu (
     .rvfi_valid(rvfi_valid),
@@ -400,6 +476,10 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
     .rvfi_csr_misa_rdata(rvfi_csr_misa_rdata),
     .spec_csr_misa_rmask(spec_insn_bgeu_csr_misa_rmask),
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+    .rvfi_rs3_rdata(rvfi_rs3_rdata),
+    .spec_rs3_addr(spec_insn_bgeu_rs3_addr),
 `endif
     .spec_valid(spec_insn_bgeu_valid),
     .spec_trap(spec_insn_bgeu_trap),
@@ -428,6 +508,9 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
   wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_blt_csr_misa_rmask;
 `endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  wire [                       4 : 0] spec_insn_blt_rs3_addr;
+`endif
 
   rvfi_insn_blt insn_blt (
     .rvfi_valid(rvfi_valid),
@@ -439,6 +522,10 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
     .rvfi_csr_misa_rdata(rvfi_csr_misa_rdata),
     .spec_csr_misa_rmask(spec_insn_blt_csr_misa_rmask),
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+    .rvfi_rs3_rdata(rvfi_rs3_rdata),
+    .spec_rs3_addr(spec_insn_blt_rs3_addr),
 `endif
     .spec_valid(spec_insn_blt_valid),
     .spec_trap(spec_insn_blt_trap),
@@ -467,6 +554,9 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
   wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_bltu_csr_misa_rmask;
 `endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  wire [                       4 : 0] spec_insn_bltu_rs3_addr;
+`endif
 
   rvfi_insn_bltu insn_bltu (
     .rvfi_valid(rvfi_valid),
@@ -478,6 +568,10 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
     .rvfi_csr_misa_rdata(rvfi_csr_misa_rdata),
     .spec_csr_misa_rmask(spec_insn_bltu_csr_misa_rmask),
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+    .rvfi_rs3_rdata(rvfi_rs3_rdata),
+    .spec_rs3_addr(spec_insn_bltu_rs3_addr),
 `endif
     .spec_valid(spec_insn_bltu_valid),
     .spec_trap(spec_insn_bltu_trap),
@@ -506,6 +600,9 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
   wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_bne_csr_misa_rmask;
 `endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  wire [                       4 : 0] spec_insn_bne_rs3_addr;
+`endif
 
   rvfi_insn_bne insn_bne (
     .rvfi_valid(rvfi_valid),
@@ -517,6 +614,10 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
     .rvfi_csr_misa_rdata(rvfi_csr_misa_rdata),
     .spec_csr_misa_rmask(spec_insn_bne_csr_misa_rmask),
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+    .rvfi_rs3_rdata(rvfi_rs3_rdata),
+    .spec_rs3_addr(spec_insn_bne_rs3_addr),
 `endif
     .spec_valid(spec_insn_bne_valid),
     .spec_trap(spec_insn_bne_trap),
@@ -545,6 +646,9 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
   wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_c_add_csr_misa_rmask;
 `endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  wire [                       4 : 0] spec_insn_c_add_rs3_addr;
+`endif
 
   rvfi_insn_c_add insn_c_add (
     .rvfi_valid(rvfi_valid),
@@ -556,6 +660,10 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
     .rvfi_csr_misa_rdata(rvfi_csr_misa_rdata),
     .spec_csr_misa_rmask(spec_insn_c_add_csr_misa_rmask),
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+    .rvfi_rs3_rdata(rvfi_rs3_rdata),
+    .spec_rs3_addr(spec_insn_c_add_rs3_addr),
 `endif
     .spec_valid(spec_insn_c_add_valid),
     .spec_trap(spec_insn_c_add_trap),
@@ -584,6 +692,9 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
   wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_c_addi_csr_misa_rmask;
 `endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  wire [                       4 : 0] spec_insn_c_addi_rs3_addr;
+`endif
 
   rvfi_insn_c_addi insn_c_addi (
     .rvfi_valid(rvfi_valid),
@@ -595,6 +706,10 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
     .rvfi_csr_misa_rdata(rvfi_csr_misa_rdata),
     .spec_csr_misa_rmask(spec_insn_c_addi_csr_misa_rmask),
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+    .rvfi_rs3_rdata(rvfi_rs3_rdata),
+    .spec_rs3_addr(spec_insn_c_addi_rs3_addr),
 `endif
     .spec_valid(spec_insn_c_addi_valid),
     .spec_trap(spec_insn_c_addi_trap),
@@ -623,6 +738,9 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
   wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_c_addi16sp_csr_misa_rmask;
 `endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  wire [                       4 : 0] spec_insn_c_addi16sp_rs3_addr;
+`endif
 
   rvfi_insn_c_addi16sp insn_c_addi16sp (
     .rvfi_valid(rvfi_valid),
@@ -634,6 +752,10 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
     .rvfi_csr_misa_rdata(rvfi_csr_misa_rdata),
     .spec_csr_misa_rmask(spec_insn_c_addi16sp_csr_misa_rmask),
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+    .rvfi_rs3_rdata(rvfi_rs3_rdata),
+    .spec_rs3_addr(spec_insn_c_addi16sp_rs3_addr),
 `endif
     .spec_valid(spec_insn_c_addi16sp_valid),
     .spec_trap(spec_insn_c_addi16sp_trap),
@@ -662,6 +784,9 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
   wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_c_addi4spn_csr_misa_rmask;
 `endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  wire [                       4 : 0] spec_insn_c_addi4spn_rs3_addr;
+`endif
 
   rvfi_insn_c_addi4spn insn_c_addi4spn (
     .rvfi_valid(rvfi_valid),
@@ -673,6 +798,10 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
     .rvfi_csr_misa_rdata(rvfi_csr_misa_rdata),
     .spec_csr_misa_rmask(spec_insn_c_addi4spn_csr_misa_rmask),
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+    .rvfi_rs3_rdata(rvfi_rs3_rdata),
+    .spec_rs3_addr(spec_insn_c_addi4spn_rs3_addr),
 `endif
     .spec_valid(spec_insn_c_addi4spn_valid),
     .spec_trap(spec_insn_c_addi4spn_trap),
@@ -701,6 +830,9 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
   wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_c_addiw_csr_misa_rmask;
 `endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  wire [                       4 : 0] spec_insn_c_addiw_rs3_addr;
+`endif
 
   rvfi_insn_c_addiw insn_c_addiw (
     .rvfi_valid(rvfi_valid),
@@ -712,6 +844,10 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
     .rvfi_csr_misa_rdata(rvfi_csr_misa_rdata),
     .spec_csr_misa_rmask(spec_insn_c_addiw_csr_misa_rmask),
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+    .rvfi_rs3_rdata(rvfi_rs3_rdata),
+    .spec_rs3_addr(spec_insn_c_addiw_rs3_addr),
 `endif
     .spec_valid(spec_insn_c_addiw_valid),
     .spec_trap(spec_insn_c_addiw_trap),
@@ -740,6 +876,9 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
   wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_c_addw_csr_misa_rmask;
 `endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  wire [                       4 : 0] spec_insn_c_addw_rs3_addr;
+`endif
 
   rvfi_insn_c_addw insn_c_addw (
     .rvfi_valid(rvfi_valid),
@@ -751,6 +890,10 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
     .rvfi_csr_misa_rdata(rvfi_csr_misa_rdata),
     .spec_csr_misa_rmask(spec_insn_c_addw_csr_misa_rmask),
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+    .rvfi_rs3_rdata(rvfi_rs3_rdata),
+    .spec_rs3_addr(spec_insn_c_addw_rs3_addr),
 `endif
     .spec_valid(spec_insn_c_addw_valid),
     .spec_trap(spec_insn_c_addw_trap),
@@ -779,6 +922,9 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
   wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_c_and_csr_misa_rmask;
 `endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  wire [                       4 : 0] spec_insn_c_and_rs3_addr;
+`endif
 
   rvfi_insn_c_and insn_c_and (
     .rvfi_valid(rvfi_valid),
@@ -790,6 +936,10 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
     .rvfi_csr_misa_rdata(rvfi_csr_misa_rdata),
     .spec_csr_misa_rmask(spec_insn_c_and_csr_misa_rmask),
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+    .rvfi_rs3_rdata(rvfi_rs3_rdata),
+    .spec_rs3_addr(spec_insn_c_and_rs3_addr),
 `endif
     .spec_valid(spec_insn_c_and_valid),
     .spec_trap(spec_insn_c_and_trap),
@@ -818,6 +968,9 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
   wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_c_andi_csr_misa_rmask;
 `endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  wire [                       4 : 0] spec_insn_c_andi_rs3_addr;
+`endif
 
   rvfi_insn_c_andi insn_c_andi (
     .rvfi_valid(rvfi_valid),
@@ -829,6 +982,10 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
     .rvfi_csr_misa_rdata(rvfi_csr_misa_rdata),
     .spec_csr_misa_rmask(spec_insn_c_andi_csr_misa_rmask),
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+    .rvfi_rs3_rdata(rvfi_rs3_rdata),
+    .spec_rs3_addr(spec_insn_c_andi_rs3_addr),
 `endif
     .spec_valid(spec_insn_c_andi_valid),
     .spec_trap(spec_insn_c_andi_trap),
@@ -857,6 +1014,9 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
   wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_c_beqz_csr_misa_rmask;
 `endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  wire [                       4 : 0] spec_insn_c_beqz_rs3_addr;
+`endif
 
   rvfi_insn_c_beqz insn_c_beqz (
     .rvfi_valid(rvfi_valid),
@@ -868,6 +1028,10 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
     .rvfi_csr_misa_rdata(rvfi_csr_misa_rdata),
     .spec_csr_misa_rmask(spec_insn_c_beqz_csr_misa_rmask),
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+    .rvfi_rs3_rdata(rvfi_rs3_rdata),
+    .spec_rs3_addr(spec_insn_c_beqz_rs3_addr),
 `endif
     .spec_valid(spec_insn_c_beqz_valid),
     .spec_trap(spec_insn_c_beqz_trap),
@@ -896,6 +1060,9 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
   wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_c_bnez_csr_misa_rmask;
 `endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  wire [                       4 : 0] spec_insn_c_bnez_rs3_addr;
+`endif
 
   rvfi_insn_c_bnez insn_c_bnez (
     .rvfi_valid(rvfi_valid),
@@ -907,6 +1074,10 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
     .rvfi_csr_misa_rdata(rvfi_csr_misa_rdata),
     .spec_csr_misa_rmask(spec_insn_c_bnez_csr_misa_rmask),
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+    .rvfi_rs3_rdata(rvfi_rs3_rdata),
+    .spec_rs3_addr(spec_insn_c_bnez_rs3_addr),
 `endif
     .spec_valid(spec_insn_c_bnez_valid),
     .spec_trap(spec_insn_c_bnez_trap),
@@ -935,6 +1106,9 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
   wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_c_j_csr_misa_rmask;
 `endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  wire [                       4 : 0] spec_insn_c_j_rs3_addr;
+`endif
 
   rvfi_insn_c_j insn_c_j (
     .rvfi_valid(rvfi_valid),
@@ -946,6 +1120,10 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
     .rvfi_csr_misa_rdata(rvfi_csr_misa_rdata),
     .spec_csr_misa_rmask(spec_insn_c_j_csr_misa_rmask),
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+    .rvfi_rs3_rdata(rvfi_rs3_rdata),
+    .spec_rs3_addr(spec_insn_c_j_rs3_addr),
 `endif
     .spec_valid(spec_insn_c_j_valid),
     .spec_trap(spec_insn_c_j_trap),
@@ -974,6 +1152,9 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
   wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_c_jalr_csr_misa_rmask;
 `endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  wire [                       4 : 0] spec_insn_c_jalr_rs3_addr;
+`endif
 
   rvfi_insn_c_jalr insn_c_jalr (
     .rvfi_valid(rvfi_valid),
@@ -985,6 +1166,10 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
     .rvfi_csr_misa_rdata(rvfi_csr_misa_rdata),
     .spec_csr_misa_rmask(spec_insn_c_jalr_csr_misa_rmask),
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+    .rvfi_rs3_rdata(rvfi_rs3_rdata),
+    .spec_rs3_addr(spec_insn_c_jalr_rs3_addr),
 `endif
     .spec_valid(spec_insn_c_jalr_valid),
     .spec_trap(spec_insn_c_jalr_trap),
@@ -1013,6 +1198,9 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
   wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_c_jr_csr_misa_rmask;
 `endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  wire [                       4 : 0] spec_insn_c_jr_rs3_addr;
+`endif
 
   rvfi_insn_c_jr insn_c_jr (
     .rvfi_valid(rvfi_valid),
@@ -1024,6 +1212,10 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
     .rvfi_csr_misa_rdata(rvfi_csr_misa_rdata),
     .spec_csr_misa_rmask(spec_insn_c_jr_csr_misa_rmask),
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+    .rvfi_rs3_rdata(rvfi_rs3_rdata),
+    .spec_rs3_addr(spec_insn_c_jr_rs3_addr),
 `endif
     .spec_valid(spec_insn_c_jr_valid),
     .spec_trap(spec_insn_c_jr_trap),
@@ -1052,6 +1244,9 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
   wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_c_ld_csr_misa_rmask;
 `endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  wire [                       4 : 0] spec_insn_c_ld_rs3_addr;
+`endif
 
   rvfi_insn_c_ld insn_c_ld (
     .rvfi_valid(rvfi_valid),
@@ -1063,6 +1258,10 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
     .rvfi_csr_misa_rdata(rvfi_csr_misa_rdata),
     .spec_csr_misa_rmask(spec_insn_c_ld_csr_misa_rmask),
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+    .rvfi_rs3_rdata(rvfi_rs3_rdata),
+    .spec_rs3_addr(spec_insn_c_ld_rs3_addr),
 `endif
     .spec_valid(spec_insn_c_ld_valid),
     .spec_trap(spec_insn_c_ld_trap),
@@ -1091,6 +1290,9 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
   wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_c_ldsp_csr_misa_rmask;
 `endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  wire [                       4 : 0] spec_insn_c_ldsp_rs3_addr;
+`endif
 
   rvfi_insn_c_ldsp insn_c_ldsp (
     .rvfi_valid(rvfi_valid),
@@ -1102,6 +1304,10 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
     .rvfi_csr_misa_rdata(rvfi_csr_misa_rdata),
     .spec_csr_misa_rmask(spec_insn_c_ldsp_csr_misa_rmask),
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+    .rvfi_rs3_rdata(rvfi_rs3_rdata),
+    .spec_rs3_addr(spec_insn_c_ldsp_rs3_addr),
 `endif
     .spec_valid(spec_insn_c_ldsp_valid),
     .spec_trap(spec_insn_c_ldsp_trap),
@@ -1130,6 +1336,9 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
   wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_c_li_csr_misa_rmask;
 `endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  wire [                       4 : 0] spec_insn_c_li_rs3_addr;
+`endif
 
   rvfi_insn_c_li insn_c_li (
     .rvfi_valid(rvfi_valid),
@@ -1141,6 +1350,10 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
     .rvfi_csr_misa_rdata(rvfi_csr_misa_rdata),
     .spec_csr_misa_rmask(spec_insn_c_li_csr_misa_rmask),
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+    .rvfi_rs3_rdata(rvfi_rs3_rdata),
+    .spec_rs3_addr(spec_insn_c_li_rs3_addr),
 `endif
     .spec_valid(spec_insn_c_li_valid),
     .spec_trap(spec_insn_c_li_trap),
@@ -1169,6 +1382,9 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
   wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_c_lui_csr_misa_rmask;
 `endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  wire [                       4 : 0] spec_insn_c_lui_rs3_addr;
+`endif
 
   rvfi_insn_c_lui insn_c_lui (
     .rvfi_valid(rvfi_valid),
@@ -1180,6 +1396,10 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
     .rvfi_csr_misa_rdata(rvfi_csr_misa_rdata),
     .spec_csr_misa_rmask(spec_insn_c_lui_csr_misa_rmask),
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+    .rvfi_rs3_rdata(rvfi_rs3_rdata),
+    .spec_rs3_addr(spec_insn_c_lui_rs3_addr),
 `endif
     .spec_valid(spec_insn_c_lui_valid),
     .spec_trap(spec_insn_c_lui_trap),
@@ -1208,6 +1428,9 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
   wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_c_lw_csr_misa_rmask;
 `endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  wire [                       4 : 0] spec_insn_c_lw_rs3_addr;
+`endif
 
   rvfi_insn_c_lw insn_c_lw (
     .rvfi_valid(rvfi_valid),
@@ -1219,6 +1442,10 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
     .rvfi_csr_misa_rdata(rvfi_csr_misa_rdata),
     .spec_csr_misa_rmask(spec_insn_c_lw_csr_misa_rmask),
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+    .rvfi_rs3_rdata(rvfi_rs3_rdata),
+    .spec_rs3_addr(spec_insn_c_lw_rs3_addr),
 `endif
     .spec_valid(spec_insn_c_lw_valid),
     .spec_trap(spec_insn_c_lw_trap),
@@ -1247,6 +1474,9 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
   wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_c_lwsp_csr_misa_rmask;
 `endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  wire [                       4 : 0] spec_insn_c_lwsp_rs3_addr;
+`endif
 
   rvfi_insn_c_lwsp insn_c_lwsp (
     .rvfi_valid(rvfi_valid),
@@ -1258,6 +1488,10 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
     .rvfi_csr_misa_rdata(rvfi_csr_misa_rdata),
     .spec_csr_misa_rmask(spec_insn_c_lwsp_csr_misa_rmask),
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+    .rvfi_rs3_rdata(rvfi_rs3_rdata),
+    .spec_rs3_addr(spec_insn_c_lwsp_rs3_addr),
 `endif
     .spec_valid(spec_insn_c_lwsp_valid),
     .spec_trap(spec_insn_c_lwsp_trap),
@@ -1286,6 +1520,9 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
   wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_c_mv_csr_misa_rmask;
 `endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  wire [                       4 : 0] spec_insn_c_mv_rs3_addr;
+`endif
 
   rvfi_insn_c_mv insn_c_mv (
     .rvfi_valid(rvfi_valid),
@@ -1297,6 +1534,10 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
     .rvfi_csr_misa_rdata(rvfi_csr_misa_rdata),
     .spec_csr_misa_rmask(spec_insn_c_mv_csr_misa_rmask),
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+    .rvfi_rs3_rdata(rvfi_rs3_rdata),
+    .spec_rs3_addr(spec_insn_c_mv_rs3_addr),
 `endif
     .spec_valid(spec_insn_c_mv_valid),
     .spec_trap(spec_insn_c_mv_trap),
@@ -1325,6 +1566,9 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
   wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_c_or_csr_misa_rmask;
 `endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  wire [                       4 : 0] spec_insn_c_or_rs3_addr;
+`endif
 
   rvfi_insn_c_or insn_c_or (
     .rvfi_valid(rvfi_valid),
@@ -1336,6 +1580,10 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
     .rvfi_csr_misa_rdata(rvfi_csr_misa_rdata),
     .spec_csr_misa_rmask(spec_insn_c_or_csr_misa_rmask),
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+    .rvfi_rs3_rdata(rvfi_rs3_rdata),
+    .spec_rs3_addr(spec_insn_c_or_rs3_addr),
 `endif
     .spec_valid(spec_insn_c_or_valid),
     .spec_trap(spec_insn_c_or_trap),
@@ -1364,6 +1612,9 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
   wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_c_sd_csr_misa_rmask;
 `endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  wire [                       4 : 0] spec_insn_c_sd_rs3_addr;
+`endif
 
   rvfi_insn_c_sd insn_c_sd (
     .rvfi_valid(rvfi_valid),
@@ -1375,6 +1626,10 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
     .rvfi_csr_misa_rdata(rvfi_csr_misa_rdata),
     .spec_csr_misa_rmask(spec_insn_c_sd_csr_misa_rmask),
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+    .rvfi_rs3_rdata(rvfi_rs3_rdata),
+    .spec_rs3_addr(spec_insn_c_sd_rs3_addr),
 `endif
     .spec_valid(spec_insn_c_sd_valid),
     .spec_trap(spec_insn_c_sd_trap),
@@ -1403,6 +1658,9 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
   wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_c_sdsp_csr_misa_rmask;
 `endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  wire [                       4 : 0] spec_insn_c_sdsp_rs3_addr;
+`endif
 
   rvfi_insn_c_sdsp insn_c_sdsp (
     .rvfi_valid(rvfi_valid),
@@ -1414,6 +1672,10 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
     .rvfi_csr_misa_rdata(rvfi_csr_misa_rdata),
     .spec_csr_misa_rmask(spec_insn_c_sdsp_csr_misa_rmask),
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+    .rvfi_rs3_rdata(rvfi_rs3_rdata),
+    .spec_rs3_addr(spec_insn_c_sdsp_rs3_addr),
 `endif
     .spec_valid(spec_insn_c_sdsp_valid),
     .spec_trap(spec_insn_c_sdsp_trap),
@@ -1442,6 +1704,9 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
   wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_c_slli_csr_misa_rmask;
 `endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  wire [                       4 : 0] spec_insn_c_slli_rs3_addr;
+`endif
 
   rvfi_insn_c_slli insn_c_slli (
     .rvfi_valid(rvfi_valid),
@@ -1453,6 +1718,10 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
     .rvfi_csr_misa_rdata(rvfi_csr_misa_rdata),
     .spec_csr_misa_rmask(spec_insn_c_slli_csr_misa_rmask),
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+    .rvfi_rs3_rdata(rvfi_rs3_rdata),
+    .spec_rs3_addr(spec_insn_c_slli_rs3_addr),
 `endif
     .spec_valid(spec_insn_c_slli_valid),
     .spec_trap(spec_insn_c_slli_trap),
@@ -1481,6 +1750,9 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
   wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_c_srai_csr_misa_rmask;
 `endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  wire [                       4 : 0] spec_insn_c_srai_rs3_addr;
+`endif
 
   rvfi_insn_c_srai insn_c_srai (
     .rvfi_valid(rvfi_valid),
@@ -1492,6 +1764,10 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
     .rvfi_csr_misa_rdata(rvfi_csr_misa_rdata),
     .spec_csr_misa_rmask(spec_insn_c_srai_csr_misa_rmask),
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+    .rvfi_rs3_rdata(rvfi_rs3_rdata),
+    .spec_rs3_addr(spec_insn_c_srai_rs3_addr),
 `endif
     .spec_valid(spec_insn_c_srai_valid),
     .spec_trap(spec_insn_c_srai_trap),
@@ -1520,6 +1796,9 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
   wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_c_srli_csr_misa_rmask;
 `endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  wire [                       4 : 0] spec_insn_c_srli_rs3_addr;
+`endif
 
   rvfi_insn_c_srli insn_c_srli (
     .rvfi_valid(rvfi_valid),
@@ -1531,6 +1810,10 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
     .rvfi_csr_misa_rdata(rvfi_csr_misa_rdata),
     .spec_csr_misa_rmask(spec_insn_c_srli_csr_misa_rmask),
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+    .rvfi_rs3_rdata(rvfi_rs3_rdata),
+    .spec_rs3_addr(spec_insn_c_srli_rs3_addr),
 `endif
     .spec_valid(spec_insn_c_srli_valid),
     .spec_trap(spec_insn_c_srli_trap),
@@ -1559,6 +1842,9 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
   wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_c_sub_csr_misa_rmask;
 `endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  wire [                       4 : 0] spec_insn_c_sub_rs3_addr;
+`endif
 
   rvfi_insn_c_sub insn_c_sub (
     .rvfi_valid(rvfi_valid),
@@ -1570,6 +1856,10 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
     .rvfi_csr_misa_rdata(rvfi_csr_misa_rdata),
     .spec_csr_misa_rmask(spec_insn_c_sub_csr_misa_rmask),
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+    .rvfi_rs3_rdata(rvfi_rs3_rdata),
+    .spec_rs3_addr(spec_insn_c_sub_rs3_addr),
 `endif
     .spec_valid(spec_insn_c_sub_valid),
     .spec_trap(spec_insn_c_sub_trap),
@@ -1598,6 +1888,9 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
   wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_c_subw_csr_misa_rmask;
 `endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  wire [                       4 : 0] spec_insn_c_subw_rs3_addr;
+`endif
 
   rvfi_insn_c_subw insn_c_subw (
     .rvfi_valid(rvfi_valid),
@@ -1609,6 +1902,10 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
     .rvfi_csr_misa_rdata(rvfi_csr_misa_rdata),
     .spec_csr_misa_rmask(spec_insn_c_subw_csr_misa_rmask),
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+    .rvfi_rs3_rdata(rvfi_rs3_rdata),
+    .spec_rs3_addr(spec_insn_c_subw_rs3_addr),
 `endif
     .spec_valid(spec_insn_c_subw_valid),
     .spec_trap(spec_insn_c_subw_trap),
@@ -1637,6 +1934,9 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
   wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_c_sw_csr_misa_rmask;
 `endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  wire [                       4 : 0] spec_insn_c_sw_rs3_addr;
+`endif
 
   rvfi_insn_c_sw insn_c_sw (
     .rvfi_valid(rvfi_valid),
@@ -1648,6 +1948,10 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
     .rvfi_csr_misa_rdata(rvfi_csr_misa_rdata),
     .spec_csr_misa_rmask(spec_insn_c_sw_csr_misa_rmask),
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+    .rvfi_rs3_rdata(rvfi_rs3_rdata),
+    .spec_rs3_addr(spec_insn_c_sw_rs3_addr),
 `endif
     .spec_valid(spec_insn_c_sw_valid),
     .spec_trap(spec_insn_c_sw_trap),
@@ -1676,6 +1980,9 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
   wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_c_swsp_csr_misa_rmask;
 `endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  wire [                       4 : 0] spec_insn_c_swsp_rs3_addr;
+`endif
 
   rvfi_insn_c_swsp insn_c_swsp (
     .rvfi_valid(rvfi_valid),
@@ -1687,6 +1994,10 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
     .rvfi_csr_misa_rdata(rvfi_csr_misa_rdata),
     .spec_csr_misa_rmask(spec_insn_c_swsp_csr_misa_rmask),
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+    .rvfi_rs3_rdata(rvfi_rs3_rdata),
+    .spec_rs3_addr(spec_insn_c_swsp_rs3_addr),
 `endif
     .spec_valid(spec_insn_c_swsp_valid),
     .spec_trap(spec_insn_c_swsp_trap),
@@ -1715,6 +2026,9 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
   wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_c_xor_csr_misa_rmask;
 `endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  wire [                       4 : 0] spec_insn_c_xor_rs3_addr;
+`endif
 
   rvfi_insn_c_xor insn_c_xor (
     .rvfi_valid(rvfi_valid),
@@ -1726,6 +2040,10 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
     .rvfi_csr_misa_rdata(rvfi_csr_misa_rdata),
     .spec_csr_misa_rmask(spec_insn_c_xor_csr_misa_rmask),
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+    .rvfi_rs3_rdata(rvfi_rs3_rdata),
+    .spec_rs3_addr(spec_insn_c_xor_rs3_addr),
 `endif
     .spec_valid(spec_insn_c_xor_valid),
     .spec_trap(spec_insn_c_xor_trap),
@@ -1754,6 +2072,9 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
   wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_jal_csr_misa_rmask;
 `endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  wire [                       4 : 0] spec_insn_jal_rs3_addr;
+`endif
 
   rvfi_insn_jal insn_jal (
     .rvfi_valid(rvfi_valid),
@@ -1765,6 +2086,10 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
     .rvfi_csr_misa_rdata(rvfi_csr_misa_rdata),
     .spec_csr_misa_rmask(spec_insn_jal_csr_misa_rmask),
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+    .rvfi_rs3_rdata(rvfi_rs3_rdata),
+    .spec_rs3_addr(spec_insn_jal_rs3_addr),
 `endif
     .spec_valid(spec_insn_jal_valid),
     .spec_trap(spec_insn_jal_trap),
@@ -1793,6 +2118,9 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
   wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_jalr_csr_misa_rmask;
 `endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  wire [                       4 : 0] spec_insn_jalr_rs3_addr;
+`endif
 
   rvfi_insn_jalr insn_jalr (
     .rvfi_valid(rvfi_valid),
@@ -1804,6 +2132,10 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
     .rvfi_csr_misa_rdata(rvfi_csr_misa_rdata),
     .spec_csr_misa_rmask(spec_insn_jalr_csr_misa_rmask),
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+    .rvfi_rs3_rdata(rvfi_rs3_rdata),
+    .spec_rs3_addr(spec_insn_jalr_rs3_addr),
 `endif
     .spec_valid(spec_insn_jalr_valid),
     .spec_trap(spec_insn_jalr_trap),
@@ -1832,6 +2164,9 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
   wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_lb_csr_misa_rmask;
 `endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  wire [                       4 : 0] spec_insn_lb_rs3_addr;
+`endif
 
   rvfi_insn_lb insn_lb (
     .rvfi_valid(rvfi_valid),
@@ -1843,6 +2178,10 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
     .rvfi_csr_misa_rdata(rvfi_csr_misa_rdata),
     .spec_csr_misa_rmask(spec_insn_lb_csr_misa_rmask),
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+    .rvfi_rs3_rdata(rvfi_rs3_rdata),
+    .spec_rs3_addr(spec_insn_lb_rs3_addr),
 `endif
     .spec_valid(spec_insn_lb_valid),
     .spec_trap(spec_insn_lb_trap),
@@ -1871,6 +2210,9 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
   wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_lbu_csr_misa_rmask;
 `endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  wire [                       4 : 0] spec_insn_lbu_rs3_addr;
+`endif
 
   rvfi_insn_lbu insn_lbu (
     .rvfi_valid(rvfi_valid),
@@ -1882,6 +2224,10 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
     .rvfi_csr_misa_rdata(rvfi_csr_misa_rdata),
     .spec_csr_misa_rmask(spec_insn_lbu_csr_misa_rmask),
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+    .rvfi_rs3_rdata(rvfi_rs3_rdata),
+    .spec_rs3_addr(spec_insn_lbu_rs3_addr),
 `endif
     .spec_valid(spec_insn_lbu_valid),
     .spec_trap(spec_insn_lbu_trap),
@@ -1910,6 +2256,9 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
   wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_ld_csr_misa_rmask;
 `endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  wire [                       4 : 0] spec_insn_ld_rs3_addr;
+`endif
 
   rvfi_insn_ld insn_ld (
     .rvfi_valid(rvfi_valid),
@@ -1921,6 +2270,10 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
     .rvfi_csr_misa_rdata(rvfi_csr_misa_rdata),
     .spec_csr_misa_rmask(spec_insn_ld_csr_misa_rmask),
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+    .rvfi_rs3_rdata(rvfi_rs3_rdata),
+    .spec_rs3_addr(spec_insn_ld_rs3_addr),
 `endif
     .spec_valid(spec_insn_ld_valid),
     .spec_trap(spec_insn_ld_trap),
@@ -1949,6 +2302,9 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
   wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_lh_csr_misa_rmask;
 `endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  wire [                       4 : 0] spec_insn_lh_rs3_addr;
+`endif
 
   rvfi_insn_lh insn_lh (
     .rvfi_valid(rvfi_valid),
@@ -1960,6 +2316,10 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
     .rvfi_csr_misa_rdata(rvfi_csr_misa_rdata),
     .spec_csr_misa_rmask(spec_insn_lh_csr_misa_rmask),
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+    .rvfi_rs3_rdata(rvfi_rs3_rdata),
+    .spec_rs3_addr(spec_insn_lh_rs3_addr),
 `endif
     .spec_valid(spec_insn_lh_valid),
     .spec_trap(spec_insn_lh_trap),
@@ -1988,6 +2348,9 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
   wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_lhu_csr_misa_rmask;
 `endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  wire [                       4 : 0] spec_insn_lhu_rs3_addr;
+`endif
 
   rvfi_insn_lhu insn_lhu (
     .rvfi_valid(rvfi_valid),
@@ -1999,6 +2362,10 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
     .rvfi_csr_misa_rdata(rvfi_csr_misa_rdata),
     .spec_csr_misa_rmask(spec_insn_lhu_csr_misa_rmask),
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+    .rvfi_rs3_rdata(rvfi_rs3_rdata),
+    .spec_rs3_addr(spec_insn_lhu_rs3_addr),
 `endif
     .spec_valid(spec_insn_lhu_valid),
     .spec_trap(spec_insn_lhu_trap),
@@ -2027,6 +2394,9 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
   wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_lui_csr_misa_rmask;
 `endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  wire [                       4 : 0] spec_insn_lui_rs3_addr;
+`endif
 
   rvfi_insn_lui insn_lui (
     .rvfi_valid(rvfi_valid),
@@ -2038,6 +2408,10 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
     .rvfi_csr_misa_rdata(rvfi_csr_misa_rdata),
     .spec_csr_misa_rmask(spec_insn_lui_csr_misa_rmask),
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+    .rvfi_rs3_rdata(rvfi_rs3_rdata),
+    .spec_rs3_addr(spec_insn_lui_rs3_addr),
 `endif
     .spec_valid(spec_insn_lui_valid),
     .spec_trap(spec_insn_lui_trap),
@@ -2066,6 +2440,9 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
   wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_lw_csr_misa_rmask;
 `endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  wire [                       4 : 0] spec_insn_lw_rs3_addr;
+`endif
 
   rvfi_insn_lw insn_lw (
     .rvfi_valid(rvfi_valid),
@@ -2077,6 +2454,10 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
     .rvfi_csr_misa_rdata(rvfi_csr_misa_rdata),
     .spec_csr_misa_rmask(spec_insn_lw_csr_misa_rmask),
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+    .rvfi_rs3_rdata(rvfi_rs3_rdata),
+    .spec_rs3_addr(spec_insn_lw_rs3_addr),
 `endif
     .spec_valid(spec_insn_lw_valid),
     .spec_trap(spec_insn_lw_trap),
@@ -2105,6 +2486,9 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
   wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_lwu_csr_misa_rmask;
 `endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  wire [                       4 : 0] spec_insn_lwu_rs3_addr;
+`endif
 
   rvfi_insn_lwu insn_lwu (
     .rvfi_valid(rvfi_valid),
@@ -2116,6 +2500,10 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
     .rvfi_csr_misa_rdata(rvfi_csr_misa_rdata),
     .spec_csr_misa_rmask(spec_insn_lwu_csr_misa_rmask),
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+    .rvfi_rs3_rdata(rvfi_rs3_rdata),
+    .spec_rs3_addr(spec_insn_lwu_rs3_addr),
 `endif
     .spec_valid(spec_insn_lwu_valid),
     .spec_trap(spec_insn_lwu_trap),
@@ -2144,6 +2532,9 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
   wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_or_csr_misa_rmask;
 `endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  wire [                       4 : 0] spec_insn_or_rs3_addr;
+`endif
 
   rvfi_insn_or insn_or (
     .rvfi_valid(rvfi_valid),
@@ -2155,6 +2546,10 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
     .rvfi_csr_misa_rdata(rvfi_csr_misa_rdata),
     .spec_csr_misa_rmask(spec_insn_or_csr_misa_rmask),
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+    .rvfi_rs3_rdata(rvfi_rs3_rdata),
+    .spec_rs3_addr(spec_insn_or_rs3_addr),
 `endif
     .spec_valid(spec_insn_or_valid),
     .spec_trap(spec_insn_or_trap),
@@ -2183,6 +2578,9 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
   wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_ori_csr_misa_rmask;
 `endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  wire [                       4 : 0] spec_insn_ori_rs3_addr;
+`endif
 
   rvfi_insn_ori insn_ori (
     .rvfi_valid(rvfi_valid),
@@ -2194,6 +2592,10 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
     .rvfi_csr_misa_rdata(rvfi_csr_misa_rdata),
     .spec_csr_misa_rmask(spec_insn_ori_csr_misa_rmask),
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+    .rvfi_rs3_rdata(rvfi_rs3_rdata),
+    .spec_rs3_addr(spec_insn_ori_rs3_addr),
 `endif
     .spec_valid(spec_insn_ori_valid),
     .spec_trap(spec_insn_ori_trap),
@@ -2222,6 +2624,9 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
   wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_sb_csr_misa_rmask;
 `endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  wire [                       4 : 0] spec_insn_sb_rs3_addr;
+`endif
 
   rvfi_insn_sb insn_sb (
     .rvfi_valid(rvfi_valid),
@@ -2233,6 +2638,10 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
     .rvfi_csr_misa_rdata(rvfi_csr_misa_rdata),
     .spec_csr_misa_rmask(spec_insn_sb_csr_misa_rmask),
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+    .rvfi_rs3_rdata(rvfi_rs3_rdata),
+    .spec_rs3_addr(spec_insn_sb_rs3_addr),
 `endif
     .spec_valid(spec_insn_sb_valid),
     .spec_trap(spec_insn_sb_trap),
@@ -2261,6 +2670,9 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
   wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_sd_csr_misa_rmask;
 `endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  wire [                       4 : 0] spec_insn_sd_rs3_addr;
+`endif
 
   rvfi_insn_sd insn_sd (
     .rvfi_valid(rvfi_valid),
@@ -2272,6 +2684,10 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
     .rvfi_csr_misa_rdata(rvfi_csr_misa_rdata),
     .spec_csr_misa_rmask(spec_insn_sd_csr_misa_rmask),
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+    .rvfi_rs3_rdata(rvfi_rs3_rdata),
+    .spec_rs3_addr(spec_insn_sd_rs3_addr),
 `endif
     .spec_valid(spec_insn_sd_valid),
     .spec_trap(spec_insn_sd_trap),
@@ -2300,6 +2716,9 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
   wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_sh_csr_misa_rmask;
 `endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  wire [                       4 : 0] spec_insn_sh_rs3_addr;
+`endif
 
   rvfi_insn_sh insn_sh (
     .rvfi_valid(rvfi_valid),
@@ -2311,6 +2730,10 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
     .rvfi_csr_misa_rdata(rvfi_csr_misa_rdata),
     .spec_csr_misa_rmask(spec_insn_sh_csr_misa_rmask),
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+    .rvfi_rs3_rdata(rvfi_rs3_rdata),
+    .spec_rs3_addr(spec_insn_sh_rs3_addr),
 `endif
     .spec_valid(spec_insn_sh_valid),
     .spec_trap(spec_insn_sh_trap),
@@ -2339,6 +2762,9 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
   wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_sll_csr_misa_rmask;
 `endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  wire [                       4 : 0] spec_insn_sll_rs3_addr;
+`endif
 
   rvfi_insn_sll insn_sll (
     .rvfi_valid(rvfi_valid),
@@ -2350,6 +2776,10 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
     .rvfi_csr_misa_rdata(rvfi_csr_misa_rdata),
     .spec_csr_misa_rmask(spec_insn_sll_csr_misa_rmask),
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+    .rvfi_rs3_rdata(rvfi_rs3_rdata),
+    .spec_rs3_addr(spec_insn_sll_rs3_addr),
 `endif
     .spec_valid(spec_insn_sll_valid),
     .spec_trap(spec_insn_sll_trap),
@@ -2378,6 +2808,9 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
   wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_slli_csr_misa_rmask;
 `endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  wire [                       4 : 0] spec_insn_slli_rs3_addr;
+`endif
 
   rvfi_insn_slli insn_slli (
     .rvfi_valid(rvfi_valid),
@@ -2389,6 +2822,10 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
     .rvfi_csr_misa_rdata(rvfi_csr_misa_rdata),
     .spec_csr_misa_rmask(spec_insn_slli_csr_misa_rmask),
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+    .rvfi_rs3_rdata(rvfi_rs3_rdata),
+    .spec_rs3_addr(spec_insn_slli_rs3_addr),
 `endif
     .spec_valid(spec_insn_slli_valid),
     .spec_trap(spec_insn_slli_trap),
@@ -2417,6 +2854,9 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
   wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_slliw_csr_misa_rmask;
 `endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  wire [                       4 : 0] spec_insn_slliw_rs3_addr;
+`endif
 
   rvfi_insn_slliw insn_slliw (
     .rvfi_valid(rvfi_valid),
@@ -2428,6 +2868,10 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
     .rvfi_csr_misa_rdata(rvfi_csr_misa_rdata),
     .spec_csr_misa_rmask(spec_insn_slliw_csr_misa_rmask),
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+    .rvfi_rs3_rdata(rvfi_rs3_rdata),
+    .spec_rs3_addr(spec_insn_slliw_rs3_addr),
 `endif
     .spec_valid(spec_insn_slliw_valid),
     .spec_trap(spec_insn_slliw_trap),
@@ -2456,6 +2900,9 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
   wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_sllw_csr_misa_rmask;
 `endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  wire [                       4 : 0] spec_insn_sllw_rs3_addr;
+`endif
 
   rvfi_insn_sllw insn_sllw (
     .rvfi_valid(rvfi_valid),
@@ -2467,6 +2914,10 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
     .rvfi_csr_misa_rdata(rvfi_csr_misa_rdata),
     .spec_csr_misa_rmask(spec_insn_sllw_csr_misa_rmask),
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+    .rvfi_rs3_rdata(rvfi_rs3_rdata),
+    .spec_rs3_addr(spec_insn_sllw_rs3_addr),
 `endif
     .spec_valid(spec_insn_sllw_valid),
     .spec_trap(spec_insn_sllw_trap),
@@ -2495,6 +2946,9 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
   wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_slt_csr_misa_rmask;
 `endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  wire [                       4 : 0] spec_insn_slt_rs3_addr;
+`endif
 
   rvfi_insn_slt insn_slt (
     .rvfi_valid(rvfi_valid),
@@ -2506,6 +2960,10 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
     .rvfi_csr_misa_rdata(rvfi_csr_misa_rdata),
     .spec_csr_misa_rmask(spec_insn_slt_csr_misa_rmask),
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+    .rvfi_rs3_rdata(rvfi_rs3_rdata),
+    .spec_rs3_addr(spec_insn_slt_rs3_addr),
 `endif
     .spec_valid(spec_insn_slt_valid),
     .spec_trap(spec_insn_slt_trap),
@@ -2534,6 +2992,9 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
   wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_slti_csr_misa_rmask;
 `endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  wire [                       4 : 0] spec_insn_slti_rs3_addr;
+`endif
 
   rvfi_insn_slti insn_slti (
     .rvfi_valid(rvfi_valid),
@@ -2545,6 +3006,10 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
     .rvfi_csr_misa_rdata(rvfi_csr_misa_rdata),
     .spec_csr_misa_rmask(spec_insn_slti_csr_misa_rmask),
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+    .rvfi_rs3_rdata(rvfi_rs3_rdata),
+    .spec_rs3_addr(spec_insn_slti_rs3_addr),
 `endif
     .spec_valid(spec_insn_slti_valid),
     .spec_trap(spec_insn_slti_trap),
@@ -2573,6 +3038,9 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
   wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_sltiu_csr_misa_rmask;
 `endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  wire [                       4 : 0] spec_insn_sltiu_rs3_addr;
+`endif
 
   rvfi_insn_sltiu insn_sltiu (
     .rvfi_valid(rvfi_valid),
@@ -2584,6 +3052,10 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
     .rvfi_csr_misa_rdata(rvfi_csr_misa_rdata),
     .spec_csr_misa_rmask(spec_insn_sltiu_csr_misa_rmask),
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+    .rvfi_rs3_rdata(rvfi_rs3_rdata),
+    .spec_rs3_addr(spec_insn_sltiu_rs3_addr),
 `endif
     .spec_valid(spec_insn_sltiu_valid),
     .spec_trap(spec_insn_sltiu_trap),
@@ -2612,6 +3084,9 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
   wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_sltu_csr_misa_rmask;
 `endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  wire [                       4 : 0] spec_insn_sltu_rs3_addr;
+`endif
 
   rvfi_insn_sltu insn_sltu (
     .rvfi_valid(rvfi_valid),
@@ -2623,6 +3098,10 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
     .rvfi_csr_misa_rdata(rvfi_csr_misa_rdata),
     .spec_csr_misa_rmask(spec_insn_sltu_csr_misa_rmask),
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+    .rvfi_rs3_rdata(rvfi_rs3_rdata),
+    .spec_rs3_addr(spec_insn_sltu_rs3_addr),
 `endif
     .spec_valid(spec_insn_sltu_valid),
     .spec_trap(spec_insn_sltu_trap),
@@ -2651,6 +3130,9 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
   wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_sra_csr_misa_rmask;
 `endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  wire [                       4 : 0] spec_insn_sra_rs3_addr;
+`endif
 
   rvfi_insn_sra insn_sra (
     .rvfi_valid(rvfi_valid),
@@ -2662,6 +3144,10 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
     .rvfi_csr_misa_rdata(rvfi_csr_misa_rdata),
     .spec_csr_misa_rmask(spec_insn_sra_csr_misa_rmask),
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+    .rvfi_rs3_rdata(rvfi_rs3_rdata),
+    .spec_rs3_addr(spec_insn_sra_rs3_addr),
 `endif
     .spec_valid(spec_insn_sra_valid),
     .spec_trap(spec_insn_sra_trap),
@@ -2690,6 +3176,9 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
   wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_srai_csr_misa_rmask;
 `endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  wire [                       4 : 0] spec_insn_srai_rs3_addr;
+`endif
 
   rvfi_insn_srai insn_srai (
     .rvfi_valid(rvfi_valid),
@@ -2701,6 +3190,10 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
     .rvfi_csr_misa_rdata(rvfi_csr_misa_rdata),
     .spec_csr_misa_rmask(spec_insn_srai_csr_misa_rmask),
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+    .rvfi_rs3_rdata(rvfi_rs3_rdata),
+    .spec_rs3_addr(spec_insn_srai_rs3_addr),
 `endif
     .spec_valid(spec_insn_srai_valid),
     .spec_trap(spec_insn_srai_trap),
@@ -2729,6 +3222,9 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
   wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_sraiw_csr_misa_rmask;
 `endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  wire [                       4 : 0] spec_insn_sraiw_rs3_addr;
+`endif
 
   rvfi_insn_sraiw insn_sraiw (
     .rvfi_valid(rvfi_valid),
@@ -2740,6 +3236,10 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
     .rvfi_csr_misa_rdata(rvfi_csr_misa_rdata),
     .spec_csr_misa_rmask(spec_insn_sraiw_csr_misa_rmask),
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+    .rvfi_rs3_rdata(rvfi_rs3_rdata),
+    .spec_rs3_addr(spec_insn_sraiw_rs3_addr),
 `endif
     .spec_valid(spec_insn_sraiw_valid),
     .spec_trap(spec_insn_sraiw_trap),
@@ -2768,6 +3268,9 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
   wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_sraw_csr_misa_rmask;
 `endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  wire [                       4 : 0] spec_insn_sraw_rs3_addr;
+`endif
 
   rvfi_insn_sraw insn_sraw (
     .rvfi_valid(rvfi_valid),
@@ -2779,6 +3282,10 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
     .rvfi_csr_misa_rdata(rvfi_csr_misa_rdata),
     .spec_csr_misa_rmask(spec_insn_sraw_csr_misa_rmask),
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+    .rvfi_rs3_rdata(rvfi_rs3_rdata),
+    .spec_rs3_addr(spec_insn_sraw_rs3_addr),
 `endif
     .spec_valid(spec_insn_sraw_valid),
     .spec_trap(spec_insn_sraw_trap),
@@ -2807,6 +3314,9 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
   wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_srl_csr_misa_rmask;
 `endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  wire [                       4 : 0] spec_insn_srl_rs3_addr;
+`endif
 
   rvfi_insn_srl insn_srl (
     .rvfi_valid(rvfi_valid),
@@ -2818,6 +3328,10 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
     .rvfi_csr_misa_rdata(rvfi_csr_misa_rdata),
     .spec_csr_misa_rmask(spec_insn_srl_csr_misa_rmask),
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+    .rvfi_rs3_rdata(rvfi_rs3_rdata),
+    .spec_rs3_addr(spec_insn_srl_rs3_addr),
 `endif
     .spec_valid(spec_insn_srl_valid),
     .spec_trap(spec_insn_srl_trap),
@@ -2846,6 +3360,9 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
   wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_srli_csr_misa_rmask;
 `endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  wire [                       4 : 0] spec_insn_srli_rs3_addr;
+`endif
 
   rvfi_insn_srli insn_srli (
     .rvfi_valid(rvfi_valid),
@@ -2857,6 +3374,10 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
     .rvfi_csr_misa_rdata(rvfi_csr_misa_rdata),
     .spec_csr_misa_rmask(spec_insn_srli_csr_misa_rmask),
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+    .rvfi_rs3_rdata(rvfi_rs3_rdata),
+    .spec_rs3_addr(spec_insn_srli_rs3_addr),
 `endif
     .spec_valid(spec_insn_srli_valid),
     .spec_trap(spec_insn_srli_trap),
@@ -2885,6 +3406,9 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
   wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_srliw_csr_misa_rmask;
 `endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  wire [                       4 : 0] spec_insn_srliw_rs3_addr;
+`endif
 
   rvfi_insn_srliw insn_srliw (
     .rvfi_valid(rvfi_valid),
@@ -2896,6 +3420,10 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
     .rvfi_csr_misa_rdata(rvfi_csr_misa_rdata),
     .spec_csr_misa_rmask(spec_insn_srliw_csr_misa_rmask),
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+    .rvfi_rs3_rdata(rvfi_rs3_rdata),
+    .spec_rs3_addr(spec_insn_srliw_rs3_addr),
 `endif
     .spec_valid(spec_insn_srliw_valid),
     .spec_trap(spec_insn_srliw_trap),
@@ -2924,6 +3452,9 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
   wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_srlw_csr_misa_rmask;
 `endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  wire [                       4 : 0] spec_insn_srlw_rs3_addr;
+`endif
 
   rvfi_insn_srlw insn_srlw (
     .rvfi_valid(rvfi_valid),
@@ -2935,6 +3466,10 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
     .rvfi_csr_misa_rdata(rvfi_csr_misa_rdata),
     .spec_csr_misa_rmask(spec_insn_srlw_csr_misa_rmask),
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+    .rvfi_rs3_rdata(rvfi_rs3_rdata),
+    .spec_rs3_addr(spec_insn_srlw_rs3_addr),
 `endif
     .spec_valid(spec_insn_srlw_valid),
     .spec_trap(spec_insn_srlw_trap),
@@ -2963,6 +3498,9 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
   wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_sub_csr_misa_rmask;
 `endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  wire [                       4 : 0] spec_insn_sub_rs3_addr;
+`endif
 
   rvfi_insn_sub insn_sub (
     .rvfi_valid(rvfi_valid),
@@ -2974,6 +3512,10 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
     .rvfi_csr_misa_rdata(rvfi_csr_misa_rdata),
     .spec_csr_misa_rmask(spec_insn_sub_csr_misa_rmask),
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+    .rvfi_rs3_rdata(rvfi_rs3_rdata),
+    .spec_rs3_addr(spec_insn_sub_rs3_addr),
 `endif
     .spec_valid(spec_insn_sub_valid),
     .spec_trap(spec_insn_sub_trap),
@@ -3002,6 +3544,9 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
   wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_subw_csr_misa_rmask;
 `endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  wire [                       4 : 0] spec_insn_subw_rs3_addr;
+`endif
 
   rvfi_insn_subw insn_subw (
     .rvfi_valid(rvfi_valid),
@@ -3013,6 +3558,10 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
     .rvfi_csr_misa_rdata(rvfi_csr_misa_rdata),
     .spec_csr_misa_rmask(spec_insn_subw_csr_misa_rmask),
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+    .rvfi_rs3_rdata(rvfi_rs3_rdata),
+    .spec_rs3_addr(spec_insn_subw_rs3_addr),
 `endif
     .spec_valid(spec_insn_subw_valid),
     .spec_trap(spec_insn_subw_trap),
@@ -3041,6 +3590,9 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
   wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_sw_csr_misa_rmask;
 `endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  wire [                       4 : 0] spec_insn_sw_rs3_addr;
+`endif
 
   rvfi_insn_sw insn_sw (
     .rvfi_valid(rvfi_valid),
@@ -3052,6 +3604,10 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
     .rvfi_csr_misa_rdata(rvfi_csr_misa_rdata),
     .spec_csr_misa_rmask(spec_insn_sw_csr_misa_rmask),
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+    .rvfi_rs3_rdata(rvfi_rs3_rdata),
+    .spec_rs3_addr(spec_insn_sw_rs3_addr),
 `endif
     .spec_valid(spec_insn_sw_valid),
     .spec_trap(spec_insn_sw_trap),
@@ -3080,6 +3636,9 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
   wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_xor_csr_misa_rmask;
 `endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  wire [                       4 : 0] spec_insn_xor_rs3_addr;
+`endif
 
   rvfi_insn_xor insn_xor (
     .rvfi_valid(rvfi_valid),
@@ -3091,6 +3650,10 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
     .rvfi_csr_misa_rdata(rvfi_csr_misa_rdata),
     .spec_csr_misa_rmask(spec_insn_xor_csr_misa_rmask),
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+    .rvfi_rs3_rdata(rvfi_rs3_rdata),
+    .spec_rs3_addr(spec_insn_xor_rs3_addr),
 `endif
     .spec_valid(spec_insn_xor_valid),
     .spec_trap(spec_insn_xor_trap),
@@ -3119,6 +3682,9 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
   wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_xori_csr_misa_rmask;
 `endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  wire [                       4 : 0] spec_insn_xori_rs3_addr;
+`endif
 
   rvfi_insn_xori insn_xori (
     .rvfi_valid(rvfi_valid),
@@ -3130,6 +3696,10 @@ module rvfi_isa_rv64ic (
 `ifdef RISCV_FORMAL_CSR_MISA
     .rvfi_csr_misa_rdata(rvfi_csr_misa_rdata),
     .spec_csr_misa_rmask(spec_insn_xori_csr_misa_rmask),
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+    .rvfi_rs3_rdata(rvfi_rs3_rdata),
+    .spec_rs3_addr(spec_insn_xori_rs3_addr),
 `endif
     .spec_valid(spec_insn_xori_valid),
     .spec_trap(spec_insn_xori_trap),
@@ -4117,5 +4687,88 @@ module rvfi_isa_rv64ic (
 		spec_insn_sw_valid ? spec_insn_sw_csr_misa_rmask :
 		spec_insn_xor_valid ? spec_insn_xor_csr_misa_rmask :
 		spec_insn_xori_valid ? spec_insn_xori_csr_misa_rmask : 0;
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  assign spec_rs3_addr =
+		spec_insn_add_valid ? spec_insn_add_rs3_addr :
+		spec_insn_addi_valid ? spec_insn_addi_rs3_addr :
+		spec_insn_addiw_valid ? spec_insn_addiw_rs3_addr :
+		spec_insn_addw_valid ? spec_insn_addw_rs3_addr :
+		spec_insn_and_valid ? spec_insn_and_rs3_addr :
+		spec_insn_andi_valid ? spec_insn_andi_rs3_addr :
+		spec_insn_auipc_valid ? spec_insn_auipc_rs3_addr :
+		spec_insn_beq_valid ? spec_insn_beq_rs3_addr :
+		spec_insn_bge_valid ? spec_insn_bge_rs3_addr :
+		spec_insn_bgeu_valid ? spec_insn_bgeu_rs3_addr :
+		spec_insn_blt_valid ? spec_insn_blt_rs3_addr :
+		spec_insn_bltu_valid ? spec_insn_bltu_rs3_addr :
+		spec_insn_bne_valid ? spec_insn_bne_rs3_addr :
+		spec_insn_c_add_valid ? spec_insn_c_add_rs3_addr :
+		spec_insn_c_addi_valid ? spec_insn_c_addi_rs3_addr :
+		spec_insn_c_addi16sp_valid ? spec_insn_c_addi16sp_rs3_addr :
+		spec_insn_c_addi4spn_valid ? spec_insn_c_addi4spn_rs3_addr :
+		spec_insn_c_addiw_valid ? spec_insn_c_addiw_rs3_addr :
+		spec_insn_c_addw_valid ? spec_insn_c_addw_rs3_addr :
+		spec_insn_c_and_valid ? spec_insn_c_and_rs3_addr :
+		spec_insn_c_andi_valid ? spec_insn_c_andi_rs3_addr :
+		spec_insn_c_beqz_valid ? spec_insn_c_beqz_rs3_addr :
+		spec_insn_c_bnez_valid ? spec_insn_c_bnez_rs3_addr :
+		spec_insn_c_j_valid ? spec_insn_c_j_rs3_addr :
+		spec_insn_c_jalr_valid ? spec_insn_c_jalr_rs3_addr :
+		spec_insn_c_jr_valid ? spec_insn_c_jr_rs3_addr :
+		spec_insn_c_ld_valid ? spec_insn_c_ld_rs3_addr :
+		spec_insn_c_ldsp_valid ? spec_insn_c_ldsp_rs3_addr :
+		spec_insn_c_li_valid ? spec_insn_c_li_rs3_addr :
+		spec_insn_c_lui_valid ? spec_insn_c_lui_rs3_addr :
+		spec_insn_c_lw_valid ? spec_insn_c_lw_rs3_addr :
+		spec_insn_c_lwsp_valid ? spec_insn_c_lwsp_rs3_addr :
+		spec_insn_c_mv_valid ? spec_insn_c_mv_rs3_addr :
+		spec_insn_c_or_valid ? spec_insn_c_or_rs3_addr :
+		spec_insn_c_sd_valid ? spec_insn_c_sd_rs3_addr :
+		spec_insn_c_sdsp_valid ? spec_insn_c_sdsp_rs3_addr :
+		spec_insn_c_slli_valid ? spec_insn_c_slli_rs3_addr :
+		spec_insn_c_srai_valid ? spec_insn_c_srai_rs3_addr :
+		spec_insn_c_srli_valid ? spec_insn_c_srli_rs3_addr :
+		spec_insn_c_sub_valid ? spec_insn_c_sub_rs3_addr :
+		spec_insn_c_subw_valid ? spec_insn_c_subw_rs3_addr :
+		spec_insn_c_sw_valid ? spec_insn_c_sw_rs3_addr :
+		spec_insn_c_swsp_valid ? spec_insn_c_swsp_rs3_addr :
+		spec_insn_c_xor_valid ? spec_insn_c_xor_rs3_addr :
+		spec_insn_jal_valid ? spec_insn_jal_rs3_addr :
+		spec_insn_jalr_valid ? spec_insn_jalr_rs3_addr :
+		spec_insn_lb_valid ? spec_insn_lb_rs3_addr :
+		spec_insn_lbu_valid ? spec_insn_lbu_rs3_addr :
+		spec_insn_ld_valid ? spec_insn_ld_rs3_addr :
+		spec_insn_lh_valid ? spec_insn_lh_rs3_addr :
+		spec_insn_lhu_valid ? spec_insn_lhu_rs3_addr :
+		spec_insn_lui_valid ? spec_insn_lui_rs3_addr :
+		spec_insn_lw_valid ? spec_insn_lw_rs3_addr :
+		spec_insn_lwu_valid ? spec_insn_lwu_rs3_addr :
+		spec_insn_or_valid ? spec_insn_or_rs3_addr :
+		spec_insn_ori_valid ? spec_insn_ori_rs3_addr :
+		spec_insn_sb_valid ? spec_insn_sb_rs3_addr :
+		spec_insn_sd_valid ? spec_insn_sd_rs3_addr :
+		spec_insn_sh_valid ? spec_insn_sh_rs3_addr :
+		spec_insn_sll_valid ? spec_insn_sll_rs3_addr :
+		spec_insn_slli_valid ? spec_insn_slli_rs3_addr :
+		spec_insn_slliw_valid ? spec_insn_slliw_rs3_addr :
+		spec_insn_sllw_valid ? spec_insn_sllw_rs3_addr :
+		spec_insn_slt_valid ? spec_insn_slt_rs3_addr :
+		spec_insn_slti_valid ? spec_insn_slti_rs3_addr :
+		spec_insn_sltiu_valid ? spec_insn_sltiu_rs3_addr :
+		spec_insn_sltu_valid ? spec_insn_sltu_rs3_addr :
+		spec_insn_sra_valid ? spec_insn_sra_rs3_addr :
+		spec_insn_srai_valid ? spec_insn_srai_rs3_addr :
+		spec_insn_sraiw_valid ? spec_insn_sraiw_rs3_addr :
+		spec_insn_sraw_valid ? spec_insn_sraw_rs3_addr :
+		spec_insn_srl_valid ? spec_insn_srl_rs3_addr :
+		spec_insn_srli_valid ? spec_insn_srli_rs3_addr :
+		spec_insn_srliw_valid ? spec_insn_srliw_rs3_addr :
+		spec_insn_srlw_valid ? spec_insn_srlw_rs3_addr :
+		spec_insn_sub_valid ? spec_insn_sub_rs3_addr :
+		spec_insn_subw_valid ? spec_insn_subw_rs3_addr :
+		spec_insn_sw_valid ? spec_insn_sw_rs3_addr :
+		spec_insn_xor_valid ? spec_insn_xor_rs3_addr :
+		spec_insn_xori_valid ? spec_insn_xori_rs3_addr : 0;
 `endif
 endmodule

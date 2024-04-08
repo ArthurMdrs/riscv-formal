@@ -12,6 +12,16 @@ module rvfi_insn_c_or (
   output [`RISCV_FORMAL_XLEN   - 1 : 0] spec_csr_misa_rmask,
 `endif
 
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  input  [`RISCV_FORMAL_XLEN   - 1 : 0] rvfi_rs3_rdata,
+  input                                 rvfi_is_hwlp,
+  input  [`RISCV_FORMAL_XLEN   - 1 : 0] rvfi_hwlp_start,
+
+  output [                       4 : 0] spec_rs3_addr,
+  output [                       4 : 0] spec_post_rd_addr,
+  output [`RISCV_FORMAL_XLEN   - 1 : 0] spec_post_rd_wdata,
+`endif
+
   output                                spec_valid,
   output                                spec_trap,
   output [                       4 : 0] spec_rs1_addr,
@@ -55,4 +65,9 @@ module rvfi_insn_c_or (
   assign spec_mem_rmask = 0;
   assign spec_mem_wmask = 0;
   assign spec_mem_wdata = 0;
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  assign spec_rs3_addr = 0;
+  assign spec_post_rd_addr = 0;
+  assign spec_post_rd_wdata = 0;
+`endif
 endmodule

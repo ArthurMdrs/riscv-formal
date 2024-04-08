@@ -1,4 +1,46 @@
 
+RISC-V Formal Verification Framework - Pulpissimo Edition
+=========================================================
+
+**This is work in progress.**
+
+This is a modified version of RISC-V Formal Verification Framework, adapted to work with Pulpissimo's custom ISA extension, xpulp. Specifically, the version used in Pulpissimo v7.0.0.
+
+You will find the original README after this section.
+
+To generate the macros and instruction checks for the xpulp extension, run:
+
+```
+RVFORMAL_ROOT=$(pwd)
+cd $RVFORMAL_ROOT/checks
+python3.11 rvfi_macros_xpulp.py > rvfi_macros.vh
+cd $RVFORMAL_ROOT/insns
+python3.11 generate_xpulp.py
+```
+
+Obs.: You don't need Python3.11, any version of Python from 3.7 and up should be fine.
+
+To revert to original settings:
+
+```
+RVFORMAL_ROOT=$(pwd)
+cd $RVFORMAL_ROOT/checks
+python3.11 rvfi_macros.py > rvfi_macros.vh
+cd $RVFORMAL_ROOT/insns
+python3.11 generate.py
+```
+
+Adapted checkers: 
+
+- rvfi_insn_check
+
+What has been adapted:
+
+- Addition of rs3 (used in post-incrementing stores).
+- Addition of rd for post-increments (used in post-incrementing stores/loads).
+- Addition of is_hwlp to indicate the last instruction in a hardware loop. WIP DOES NOT WORK
+- Addition of hwlp_start to indicate the PC of the first instruction in a hardware loop. WIP DOES NOT WORK
+
 RISC-V Formal Verification Framework
 ====================================
 

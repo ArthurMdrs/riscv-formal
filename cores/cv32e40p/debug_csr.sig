@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <wavelist version="3">
-  <insertion-point-position>12</insertion-point-position>
+  <insertion-point-position>13</insertion-point-position>
   <wave>
     <expr>clock</expr>
     <label/>
@@ -75,6 +75,11 @@
         <radix/>
       </wave>
     </group>
+    <wave>
+      <expr>checker_inst.csr_illacc</expr>
+      <label/>
+      <radix/>
+    </wave>
   </group>
   <spacer/>
   <group collapsed="false">
@@ -115,6 +120,36 @@
   <group collapsed="false">
     <expr/>
     <label>CSR</label>
+    <wave collapsed="true">
+      <expr>wrapper.uut.rvfi_csr_mask_ex</expr>
+      <label/>
+      <radix/>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.uut.rvfi_csr_mask_wb</expr>
+      <label/>
+      <radix/>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.uut.rvfi_csr_rdata_ex</expr>
+      <label/>
+      <radix>checker_inst.csr_insn_smask</radix>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.uut.rvfi_csr_rdata_wb</expr>
+      <label/>
+      <radix>checker_inst.csr_insn_smask</radix>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.uut.rvfi_csr_wdata_ex</expr>
+      <label/>
+      <radix>checker_inst.csr_insn_smask</radix>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.uut.rvfi_csr_wdata_wb</expr>
+      <label/>
+      <radix>checker_inst.csr_insn_smask</radix>
+    </wave>
     <wave>
       <expr>wrapper.uut.csr_access_ex</expr>
       <label/>
@@ -227,7 +262,7 @@
     </wave>
   </group>
   <spacer/>
-  <group collapsed="false">
+  <group collapsed="true">
     <expr/>
     <label>Metadata</label>
     <wave>

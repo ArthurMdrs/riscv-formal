@@ -29,7 +29,7 @@ illegal_csrs = set()
 csr_tests = {}
 csr_spec = None
 compr = False
-xpulp = False
+custom_isa = False
 
 depths = list()
 groups = [None]
@@ -136,8 +136,8 @@ if "64" in isa:
 if "c" in isa:
     compr = True
 
-if "xpulp" in isa:
-    xpulp = True
+if "x" in isa:
+    custom_isa = True
 
 def add_csr_tests(name, test_str):
     # use regex to split by spaces, unless those spaces are inside quotation marks
@@ -438,15 +438,15 @@ def check_insn(grp, insn, chanidx, csr_mode=False, illegal_csr=False):
             print_hfmt(tcl_file, config["script-link"], **hargs)
         
         print_hfmt(tcl_file, """
-                : check_assumptions -show -dead_end
-                : 
                 : set_prove_target_bound $depth
                 : set_max_trace_length $depth
                 : set_trace_optimization standard
                 : prove -instance checker_inst -iter $depth -dump_trace -dump_trace_type vcd -dump_trace_dir traces
                 : 
         """, **hargs)
-                # : prove -instance checker_inst -iter $depth -dump_trace -dump_trace_type vcd -dump_trace_dir traces -prefer_quiet
+                # : check_assumptions -show -dead_end
+                # : 
+                # : prove -bg -instance checker_inst -iter $depth -dump_trace -dump_trace_type vcd -dump_trace_dir traces
         
         check_dir = f"{cfgname}/{check}/"
         shutil.copy(basedir+"/checks/rvfi_macros.vh", check_dir)
@@ -503,7 +503,6 @@ def check_insn(grp, insn, chanidx, csr_mode=False, illegal_csr=False):
             defines_str += hfmt("`define RISCV_FORMAL_CHECKER rvfi_insn_check", **hargs)
             defines_str += hfmt("`define RISCV_FORMAL_INSN_MODEL rvfi_insn_@insn@", **hargs)
         
-        # DONE!!! if block below
         if custom_csrs:
             defines_str += print_custom_csrs(tcl_file)
 
@@ -513,8 +512,8 @@ def check_insn(grp, insn, chanidx, csr_mode=False, illegal_csr=False):
         if compr:
             defines_str += hfmt("`define RISCV_FORMAL_COMPRESSED", **hargs)
 
-        if xpulp:
-            defines_str += hfmt("`define RISCV_FORMAL_XPULP", **hargs)
+        if custom_isa:
+            defines_str += hfmt("`define RISCV_FORMAL_CUSTOM_ISA", **hargs)
             
         if "defines" in config:
             defines_str += hfmt(config["defines"], **hargs)
@@ -740,15 +739,15 @@ def check_cons(grp, check, chanidx=None, start=None, trig=None, depth=None, csr_
         
         print_hfmt(tcl_file, """
                 :
-                : check_assumptions -show -dead_end
-                : 
                 : set_prove_target_bound $depth
                 : set_max_trace_length $depth
                 : set_trace_optimization standard
                 : prove -instance checker_inst -iter $depth -dump_trace -dump_trace_type vcd -dump_trace_dir traces
                 : 
         """, **hargs)
-                # : prove -instance checker_inst -iter $depth -dump_trace -dump_trace_type vcd -dump_trace_dir traces -prefer_quiet
+                # : check_assumptions -show -dead_end
+                # : 
+                # : prove -bg -instance checker_inst -iter $depth -dump_trace -dump_trace_type vcd -dump_trace_dir traces
 
         defines_str = hfmt("""
                 : `define RISCV_FORMAL
@@ -781,7 +780,6 @@ def check_cons(grp, check, chanidx=None, start=None, trig=None, depth=None, csr_
                 defines_str += hfmt(f"`define RISCV_FORMAL_CSRC_MASK {csr_mask}", **hargs)
             defines_str += hfmt(f"`define RISCV_FORMAL_CSRC_NAME {csr_name}", **hargs)
         
-        # DONE!!! if block below
         if custom_csrs:
             defines_str += print_custom_csrs(tcl_file)
 
@@ -806,6 +804,9 @@ def check_cons(grp, check, chanidx=None, start=None, trig=None, depth=None, csr_
 
         if hargs["check"] in ("liveness", "hang"):
             defines_str += hfmt("`define RISCV_FORMAL_FAIRNESS", **hargs)
+
+        if custom_isa:
+            defines_str += hfmt("`define RISCV_FORMAL_CUSTOM_ISA", **hargs)
 
         if "defines" in config:
             defines_str += hfmt(config["defines"], **hargs)
@@ -897,6 +898,7 @@ def checks_key(check):
     return f"9998-{check}"
 
 with open(f"{cfgname}/Makefile", "w") as mkfile:
+    print("BATCH = -batch", file=mkfile)
     print("all:", end="", file=mkfile)
 
     checks = list(sorted(consistency_checks | instruction_checks, key=checks_key))
@@ -909,11 +911,11 @@ with open(f"{cfgname}/Makefile", "w") as mkfile:
         print(f"{check}: {check}/jgproject", file=mkfile)
         print(f"{check}/jgproject:", file=mkfile)
         if abspath:
-            print(f"\tcd $(shell pwd)/{check} && {jgcmd} $(shell pwd)/{check}_jg.tcl -batch", file=mkfile)
+            print(f"\tcd $(shell pwd)/{check} && {jgcmd} $(shell pwd)/{check}_jg.tcl $(BATCH)", file=mkfile)
             print(f"\tgzip -rfd $(shell pwd)/{check}/traces", file=mkfile)
             print(f"\tcd $(shell pwd)/{check} && python3 $(shell pwd)/../../../../checks/get_jg_summary.py", file=mkfile)
         else:
-            print(f"\tcd {check} && {jgcmd} {check}_jg.tcl ", file=mkfile)
+            print(f"\tcd {check} && {jgcmd} {check}_jg.tcl $(BATCH)", file=mkfile)
             print(f"\tgzip -rfd {check}/traces", file=mkfile)
             print(f"\tcd {check} && python3 ../../../../checks/get_jg_summary.py", file=mkfile)
         print(f".PHONY: {check}", file=mkfile)

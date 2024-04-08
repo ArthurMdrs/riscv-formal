@@ -1,4 +1,5 @@
 VCD = ./violation.vcd
+BATCH = -batch
 
 # .SILENT:
 
@@ -6,7 +7,7 @@ run: run_checks
 
 run_checks:
 	@$(eval TIME_START = $(shell date))
-	@if [ ! -d checks ]; then $(MAKE) gen_jg; fi
+	@if [ ! -d checks ]; then $(MAKE) gen_jg BATCH=$(BATCH); fi
 	@make -C checks
 	@echo Proccess start: $(TIME_START)
 	@echo Proccess end  : $$(date)

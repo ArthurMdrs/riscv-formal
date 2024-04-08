@@ -68,6 +68,20 @@ module rvfi_insn_check (
 		(* keep *) wire [`RISCV_FORMAL_XLEN   - 1 : 0] rs1_rdata_or_zero = spec_rs1_addr != 0 ? rs1_rdata : 0;
 		(* keep *) wire [`RISCV_FORMAL_XLEN   - 1 : 0] rs2_rdata_or_zero = spec_rs2_addr != 0 ? rs2_rdata : 0;
 
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+		(* keep *) wire [                       4 : 0] rs3_addr      = rvfi_rs3_addr      [channel_idx*5  +:  5];
+		(* keep *) wire [`RISCV_FORMAL_XLEN   - 1 : 0] rs3_rdata     = rvfi_rs3_rdata     [channel_idx*`RISCV_FORMAL_XLEN   +: `RISCV_FORMAL_XLEN];
+		(* keep *) wire [                       4 : 0] post_rd_addr  = rvfi_post_rd_addr  [channel_idx*5  +:  5];
+		(* keep *) wire [`RISCV_FORMAL_XLEN   - 1 : 0] post_rd_wdata = rvfi_post_rd_wdata [channel_idx*`RISCV_FORMAL_XLEN   +: `RISCV_FORMAL_XLEN];
+		(* keep *) wire                                is_hwlp       = rvfi_is_hwlp       [channel_idx];
+		(* keep *) wire [`RISCV_FORMAL_XLEN   - 1 : 0] hwlp_start    = rvfi_hwlp_start    [channel_idx*`RISCV_FORMAL_XLEN   +: `RISCV_FORMAL_XLEN];
+        
+		(* keep *) wire [                       4 : 0] spec_rs3_addr;
+		(* keep *) wire [`RISCV_FORMAL_XLEN   - 1 : 0] rs3_rdata_or_zero = spec_rs3_addr != 0 ? rs3_rdata : 0;
+		(* keep *) wire [                       4 : 0] spec_post_rd_addr;
+		(* keep *) wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_post_rd_wdata;
+`endif
+
 		`RISCV_FORMAL_INSN_MODEL insn_spec (
 			.rvfi_valid          (valid              ),
 			.rvfi_insn           (insn               ),
@@ -92,6 +106,16 @@ module rvfi_insn_check (
 			.spec_mem_rmask      (spec_mem_rmask     ),
 			.spec_mem_wmask      (spec_mem_wmask     ),
 			.spec_mem_wdata      (spec_mem_wdata     )
+
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+			, .rvfi_rs3_rdata      (rs3_rdata_or_zero  )
+			, .rvfi_is_hwlp        (is_hwlp            )
+			, .rvfi_hwlp_start     (hwlp_start         )
+            
+			, .spec_rs3_addr       (spec_rs3_addr      )
+			, .spec_post_rd_addr   (spec_post_rd_addr  )
+			, .spec_post_rd_wdata  (spec_post_rd_wdata )
+`endif
 		);
 
 		wire insn_pma_x, mem_pma_r, mem_pma_w;
@@ -166,12 +190,25 @@ module rvfi_insn_check (
 					if (rs2_addr == 0)
 						assert(rs2_rdata == 0);
 
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+					if (rs3_addr == 0)
+						assert(rs3_rdata == 0);
+`endif
+
 					if (!spec_trap) begin
 						if (spec_rs1_addr != 0)
 							assert(spec_rs1_addr == rs1_addr);
 
 						if (spec_rs2_addr != 0)
 							assert(spec_rs2_addr == rs2_addr);
+
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+						if (spec_rs3_addr != 0)
+							assert(spec_rs3_addr == rs3_addr);
+                        
+						assert(spec_post_rd_addr == post_rd_addr);
+						assert(spec_post_rd_wdata == post_rd_wdata);
+`endif
 
 						assert(spec_rd_addr == rd_addr);
 						assert(spec_rd_wdata == rd_wdata);

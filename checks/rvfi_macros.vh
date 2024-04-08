@@ -10431,6 +10431,77 @@ localparam [11:0] csr_uindex_mhpmcounter31h = 12'hC9F; \
 `define rvformal_mem_fault_conn
 `define rvformal_mem_fault_channel(_idx)
 `endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+`define rvformal_xpulp_wires \
+  (* keep *) wire [`RISCV_FORMAL_NRET *                  5 - 1 : 0] rvfi_rs3_addr     ; \
+  (* keep *) wire [`RISCV_FORMAL_NRET * `RISCV_FORMAL_XLEN - 1 : 0] rvfi_rs3_rdata    ; \
+  (* keep *) wire [`RISCV_FORMAL_NRET *                  5 - 1 : 0] rvfi_post_rd_addr ; \
+  (* keep *) wire [`RISCV_FORMAL_NRET * `RISCV_FORMAL_XLEN - 1 : 0] rvfi_post_rd_wdata; \
+  (* keep *) wire [`RISCV_FORMAL_NRET                      - 1 : 0] rvfi_is_hwlp      ; \
+  (* keep *) wire [`RISCV_FORMAL_NRET * `RISCV_FORMAL_XLEN - 1 : 0] rvfi_hwlp_start   ;
+`define rvformal_xpulp_outputs, \
+  output [`RISCV_FORMAL_NRET *                  5 - 1 : 0] rvfi_rs3_addr     , \
+  output [`RISCV_FORMAL_NRET * `RISCV_FORMAL_XLEN - 1 : 0] rvfi_rs3_rdata    , \
+  output [`RISCV_FORMAL_NRET *                  5 - 1 : 0] rvfi_post_rd_addr , \
+  output [`RISCV_FORMAL_NRET * `RISCV_FORMAL_XLEN - 1 : 0] rvfi_post_rd_wdata, \
+  output [`RISCV_FORMAL_NRET                      - 1 : 0] rvfi_is_hwlp      , \
+  output [`RISCV_FORMAL_NRET * `RISCV_FORMAL_XLEN - 1 : 0] rvfi_hwlp_start   
+`define rvformal_xpulp_channel_outputs, \
+  output [                 5 - 1 : 0] rvfi_rs3_addr     , \
+  output [`RISCV_FORMAL_XLEN - 1 : 0] rvfi_rs3_rdata    , \
+  output [                 5 - 1 : 0] rvfi_post_rd_addr , \
+  output [`RISCV_FORMAL_XLEN - 1 : 0] rvfi_post_rd_wdata, \
+  output [                     0 : 0] rvfi_is_hwlp      , \
+  output [`RISCV_FORMAL_XLEN - 1 : 0] rvfi_hwlp_start   
+`define rvformal_xpulp_inputs, \
+  input [`RISCV_FORMAL_NRET *                  5 - 1 : 0] rvfi_rs3_addr     , \
+  input [`RISCV_FORMAL_NRET * `RISCV_FORMAL_XLEN - 1 : 0] rvfi_rs3_rdata    , \
+  input [`RISCV_FORMAL_NRET *                  5 - 1 : 0] rvfi_post_rd_addr , \
+  input [`RISCV_FORMAL_NRET * `RISCV_FORMAL_XLEN - 1 : 0] rvfi_post_rd_wdata, \
+  input [`RISCV_FORMAL_NRET                      - 1 : 0] rvfi_is_hwlp      , \
+  input [`RISCV_FORMAL_NRET * `RISCV_FORMAL_XLEN - 1 : 0] rvfi_hwlp_start   
+`define rvformal_xpulp_channel_inputs, \
+  input [                 5 - 1 : 0] rvfi_rs3_addr     , \
+  input [`RISCV_FORMAL_XLEN - 1 : 0] rvfi_rs3_rdata    , \
+  input [                 5 - 1 : 0] rvfi_post_rd_addr , \
+  input [`RISCV_FORMAL_XLEN - 1 : 0] rvfi_post_rd_wdata, \
+  input [                     0 : 0] rvfi_is_hwlp      , \
+  input [`RISCV_FORMAL_XLEN - 1 : 0] rvfi_hwlp_start   
+`define rvformal_xpulp_conn, \
+  .rvfi_rs3_addr      (rvfi_rs3_addr     ), \
+  .rvfi_rs3_rdata     (rvfi_rs3_rdata    ), \
+  .rvfi_post_rd_addr  (rvfi_post_rd_addr ), \
+  .rvfi_post_rd_wdata (rvfi_post_rd_wdata), \
+  .rvfi_is_hwlp       (rvfi_is_hwlp      ), \
+  .rvfi_hwlp_start    (rvfi_hwlp_start   )
+`define rvformal_xpulp_channel_conn(_idx), \
+  .rvfi_rs3_addr      (rvfi_rs3_addr      [(_idx)*(                 5) +:                  5]), \
+  .rvfi_rs3_rdata     (rvfi_rs3_rdata     [(_idx)*(`RISCV_FORMAL_XLEN) +: `RISCV_FORMAL_XLEN]), \
+  .rvfi_post_rd_addr  (rvfi_post_rd_addr  [(_idx)*(                 5) +:                  5]), \
+  .rvfi_post_rd_wdata (rvfi_post_rd_wdata [(_idx)*(`RISCV_FORMAL_XLEN) +: `RISCV_FORMAL_XLEN]), \
+  .rvfi_is_hwlp       (rvfi_is_hwlp       [ _idx                       +:                  1]), \
+  .rvfi_hwlp_start    (rvfi_hwlp_start    [(_idx)*(`RISCV_FORMAL_XLEN) +: `RISCV_FORMAL_XLEN])
+`define rvformal_xpulp_channel(_idx) \
+  wire [                 5 - 1 : 0] rs3_addr      = rvfi_rs3_addr      [(_idx)*(                 5) +:                  5]; \
+  wire [`RISCV_FORMAL_XLEN - 1 : 0] rs3_rdata     = rvfi_rs3_rdata     [(_idx)*(`RISCV_FORMAL_XLEN) +: `RISCV_FORMAL_XLEN]; \
+  wire [                 5 - 1 : 0] post_rd_addr  = rvfi_post_rd_addr  [(_idx)*(                 5) +:                  5]; \
+  wire [`RISCV_FORMAL_XLEN - 1 : 0] post_rd_wdata = rvfi_post_rd_wdata [(_idx)*(`RISCV_FORMAL_XLEN) +: `RISCV_FORMAL_XLEN]; \
+  wire [                     0 : 0] is_hwlp       = rvfi_is_hwlp       [ _idx                       +:                  1]; \
+  wire [`RISCV_FORMAL_XLEN - 1 : 0] hwlp_start    = rvfi_hwlp_start    [(_idx)*(`RISCV_FORMAL_XLEN) +: `RISCV_FORMAL_XLEN];
+`define rvformal_xpulp_signals \
+  `RISCV_FORMAL_CHANNEL_SIGNAL(`RISCV_FORMAL_NRET,                  5, rs3_addr     ) \
+  `RISCV_FORMAL_CHANNEL_SIGNAL(`RISCV_FORMAL_NRET, `RISCV_FORMAL_XLEN, rs3_rdata    ) \
+  `RISCV_FORMAL_CHANNEL_SIGNAL(`RISCV_FORMAL_NRET,                  5, post_rd_addr ) \
+  `RISCV_FORMAL_CHANNEL_SIGNAL(`RISCV_FORMAL_NRET, `RISCV_FORMAL_XLEN, post_rd_wdata) \
+  `RISCV_FORMAL_CHANNEL_SIGNAL(`RISCV_FORMAL_NRET,                  1, is_hwlp      ) \
+  `RISCV_FORMAL_CHANNEL_SIGNAL(`RISCV_FORMAL_NRET, `RISCV_FORMAL_XLEN, hwlp_start   )
+`else
+`define rvformal_xpulp_wires
+`define rvformal_xpulp_outputs
+`define rvformal_xpulp_inputs
+`define rvformal_xpulp_conn
+`define rvformal_xpulp_channel(_idx)
+`endif
 `define RVFI_WIRES \
   (* keep *) wire [`RISCV_FORMAL_NRET                        - 1 : 0] rvfi_valid    ; \
   (* keep *) wire [`RISCV_FORMAL_NRET *                 64   - 1 : 0] rvfi_order    ; \
@@ -10623,7 +10694,8 @@ localparam [11:0] csr_uindex_mhpmcounter31h = 12'hC9F; \
   `rvformal_csr_mhpmcounter29_wires \
   `rvformal_csr_mhpmcounter30_wires \
   `rvformal_csr_mhpmcounter31_wires \
-  `rvformal_custom_csr_wires
+  `rvformal_custom_csr_wires \
+  `rvformal_xpulp_wires
 `define RVFI_OUTPUTS \
   output [`RISCV_FORMAL_NRET                        - 1 : 0] rvfi_valid    , \
   output [`RISCV_FORMAL_NRET *                 64   - 1 : 0] rvfi_order    , \
@@ -10816,7 +10888,8 @@ localparam [11:0] csr_uindex_mhpmcounter31h = 12'hC9F; \
   `rvformal_csr_mhpmcounter29_outputs \
   `rvformal_csr_mhpmcounter30_outputs \
   `rvformal_csr_mhpmcounter31_outputs \
-  `rvformal_custom_csr_outputs
+  `rvformal_custom_csr_outputs \
+  `rvformal_xpulp_outputs
 `define RVFI_CHANNEL_OUTPUTS \
   output [                       0 : 0] rvfi_valid    , \
   output [                64   - 1 : 0] rvfi_order    , \
@@ -11009,7 +11082,8 @@ localparam [11:0] csr_uindex_mhpmcounter31h = 12'hC9F; \
   `rvformal_csr_mhpmcounter29_channel_outputs \
   `rvformal_csr_mhpmcounter30_channel_outputs \
   `rvformal_csr_mhpmcounter31_channel_outputs \
-  `rvformal_custom_csr_channel_outputs
+  `rvformal_custom_csr_channel_outputs \
+  `rvformal_xpulp_channel_outputs
 `define RVFI_INPUTS \
   input [`RISCV_FORMAL_NRET                        - 1 : 0] rvfi_valid    , \
   input [`RISCV_FORMAL_NRET *                 64   - 1 : 0] rvfi_order    , \
@@ -11202,7 +11276,8 @@ localparam [11:0] csr_uindex_mhpmcounter31h = 12'hC9F; \
   `rvformal_csr_mhpmcounter29_inputs \
   `rvformal_csr_mhpmcounter30_inputs \
   `rvformal_csr_mhpmcounter31_inputs \
-  `rvformal_custom_csr_inputs
+  `rvformal_custom_csr_inputs \
+  `rvformal_xpulp_inputs
 `define RVFI_CHANNEL_INPUTS \
   input [                       0 : 0] rvfi_valid    , \
   input [                64   - 1 : 0] rvfi_order    , \
@@ -11395,7 +11470,8 @@ localparam [11:0] csr_uindex_mhpmcounter31h = 12'hC9F; \
   `rvformal_csr_mhpmcounter29_channel_inputs \
   `rvformal_csr_mhpmcounter30_channel_inputs \
   `rvformal_csr_mhpmcounter31_channel_inputs \
-  `rvformal_custom_csr_channel_inputs
+  `rvformal_custom_csr_channel_inputs \
+  `rvformal_xpulp_channel_inputs
 `define RVFI_CONN \
   .rvfi_valid     (rvfi_valid    ), \
   .rvfi_order     (rvfi_order    ), \
@@ -11588,7 +11664,8 @@ localparam [11:0] csr_uindex_mhpmcounter31h = 12'hC9F; \
   `rvformal_csr_mhpmcounter29_conn \
   `rvformal_csr_mhpmcounter30_conn \
   `rvformal_csr_mhpmcounter31_conn \
-  `rvformal_custom_csr_conn
+  `rvformal_custom_csr_conn \
+  `rvformal_xpulp_conn
 `define RVFI_CHANNEL_CONN(_idx) \
   .rvfi_valid     (rvfi_valid     [ _idx                         +:                  1  ]), \
   .rvfi_order     (rvfi_order     [(_idx)*(                64  ) +:                 64  ]), \
@@ -11781,7 +11858,8 @@ localparam [11:0] csr_uindex_mhpmcounter31h = 12'hC9F; \
   `rvformal_csr_mhpmcounter29_channel_conn(_idx) \
   `rvformal_csr_mhpmcounter30_channel_conn(_idx) \
   `rvformal_csr_mhpmcounter31_channel_conn(_idx) \
-  `rvformal_custom_csr_channel_conn(_idx)
+  `rvformal_custom_csr_channel_conn(_idx) \
+  `rvformal_xpulp_channel_conn(_idx)
 `define RVFI_CONN32 \
   .rvfi_valid     (rvfi_valid    ), \
   .rvfi_order     (rvfi_order    ), \
@@ -11974,7 +12052,8 @@ localparam [11:0] csr_uindex_mhpmcounter31h = 12'hC9F; \
   `rvformal_csr_mhpmcounter29_conn32 \
   `rvformal_csr_mhpmcounter30_conn32 \
   `rvformal_csr_mhpmcounter31_conn32 \
-  `rvformal_custom_csr_conn
+  `rvformal_custom_csr_conn \
+  `rvformal_xpulp_conn
 `define RVFI_GETCHANNEL(_idx) \
   wire [                       0 : 0] valid     = rvfi_valid     [ _idx                         +:                  1  ]; \
   wire [                64   - 1 : 0] order     = rvfi_order     [(_idx)*(                64  ) +:                 64  ]; \
@@ -12166,7 +12245,8 @@ localparam [11:0] csr_uindex_mhpmcounter31h = 12'hC9F; \
   `rvformal_csr_mhpmcounter29_channel(_idx) \
   `rvformal_csr_mhpmcounter30_channel(_idx) \
   `rvformal_csr_mhpmcounter31_channel(_idx) \
-  `rvformal_custom_csr_channel(_idx)
+  `rvformal_custom_csr_channel(_idx) \
+  `rvformal_xpulp_channel(_idx)
 `define RVFI_SIGNALS \
   `RISCV_FORMAL_CHANNEL_SIGNAL(`RISCV_FORMAL_NRET,                  1  , valid    ) \
   `RISCV_FORMAL_CHANNEL_SIGNAL(`RISCV_FORMAL_NRET,                 64  , order    ) \
@@ -12358,7 +12438,8 @@ localparam [11:0] csr_uindex_mhpmcounter31h = 12'hC9F; \
   `rvformal_csr_mhpmcounter29_signals \
   `rvformal_csr_mhpmcounter30_signals \
   `rvformal_csr_mhpmcounter31_signals \
-  `rvformal_custom_csr_signals
+  `rvformal_custom_csr_signals \
+  `rvformal_xpulp_signals
 
 `define RVFI_CHANNEL(_name, _idx) \
 generate if(1) begin:_name \
