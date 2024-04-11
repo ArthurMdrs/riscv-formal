@@ -11,3 +11,4 @@ src_???_files.f
 disasm.o
 disasm.s
 *.vcd
+bugs/

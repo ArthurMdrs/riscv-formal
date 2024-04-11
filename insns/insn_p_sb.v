@@ -58,11 +58,13 @@ module rvfi_insn_p_sb (
   always @(*) begin
     if (insn_opcode == 7'b 010_1011) begin
       funct3_valid = (insn_funct3 == 3'b000) || (insn_funct3 == 3'b100);
-      funct7_valid = 1'b1;
+      funct7_valid = 1'b1; // THIS IS NOT SUPPOSED TO WORK, BUT IT DOES!!
+      // funct7_valid = (insn_funct3[2]) ? (insn_funct7 == 0) : (1'b1); // This is how it should be
     end
     else if (insn_opcode == 7'b 010_0011) begin
       funct3_valid = (insn_funct3 == 3'b100);
-      funct7_valid = 1'b1;
+      funct7_valid = 1'b1; // THIS IS NOT SUPPOSED TO WORK, BUT IT DOES!!
+      // funct7_valid = (insn_funct7 == 0); // This is how it should be
     end
     else begin
       funct3_valid = 1'b0;

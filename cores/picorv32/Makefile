@@ -15,3 +15,7 @@ clean:
 	rm -rf disasm.o disasm.s checks/ cexdata-*/
 	rm -f testbug*.cfg
 	rm -rf testbug*/
+
+jg_checks: picorv32.v
+	python3 ../../checks/genchecks_jg.py
+	$(MAKE) -C checks BATCH=

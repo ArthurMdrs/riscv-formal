@@ -1254,6 +1254,28 @@ module riscv_core
     
     wire insn_if_is_csr = rvfi_insn_if[ 6: 0] == OPCODE_SYSTEM 
                        && rvfi_insn_if[14:12] != 3'b000; // Read/modify CSR
+    wire insn_id_is_csr = rvfi_insn_id[ 6: 0] == OPCODE_SYSTEM 
+                       && rvfi_insn_id[14:12] != 3'b000; // Read/modify CSR
+    wire insn_ex_is_csr = rvfi_insn_ex[ 6: 0] == OPCODE_SYSTEM 
+                       && rvfi_insn_ex[14:12] != 3'b000; // Read/modify CSR
+    
+    wire replicate_ex = insn_ex_is_mem && !load_store_unit_i.data_rvalid_i && load_store_unit_i.CS == 2'b01; // 2'b01 = WAIT_RVALID
+    
+    logic        rvfi_valid_mask;
+    always @(posedge clk or negedge rst_ni)
+        if (!rst_ni)
+            rvfi_valid_mask <= 1'b0;
+        else
+        if (load_store_unit_i.lsu_ready_wb_o) begin
+            if ((rvfi_pc_rdata_wb == rvfi_pc_rdata_ex) && (rvfi_insn_wb == rvfi_insn_ex)) begin // && !rvfi_is_hwlp_wb
+                if (rvfi_valid_wb)
+                    rvfi_valid_mask <= 1'b1;
+            end
+            else begin
+                rvfi_valid_mask <= 1'b0;
+            end
+        end
+    
     
     logic misaligned_access;
     logic data_access_error;
@@ -1271,12 +1293,11 @@ module riscv_core
                 
                 
             if (id_stage_i.id_ready_o)
-                if (insn_if_is_csr && !id_stage_i.is_decoding_o)
+                // Don't assert valid if ID stage is not decoding
+                if (!id_stage_i.is_decoding_o)
                     rvfi_valid_id <= 1'b0;
                 else
                     rvfi_valid_id <= rvfi_valid_if && id_stage_i.id_valid_o;
-            else
-                rvfi_valid_id <= 1'b0;
                 
                 
             if (ex_stage_i.ex_ready_o) begin
@@ -1298,24 +1319,29 @@ module riscv_core
                 data_access_error <= load_store_unit_i.data_err_i;
             end
             else
-                rvfi_valid_ex <= 1'b0;
+                // Change below is to see if I can stop missing instructions
+                // rvfi_valid_ex <= 1'b0;
+                rvfi_valid_ex <= ex_stage_i.ex_valid_o;
                 
             
             // De-assert valid if we're waiting for a misaligned access to complete
             if (insn_ex_is_mem && misaligned_access) // Misaligned memory access, stall 1 cycle
                 rvfi_valid_wb <= 1'b0;
             else
-            // Assert valid when a mem instr completes (except if there's a data error)
-            if (insn_ex_is_mem && load_store_unit_i.data_rvalid_i && load_store_unit_i.CS == 2'b01) // 2'b01 = WAIT_RVALID
-                rvfi_valid_wb <= (data_access_error) ? 1'b0 : 1'b1; // Don't assert valid if there is a data error!
+            // Assert valid when a mem instruction completes (except if there is a data error)
+            if (insn_ex_is_mem)
+                if (load_store_unit_i.data_rvalid_i && load_store_unit_i.CS == 2'b01) // 2'b01 = WAIT_RVALID
+                    rvfi_valid_wb <= (data_access_error) ? 1'b0 : 1'b1; // Don't assert valid if there is a data error!
+                else
+                    rvfi_valid_wb <= 1'b0;
             else
-            if (load_store_unit_i.lsu_ready_wb_o)
+            if (load_store_unit_i.lsu_ready_wb_o) 
                 rvfi_valid_wb <= rvfi_valid_ex && wb_valid;
             else
                 rvfi_valid_wb <= 1'b0; 
         end
     end
-    assign rvfi_valid = rvfi_valid_wb;
+    assign rvfi_valid = rvfi_valid_wb && !rvfi_valid_mask;
     
     always @(posedge clk or negedge rst_ni) begin
         if (!rst_ni) begin
@@ -1340,8 +1366,12 @@ module riscv_core
             if (id_stage_i.id_ready_o)
                 rvfi_insn_id <= rvfi_insn_if;
             if (ex_stage_i.ex_ready_o)
-                rvfi_insn_ex <= rvfi_insn_id;
-            // if (load_store_unit_i.lsu_ready_wb_o)
+                // If a mem instr is waiting for rvalid, don't update
+                if (replicate_ex)
+                    rvfi_insn_ex <= rvfi_insn_ex;
+                else
+                    rvfi_insn_ex <= rvfi_insn_id;
+            if (load_store_unit_i.lsu_ready_wb_o)
                 rvfi_insn_wb <= rvfi_insn_ex;
         end
     end
@@ -1459,13 +1489,8 @@ module riscv_core
     
     wire insn_id_is_post = (rvfi_insn_id[6:0] == OPCODE_LOAD_POST) || (rvfi_insn_id[6:0] == OPCODE_STORE_POST);
     
-    // logic op_a_is_reg;
-    // always_comb
-    //     if (rvfi_insn_if[6:0] == OPCODE_HWLOOP)
-    //         op_a_is_reg = (rvfi_insn_if[14:12] inside {3'b010, 3'b100});
-    //     else
-    //         op_a_is_reg = !(id_stage_i.alu_op_a_mux_sel inside {OP_A_CURRPC, OP_A_IMM});
-    // wire op_b_is_reg = !(id_stage_i.alu_op_b_mux_sel inside {OP_B_IMM});
+    logic [31:0] aux_csr_rd_wdata;
+    logic [ 4:0] aux_csr_rd_addr;
     
     always @(posedge clk or negedge rst_ni) begin
         if (!rst_ni) begin
@@ -1478,12 +1503,12 @@ module riscv_core
         end
         else begin
             if (id_stage_i.id_ready_o) begin
+                // Div instructions use read port c as rs1
                 if (insn_if_is_div) begin
                     rvfi_rs1_addr_id <= id_stage_i.regfile_addr_rc_id;
                     rvfi_rs1_rdata_id <= id_stage_i.operand_c_fw_id;
                 end
                 else 
-                // if (op_a_is_reg) begin
                 if (id_stage_i.rega_used_dec) begin
                     rvfi_rs1_addr_id <= id_stage_i.regfile_addr_ra_id;
                     rvfi_rs1_rdata_id <= id_stage_i.operand_a_fw_id;
@@ -1495,8 +1520,17 @@ module riscv_core
                 end
             end
             if (ex_stage_i.ex_ready_o) begin
-                rvfi_rs1_addr_ex <= rvfi_rs1_addr_id;
-                rvfi_rs1_rdata_ex <= rvfi_rs1_rdata_id;
+                // If a mem instr is waiting for rvalid, don't update
+                if (replicate_ex)
+                begin
+                    rvfi_rs1_addr_ex <= rvfi_rs1_addr_ex;
+                    rvfi_rs1_rdata_ex <= rvfi_rs1_rdata_ex;
+                end
+                else 
+                begin
+                    rvfi_rs1_addr_ex <= rvfi_rs1_addr_id;
+                    rvfi_rs1_rdata_ex <= rvfi_rs1_rdata_id;
+                end
             end
             if (load_store_unit_i.lsu_ready_wb_o) begin
                 rvfi_rs1_addr_wb <= rvfi_rs1_addr_ex;
@@ -1522,8 +1556,17 @@ module riscv_core
                 rvfi_rs2_rdata_id <= id_stage_i.operand_b_fw_id;
             end
             if (ex_stage_i.ex_ready_o) begin
-                rvfi_rs2_addr_ex <= rvfi_rs2_addr_id;
-                rvfi_rs2_rdata_ex <= rvfi_rs2_rdata_id;
+                // If a mem instr is waiting for rvalid, don't update
+                if (replicate_ex)
+                begin
+                    rvfi_rs2_addr_ex <= rvfi_rs2_addr_ex;
+                    rvfi_rs2_rdata_ex <= rvfi_rs2_rdata_ex;
+                end
+                else 
+                begin
+                    rvfi_rs2_addr_ex <= rvfi_rs2_addr_id;
+                    rvfi_rs2_rdata_ex <= rvfi_rs2_rdata_id;
+                end
             end
             if (load_store_unit_i.lsu_ready_wb_o) begin
                 rvfi_rs2_addr_wb <= rvfi_rs2_addr_ex;
@@ -1540,7 +1583,14 @@ module riscv_core
             rvfi_rd_addr_wb <= '0;
         end
         else begin
+            // Without this, the interface won't capture CSR rd after mem instr stall
+            if (insn_id_is_csr) begin
+                if (ex_stage_i.regfile_alu_we_fw_o)
+                    aux_csr_rd_addr <= ex_stage_i.regfile_alu_waddr_fw_o;
+            end
+            else
             if (ex_stage_i.ex_ready_o) begin
+                // Update rd addr if we is asserted
                 if (!insn_id_is_post && ex_stage_i.regfile_alu_we_fw_o)
                     rvfi_rd_addr_ex <= ex_stage_i.regfile_alu_waddr_fw_o;
                 else
@@ -1548,17 +1598,20 @@ module riscv_core
             end
             
             if (load_store_unit_i.lsu_ready_wb_o) begin
-                rvfi_rd_addr_wb <= (id_stage_i.regfile_we_wb_i) ? id_stage_i.regfile_waddr_wb_i : rvfi_rd_addr_ex;
+                if (insn_ex_is_csr)
+                    rvfi_rd_addr_wb <= aux_csr_rd_addr;
+                else
+                    // Also check for we in WB stage
+                    rvfi_rd_addr_wb <= (id_stage_i.regfile_we_wb_i) ? id_stage_i.regfile_waddr_wb_i : rvfi_rd_addr_ex;
             end
         end
     end
     assign rvfi_rd_addr = rvfi_rd_addr_wb;
     
-    // TODO!!! Delete this when we fix hwloops!
-    wire insn_id_is_j = rvfi_insn_id[6:0] == OPCODE_JAL || rvfi_insn_id[6:0] == OPCODE_JALR
-                     || {rvfi_insn_id[1:0], rvfi_insn_id[15:13]} inside {5'b01_101, 5'b01_001}      //c.j, c.jal
-                     || {rvfi_insn_id[1:0], rvfi_insn_id[15:12]} inside {6'b10_1000, 6'b10_1001} && rvfi_insn_id[6:2]==0;   //c.jr, c.jalr
-    wire insn_id_is_auipc = rvfi_insn_id[6:0] == OPCODE_AUIPC;
+    // wire insn_id_is_j = rvfi_insn_id[6:0] == OPCODE_JAL || rvfi_insn_id[6:0] == OPCODE_JALR
+    //                  || {rvfi_insn_id[1:0], rvfi_insn_id[15:13]} inside {5'b01_101, 5'b01_001}      //c.j, c.jal
+    //                  || {rvfi_insn_id[1:0], rvfi_insn_id[15:12]} inside {6'b10_1000, 6'b10_1001} && rvfi_insn_id[6:2]==0;   //c.jr, c.jalr
+    // wire insn_id_is_auipc = rvfi_insn_id[6:0] == OPCODE_AUIPC;
     
     always @(posedge clk or negedge rst_ni) begin
         if (!rst_ni) begin
@@ -1566,14 +1619,20 @@ module riscv_core
             rvfi_rd_wdata_wb <= '0;
         end
         else begin
+            // Without this, the interface won't capture CSR rd after mem instr stall
+            if (insn_id_is_csr) begin
+                if (ex_stage_i.regfile_alu_we_fw_o)
+                    if (ex_stage_i.regfile_alu_waddr_fw_o == '0)
+                        aux_csr_rd_wdata <= '0;
+                    else 
+                        aux_csr_rd_wdata <= ex_stage_i.regfile_alu_wdata_fw_o;
+            end
+            else
             if (ex_stage_i.ex_ready_o) begin
+                // Update rd rdata if we is asserted and addr is not 0
                 if (ex_stage_i.regfile_alu_we_fw_o && !insn_id_is_post) begin
                     if (ex_stage_i.regfile_alu_waddr_fw_o == '0)
                         rvfi_rd_wdata_ex <= '0;
-                    // TODO!!!! Please fix this!! (Fix hardware loops to fix this)
-                    // We clear the LSB for jumps and auipc because hwloops break everything
-                    else if (insn_id_is_j || insn_id_is_auipc)
-                        rvfi_rd_wdata_ex <= {ex_stage_i.regfile_alu_wdata_fw_o[31:1], 1'b0};
                     else 
                         rvfi_rd_wdata_ex <= ex_stage_i.regfile_alu_wdata_fw_o;
                 end
@@ -1582,6 +1641,10 @@ module riscv_core
             end
             
             if (load_store_unit_i.lsu_ready_wb_o) begin
+                if (insn_ex_is_csr)
+                    rvfi_rd_wdata_wb <= aux_csr_rd_wdata;
+                else
+                // Also check for we in WB stage
                 if (id_stage_i.regfile_we_wb_i)
                     if (id_stage_i.regfile_waddr_wb_i == '0)
                         rvfi_rd_wdata_wb <= '0;
@@ -1610,8 +1673,17 @@ module riscv_core
                     rvfi_rs3_rdata_id <= id_stage_i.operand_c_fw_id;
                 end
                 if (ex_stage_i.ex_ready_o) begin
-                    rvfi_rs3_addr_ex <= rvfi_rs3_addr_id;
-                    rvfi_rs3_rdata_ex <= rvfi_rs3_rdata_id;
+                    // If a mem instr is waiting for rvalid, don't update
+                    if (replicate_ex)
+                    begin
+                        rvfi_rs3_addr_ex <= rvfi_rs3_addr_ex;
+                        rvfi_rs3_rdata_ex <= rvfi_rs3_rdata_ex;
+                    end
+                    else 
+                    begin
+                        rvfi_rs3_addr_ex <= rvfi_rs3_addr_id;
+                        rvfi_rs3_rdata_ex <= rvfi_rs3_rdata_id;
+                    end
                 end
                 if (load_store_unit_i.lsu_ready_wb_o) begin
                     rvfi_rs3_addr_wb <= rvfi_rs3_addr_ex;
@@ -1629,10 +1701,15 @@ module riscv_core
             end
             else begin
                 if (ex_stage_i.ex_ready_o) begin
-                    if (insn_id_is_post && ex_stage_i.regfile_alu_we_fw_o)
-                        rvfi_post_rd_addr_ex <= ex_stage_i.regfile_alu_waddr_fw_o;
-                    else if (!insn_id_is_post)
-                        rvfi_post_rd_addr_ex <= '0;
+                    // If a mem instr is waiting for rvalid, don't update
+                    if (replicate_ex)
+                        rvfi_post_rd_addr_ex <= rvfi_post_rd_addr_ex;
+                    else
+                        // Only update if post-incrementing instr is detected
+                        if (insn_id_is_post && ex_stage_i.regfile_alu_we_fw_o)
+                            rvfi_post_rd_addr_ex <= ex_stage_i.regfile_alu_waddr_fw_o;
+                        else if (!insn_id_is_post)
+                            rvfi_post_rd_addr_ex <= '0;
                 end
                 if (load_store_unit_i.lsu_ready_wb_o) begin
                     rvfi_post_rd_addr_wb <= rvfi_post_rd_addr_ex;
@@ -1648,13 +1725,18 @@ module riscv_core
             end
             else begin
                 if (ex_stage_i.ex_ready_o) begin
-                    if (insn_id_is_post && ex_stage_i.regfile_alu_we_fw_o)
-                        if (ex_stage_i.regfile_alu_waddr_fw_o != '0)
-                            rvfi_post_rd_wdata_ex <= ex_stage_i.regfile_alu_wdata_fw_o;
-                        else
+                    // If a mem instr is waiting for rvalid, don't update
+                    if (replicate_ex)
+                        rvfi_post_rd_wdata_ex <= rvfi_post_rd_wdata_ex;
+                    else
+                        // Only update if post-incrementing instr is detected
+                        if (insn_id_is_post && ex_stage_i.regfile_alu_we_fw_o)
+                            if (ex_stage_i.regfile_alu_waddr_fw_o != '0)
+                                rvfi_post_rd_wdata_ex <= ex_stage_i.regfile_alu_wdata_fw_o;
+                            else
+                                rvfi_post_rd_wdata_ex <= '0;
+                        else if (!insn_id_is_post)
                             rvfi_post_rd_wdata_ex <= '0;
-                    else if (!insn_id_is_post)
-                        rvfi_post_rd_wdata_ex <= '0;
                 end
                 if (load_store_unit_i.lsu_ready_wb_o) begin
                     rvfi_post_rd_wdata_wb <= rvfi_post_rd_wdata_ex;
@@ -1683,12 +1765,15 @@ module riscv_core
         end
         else begin
             if (if_stage_i.if_ready)
-                // rvfi_pc_rdata_if <= if_stage_i.pc_if_o;
-                rvfi_pc_rdata_if <= {if_stage_i.pc_if_o[31:1], 1'b0}; // Clearing the LSB is necessary because hwloops break everything!
+                rvfi_pc_rdata_if <= if_stage_i.pc_if_o;
             if (id_stage_i.id_ready_o)
                 rvfi_pc_rdata_id <= rvfi_pc_rdata_if;
             if (ex_stage_i.ex_ready_o)
-                rvfi_pc_rdata_ex <= rvfi_pc_rdata_id;
+                // If a mem instr is waiting for rvalid, don't update
+                if (replicate_ex)
+                    rvfi_pc_rdata_ex <= rvfi_pc_rdata_ex;
+                else
+                    rvfi_pc_rdata_ex <= rvfi_pc_rdata_id;
             if (load_store_unit_i.lsu_ready_wb_o)
                 rvfi_pc_rdata_wb <= rvfi_pc_rdata_ex;
         end
@@ -1703,30 +1788,39 @@ module riscv_core
         end
         else begin
             if (id_stage_i.id_ready_o)
+                // Jumps are taken in ID stage
                 if (id_stage_i.jump_in_id inside {BRANCH_JAL, BRANCH_JALR})
                     rvfi_pc_wdata_id <= {id_stage_i.jump_target_o[31:1], 1'b0};
                 else
                     // TODO!!!! Please fix this!! (Fix hardware loops to fix this)
                     // We're tricking rvfi into thinking the next pc is pc + 4 or pc + 2
-                    rvfi_pc_wdata_id <= (rvfi_insn_if[1:0]!=2'b11) ? (rvfi_pc_rdata_if + 2) : (rvfi_pc_rdata_if + 4);
-                    // rvfi_pc_wdata_id <= id_stage_i.pc_if_i;
+                    // rvfi_pc_wdata_id <= (rvfi_insn_if[1:0]!=2'b11) ? (rvfi_pc_rdata_if + 2) : (rvfi_pc_rdata_if + 4);
+                    rvfi_pc_wdata_id <= id_stage_i.pc_if_i;
+            
             if (ex_stage_i.ex_ready_o)
+                // If a mem instr is waiting for rvalid, don't update
+                if (replicate_ex)
+                    rvfi_pc_wdata_ex <= rvfi_pc_wdata_ex;
+                else
+                // Branches are taken in EX stage
                 if (id_stage_i.branch_taken_ex)
                     rvfi_pc_wdata_ex <= {ex_stage_i.jump_target_o[31:1], 1'b0};
                 else
                     rvfi_pc_wdata_ex <= rvfi_pc_wdata_id;
+            
             if (load_store_unit_i.lsu_ready_wb_o)
-                rvfi_pc_wdata_wb <= rvfi_pc_wdata_ex;
+                // Change below is necessary to acommodate hwloops
+    `ifdef RISCV_FORMAL_CUSTOM_ISA
+                if (rvfi_is_hwlp_ex)
+                    rvfi_pc_wdata_wb <= rvfi_hwlp_start_ex;
+                else
+    `endif
+                    rvfi_pc_wdata_wb <= rvfi_pc_wdata_ex;
         end
     end
     assign rvfi_pc_wdata = rvfi_pc_wdata_wb;
     
     `ifdef RISCV_FORMAL_CUSTOM_ISA
-        // WIP! This does NOT work! WIP!
-        reg [31:0] prev_fetch_rdata;
-        reg [31:0] prev_fetch_addr;
-        reg [31:0] insn_end_if, insn_end_id, insn_end_ex;
-        reg hwlp_jump_l;
         always @(posedge clk or negedge rst_ni) begin
             if (!rst_ni) begin
                 rvfi_is_hwlp_if <= '0;
@@ -1737,87 +1831,40 @@ module riscv_core
                 rvfi_hwlp_start_id <= '0;
                 rvfi_hwlp_start_ex <= '0;
                 rvfi_hwlp_start_wb <= '0;
-                prev_fetch_rdata <= '0;
-                prev_fetch_addr <= '0;
             end
             else begin
                 `define PREFETCH if_stage_i.prefetch_32.prefetch_buffer_i
-                prev_fetch_rdata <= if_stage_i.fetch_rdata;
-                prev_fetch_addr <= if_stage_i.fetch_addr;
-                hwlp_jump_l <= if_stage_i.hwlp_jump;
                 
-                // if (if_stage_i.hwlp_jump) begin
-                if (`PREFETCH.hwlp_masked) begin
-                    rvfi_is_hwlp_if <= 1'b1;
-                    insn_end_if <= (if_stage_i.instr_compressed_int) ? {16'b0, if_stage_i.fetch_rdata[15:0]} : if_stage_i.instr_decompressed;
+                if (if_stage_i.hwlp_jump) begin
                     rvfi_hwlp_start_if <= if_stage_i.hwlp_target;
+                end
+                rvfi_hwlp_start_id <= rvfi_hwlp_start_if;
+                rvfi_hwlp_start_ex <= rvfi_hwlp_start_id;
+                rvfi_hwlp_start_wb <= rvfi_hwlp_start_ex;
+                
+                if (if_stage_i.hwlp_jump) begin
+                    rvfi_is_hwlp_if <= 1'b1;
                 end
                 else if (if_stage_i.if_ready) begin
                     rvfi_is_hwlp_if <= 1'b0;
                 end
-                
-                if (`PREFETCH.hwlp_NS == 3'b010) begin // 3'b010 == HWLP_FETCHING
-                    if (`PREFETCH.hwlp_CS != 3'b010) begin
-                        // rvfi_is_hwlp_if <= 1'b1;
-                    end
-                end
-                // else if (if_stage_i.if_ready && prev_fetch_addr != if_stage_i.fetch_addr) begin
-                else if (if_stage_i.if_ready) begin
-                    // rvfi_is_hwlp_if <= 1'b0;
-                end
-                
-                if (rvfi_is_hwlp_if) begin
-                    rvfi_hwlp_start_id <= rvfi_hwlp_start_if;
-                    if (insn_end_if == rvfi_insn_if)
-                        rvfi_is_hwlp_id <= 1'b1;
-                    else
-                        rvfi_is_hwlp_id <= 1'b0;
-                end
-                else if (id_stage_i.id_ready_o) begin
-                    rvfi_is_hwlp_id <= 1'b0;
-                end
-                
-                if (rvfi_is_hwlp_id) begin
-                    rvfi_hwlp_start_ex <= rvfi_hwlp_start_id;
-                    if (insn_end_id == rvfi_insn_id)
-                        rvfi_is_hwlp_ex <= 1'b1;
-                    else
-                        rvfi_is_hwlp_ex <= 1'b0;
-                end
-                else if (ex_stage_i.ex_ready_o) begin
-                    rvfi_is_hwlp_ex <= 1'b0;
-                end
-                
-                if (rvfi_is_hwlp_ex) begin
-                    rvfi_hwlp_start_wb <= rvfi_hwlp_start_ex;
-                    if (insn_end_ex == rvfi_insn_ex)
-                        rvfi_is_hwlp_wb <= 1'b1;
-                    else
-                        rvfi_is_hwlp_wb <= 1'b0;
-                end
-                else if (load_store_unit_i.lsu_ready_wb_o) begin
-                    rvfi_is_hwlp_wb <= 1'b0;
-                end
-                
                 if (id_stage_i.id_ready_o) begin
-                    // rvfi_is_hwlp_id <= rvfi_is_hwlp_if;
-                    // rvfi_is_hwlp_id <= rvfi_is_hwlp_if && `PREFETCH.fetch_is_hwlp;
-                    // rvfi_is_hwlp_id <= (`PREFETCH.hwlp_CS == 3'b010); // 3'b010 == HWLP_FETCHING
-                    insn_end_id <= insn_end_if;
+                    rvfi_is_hwlp_id <= rvfi_is_hwlp_if;
                 end
                 if (ex_stage_i.ex_ready_o) begin
-                    // rvfi_is_hwlp_ex <= rvfi_is_hwlp_id;
-                    // rvfi_is_hwlp_ex <= id_stage_i.is_hwlp_i;
-                    insn_end_ex <= insn_end_id;
+                    // If a mem instr is waiting for rvalid, don't update
+                    if (replicate_ex)
+                        rvfi_is_hwlp_ex <= rvfi_is_hwlp_ex;
+                    else
+                        rvfi_is_hwlp_ex <= rvfi_is_hwlp_id;
                 end
                 if (load_store_unit_i.lsu_ready_wb_o) begin
-                    // rvfi_is_hwlp_wb <= rvfi_is_hwlp_ex;
-                    // rvfi_is_hwlp_wb <= rvfi_is_hwlp_ex && (insn_end_ex == rvfi_insn_ex);
+                    rvfi_is_hwlp_wb <= rvfi_is_hwlp_ex;
                 end
             end
         end
-        // assign rvfi_is_hwlp = rvfi_is_hwlp_wb;
-        assign rvfi_is_hwlp = 1'b0; // TODO!!! Fix hardware loops!!
+        assign rvfi_is_hwlp = rvfi_is_hwlp_wb;
+        // assign rvfi_is_hwlp = 1'b0; // TODO!!! Fix hardware loops!!
         assign rvfi_hwlp_start = rvfi_hwlp_start_wb;
     `endif
     
@@ -1836,7 +1883,11 @@ module riscv_core
         end
         else begin
             if (ex_stage_i.ex_ready_o)
-                rvfi_mem_addr_ex <= (misaligned_access) ? rvfi_mem_addr_ex : load_store_unit_i.data_addr_o;
+                // If a mem instr is waiting for rvalid, don't update
+                if (replicate_ex)
+                    rvfi_mem_addr_ex <= rvfi_mem_addr_ex;
+                else
+                    rvfi_mem_addr_ex <= (misaligned_access) ? rvfi_mem_addr_ex : load_store_unit_i.data_addr_o;
             if (load_store_unit_i.lsu_ready_wb_o)
                 rvfi_mem_addr_wb <= rvfi_mem_addr_ex;
         end
@@ -1864,6 +1915,10 @@ module riscv_core
         end
         else begin
             if (ex_stage_i.ex_ready_o)
+                // If a mem instr is waiting for rvalid, don't update
+                if (replicate_ex)
+                    rvfi_mem_wmask_ex <= rvfi_mem_wmask_ex;
+                else
                 // Drive mask if it's a write operation
                 if (load_store_unit_i.data_req_o && load_store_unit_i.data_we_o) begin
                     if (!misaligned_access)
@@ -1900,7 +1955,12 @@ module riscv_core
         end
         else begin
             if (ex_stage_i.ex_ready_o)
-                rvfi_mem_wdata_ex <= load_store_unit_i.data_wdata_ex_i;
+                // Change below is necessary because otherwise it'll skip mem instructions
+                // If a mem instr is waiting for rvalid, don't update
+                if (replicate_ex)
+                    rvfi_mem_wdata_ex <= rvfi_mem_wdata_ex;
+                else
+                    rvfi_mem_wdata_ex <= load_store_unit_i.data_wdata_ex_i;
             if (load_store_unit_i.lsu_ready_wb_o)
                 rvfi_mem_wdata_wb <= rvfi_mem_wdata_ex;
         end
@@ -1908,22 +1968,22 @@ module riscv_core
     assign rvfi_mem_wdata = rvfi_mem_wdata_wb;
 
     //====================   CSR - misa   ====================//
-    logic [31:0] rvfi_csr_mask_ex , rvfi_csr_mask_wb ;
+    logic [31:0]                    rvfi_csr_mask_wb ;
     logic [31:0] rvfi_csr_rdata_ex, rvfi_csr_rdata_wb;
     logic [31:0] rvfi_csr_wdata_ex, rvfi_csr_wdata_wb;
     
     always @(posedge clk or negedge rst_ni) begin
         if (!rst_ni) begin
-            // rvfi_csr_mask_ex  <= '0;
-            // rvfi_csr_mask_wb  <= '0;
             rvfi_csr_rdata_ex <= '0;
             rvfi_csr_rdata_wb <= '0;
             rvfi_csr_wdata_ex <= '0;
             rvfi_csr_wdata_wb <= '0;
         end
         else begin
-            if (ex_stage_i.ex_ready_o && cs_registers_i.csr_we_int) begin
-                rvfi_csr_rdata_ex <= cs_registers_i.csr_rdata_o;
+            // Change below is necessary because otherwise it won't capture CSR rd after mem instr stall
+            if (insn_id_is_csr && cs_registers_i.csr_we_int) begin
+                if (id_stage_i.regfile_alu_we_fw_i)
+                    rvfi_csr_rdata_ex <= cs_registers_i.csr_rdata_o;
                 rvfi_csr_wdata_ex <= cs_registers_i.csr_wdata_int;
             end
             if (load_store_unit_i.lsu_ready_wb_o) begin
@@ -2128,6 +2188,52 @@ module riscv_core
     assign rvfi_csr_pmpaddr15_rdata = rvfi_csr_rdata_wb;
     assign rvfi_csr_pmpaddr15_wmask = rvfi_csr_mask_wb;
     assign rvfi_csr_pmpaddr15_wdata = rvfi_csr_wdata_wb;
+
+    `ifdef RISCV_FORMAL_CUSTOM_ISA
+
+        //====================   CSR - hwlp_start0   ====================//
+
+        assign rvfi_csr_hwlp_start0_rmask = rvfi_csr_mask_wb;
+        assign rvfi_csr_hwlp_start0_rdata = rvfi_csr_rdata_wb;
+        assign rvfi_csr_hwlp_start0_wmask = rvfi_csr_mask_wb;
+        assign rvfi_csr_hwlp_start0_wdata = rvfi_csr_wdata_wb;
+
+        //====================   CSR - hwlp_start1   ====================//
+
+        assign rvfi_csr_hwlp_start1_rmask = rvfi_csr_mask_wb;
+        assign rvfi_csr_hwlp_start1_rdata = rvfi_csr_rdata_wb;
+        assign rvfi_csr_hwlp_start1_wmask = rvfi_csr_mask_wb;
+        assign rvfi_csr_hwlp_start1_wdata = rvfi_csr_wdata_wb;
+
+        //====================   CSR - hwlp_end0   ====================//
+
+        assign rvfi_csr_hwlp_end0_rmask = rvfi_csr_mask_wb;
+        assign rvfi_csr_hwlp_end0_rdata = rvfi_csr_rdata_wb;
+        assign rvfi_csr_hwlp_end0_wmask = rvfi_csr_mask_wb;
+        assign rvfi_csr_hwlp_end0_wdata = rvfi_csr_wdata_wb;
+
+        //====================   CSR - hwlp_end1   ====================//
+
+        assign rvfi_csr_hwlp_end1_rmask = rvfi_csr_mask_wb;
+        assign rvfi_csr_hwlp_end1_rdata = rvfi_csr_rdata_wb;
+        assign rvfi_csr_hwlp_end1_wmask = rvfi_csr_mask_wb;
+        assign rvfi_csr_hwlp_end1_wdata = rvfi_csr_wdata_wb;
+
+        //====================   CSR - hwlp_counter0   ====================//
+
+        assign rvfi_csr_hwlp_counter0_rmask = rvfi_csr_mask_wb;
+        assign rvfi_csr_hwlp_counter0_rdata = rvfi_csr_rdata_wb;
+        assign rvfi_csr_hwlp_counter0_wmask = rvfi_csr_mask_wb;
+        assign rvfi_csr_hwlp_counter0_wdata = rvfi_csr_wdata_wb;
+
+        //====================   CSR - hwlp_counter1   ====================//
+
+        assign rvfi_csr_hwlp_counter1_rmask = rvfi_csr_mask_wb;
+        assign rvfi_csr_hwlp_counter1_rdata = rvfi_csr_rdata_wb;
+        assign rvfi_csr_hwlp_counter1_wmask = rvfi_csr_mask_wb;
+        assign rvfi_csr_hwlp_counter1_wdata = rvfi_csr_wdata_wb;
+
+    `endif
 `endif
 
 endmodule

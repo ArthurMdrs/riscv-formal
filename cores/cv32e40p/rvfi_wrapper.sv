@@ -272,6 +272,9 @@ module rvfi_wrapper (
 	always @(posedge clock) begin
         // Don't allow the Pulp custom Post-Incrementing Load instructions
 		ASM_no_loadpost_instr: assume (uut.if_stage_i.fetch_rdata[6:0] != OPCODE_LOAD_POST);
+        // Data memory errors will prevent valid from being raised, but post-increments still happen
+        // Without valid, the reg check won't see the post-increment
+		ASM_no_data_error: assume (uut.data_err_pmp == 1'b0);
 	end
 `endif
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <wavelist version="3">
-  <insertion-point-position>13</insertion-point-position>
+  <insertion-point-position>38</insertion-point-position>
   <wave>
     <expr>clock</expr>
     <label/>
@@ -117,6 +117,11 @@
     </wave>
   </group>
   <spacer/>
+  <wave collapsed="true">
+    <expr>wrapper.uut.rvfi_rd_wdata_ex</expr>
+    <label/>
+    <radix>checker_inst.csr_insn_rdata</radix>
+  </wave>
   <group collapsed="false">
     <expr/>
     <label>CSR</label>
@@ -166,6 +171,11 @@
       <radix>checker_inst.register_shadow</radix>
     </wave>
     <wave collapsed="true">
+      <expr>wrapper.uut.cs_registers_i.csr_wdata_int</expr>
+      <label/>
+      <radix>checker_inst.csr_insn_rdata</radix>
+    </wave>
+    <wave collapsed="true">
       <expr>wrapper.uut.csr_rdata</expr>
       <label/>
       <radix>checker_inst.register_shadow</radix>
@@ -175,8 +185,13 @@
       <label/>
       <radix>wrapper.uut.cs_registers_i.csr_addr_i</radix>
     </wave>
+    <wave>
+      <expr>wrapper.uut.cs_registers_i.csr_we_int</expr>
+      <label/>
+      <radix/>
+    </wave>
+    <spacer/>
   </group>
-  <spacer/>
   <group collapsed="true">
     <expr/>
     <label>Regfile read ports</label>
@@ -262,7 +277,7 @@
     </wave>
   </group>
   <spacer/>
-  <group collapsed="true">
+  <group collapsed="false">
     <expr/>
     <label>Metadata</label>
     <wave>
@@ -575,6 +590,10 @@
       <color>builtin_blue</color>
     </highlight>
     <highlight>
+      <expr>wrapper.uut.id_stage_i.instr_rdata_i</expr>
+      <color>builtin_orange</color>
+    </highlight>
+    <highlight>
       <expr>wrapper.uut.if_stage_i.fetch_rdata</expr>
       <color>builtin_blue</color>
     </highlight>
@@ -637,6 +656,14 @@
     <highlight>
       <expr>wrapper.uut.rvfi_valid_wb</expr>
       <color>builtin_red</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.uut.rvfi_csr_rdata_wb</expr>
+      <color>#aaffff</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.uut.rvfi_csr_wdata_wb</expr>
+      <color>#aaffff</color>
     </highlight>
   </highlightlist>
 </wavelist>

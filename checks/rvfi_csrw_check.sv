@@ -130,9 +130,9 @@ module rvfi_csrw_check (
 
 	always @* begin
 		if (!reset && check) begin
-			assume (csr_insn_valid);
-			assume (csr_insn_addr != csr_none);
-			assume (csr_insn_addr == `csr_mindex(`RISCV_FORMAL_CSRW_NAME)
+			ASM_csr_valid    : assume (csr_insn_valid);
+			ASM_addr_not_0   : assume (csr_insn_addr != csr_none);
+			ASM_addr_is_index:assume (csr_insn_addr == `csr_mindex(`RISCV_FORMAL_CSRW_NAME)
 				`ifdef RISCV_FORMAL_SMODE
 					|| csr_insn_addr == `csr_sindex(`RISCV_FORMAL_CSRW_NAME)
 				`endif
@@ -145,35 +145,35 @@ module rvfi_csrw_check (
 			);
 
 			if (!`rvformal_addr_valid(rvfi.pc_rdata) || !insn_pma_x || csr_illacc) begin
-				assert (rvfi.trap);
-				assert (rvfi.rd_addr == 0);
-				assert (rvfi.rd_wdata == 0);
+				AST_error_trap    : assert (rvfi.trap);
+				AST_error_rd_addr : assert (rvfi.rd_addr == 0);
+				AST_error_rd_wdata: assert (rvfi.rd_wdata == 0);
 			end else begin
-				assert (!rvfi.trap);
-				assert (rvfi.rd_addr == rvfi.insn[11:7]);
-				assert (`rvformal_addr_eq(rvfi.pc_wdata, spec_pc_wdata));
+				AST_not_trap     : assert (!rvfi.trap);
+				AST_spec_rd_addr : assert (rvfi.rd_addr == rvfi.insn[11:7]);
+				AST_spec_pc_wdata: assert (`rvformal_addr_eq(rvfi.pc_wdata, spec_pc_wdata));
 
 				if (rvfi.rd_addr == 0) begin
-					assert (rvfi.rd_wdata == 0);
+					AST_rd_addr_is_0: assert (rvfi.rd_wdata == 0);
 				end else begin
-					assert (csr_insn_rmask == {`RISCV_FORMAL_XLEN{1'b1}});
-					assert (csr_insn_rdata == rvfi.rd_wdata);
+					AST_spec_csr_rmask: assert (csr_insn_rmask == {`RISCV_FORMAL_XLEN{1'b1}});
+					AST_spec_csr_rdata: assert (csr_insn_rdata == rvfi.rd_wdata);
 				end
 
-				assert (((csr_insn_smask | csr_insn_cmask) & ~effective_csr_insn_wmask) == 0);
-				assert ((csr_insn_smask & ~effective_csr_insn_wdata) == 0);
-				assert ((csr_insn_cmask & effective_csr_insn_wdata) == 0);
+				AST_mask_consistency_1: assert (((csr_insn_smask | csr_insn_cmask) & ~effective_csr_insn_wmask) == 0);
+				AST_mask_consistency_2: assert ((csr_insn_smask & ~effective_csr_insn_wdata) == 0);
+				AST_mask_consistency_3: assert ((csr_insn_cmask & effective_csr_insn_wdata) == 0);
 
 `ifdef RISCV_FORMAL_CSRWH
 				if (csr_hi) begin
-					assert (csr_insn_changed_full[31:0] == 0);
+					AST_csr_low_unchanged : assert (csr_insn_changed_full[31:0] == 0);
 				end else if (rvfi.ixl == 1) begin
-					assert (csr_insn_changed_full[63:32] == 0);
+					AST_csr_high_unchanged: assert (csr_insn_changed_full[63:32] == 0);
 				end
 `endif
 			end
 
-			assert (rvfi.mem_wmask == 0);
+			AST_spec_mem_wmask: assert (rvfi.mem_wmask == 0);
 		end
 	end
 endmodule

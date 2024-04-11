@@ -306,8 +306,8 @@ def get_depth_cfg(patterns):
                     ret = [int(s) for s in line[1:]]
     return ret
 
-def print_custom_csrs(sby_file):
-    defines_str = ""
+def print_custom_csrs():
+    custom_csr_str = ""
     fstrings = {
         "inputs": "  ,input [`RISCV_FORMAL_NRET * `RISCV_FORMAL_XLEN - 1 : 0] rvfi_csr_{csr}_{signal} \\",
         "wires": "  (* keep *) wire [`RISCV_FORMAL_NRET * `RISCV_FORMAL_XLEN - 1 : 0] rvfi_csr_{csr}_{signal}; \\",
@@ -319,11 +319,9 @@ def print_custom_csrs(sby_file):
     }
     for (macro, fstring) in fstrings.items():
         if macro == "channel":
-            # print(f"`define RISCV_FORMAL_CUSTOM_CSR_{macro.upper()}(_idx) \\" , file=sby_file)
-            defines_str += hfmt(f"`define RISCV_FORMAL_CUSTOM_CSR_{macro.upper()}(_idx) \\", **hargs)
+            custom_csr_str += f"`define RISCV_FORMAL_CUSTOM_CSR_{macro.upper()}(_idx) \\\n"
         else:
-            # print(f"`define RISCV_FORMAL_CUSTOM_CSR_{macro.upper()} \\", file=sby_file)
-            defines_str += hfmt(f"`define RISCV_FORMAL_CUSTOM_CSR_{macro.upper()} \\", **hargs)
+            custom_csr_str += f"`define RISCV_FORMAL_CUSTOM_CSR_{macro.upper()} \\\n"
         for custom_csr in custom_csrs:
             name = custom_csr[0]
             addr = custom_csr[1]
@@ -334,16 +332,13 @@ def print_custom_csrs(sby_file):
                         macro_string = fstring.format(level=level, name=name, index=addr)
                     else:
                         macro_string = fstring.format(level=level, name=name, index=0xfff)
-                    # print(macro_string, file=sby_file)
-                    defines_str += hfmt(macro_string, **hargs)
+                    custom_csr_str += macro_string+"\n"
             else:
                 for signal in ["rmask", "wmask", "rdata", "wdata"]:
                     macro_string = fstring.format(csr=name, signal=signal)
-                    # print(macro_string, file=sby_file)
-                    defines_str += hfmt(macro_string, **hargs)
-        # print("", file=sby_file)
-        defines_str += hfmt("", **hargs)
-    return defines_str
+                    custom_csr_str += macro_string+"\n"
+        custom_csr_str += "\n"
+    return [custom_csr_str]
 
 # ------------------------------ Instruction Checkers ------------------------------
 
@@ -504,7 +499,7 @@ def check_insn(grp, insn, chanidx, csr_mode=False, illegal_csr=False):
             defines_str += hfmt("`define RISCV_FORMAL_INSN_MODEL rvfi_insn_@insn@", **hargs)
         
         if custom_csrs:
-            defines_str += print_custom_csrs(tcl_file)
+            defines_str += print_custom_csrs()
 
         if blackbox:
             defines_str += hfmt("`define RISCV_FORMAL_BLACKBOX_REGS", **hargs)
@@ -512,8 +507,9 @@ def check_insn(grp, insn, chanidx, csr_mode=False, illegal_csr=False):
         if compr:
             defines_str += hfmt("`define RISCV_FORMAL_COMPRESSED", **hargs)
 
-        if custom_isa:
-            defines_str += hfmt("`define RISCV_FORMAL_CUSTOM_ISA", **hargs)
+        # Code below would make this script behave differently than the regular genchecks
+        # if custom_isa:
+        #     defines_str += hfmt("`define RISCV_FORMAL_CUSTOM_ISA", **hargs)
             
         if "defines" in config:
             defines_str += hfmt(config["defines"], **hargs)
@@ -781,7 +777,7 @@ def check_cons(grp, check, chanidx=None, start=None, trig=None, depth=None, csr_
             defines_str += hfmt(f"`define RISCV_FORMAL_CSRC_NAME {csr_name}", **hargs)
         
         if custom_csrs:
-            defines_str += print_custom_csrs(tcl_file)
+            defines_str += print_custom_csrs()
 
         if blackbox and hargs["check"] != "liveness":
             defines_str += hfmt("`define RISCV_FORMAL_BLACKBOX_ALU", **hargs)
@@ -805,8 +801,9 @@ def check_cons(grp, check, chanidx=None, start=None, trig=None, depth=None, csr_
         if hargs["check"] in ("liveness", "hang"):
             defines_str += hfmt("`define RISCV_FORMAL_FAIRNESS", **hargs)
 
-        if custom_isa:
-            defines_str += hfmt("`define RISCV_FORMAL_CUSTOM_ISA", **hargs)
+        # Code below would make this script behave differently than the regular genchecks
+        # if custom_isa:
+        #     defines_str += hfmt("`define RISCV_FORMAL_CUSTOM_ISA", **hargs)
 
         if "defines" in config:
             defines_str += hfmt(config["defines"], **hargs)

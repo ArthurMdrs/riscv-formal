@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <wavelist version="3">
-  <insertion-point-position>27</insertion-point-position>
+  <insertion-point-position>13</insertion-point-position>
   <wave>
     <expr>clock</expr>
     <label/>
@@ -139,7 +139,7 @@
     </wave>
   </group>
   <spacer/>
-  <group collapsed="true">
+  <group collapsed="false">
     <expr/>
     <label>Regfile EX port</label>
     <wave>
@@ -157,8 +157,13 @@
       <label/>
       <radix>checker_inst.rd_wdata</radix>
     </wave>
+    <wave collapsed="true">
+      <expr>wrapper.uut.id_stage_i.instr</expr>
+      <label/>
+      <radix>checker_inst.rvfi_rs1_addr</radix>
+    </wave>
+    <spacer/>
   </group>
-  <spacer/>
   <group collapsed="true">
     <expr/>
     <label>Regfile WB port</label>
@@ -418,6 +423,10 @@
       <color>builtin_blue</color>
     </highlight>
     <highlight>
+      <expr>checker_inst.spec_pc_wdata</expr>
+      <color>builtin_green</color>
+    </highlight>
+    <highlight>
       <expr>wrapper.uut.data_err_pmp</expr>
       <color>builtin_yellow</color>
     </highlight>
@@ -427,6 +436,46 @@
     </highlight>
     <highlight>
       <expr>wrapper.uut.if_stage_i.fetch_rdata</expr>
+      <color>builtin_blue</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.uut.if_stage_i.hwlp_cnt_i[0]</expr>
+      <color>builtin_orange</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.uut.if_stage_i.hwlp_cnt_i[1]</expr>
+      <color>builtin_yellow</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.uut.if_stage_i.hwlp_dec_cnt_id_o</expr>
+      <color>builtin_blue</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.uut.if_stage_i.hwlp_end_i[0]</expr>
+      <color>builtin_orange</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.uut.if_stage_i.hwlp_end_i[1]</expr>
+      <color>builtin_yellow</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.uut.if_stage_i.hwlp_start_i[0]</expr>
+      <color>builtin_orange</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.uut.if_stage_i.hwlp_start_i[1]</expr>
+      <color>builtin_yellow</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.uut.if_stage_i.instr_decompressed</expr>
+      <color>builtin_yellow</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.uut.if_stage_i.is_hwlp_id_o</expr>
+      <color>builtin_red</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.uut.if_stage_i.pc_if_o</expr>
       <color>builtin_blue</color>
     </highlight>
     <highlight>
@@ -450,7 +499,15 @@
       <color>builtin_yellow</color>
     </highlight>
     <highlight>
+      <expr>wrapper.uut.rvfi_hwlp_start_wb</expr>
+      <color>builtin_red</color>
+    </highlight>
+    <highlight>
       <expr>wrapper.uut.rvfi_insn_wb</expr>
+      <color>builtin_red</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.uut.rvfi_is_hwlp_wb</expr>
       <color>builtin_red</color>
     </highlight>
     <highlight>
@@ -496,6 +553,30 @@
     <highlight>
       <expr>wrapper.uut.store_post_rd_data</expr>
       <color>builtin_orange</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.uut.id_stage_i.instr</expr>
+      <color>#aaffff</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.uut.id_stage_i.is_hwlp_i</expr>
+      <color>#aaffff</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.uut.if_stage_i.hwlp_jump</expr>
+      <color>#aaffff</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.uut.if_stage_i.hwlp_target</expr>
+      <color>#aaffff</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.uut.if_stage_i.prefetch_32.prefetch_buffer_i.hwlp_CS</expr>
+      <color>#aaffff</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.uut.if_stage_i.prefetch_32.prefetch_buffer_i.hwlp_NS</expr>
+      <color>#aaffff</color>
     </highlight>
     <highlight>
       <expr>wrapper.uut.rvfi_post_rd_addr_wb</expr>

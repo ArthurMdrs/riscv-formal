@@ -166,9 +166,6 @@ def footer(f):
         
 #### ================   XPULP - BEGIN   ================ ####
         print("`ifdef RISCV_FORMAL_CUSTOM_ISA", file=f)
-        # if "spec_rs3_addr" in defaults_cache:
-        #     print("`ifdef RISCV_FORMAL_CUSTOM_ISA", file=f)
-        #     print("  assign spec_rs3_addr = 0;", file=f)
         default_assign("spec_rs3_addr")
         default_assign("spec_post_rd_addr")
         default_assign("spec_post_rd_wdata")
@@ -444,6 +441,16 @@ def format_p_l(f):
     print("  wire [2:0] insn_funct3  = rvfi_insn[14:12];", file=f)
     print("  wire [4:0] insn_rd      = rvfi_insn[11: 7];", file=f)
     print("  wire [6:0] insn_opcode  = rvfi_insn[ 6: 0];", file=f)
+
+
+
+def assign_pc_wdata(f):
+    print("`ifdef RISCV_FORMAL_CUSTOM_ISA", file=f)
+    assign(f, "spec_pc_wdata", "(rvfi_is_hwlp) ? (rvfi_hwlp_start) : (rvfi_pc_rdata + 4)")
+    print("`else", file=f)
+    assign(f, "spec_pc_wdata", "rvfi_pc_rdata + 4")
+    print("`endif", file=f)
+    
 #### ================   XPULP - END   ================ ####
 
 def insn_lui(insn="lui", misa=0):
@@ -457,7 +464,8 @@ def insn_lui(insn="lui", misa=0):
         assign(f, "spec_valid", "rvfi_valid && !insn_padding && insn_opcode == 7'b 0110111")
         assign(f, "spec_rd_addr", "insn_rd")
         assign(f, "spec_rd_wdata", "spec_rd_addr ? insn_imm : 0")
-        assign(f, "spec_pc_wdata", "rvfi_pc_rdata + 4")
+        # assign(f, "spec_pc_wdata", "rvfi_pc_rdata + 4")        
+        assign_pc_wdata(f)
 
         footer(f)
 
@@ -1173,12 +1181,14 @@ def insn_p_s(insn, funct3, numbytes, misa=MISA_X):
         print("    if (insn_opcode == 7'b 010_1011) begin", file=f)
         print("      funct3_valid = (insn_funct3 == 3'b0%s) || (insn_funct3 == 3'b1%s);" % (funct3, funct3), file=f)
         # print("      funct7_valid = (insn_funct3[2]) ? (insn_funct7 == 0) : (1'b1);", file=f)
-        print("      funct7_valid = 1'b1;", file=f) # THIS IS NOT SUPPOSED TO WORK, BUT IT DOES!!
+        print("      funct7_valid = 1'b1; // THIS IS NOT SUPPOSED TO WORK, BUT IT DOES!!", file=f)
+        print("      // funct7_valid = (insn_funct3[2]) ? (insn_funct7 == 0) : (1'b1); // This is how it should be", file=f)
         print("    end", file=f)
         print("    else if (insn_opcode == 7'b 010_0011) begin", file=f)
         print("      funct3_valid = (insn_funct3 == 3'b1%s);" % funct3, file=f)
         # print("      funct7_valid = (insn_funct7 == 0);", file=f)
-        print("      funct7_valid = 1'b1;", file=f) # THIS IS NOT SUPPOSED TO WORK, BUT IT DOES!!
+        print("      funct7_valid = 1'b1; // THIS IS NOT SUPPOSED TO WORK, BUT IT DOES!!", file=f)
+        print("      // funct7_valid = (insn_funct7 == 0); // This is how it should be", file=f)
         print("    end", file=f)
         print("    else begin", file=f)
         print("      funct3_valid = 1'b0;", file=f)
@@ -1190,14 +1200,12 @@ def insn_p_s(insn, funct3, numbytes, misa=MISA_X):
         print("  wire [`RISCV_FORMAL_XLEN-1:0] op2 = (insn_funct3[2]) ? (rvfi_rs3_rdata) : (insn_imm);", file=f)
         print("  wire [`RISCV_FORMAL_XLEN-1:0] result = rvfi_rs1_rdata + op2;", file=f)
         print("  wire [`RISCV_FORMAL_XLEN-1:0] addr = (insn_opcode[3]) ? (rvfi_rs1_rdata) : (result);", file=f)
-        # assign(f, "spec_valid", "rvfi_valid && !insn_padding && insn_funct3 == 3'b %s && insn_opcode == 7'b 0101011" % funct3)
         assign(f, "spec_valid", "rvfi_valid && !insn_padding && funct3_valid && funct7_valid")
         assign(f, "spec_rs1_addr", "insn_rs1")
         assign(f, "spec_rs2_addr", "insn_rs2")
         assign(f, "spec_rs3_addr", "(insn_funct3[2]) ? (insn_rs3) : ('0)")
         assign(f, "spec_post_rd_addr", "(insn_opcode[3]) ? (insn_post_rd) : ('0)")
         assign(f, "spec_post_rd_wdata", "spec_post_rd_addr ? result : 0")
-        # assign(f, "spec_pc_wdata", "rvfi_pc_rdata + 4")
         assign(f, "spec_pc_wdata", "(rvfi_is_hwlp) ? (rvfi_hwlp_start) : (rvfi_pc_rdata + 4)")
         
         print("", file=f)
@@ -1248,7 +1256,6 @@ def insn_p_l(insn, funct7, funct3, numbytes, signext, misa=MISA_X):
         print("  wire [`RISCV_FORMAL_XLEN-1:0] op2 = (insn_funct3 == 3'b111) ? (rvfi_rs2_rdata) : (insn_imm);", file=f)
         print("  wire [`RISCV_FORMAL_XLEN-1:0] result = rvfi_rs1_rdata + op2;", file=f)
         print("  wire [`RISCV_FORMAL_XLEN-1:0] addr = (insn_opcode[3]) ? (rvfi_rs1_rdata) : (result);", file=f)
-        # assign(f, "spec_valid", "rvfi_valid && !insn_padding && insn_funct3 == 3'b %s && insn_opcode == 7'b 0001011" % funct3)
         assign(f, "spec_valid", "rvfi_valid && !insn_padding && funct3_valid && funct7_valid")
         assign(f, "spec_rs1_addr", "insn_rs1")
         assign(f, "spec_rs2_addr", "insn_rs2")
@@ -1283,6 +1290,30 @@ def insn_p_l(insn, funct7, funct3, numbytes, signext, misa=MISA_X):
         print("`endif", file=f)
 
         footer(f)
+
+# def insn_hwlp(insn, funct3, expression, misa=MISA_X):
+    # with open("insn_%s.v" % insn, "w") as f:
+    #     header(f, insn)
+    #     format_i(f)
+    #     misa_check(f, misa)
+
+    #     print("", file=f)
+    #     print("  // %s instruction" % insn.upper(), file=f)
+    #     print("", file=f)
+    #     print("  wire [`RISCV_FORMAL_XLEN-1:0] op2 = (insn_funct3[2]) ? (rvfi_rs3_rdata) : (insn_imm);", file=f)
+    #     print("  wire [`RISCV_FORMAL_XLEN-1:0] result = rvfi_rs1_rdata + op2;", file=f)
+    #     print("  wire [`RISCV_FORMAL_XLEN-1:0] addr = (insn_opcode[3]) ? (rvfi_rs1_rdata) : (result);", file=f)
+    #     assign(f, "spec_valid", "rvfi_valid && !insn_padding && funct3_valid && funct7_valid")
+    #     assign(f, "spec_rs1_addr", "insn_rs1")
+    #     assign(f, "spec_rs2_addr", "insn_rs2")
+    #     assign(f, "spec_rs3_addr", "(insn_funct3[2]) ? (insn_rs3) : ('0)")
+    #     assign(f, "spec_post_rd_addr", "(insn_opcode[3]) ? (insn_post_rd) : ('0)")
+    #     assign(f, "spec_post_rd_wdata", "spec_post_rd_addr ? result : 0")
+    #     assign(f, "spec_pc_wdata", "(rvfi_is_hwlp) ? (rvfi_hwlp_start) : (rvfi_pc_rdata + 4)")
+        
+    #     print("", file=f)
+
+    #     footer(f)
 #### ================   XPULP - END   ================ ####
 
 ## Base Integer ISA (I)
@@ -1477,6 +1508,8 @@ insn_p_l("p_lh" , "000_1000", "001", 2, True)
 insn_p_l("p_lw" , "001_0000", "010", 4, True)
 insn_p_l("p_lbu", "010_0000", "100", 1, False)
 insn_p_l("p_lhu", "010_1000", "101", 2, False)
+
+# insn_hwlp("lp_starti",  "000", "rvfi_rs1_rdata + insn_imm")
 #### ================   XPULP - END   ================ ####
 
 ## ISA Propagate
