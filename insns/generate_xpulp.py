@@ -442,6 +442,16 @@ def format_p_l(f):
     print("  wire [4:0] insn_rd      = rvfi_insn[11: 7];", file=f)
     print("  wire [6:0] insn_opcode  = rvfi_insn[ 6: 0];", file=f)
 
+def format_bit_man(f):
+    print("", file=f)
+    print("  // Bit Manipulation instruction format", file=f)
+    print("  wire [`RISCV_FORMAL_ILEN-1:0] insn_padding = rvfi_insn >> 16 >> 16;", file=f)
+    print("  wire [1:0] insn_funct2 = rvfi_insn[31:30];", file=f)
+    print("  wire [4:0] insn_rs2    = rvfi_insn[24:20];", file=f)
+    print("  wire [4:0] insn_rs1    = rvfi_insn[19:15];", file=f)
+    print("  wire [2:0] insn_funct3 = rvfi_insn[14:12];", file=f)
+    print("  wire [4:0] insn_rd     = rvfi_insn[11: 7];", file=f)
+    print("  wire [6:0] insn_opcode = rvfi_insn[ 6: 0];", file=f)
 
 
 def assign_pc_wdata(f):
@@ -1206,7 +1216,7 @@ def insn_p_s(insn, funct3, numbytes, misa=MISA_X):
         assign(f, "spec_rs3_addr", "(insn_funct3[2]) ? (insn_rs3) : ('0)")
         assign(f, "spec_post_rd_addr", "(insn_opcode[3]) ? (insn_post_rd) : ('0)")
         assign(f, "spec_post_rd_wdata", "spec_post_rd_addr ? result : 0")
-        assign(f, "spec_pc_wdata", "(rvfi_is_hwlp) ? (rvfi_hwlp_start) : (rvfi_pc_rdata + 4)")
+        assign_pc_wdata(f)
         
         print("", file=f)
         print("`ifdef RISCV_FORMAL_ALIGNED_MEM", file=f)
@@ -1262,7 +1272,7 @@ def insn_p_l(insn, funct7, funct3, numbytes, signext, misa=MISA_X):
         assign(f, "spec_post_rd_addr", "(insn_opcode[3]) ? (insn_post_rd) : ('0)")
         assign(f, "spec_post_rd_wdata", "spec_post_rd_addr ? result : 0")
         assign(f, "spec_rd_addr", "insn_rd")
-        assign(f, "spec_pc_wdata", "(rvfi_is_hwlp) ? (rvfi_hwlp_start) : (rvfi_pc_rdata + 4)")
+        assign_pc_wdata(f)
         
         print("", file=f)
         print("`ifdef RISCV_FORMAL_ALIGNED_MEM", file=f)
@@ -1291,6 +1301,111 @@ def insn_p_l(insn, funct7, funct3, numbytes, signext, misa=MISA_X):
 
         footer(f)
 
+def insn_bit_man_1(insn, funct3, lnr=False, cnt=False, misa=MISA_X):
+    with open("insn_%s.v" % insn, "w") as f:
+        header(f, insn)
+        format_r(f)
+        misa_check(f, misa)
+
+        print("", file=f)
+        print("  // %s instruction" % insn.upper(), file=f)
+        
+        print("  reg [31:0] result;", file=f)
+        print("  always_comb begin", file=f)
+        print("    result = %s;" % ("0" if cnt else "32"), file=f)
+        if lnr:
+            print("    for(int i = 31; i >= 0; i--)", file=f)
+        else:
+            print("    for(int i = 0; i < 32; i++)", file=f)
+        print("      if(rvfi_rs1_rdata[i]) begin", file=f)
+        if cnt:
+            print("        result++;", file=f)
+        else:
+            print("        result = i;", file=f)
+            print("        break;", file=f)
+        print("      end", file=f)
+        print("  end", file=f)
+            
+        assign(f, "spec_valid", "rvfi_valid && !insn_padding && insn_funct7 == 7'b000_1000 && insn_funct3 == 3'b%s && insn_opcode == 7'b011_0011" % funct3)
+        assign(f, "spec_rs1_addr", "insn_rs1")
+        assign(f, "spec_rd_addr", "insn_rd")
+        assign(f, "spec_rd_wdata", "spec_rd_addr ? result : 0")
+        assign_pc_wdata(f)
+
+        footer(f)
+
+def insn_bit_man_2(insn, funct2, funct3, u=False, r=False, shamt=False, misa=MISA_X):
+    with open("insn_%s.v" % insn, "w") as f:
+        header(f, insn)
+        format_bit_man(f)
+        misa_check(f, misa)
+
+        print("", file=f)
+        print("  // %s instruction" % insn.upper(), file=f)
+        if r:
+            print("  wire [4:0] insn_ls3    = rvfi_rs2_rdata[9:5];", file=f)
+            print("  wire [4:0] insn_ls2    = rvfi_rs2_rdata[4:0];", file=f)
+        else:
+            print("  wire [4:0] insn_ls3    = rvfi_insn[29:25];", file=f)
+            print("  wire [4:0] insn_ls2    = rvfi_insn[24:20];", file=f)
+        print("", file=f)
+        print("  // Extract rs1[ls2+ls3 : ls2]", file=f)
+        print("  wire [31:0] mask       = (2 << insn_ls3) - 1;\t\t// mask[    ls3 :   0] = '1", file=f)
+        print("  wire [31:0] mask_sh    = mask << insn_ls2;\t\t// mask[ls2+ls3 : ls2] = '1", file=f)
+        print("  wire [31:0] rs1_masked = rvfi_rs1_rdata & mask_sh;", file=f)
+        print("  wire [31:0] res_u      = rs1_masked >> insn_ls2;\t// Unsigned result", file=f)
+        print("", file=f)
+        if u:
+            print("  // Signal extension mask doesn't matter in unsigned operation", file=f)
+            print("  wire [31:0] sext = 32'b0;", file=f)
+        else:
+            print("  // Get position of MSB for signal extension (max is 31)", file=f)
+            print("  wire [ 4:0] msb_pos = (insn_ls2 + insn_ls3 > 31) ? (31) : (insn_ls2 + insn_ls3);", file=f)
+            print("  wire        sig     = rs1_masked[msb_pos];", file=f)
+            print("  // Create signal extension mask (sext[31 : ls3+1] = 'sig)", file=f)
+            print("  wire [31:0] sext    = {32{sig}} << (msb_pos - insn_ls2 + 1);", file=f)
+        print("", file=f)
+        print("  // Result according to documentation: (it is wrongly documented...)", file=f)
+        print("  wire [31:0] doc_res = ((rvfi_rs1_rdata & ((1 << insn_ls3) - 1) << insn_ls2) >> insn_ls2) | sext;", file=f)
+        print("", file=f)
+        print("  wire [31:0] result = res_u | sext;", file=f)
+        assign(f, "spec_valid", "rvfi_valid && !insn_padding && insn_funct2 == 2'b%s && insn_funct3 == 3'b%s && insn_opcode == 7'b011_0011" % (funct2, funct3))
+        assign(f, "spec_rs1_addr", "insn_rs1")
+        assign(f, "spec_rs2_addr", "insn_rs2")
+        assign(f, "spec_rd_addr", "insn_rd")
+        assign(f, "spec_rd_wdata", "spec_rd_addr ? result : 0")
+        assign_pc_wdata(f)
+
+        footer(f)
+
+def insn_p_clb(insn, funct3, misa=MISA_X):
+    with open("insn_%s.v" % insn, "w") as f:
+        header(f, insn)
+        format_r(f)
+        misa_check(f, misa)
+
+        print("", file=f)
+        print("  // %s instruction" % insn.upper(), file=f)
+        
+        print("  reg [31:0] result;", file=f)
+        print("  always_comb begin", file=f)
+        print("    result = 0;", file=f)
+        print("    if(rvfi_rs1_rdata != 0)", file=f)
+        print("      for(int i = 31; i >= 1; i--)", file=f)
+        print("        if(rvfi_rs1_rdata[i-1] == rvfi_rs1_rdata[i])", file=f)
+        print("          result++;", file=f)
+        print("        else", file=f)
+        print("          break;", file=f)
+        print("  end", file=f)
+            
+        assign(f, "spec_valid", "rvfi_valid && !insn_padding && insn_funct7 == 7'b000_1000 && insn_funct3 == 3'b%s && insn_opcode == 7'b011_0011" % funct3)
+        assign(f, "spec_rs1_addr", "insn_rs1")
+        assign(f, "spec_rd_addr", "insn_rd")
+        assign(f, "spec_rd_wdata", "spec_rd_addr ? result : 0")
+        assign_pc_wdata(f)
+
+        footer(f)
+        
 # def insn_hwlp(insn, funct3, expression, misa=MISA_X):
     # with open("insn_%s.v" % insn, "w") as f:
     #     header(f, insn)
@@ -1499,15 +1614,30 @@ insn_c_ssp("c_sdsp", "111", 8)
 
 current_isa = ["rv32ix"]
 
+# Post-incrementing stores
 insn_p_s("p_sb", "00", 1)
 insn_p_s("p_sh", "01", 2)
 insn_p_s("p_sw", "10", 4)
 
+# Post-incrementing loads
 insn_p_l("p_lb" , "000_0000", "000", 1, True)
 insn_p_l("p_lh" , "000_1000", "001", 2, True)
 insn_p_l("p_lw" , "001_0000", "010", 4, True)
 insn_p_l("p_lbu", "010_0000", "100", 1, False)
 insn_p_l("p_lhu", "010_1000", "101", 2, False)
+
+# Bit manipulation operations
+insn_alu      ("p_ror", "000_0100", "101", "rvfi_rs1_rdata << (32-shamt) | rvfi_rs1_rdata >> shamt", shamt=True, misa=MISA_X)
+insn_alu      ("p_cnt", "000_1000", "011", "$countones(rvfi_rs1_rdata)", misa=MISA_X) # I tested this with Tabby, it works
+# insn_bit_man_1("p_cnt", "011", lnr=True , cnt=True)
+insn_bit_man_1("p_ff1", "000", lnr=False, cnt=False)
+insn_bit_man_1("p_fl1", "001", lnr=True , cnt=False)
+insn_p_clb    ("p_clb", "010")
+
+insn_bit_man_2("p_extract"  , "11", "000", u=False, r=False)
+insn_bit_man_2("p_extractu" , "11", "001", u=True , r=False)
+insn_bit_man_2("p_extractr" , "10", "000", u=False, r=True )
+insn_bit_man_2("p_extractur", "10", "001", u=True , r=True )
 
 # insn_hwlp("lp_starti",  "000", "rvfi_rs1_rdata + insn_imm")
 #### ================   XPULP - END   ================ ####

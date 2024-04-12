@@ -1598,6 +1598,374 @@ module rvfi_isa_rv64imx (
     .spec_mem_wdata(spec_insn_ori_mem_wdata)
   );
 
+  wire                                spec_insn_p_clb_valid;
+  wire                                spec_insn_p_clb_trap;
+  wire [                       4 : 0] spec_insn_p_clb_rs1_addr;
+  wire [                       4 : 0] spec_insn_p_clb_rs2_addr;
+  wire [                       4 : 0] spec_insn_p_clb_rd_addr;
+  wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_p_clb_rd_wdata;
+  wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_p_clb_pc_wdata;
+  wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_p_clb_mem_addr;
+  wire [`RISCV_FORMAL_XLEN/8 - 1 : 0] spec_insn_p_clb_mem_rmask;
+  wire [`RISCV_FORMAL_XLEN/8 - 1 : 0] spec_insn_p_clb_mem_wmask;
+  wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_p_clb_mem_wdata;
+`ifdef RISCV_FORMAL_CSR_MISA
+  wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_p_clb_csr_misa_rmask;
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  wire [                       4 : 0] spec_insn_p_clb_rs3_addr;
+`endif
+
+  rvfi_insn_p_clb insn_p_clb (
+    .rvfi_valid(rvfi_valid),
+    .rvfi_insn(rvfi_insn),
+    .rvfi_pc_rdata(rvfi_pc_rdata),
+    .rvfi_rs1_rdata(rvfi_rs1_rdata),
+    .rvfi_rs2_rdata(rvfi_rs2_rdata),
+    .rvfi_mem_rdata(rvfi_mem_rdata),
+`ifdef RISCV_FORMAL_CSR_MISA
+    .rvfi_csr_misa_rdata(rvfi_csr_misa_rdata),
+    .spec_csr_misa_rmask(spec_insn_p_clb_csr_misa_rmask),
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+    .rvfi_rs3_rdata(rvfi_rs3_rdata),
+    .spec_rs3_addr(spec_insn_p_clb_rs3_addr),
+`endif
+    .spec_valid(spec_insn_p_clb_valid),
+    .spec_trap(spec_insn_p_clb_trap),
+    .spec_rs1_addr(spec_insn_p_clb_rs1_addr),
+    .spec_rs2_addr(spec_insn_p_clb_rs2_addr),
+    .spec_rd_addr(spec_insn_p_clb_rd_addr),
+    .spec_rd_wdata(spec_insn_p_clb_rd_wdata),
+    .spec_pc_wdata(spec_insn_p_clb_pc_wdata),
+    .spec_mem_addr(spec_insn_p_clb_mem_addr),
+    .spec_mem_rmask(spec_insn_p_clb_mem_rmask),
+    .spec_mem_wmask(spec_insn_p_clb_mem_wmask),
+    .spec_mem_wdata(spec_insn_p_clb_mem_wdata)
+  );
+
+  wire                                spec_insn_p_cnt_valid;
+  wire                                spec_insn_p_cnt_trap;
+  wire [                       4 : 0] spec_insn_p_cnt_rs1_addr;
+  wire [                       4 : 0] spec_insn_p_cnt_rs2_addr;
+  wire [                       4 : 0] spec_insn_p_cnt_rd_addr;
+  wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_p_cnt_rd_wdata;
+  wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_p_cnt_pc_wdata;
+  wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_p_cnt_mem_addr;
+  wire [`RISCV_FORMAL_XLEN/8 - 1 : 0] spec_insn_p_cnt_mem_rmask;
+  wire [`RISCV_FORMAL_XLEN/8 - 1 : 0] spec_insn_p_cnt_mem_wmask;
+  wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_p_cnt_mem_wdata;
+`ifdef RISCV_FORMAL_CSR_MISA
+  wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_p_cnt_csr_misa_rmask;
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  wire [                       4 : 0] spec_insn_p_cnt_rs3_addr;
+`endif
+
+  rvfi_insn_p_cnt insn_p_cnt (
+    .rvfi_valid(rvfi_valid),
+    .rvfi_insn(rvfi_insn),
+    .rvfi_pc_rdata(rvfi_pc_rdata),
+    .rvfi_rs1_rdata(rvfi_rs1_rdata),
+    .rvfi_rs2_rdata(rvfi_rs2_rdata),
+    .rvfi_mem_rdata(rvfi_mem_rdata),
+`ifdef RISCV_FORMAL_CSR_MISA
+    .rvfi_csr_misa_rdata(rvfi_csr_misa_rdata),
+    .spec_csr_misa_rmask(spec_insn_p_cnt_csr_misa_rmask),
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+    .rvfi_rs3_rdata(rvfi_rs3_rdata),
+    .spec_rs3_addr(spec_insn_p_cnt_rs3_addr),
+`endif
+    .spec_valid(spec_insn_p_cnt_valid),
+    .spec_trap(spec_insn_p_cnt_trap),
+    .spec_rs1_addr(spec_insn_p_cnt_rs1_addr),
+    .spec_rs2_addr(spec_insn_p_cnt_rs2_addr),
+    .spec_rd_addr(spec_insn_p_cnt_rd_addr),
+    .spec_rd_wdata(spec_insn_p_cnt_rd_wdata),
+    .spec_pc_wdata(spec_insn_p_cnt_pc_wdata),
+    .spec_mem_addr(spec_insn_p_cnt_mem_addr),
+    .spec_mem_rmask(spec_insn_p_cnt_mem_rmask),
+    .spec_mem_wmask(spec_insn_p_cnt_mem_wmask),
+    .spec_mem_wdata(spec_insn_p_cnt_mem_wdata)
+  );
+
+  wire                                spec_insn_p_extract_valid;
+  wire                                spec_insn_p_extract_trap;
+  wire [                       4 : 0] spec_insn_p_extract_rs1_addr;
+  wire [                       4 : 0] spec_insn_p_extract_rs2_addr;
+  wire [                       4 : 0] spec_insn_p_extract_rd_addr;
+  wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_p_extract_rd_wdata;
+  wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_p_extract_pc_wdata;
+  wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_p_extract_mem_addr;
+  wire [`RISCV_FORMAL_XLEN/8 - 1 : 0] spec_insn_p_extract_mem_rmask;
+  wire [`RISCV_FORMAL_XLEN/8 - 1 : 0] spec_insn_p_extract_mem_wmask;
+  wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_p_extract_mem_wdata;
+`ifdef RISCV_FORMAL_CSR_MISA
+  wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_p_extract_csr_misa_rmask;
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  wire [                       4 : 0] spec_insn_p_extract_rs3_addr;
+`endif
+
+  rvfi_insn_p_extract insn_p_extract (
+    .rvfi_valid(rvfi_valid),
+    .rvfi_insn(rvfi_insn),
+    .rvfi_pc_rdata(rvfi_pc_rdata),
+    .rvfi_rs1_rdata(rvfi_rs1_rdata),
+    .rvfi_rs2_rdata(rvfi_rs2_rdata),
+    .rvfi_mem_rdata(rvfi_mem_rdata),
+`ifdef RISCV_FORMAL_CSR_MISA
+    .rvfi_csr_misa_rdata(rvfi_csr_misa_rdata),
+    .spec_csr_misa_rmask(spec_insn_p_extract_csr_misa_rmask),
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+    .rvfi_rs3_rdata(rvfi_rs3_rdata),
+    .spec_rs3_addr(spec_insn_p_extract_rs3_addr),
+`endif
+    .spec_valid(spec_insn_p_extract_valid),
+    .spec_trap(spec_insn_p_extract_trap),
+    .spec_rs1_addr(spec_insn_p_extract_rs1_addr),
+    .spec_rs2_addr(spec_insn_p_extract_rs2_addr),
+    .spec_rd_addr(spec_insn_p_extract_rd_addr),
+    .spec_rd_wdata(spec_insn_p_extract_rd_wdata),
+    .spec_pc_wdata(spec_insn_p_extract_pc_wdata),
+    .spec_mem_addr(spec_insn_p_extract_mem_addr),
+    .spec_mem_rmask(spec_insn_p_extract_mem_rmask),
+    .spec_mem_wmask(spec_insn_p_extract_mem_wmask),
+    .spec_mem_wdata(spec_insn_p_extract_mem_wdata)
+  );
+
+  wire                                spec_insn_p_extractr_valid;
+  wire                                spec_insn_p_extractr_trap;
+  wire [                       4 : 0] spec_insn_p_extractr_rs1_addr;
+  wire [                       4 : 0] spec_insn_p_extractr_rs2_addr;
+  wire [                       4 : 0] spec_insn_p_extractr_rd_addr;
+  wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_p_extractr_rd_wdata;
+  wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_p_extractr_pc_wdata;
+  wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_p_extractr_mem_addr;
+  wire [`RISCV_FORMAL_XLEN/8 - 1 : 0] spec_insn_p_extractr_mem_rmask;
+  wire [`RISCV_FORMAL_XLEN/8 - 1 : 0] spec_insn_p_extractr_mem_wmask;
+  wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_p_extractr_mem_wdata;
+`ifdef RISCV_FORMAL_CSR_MISA
+  wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_p_extractr_csr_misa_rmask;
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  wire [                       4 : 0] spec_insn_p_extractr_rs3_addr;
+`endif
+
+  rvfi_insn_p_extractr insn_p_extractr (
+    .rvfi_valid(rvfi_valid),
+    .rvfi_insn(rvfi_insn),
+    .rvfi_pc_rdata(rvfi_pc_rdata),
+    .rvfi_rs1_rdata(rvfi_rs1_rdata),
+    .rvfi_rs2_rdata(rvfi_rs2_rdata),
+    .rvfi_mem_rdata(rvfi_mem_rdata),
+`ifdef RISCV_FORMAL_CSR_MISA
+    .rvfi_csr_misa_rdata(rvfi_csr_misa_rdata),
+    .spec_csr_misa_rmask(spec_insn_p_extractr_csr_misa_rmask),
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+    .rvfi_rs3_rdata(rvfi_rs3_rdata),
+    .spec_rs3_addr(spec_insn_p_extractr_rs3_addr),
+`endif
+    .spec_valid(spec_insn_p_extractr_valid),
+    .spec_trap(spec_insn_p_extractr_trap),
+    .spec_rs1_addr(spec_insn_p_extractr_rs1_addr),
+    .spec_rs2_addr(spec_insn_p_extractr_rs2_addr),
+    .spec_rd_addr(spec_insn_p_extractr_rd_addr),
+    .spec_rd_wdata(spec_insn_p_extractr_rd_wdata),
+    .spec_pc_wdata(spec_insn_p_extractr_pc_wdata),
+    .spec_mem_addr(spec_insn_p_extractr_mem_addr),
+    .spec_mem_rmask(spec_insn_p_extractr_mem_rmask),
+    .spec_mem_wmask(spec_insn_p_extractr_mem_wmask),
+    .spec_mem_wdata(spec_insn_p_extractr_mem_wdata)
+  );
+
+  wire                                spec_insn_p_extractu_valid;
+  wire                                spec_insn_p_extractu_trap;
+  wire [                       4 : 0] spec_insn_p_extractu_rs1_addr;
+  wire [                       4 : 0] spec_insn_p_extractu_rs2_addr;
+  wire [                       4 : 0] spec_insn_p_extractu_rd_addr;
+  wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_p_extractu_rd_wdata;
+  wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_p_extractu_pc_wdata;
+  wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_p_extractu_mem_addr;
+  wire [`RISCV_FORMAL_XLEN/8 - 1 : 0] spec_insn_p_extractu_mem_rmask;
+  wire [`RISCV_FORMAL_XLEN/8 - 1 : 0] spec_insn_p_extractu_mem_wmask;
+  wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_p_extractu_mem_wdata;
+`ifdef RISCV_FORMAL_CSR_MISA
+  wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_p_extractu_csr_misa_rmask;
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  wire [                       4 : 0] spec_insn_p_extractu_rs3_addr;
+`endif
+
+  rvfi_insn_p_extractu insn_p_extractu (
+    .rvfi_valid(rvfi_valid),
+    .rvfi_insn(rvfi_insn),
+    .rvfi_pc_rdata(rvfi_pc_rdata),
+    .rvfi_rs1_rdata(rvfi_rs1_rdata),
+    .rvfi_rs2_rdata(rvfi_rs2_rdata),
+    .rvfi_mem_rdata(rvfi_mem_rdata),
+`ifdef RISCV_FORMAL_CSR_MISA
+    .rvfi_csr_misa_rdata(rvfi_csr_misa_rdata),
+    .spec_csr_misa_rmask(spec_insn_p_extractu_csr_misa_rmask),
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+    .rvfi_rs3_rdata(rvfi_rs3_rdata),
+    .spec_rs3_addr(spec_insn_p_extractu_rs3_addr),
+`endif
+    .spec_valid(spec_insn_p_extractu_valid),
+    .spec_trap(spec_insn_p_extractu_trap),
+    .spec_rs1_addr(spec_insn_p_extractu_rs1_addr),
+    .spec_rs2_addr(spec_insn_p_extractu_rs2_addr),
+    .spec_rd_addr(spec_insn_p_extractu_rd_addr),
+    .spec_rd_wdata(spec_insn_p_extractu_rd_wdata),
+    .spec_pc_wdata(spec_insn_p_extractu_pc_wdata),
+    .spec_mem_addr(spec_insn_p_extractu_mem_addr),
+    .spec_mem_rmask(spec_insn_p_extractu_mem_rmask),
+    .spec_mem_wmask(spec_insn_p_extractu_mem_wmask),
+    .spec_mem_wdata(spec_insn_p_extractu_mem_wdata)
+  );
+
+  wire                                spec_insn_p_extractur_valid;
+  wire                                spec_insn_p_extractur_trap;
+  wire [                       4 : 0] spec_insn_p_extractur_rs1_addr;
+  wire [                       4 : 0] spec_insn_p_extractur_rs2_addr;
+  wire [                       4 : 0] spec_insn_p_extractur_rd_addr;
+  wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_p_extractur_rd_wdata;
+  wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_p_extractur_pc_wdata;
+  wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_p_extractur_mem_addr;
+  wire [`RISCV_FORMAL_XLEN/8 - 1 : 0] spec_insn_p_extractur_mem_rmask;
+  wire [`RISCV_FORMAL_XLEN/8 - 1 : 0] spec_insn_p_extractur_mem_wmask;
+  wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_p_extractur_mem_wdata;
+`ifdef RISCV_FORMAL_CSR_MISA
+  wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_p_extractur_csr_misa_rmask;
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  wire [                       4 : 0] spec_insn_p_extractur_rs3_addr;
+`endif
+
+  rvfi_insn_p_extractur insn_p_extractur (
+    .rvfi_valid(rvfi_valid),
+    .rvfi_insn(rvfi_insn),
+    .rvfi_pc_rdata(rvfi_pc_rdata),
+    .rvfi_rs1_rdata(rvfi_rs1_rdata),
+    .rvfi_rs2_rdata(rvfi_rs2_rdata),
+    .rvfi_mem_rdata(rvfi_mem_rdata),
+`ifdef RISCV_FORMAL_CSR_MISA
+    .rvfi_csr_misa_rdata(rvfi_csr_misa_rdata),
+    .spec_csr_misa_rmask(spec_insn_p_extractur_csr_misa_rmask),
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+    .rvfi_rs3_rdata(rvfi_rs3_rdata),
+    .spec_rs3_addr(spec_insn_p_extractur_rs3_addr),
+`endif
+    .spec_valid(spec_insn_p_extractur_valid),
+    .spec_trap(spec_insn_p_extractur_trap),
+    .spec_rs1_addr(spec_insn_p_extractur_rs1_addr),
+    .spec_rs2_addr(spec_insn_p_extractur_rs2_addr),
+    .spec_rd_addr(spec_insn_p_extractur_rd_addr),
+    .spec_rd_wdata(spec_insn_p_extractur_rd_wdata),
+    .spec_pc_wdata(spec_insn_p_extractur_pc_wdata),
+    .spec_mem_addr(spec_insn_p_extractur_mem_addr),
+    .spec_mem_rmask(spec_insn_p_extractur_mem_rmask),
+    .spec_mem_wmask(spec_insn_p_extractur_mem_wmask),
+    .spec_mem_wdata(spec_insn_p_extractur_mem_wdata)
+  );
+
+  wire                                spec_insn_p_ff1_valid;
+  wire                                spec_insn_p_ff1_trap;
+  wire [                       4 : 0] spec_insn_p_ff1_rs1_addr;
+  wire [                       4 : 0] spec_insn_p_ff1_rs2_addr;
+  wire [                       4 : 0] spec_insn_p_ff1_rd_addr;
+  wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_p_ff1_rd_wdata;
+  wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_p_ff1_pc_wdata;
+  wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_p_ff1_mem_addr;
+  wire [`RISCV_FORMAL_XLEN/8 - 1 : 0] spec_insn_p_ff1_mem_rmask;
+  wire [`RISCV_FORMAL_XLEN/8 - 1 : 0] spec_insn_p_ff1_mem_wmask;
+  wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_p_ff1_mem_wdata;
+`ifdef RISCV_FORMAL_CSR_MISA
+  wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_p_ff1_csr_misa_rmask;
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  wire [                       4 : 0] spec_insn_p_ff1_rs3_addr;
+`endif
+
+  rvfi_insn_p_ff1 insn_p_ff1 (
+    .rvfi_valid(rvfi_valid),
+    .rvfi_insn(rvfi_insn),
+    .rvfi_pc_rdata(rvfi_pc_rdata),
+    .rvfi_rs1_rdata(rvfi_rs1_rdata),
+    .rvfi_rs2_rdata(rvfi_rs2_rdata),
+    .rvfi_mem_rdata(rvfi_mem_rdata),
+`ifdef RISCV_FORMAL_CSR_MISA
+    .rvfi_csr_misa_rdata(rvfi_csr_misa_rdata),
+    .spec_csr_misa_rmask(spec_insn_p_ff1_csr_misa_rmask),
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+    .rvfi_rs3_rdata(rvfi_rs3_rdata),
+    .spec_rs3_addr(spec_insn_p_ff1_rs3_addr),
+`endif
+    .spec_valid(spec_insn_p_ff1_valid),
+    .spec_trap(spec_insn_p_ff1_trap),
+    .spec_rs1_addr(spec_insn_p_ff1_rs1_addr),
+    .spec_rs2_addr(spec_insn_p_ff1_rs2_addr),
+    .spec_rd_addr(spec_insn_p_ff1_rd_addr),
+    .spec_rd_wdata(spec_insn_p_ff1_rd_wdata),
+    .spec_pc_wdata(spec_insn_p_ff1_pc_wdata),
+    .spec_mem_addr(spec_insn_p_ff1_mem_addr),
+    .spec_mem_rmask(spec_insn_p_ff1_mem_rmask),
+    .spec_mem_wmask(spec_insn_p_ff1_mem_wmask),
+    .spec_mem_wdata(spec_insn_p_ff1_mem_wdata)
+  );
+
+  wire                                spec_insn_p_fl1_valid;
+  wire                                spec_insn_p_fl1_trap;
+  wire [                       4 : 0] spec_insn_p_fl1_rs1_addr;
+  wire [                       4 : 0] spec_insn_p_fl1_rs2_addr;
+  wire [                       4 : 0] spec_insn_p_fl1_rd_addr;
+  wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_p_fl1_rd_wdata;
+  wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_p_fl1_pc_wdata;
+  wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_p_fl1_mem_addr;
+  wire [`RISCV_FORMAL_XLEN/8 - 1 : 0] spec_insn_p_fl1_mem_rmask;
+  wire [`RISCV_FORMAL_XLEN/8 - 1 : 0] spec_insn_p_fl1_mem_wmask;
+  wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_p_fl1_mem_wdata;
+`ifdef RISCV_FORMAL_CSR_MISA
+  wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_p_fl1_csr_misa_rmask;
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  wire [                       4 : 0] spec_insn_p_fl1_rs3_addr;
+`endif
+
+  rvfi_insn_p_fl1 insn_p_fl1 (
+    .rvfi_valid(rvfi_valid),
+    .rvfi_insn(rvfi_insn),
+    .rvfi_pc_rdata(rvfi_pc_rdata),
+    .rvfi_rs1_rdata(rvfi_rs1_rdata),
+    .rvfi_rs2_rdata(rvfi_rs2_rdata),
+    .rvfi_mem_rdata(rvfi_mem_rdata),
+`ifdef RISCV_FORMAL_CSR_MISA
+    .rvfi_csr_misa_rdata(rvfi_csr_misa_rdata),
+    .spec_csr_misa_rmask(spec_insn_p_fl1_csr_misa_rmask),
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+    .rvfi_rs3_rdata(rvfi_rs3_rdata),
+    .spec_rs3_addr(spec_insn_p_fl1_rs3_addr),
+`endif
+    .spec_valid(spec_insn_p_fl1_valid),
+    .spec_trap(spec_insn_p_fl1_trap),
+    .spec_rs1_addr(spec_insn_p_fl1_rs1_addr),
+    .spec_rs2_addr(spec_insn_p_fl1_rs2_addr),
+    .spec_rd_addr(spec_insn_p_fl1_rd_addr),
+    .spec_rd_wdata(spec_insn_p_fl1_rd_wdata),
+    .spec_pc_wdata(spec_insn_p_fl1_pc_wdata),
+    .spec_mem_addr(spec_insn_p_fl1_mem_addr),
+    .spec_mem_rmask(spec_insn_p_fl1_mem_rmask),
+    .spec_mem_wmask(spec_insn_p_fl1_mem_wmask),
+    .spec_mem_wdata(spec_insn_p_fl1_mem_wdata)
+  );
+
   wire                                spec_insn_p_lb_valid;
   wire                                spec_insn_p_lb_trap;
   wire [                       4 : 0] spec_insn_p_lb_rs1_addr;
@@ -1826,6 +2194,52 @@ module rvfi_isa_rv64imx (
     .spec_mem_rmask(spec_insn_p_lw_mem_rmask),
     .spec_mem_wmask(spec_insn_p_lw_mem_wmask),
     .spec_mem_wdata(spec_insn_p_lw_mem_wdata)
+  );
+
+  wire                                spec_insn_p_ror_valid;
+  wire                                spec_insn_p_ror_trap;
+  wire [                       4 : 0] spec_insn_p_ror_rs1_addr;
+  wire [                       4 : 0] spec_insn_p_ror_rs2_addr;
+  wire [                       4 : 0] spec_insn_p_ror_rd_addr;
+  wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_p_ror_rd_wdata;
+  wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_p_ror_pc_wdata;
+  wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_p_ror_mem_addr;
+  wire [`RISCV_FORMAL_XLEN/8 - 1 : 0] spec_insn_p_ror_mem_rmask;
+  wire [`RISCV_FORMAL_XLEN/8 - 1 : 0] spec_insn_p_ror_mem_wmask;
+  wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_p_ror_mem_wdata;
+`ifdef RISCV_FORMAL_CSR_MISA
+  wire [`RISCV_FORMAL_XLEN   - 1 : 0] spec_insn_p_ror_csr_misa_rmask;
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  wire [                       4 : 0] spec_insn_p_ror_rs3_addr;
+`endif
+
+  rvfi_insn_p_ror insn_p_ror (
+    .rvfi_valid(rvfi_valid),
+    .rvfi_insn(rvfi_insn),
+    .rvfi_pc_rdata(rvfi_pc_rdata),
+    .rvfi_rs1_rdata(rvfi_rs1_rdata),
+    .rvfi_rs2_rdata(rvfi_rs2_rdata),
+    .rvfi_mem_rdata(rvfi_mem_rdata),
+`ifdef RISCV_FORMAL_CSR_MISA
+    .rvfi_csr_misa_rdata(rvfi_csr_misa_rdata),
+    .spec_csr_misa_rmask(spec_insn_p_ror_csr_misa_rmask),
+`endif
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+    .rvfi_rs3_rdata(rvfi_rs3_rdata),
+    .spec_rs3_addr(spec_insn_p_ror_rs3_addr),
+`endif
+    .spec_valid(spec_insn_p_ror_valid),
+    .spec_trap(spec_insn_p_ror_trap),
+    .spec_rs1_addr(spec_insn_p_ror_rs1_addr),
+    .spec_rs2_addr(spec_insn_p_ror_rs2_addr),
+    .spec_rd_addr(spec_insn_p_ror_rd_addr),
+    .spec_rd_wdata(spec_insn_p_ror_rd_wdata),
+    .spec_pc_wdata(spec_insn_p_ror_pc_wdata),
+    .spec_mem_addr(spec_insn_p_ror_mem_addr),
+    .spec_mem_rmask(spec_insn_p_ror_mem_rmask),
+    .spec_mem_wmask(spec_insn_p_ror_mem_wmask),
+    .spec_mem_wdata(spec_insn_p_ror_mem_wdata)
   );
 
   wire                                spec_insn_p_sb_valid;
@@ -3289,11 +3703,20 @@ module rvfi_isa_rv64imx (
 		spec_insn_mulw_valid ? spec_insn_mulw_valid :
 		spec_insn_or_valid ? spec_insn_or_valid :
 		spec_insn_ori_valid ? spec_insn_ori_valid :
+		spec_insn_p_clb_valid ? spec_insn_p_clb_valid :
+		spec_insn_p_cnt_valid ? spec_insn_p_cnt_valid :
+		spec_insn_p_extract_valid ? spec_insn_p_extract_valid :
+		spec_insn_p_extractr_valid ? spec_insn_p_extractr_valid :
+		spec_insn_p_extractu_valid ? spec_insn_p_extractu_valid :
+		spec_insn_p_extractur_valid ? spec_insn_p_extractur_valid :
+		spec_insn_p_ff1_valid ? spec_insn_p_ff1_valid :
+		spec_insn_p_fl1_valid ? spec_insn_p_fl1_valid :
 		spec_insn_p_lb_valid ? spec_insn_p_lb_valid :
 		spec_insn_p_lbu_valid ? spec_insn_p_lbu_valid :
 		spec_insn_p_lh_valid ? spec_insn_p_lh_valid :
 		spec_insn_p_lhu_valid ? spec_insn_p_lhu_valid :
 		spec_insn_p_lw_valid ? spec_insn_p_lw_valid :
+		spec_insn_p_ror_valid ? spec_insn_p_ror_valid :
 		spec_insn_p_sb_valid ? spec_insn_p_sb_valid :
 		spec_insn_p_sh_valid ? spec_insn_p_sh_valid :
 		spec_insn_p_sw_valid ? spec_insn_p_sw_valid :
@@ -3360,11 +3783,20 @@ module rvfi_isa_rv64imx (
 		spec_insn_mulw_valid ? spec_insn_mulw_trap :
 		spec_insn_or_valid ? spec_insn_or_trap :
 		spec_insn_ori_valid ? spec_insn_ori_trap :
+		spec_insn_p_clb_valid ? spec_insn_p_clb_trap :
+		spec_insn_p_cnt_valid ? spec_insn_p_cnt_trap :
+		spec_insn_p_extract_valid ? spec_insn_p_extract_trap :
+		spec_insn_p_extractr_valid ? spec_insn_p_extractr_trap :
+		spec_insn_p_extractu_valid ? spec_insn_p_extractu_trap :
+		spec_insn_p_extractur_valid ? spec_insn_p_extractur_trap :
+		spec_insn_p_ff1_valid ? spec_insn_p_ff1_trap :
+		spec_insn_p_fl1_valid ? spec_insn_p_fl1_trap :
 		spec_insn_p_lb_valid ? spec_insn_p_lb_trap :
 		spec_insn_p_lbu_valid ? spec_insn_p_lbu_trap :
 		spec_insn_p_lh_valid ? spec_insn_p_lh_trap :
 		spec_insn_p_lhu_valid ? spec_insn_p_lhu_trap :
 		spec_insn_p_lw_valid ? spec_insn_p_lw_trap :
+		spec_insn_p_ror_valid ? spec_insn_p_ror_trap :
 		spec_insn_p_sb_valid ? spec_insn_p_sb_trap :
 		spec_insn_p_sh_valid ? spec_insn_p_sh_trap :
 		spec_insn_p_sw_valid ? spec_insn_p_sw_trap :
@@ -3431,11 +3863,20 @@ module rvfi_isa_rv64imx (
 		spec_insn_mulw_valid ? spec_insn_mulw_rs1_addr :
 		spec_insn_or_valid ? spec_insn_or_rs1_addr :
 		spec_insn_ori_valid ? spec_insn_ori_rs1_addr :
+		spec_insn_p_clb_valid ? spec_insn_p_clb_rs1_addr :
+		spec_insn_p_cnt_valid ? spec_insn_p_cnt_rs1_addr :
+		spec_insn_p_extract_valid ? spec_insn_p_extract_rs1_addr :
+		spec_insn_p_extractr_valid ? spec_insn_p_extractr_rs1_addr :
+		spec_insn_p_extractu_valid ? spec_insn_p_extractu_rs1_addr :
+		spec_insn_p_extractur_valid ? spec_insn_p_extractur_rs1_addr :
+		spec_insn_p_ff1_valid ? spec_insn_p_ff1_rs1_addr :
+		spec_insn_p_fl1_valid ? spec_insn_p_fl1_rs1_addr :
 		spec_insn_p_lb_valid ? spec_insn_p_lb_rs1_addr :
 		spec_insn_p_lbu_valid ? spec_insn_p_lbu_rs1_addr :
 		spec_insn_p_lh_valid ? spec_insn_p_lh_rs1_addr :
 		spec_insn_p_lhu_valid ? spec_insn_p_lhu_rs1_addr :
 		spec_insn_p_lw_valid ? spec_insn_p_lw_rs1_addr :
+		spec_insn_p_ror_valid ? spec_insn_p_ror_rs1_addr :
 		spec_insn_p_sb_valid ? spec_insn_p_sb_rs1_addr :
 		spec_insn_p_sh_valid ? spec_insn_p_sh_rs1_addr :
 		spec_insn_p_sw_valid ? spec_insn_p_sw_rs1_addr :
@@ -3502,11 +3943,20 @@ module rvfi_isa_rv64imx (
 		spec_insn_mulw_valid ? spec_insn_mulw_rs2_addr :
 		spec_insn_or_valid ? spec_insn_or_rs2_addr :
 		spec_insn_ori_valid ? spec_insn_ori_rs2_addr :
+		spec_insn_p_clb_valid ? spec_insn_p_clb_rs2_addr :
+		spec_insn_p_cnt_valid ? spec_insn_p_cnt_rs2_addr :
+		spec_insn_p_extract_valid ? spec_insn_p_extract_rs2_addr :
+		spec_insn_p_extractr_valid ? spec_insn_p_extractr_rs2_addr :
+		spec_insn_p_extractu_valid ? spec_insn_p_extractu_rs2_addr :
+		spec_insn_p_extractur_valid ? spec_insn_p_extractur_rs2_addr :
+		spec_insn_p_ff1_valid ? spec_insn_p_ff1_rs2_addr :
+		spec_insn_p_fl1_valid ? spec_insn_p_fl1_rs2_addr :
 		spec_insn_p_lb_valid ? spec_insn_p_lb_rs2_addr :
 		spec_insn_p_lbu_valid ? spec_insn_p_lbu_rs2_addr :
 		spec_insn_p_lh_valid ? spec_insn_p_lh_rs2_addr :
 		spec_insn_p_lhu_valid ? spec_insn_p_lhu_rs2_addr :
 		spec_insn_p_lw_valid ? spec_insn_p_lw_rs2_addr :
+		spec_insn_p_ror_valid ? spec_insn_p_ror_rs2_addr :
 		spec_insn_p_sb_valid ? spec_insn_p_sb_rs2_addr :
 		spec_insn_p_sh_valid ? spec_insn_p_sh_rs2_addr :
 		spec_insn_p_sw_valid ? spec_insn_p_sw_rs2_addr :
@@ -3573,11 +4023,20 @@ module rvfi_isa_rv64imx (
 		spec_insn_mulw_valid ? spec_insn_mulw_rd_addr :
 		spec_insn_or_valid ? spec_insn_or_rd_addr :
 		spec_insn_ori_valid ? spec_insn_ori_rd_addr :
+		spec_insn_p_clb_valid ? spec_insn_p_clb_rd_addr :
+		spec_insn_p_cnt_valid ? spec_insn_p_cnt_rd_addr :
+		spec_insn_p_extract_valid ? spec_insn_p_extract_rd_addr :
+		spec_insn_p_extractr_valid ? spec_insn_p_extractr_rd_addr :
+		spec_insn_p_extractu_valid ? spec_insn_p_extractu_rd_addr :
+		spec_insn_p_extractur_valid ? spec_insn_p_extractur_rd_addr :
+		spec_insn_p_ff1_valid ? spec_insn_p_ff1_rd_addr :
+		spec_insn_p_fl1_valid ? spec_insn_p_fl1_rd_addr :
 		spec_insn_p_lb_valid ? spec_insn_p_lb_rd_addr :
 		spec_insn_p_lbu_valid ? spec_insn_p_lbu_rd_addr :
 		spec_insn_p_lh_valid ? spec_insn_p_lh_rd_addr :
 		spec_insn_p_lhu_valid ? spec_insn_p_lhu_rd_addr :
 		spec_insn_p_lw_valid ? spec_insn_p_lw_rd_addr :
+		spec_insn_p_ror_valid ? spec_insn_p_ror_rd_addr :
 		spec_insn_p_sb_valid ? spec_insn_p_sb_rd_addr :
 		spec_insn_p_sh_valid ? spec_insn_p_sh_rd_addr :
 		spec_insn_p_sw_valid ? spec_insn_p_sw_rd_addr :
@@ -3644,11 +4103,20 @@ module rvfi_isa_rv64imx (
 		spec_insn_mulw_valid ? spec_insn_mulw_rd_wdata :
 		spec_insn_or_valid ? spec_insn_or_rd_wdata :
 		spec_insn_ori_valid ? spec_insn_ori_rd_wdata :
+		spec_insn_p_clb_valid ? spec_insn_p_clb_rd_wdata :
+		spec_insn_p_cnt_valid ? spec_insn_p_cnt_rd_wdata :
+		spec_insn_p_extract_valid ? spec_insn_p_extract_rd_wdata :
+		spec_insn_p_extractr_valid ? spec_insn_p_extractr_rd_wdata :
+		spec_insn_p_extractu_valid ? spec_insn_p_extractu_rd_wdata :
+		spec_insn_p_extractur_valid ? spec_insn_p_extractur_rd_wdata :
+		spec_insn_p_ff1_valid ? spec_insn_p_ff1_rd_wdata :
+		spec_insn_p_fl1_valid ? spec_insn_p_fl1_rd_wdata :
 		spec_insn_p_lb_valid ? spec_insn_p_lb_rd_wdata :
 		spec_insn_p_lbu_valid ? spec_insn_p_lbu_rd_wdata :
 		spec_insn_p_lh_valid ? spec_insn_p_lh_rd_wdata :
 		spec_insn_p_lhu_valid ? spec_insn_p_lhu_rd_wdata :
 		spec_insn_p_lw_valid ? spec_insn_p_lw_rd_wdata :
+		spec_insn_p_ror_valid ? spec_insn_p_ror_rd_wdata :
 		spec_insn_p_sb_valid ? spec_insn_p_sb_rd_wdata :
 		spec_insn_p_sh_valid ? spec_insn_p_sh_rd_wdata :
 		spec_insn_p_sw_valid ? spec_insn_p_sw_rd_wdata :
@@ -3715,11 +4183,20 @@ module rvfi_isa_rv64imx (
 		spec_insn_mulw_valid ? spec_insn_mulw_pc_wdata :
 		spec_insn_or_valid ? spec_insn_or_pc_wdata :
 		spec_insn_ori_valid ? spec_insn_ori_pc_wdata :
+		spec_insn_p_clb_valid ? spec_insn_p_clb_pc_wdata :
+		spec_insn_p_cnt_valid ? spec_insn_p_cnt_pc_wdata :
+		spec_insn_p_extract_valid ? spec_insn_p_extract_pc_wdata :
+		spec_insn_p_extractr_valid ? spec_insn_p_extractr_pc_wdata :
+		spec_insn_p_extractu_valid ? spec_insn_p_extractu_pc_wdata :
+		spec_insn_p_extractur_valid ? spec_insn_p_extractur_pc_wdata :
+		spec_insn_p_ff1_valid ? spec_insn_p_ff1_pc_wdata :
+		spec_insn_p_fl1_valid ? spec_insn_p_fl1_pc_wdata :
 		spec_insn_p_lb_valid ? spec_insn_p_lb_pc_wdata :
 		spec_insn_p_lbu_valid ? spec_insn_p_lbu_pc_wdata :
 		spec_insn_p_lh_valid ? spec_insn_p_lh_pc_wdata :
 		spec_insn_p_lhu_valid ? spec_insn_p_lhu_pc_wdata :
 		spec_insn_p_lw_valid ? spec_insn_p_lw_pc_wdata :
+		spec_insn_p_ror_valid ? spec_insn_p_ror_pc_wdata :
 		spec_insn_p_sb_valid ? spec_insn_p_sb_pc_wdata :
 		spec_insn_p_sh_valid ? spec_insn_p_sh_pc_wdata :
 		spec_insn_p_sw_valid ? spec_insn_p_sw_pc_wdata :
@@ -3786,11 +4263,20 @@ module rvfi_isa_rv64imx (
 		spec_insn_mulw_valid ? spec_insn_mulw_mem_addr :
 		spec_insn_or_valid ? spec_insn_or_mem_addr :
 		spec_insn_ori_valid ? spec_insn_ori_mem_addr :
+		spec_insn_p_clb_valid ? spec_insn_p_clb_mem_addr :
+		spec_insn_p_cnt_valid ? spec_insn_p_cnt_mem_addr :
+		spec_insn_p_extract_valid ? spec_insn_p_extract_mem_addr :
+		spec_insn_p_extractr_valid ? spec_insn_p_extractr_mem_addr :
+		spec_insn_p_extractu_valid ? spec_insn_p_extractu_mem_addr :
+		spec_insn_p_extractur_valid ? spec_insn_p_extractur_mem_addr :
+		spec_insn_p_ff1_valid ? spec_insn_p_ff1_mem_addr :
+		spec_insn_p_fl1_valid ? spec_insn_p_fl1_mem_addr :
 		spec_insn_p_lb_valid ? spec_insn_p_lb_mem_addr :
 		spec_insn_p_lbu_valid ? spec_insn_p_lbu_mem_addr :
 		spec_insn_p_lh_valid ? spec_insn_p_lh_mem_addr :
 		spec_insn_p_lhu_valid ? spec_insn_p_lhu_mem_addr :
 		spec_insn_p_lw_valid ? spec_insn_p_lw_mem_addr :
+		spec_insn_p_ror_valid ? spec_insn_p_ror_mem_addr :
 		spec_insn_p_sb_valid ? spec_insn_p_sb_mem_addr :
 		spec_insn_p_sh_valid ? spec_insn_p_sh_mem_addr :
 		spec_insn_p_sw_valid ? spec_insn_p_sw_mem_addr :
@@ -3857,11 +4343,20 @@ module rvfi_isa_rv64imx (
 		spec_insn_mulw_valid ? spec_insn_mulw_mem_rmask :
 		spec_insn_or_valid ? spec_insn_or_mem_rmask :
 		spec_insn_ori_valid ? spec_insn_ori_mem_rmask :
+		spec_insn_p_clb_valid ? spec_insn_p_clb_mem_rmask :
+		spec_insn_p_cnt_valid ? spec_insn_p_cnt_mem_rmask :
+		spec_insn_p_extract_valid ? spec_insn_p_extract_mem_rmask :
+		spec_insn_p_extractr_valid ? spec_insn_p_extractr_mem_rmask :
+		spec_insn_p_extractu_valid ? spec_insn_p_extractu_mem_rmask :
+		spec_insn_p_extractur_valid ? spec_insn_p_extractur_mem_rmask :
+		spec_insn_p_ff1_valid ? spec_insn_p_ff1_mem_rmask :
+		spec_insn_p_fl1_valid ? spec_insn_p_fl1_mem_rmask :
 		spec_insn_p_lb_valid ? spec_insn_p_lb_mem_rmask :
 		spec_insn_p_lbu_valid ? spec_insn_p_lbu_mem_rmask :
 		spec_insn_p_lh_valid ? spec_insn_p_lh_mem_rmask :
 		spec_insn_p_lhu_valid ? spec_insn_p_lhu_mem_rmask :
 		spec_insn_p_lw_valid ? spec_insn_p_lw_mem_rmask :
+		spec_insn_p_ror_valid ? spec_insn_p_ror_mem_rmask :
 		spec_insn_p_sb_valid ? spec_insn_p_sb_mem_rmask :
 		spec_insn_p_sh_valid ? spec_insn_p_sh_mem_rmask :
 		spec_insn_p_sw_valid ? spec_insn_p_sw_mem_rmask :
@@ -3928,11 +4423,20 @@ module rvfi_isa_rv64imx (
 		spec_insn_mulw_valid ? spec_insn_mulw_mem_wmask :
 		spec_insn_or_valid ? spec_insn_or_mem_wmask :
 		spec_insn_ori_valid ? spec_insn_ori_mem_wmask :
+		spec_insn_p_clb_valid ? spec_insn_p_clb_mem_wmask :
+		spec_insn_p_cnt_valid ? spec_insn_p_cnt_mem_wmask :
+		spec_insn_p_extract_valid ? spec_insn_p_extract_mem_wmask :
+		spec_insn_p_extractr_valid ? spec_insn_p_extractr_mem_wmask :
+		spec_insn_p_extractu_valid ? spec_insn_p_extractu_mem_wmask :
+		spec_insn_p_extractur_valid ? spec_insn_p_extractur_mem_wmask :
+		spec_insn_p_ff1_valid ? spec_insn_p_ff1_mem_wmask :
+		spec_insn_p_fl1_valid ? spec_insn_p_fl1_mem_wmask :
 		spec_insn_p_lb_valid ? spec_insn_p_lb_mem_wmask :
 		spec_insn_p_lbu_valid ? spec_insn_p_lbu_mem_wmask :
 		spec_insn_p_lh_valid ? spec_insn_p_lh_mem_wmask :
 		spec_insn_p_lhu_valid ? spec_insn_p_lhu_mem_wmask :
 		spec_insn_p_lw_valid ? spec_insn_p_lw_mem_wmask :
+		spec_insn_p_ror_valid ? spec_insn_p_ror_mem_wmask :
 		spec_insn_p_sb_valid ? spec_insn_p_sb_mem_wmask :
 		spec_insn_p_sh_valid ? spec_insn_p_sh_mem_wmask :
 		spec_insn_p_sw_valid ? spec_insn_p_sw_mem_wmask :
@@ -3999,11 +4503,20 @@ module rvfi_isa_rv64imx (
 		spec_insn_mulw_valid ? spec_insn_mulw_mem_wdata :
 		spec_insn_or_valid ? spec_insn_or_mem_wdata :
 		spec_insn_ori_valid ? spec_insn_ori_mem_wdata :
+		spec_insn_p_clb_valid ? spec_insn_p_clb_mem_wdata :
+		spec_insn_p_cnt_valid ? spec_insn_p_cnt_mem_wdata :
+		spec_insn_p_extract_valid ? spec_insn_p_extract_mem_wdata :
+		spec_insn_p_extractr_valid ? spec_insn_p_extractr_mem_wdata :
+		spec_insn_p_extractu_valid ? spec_insn_p_extractu_mem_wdata :
+		spec_insn_p_extractur_valid ? spec_insn_p_extractur_mem_wdata :
+		spec_insn_p_ff1_valid ? spec_insn_p_ff1_mem_wdata :
+		spec_insn_p_fl1_valid ? spec_insn_p_fl1_mem_wdata :
 		spec_insn_p_lb_valid ? spec_insn_p_lb_mem_wdata :
 		spec_insn_p_lbu_valid ? spec_insn_p_lbu_mem_wdata :
 		spec_insn_p_lh_valid ? spec_insn_p_lh_mem_wdata :
 		spec_insn_p_lhu_valid ? spec_insn_p_lhu_mem_wdata :
 		spec_insn_p_lw_valid ? spec_insn_p_lw_mem_wdata :
+		spec_insn_p_ror_valid ? spec_insn_p_ror_mem_wdata :
 		spec_insn_p_sb_valid ? spec_insn_p_sb_mem_wdata :
 		spec_insn_p_sh_valid ? spec_insn_p_sh_mem_wdata :
 		spec_insn_p_sw_valid ? spec_insn_p_sw_mem_wdata :
@@ -4071,11 +4584,20 @@ module rvfi_isa_rv64imx (
 		spec_insn_mulw_valid ? spec_insn_mulw_csr_misa_rmask :
 		spec_insn_or_valid ? spec_insn_or_csr_misa_rmask :
 		spec_insn_ori_valid ? spec_insn_ori_csr_misa_rmask :
+		spec_insn_p_clb_valid ? spec_insn_p_clb_csr_misa_rmask :
+		spec_insn_p_cnt_valid ? spec_insn_p_cnt_csr_misa_rmask :
+		spec_insn_p_extract_valid ? spec_insn_p_extract_csr_misa_rmask :
+		spec_insn_p_extractr_valid ? spec_insn_p_extractr_csr_misa_rmask :
+		spec_insn_p_extractu_valid ? spec_insn_p_extractu_csr_misa_rmask :
+		spec_insn_p_extractur_valid ? spec_insn_p_extractur_csr_misa_rmask :
+		spec_insn_p_ff1_valid ? spec_insn_p_ff1_csr_misa_rmask :
+		spec_insn_p_fl1_valid ? spec_insn_p_fl1_csr_misa_rmask :
 		spec_insn_p_lb_valid ? spec_insn_p_lb_csr_misa_rmask :
 		spec_insn_p_lbu_valid ? spec_insn_p_lbu_csr_misa_rmask :
 		spec_insn_p_lh_valid ? spec_insn_p_lh_csr_misa_rmask :
 		spec_insn_p_lhu_valid ? spec_insn_p_lhu_csr_misa_rmask :
 		spec_insn_p_lw_valid ? spec_insn_p_lw_csr_misa_rmask :
+		spec_insn_p_ror_valid ? spec_insn_p_ror_csr_misa_rmask :
 		spec_insn_p_sb_valid ? spec_insn_p_sb_csr_misa_rmask :
 		spec_insn_p_sh_valid ? spec_insn_p_sh_csr_misa_rmask :
 		spec_insn_p_sw_valid ? spec_insn_p_sw_csr_misa_rmask :
@@ -4144,11 +4666,20 @@ module rvfi_isa_rv64imx (
 		spec_insn_mulw_valid ? spec_insn_mulw_rs3_addr :
 		spec_insn_or_valid ? spec_insn_or_rs3_addr :
 		spec_insn_ori_valid ? spec_insn_ori_rs3_addr :
+		spec_insn_p_clb_valid ? spec_insn_p_clb_rs3_addr :
+		spec_insn_p_cnt_valid ? spec_insn_p_cnt_rs3_addr :
+		spec_insn_p_extract_valid ? spec_insn_p_extract_rs3_addr :
+		spec_insn_p_extractr_valid ? spec_insn_p_extractr_rs3_addr :
+		spec_insn_p_extractu_valid ? spec_insn_p_extractu_rs3_addr :
+		spec_insn_p_extractur_valid ? spec_insn_p_extractur_rs3_addr :
+		spec_insn_p_ff1_valid ? spec_insn_p_ff1_rs3_addr :
+		spec_insn_p_fl1_valid ? spec_insn_p_fl1_rs3_addr :
 		spec_insn_p_lb_valid ? spec_insn_p_lb_rs3_addr :
 		spec_insn_p_lbu_valid ? spec_insn_p_lbu_rs3_addr :
 		spec_insn_p_lh_valid ? spec_insn_p_lh_rs3_addr :
 		spec_insn_p_lhu_valid ? spec_insn_p_lhu_rs3_addr :
 		spec_insn_p_lw_valid ? spec_insn_p_lw_rs3_addr :
+		spec_insn_p_ror_valid ? spec_insn_p_ror_rs3_addr :
 		spec_insn_p_sb_valid ? spec_insn_p_sb_rs3_addr :
 		spec_insn_p_sh_valid ? spec_insn_p_sh_rs3_addr :
 		spec_insn_p_sw_valid ? spec_insn_p_sw_rs3_addr :

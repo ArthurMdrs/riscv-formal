@@ -79,7 +79,11 @@ module rvfi_insn_p_lb (
   assign spec_post_rd_addr = (insn_opcode[3]) ? (insn_post_rd) : ('0);
   assign spec_post_rd_wdata = spec_post_rd_addr ? result : 0;
   assign spec_rd_addr = insn_rd;
+`ifdef RISCV_FORMAL_CUSTOM_ISA
   assign spec_pc_wdata = (rvfi_is_hwlp) ? (rvfi_hwlp_start) : (rvfi_pc_rdata + 4);
+`else
+  assign spec_pc_wdata = rvfi_pc_rdata + 4;
+`endif
 
 `ifdef RISCV_FORMAL_ALIGNED_MEM
   wire [7:0] rdata = rvfi_mem_rdata >> (8*(addr-spec_mem_addr));

@@ -1,6 +1,6 @@
 // DO NOT EDIT -- auto-generated from riscv-formal/insns/generate.py
 
-module rvfi_insn_p_lhu (
+module rvfi_insn_p_extractr (
   input                                 rvfi_valid,
   input  [`RISCV_FORMAL_ILEN   - 1 : 0] rvfi_insn,
   input  [`RISCV_FORMAL_XLEN   - 1 : 0] rvfi_pc_rdata,
@@ -35,16 +35,14 @@ module rvfi_insn_p_lhu (
   output [`RISCV_FORMAL_XLEN   - 1 : 0] spec_mem_wdata
 );
 
-  // P_L-type instruction format
+  // Bit Manipulation instruction format
   wire [`RISCV_FORMAL_ILEN-1:0] insn_padding = rvfi_insn >> 16 >> 16;
-  wire [`RISCV_FORMAL_XLEN-1:0] insn_imm = $signed(rvfi_insn[31:20]);
-  wire [6:0] insn_funct7  = rvfi_insn[31:25];
-  wire [4:0] insn_rs2     = rvfi_insn[24:20];
-  wire [4:0] insn_rs1     = rvfi_insn[19:15];
-  wire [4:0] insn_post_rd = rvfi_insn[19:15];
-  wire [2:0] insn_funct3  = rvfi_insn[14:12];
-  wire [4:0] insn_rd      = rvfi_insn[11: 7];
-  wire [6:0] insn_opcode  = rvfi_insn[ 6: 0];
+  wire [1:0] insn_funct2 = rvfi_insn[31:30];
+  wire [4:0] insn_rs2    = rvfi_insn[24:20];
+  wire [4:0] insn_rs1    = rvfi_insn[19:15];
+  wire [2:0] insn_funct3 = rvfi_insn[14:12];
+  wire [4:0] insn_rd     = rvfi_insn[11: 7];
+  wire [6:0] insn_opcode = rvfi_insn[ 6: 0];
 
 `ifdef RISCV_FORMAL_CSR_MISA
   wire misa_ok = (rvfi_csr_misa_rdata & `RISCV_FORMAL_XLEN'h 800000) == `RISCV_FORMAL_XLEN'h 800000;
@@ -53,56 +51,46 @@ module rvfi_insn_p_lhu (
   wire misa_ok = 1;
 `endif
 
-  // P_LHU instruction
-  reg funct3_valid, funct7_valid;
-  always @(*) begin
-    if (insn_opcode == 7'b 000_1011) begin
-      funct3_valid = (insn_funct3 == 3'b111) || (insn_funct3 == 3'b101);
-      funct7_valid = (insn_funct3 == 3'b111) ? (insn_funct7 == 7'b010_1000) : (1'b1);
-    end
-    else if (insn_opcode == 7'b 000_0011) begin
-      funct3_valid = (insn_funct3 == 3'b111);
-      funct7_valid = (insn_funct7 == 7'b010_1000);
-    end
-    else begin
-      funct3_valid = 1'b0;
-      funct7_valid = 1'b0;
-    end
-  end
+  // P_EXTRACTR instruction
+  wire [4:0] insn_ls3    = rvfi_rs2_rdata[9:5];
+  wire [4:0] insn_ls2    = rvfi_rs2_rdata[4:0];
 
-  wire [`RISCV_FORMAL_XLEN-1:0] op2 = (insn_funct3 == 3'b111) ? (rvfi_rs2_rdata) : (insn_imm);
-  wire [`RISCV_FORMAL_XLEN-1:0] result = rvfi_rs1_rdata + op2;
-  wire [`RISCV_FORMAL_XLEN-1:0] addr = (insn_opcode[3]) ? (rvfi_rs1_rdata) : (result);
-  assign spec_valid = rvfi_valid && !insn_padding && funct3_valid && funct7_valid;
+  // Extract rs1[ls2+ls3 : ls2]
+  wire [31:0] mask       = (2 << insn_ls3) - 1;		// mask[    ls3 :   0] = '1
+  wire [31:0] mask_sh    = mask << insn_ls2;		// mask[ls2+ls3 : ls2] = '1
+  wire [31:0] rs1_masked = rvfi_rs1_rdata & mask_sh;
+  wire [31:0] res_u      = rs1_masked >> insn_ls2;	// Unsigned result
+
+  // Get position of MSB for signal extension (max is 31)
+  wire [ 4:0] msb_pos = (insn_ls2 + insn_ls3 > 31) ? (31) : (insn_ls2 + insn_ls3);
+  wire        sig     = rs1_masked[msb_pos];
+  // Create signal extension mask (sext[31 : ls3+1] = 'sig)
+  wire [31:0] sext    = {32{sig}} << (msb_pos - insn_ls2 + 1);
+
+  // Result according to documentation: (it is wrongly documented...)
+  wire [31:0] doc_res = ((rvfi_rs1_rdata & ((1 << insn_ls3) - 1) << insn_ls2) >> insn_ls2) | sext;
+
+  wire [31:0] result = res_u | sext;
+  assign spec_valid = rvfi_valid && !insn_padding && insn_funct2 == 2'b10 && insn_funct3 == 3'b000 && insn_opcode == 7'b011_0011;
   assign spec_rs1_addr = insn_rs1;
   assign spec_rs2_addr = insn_rs2;
-  assign spec_post_rd_addr = (insn_opcode[3]) ? (insn_post_rd) : ('0);
-  assign spec_post_rd_wdata = spec_post_rd_addr ? result : 0;
   assign spec_rd_addr = insn_rd;
+  assign spec_rd_wdata = spec_rd_addr ? result : 0;
 `ifdef RISCV_FORMAL_CUSTOM_ISA
   assign spec_pc_wdata = (rvfi_is_hwlp) ? (rvfi_hwlp_start) : (rvfi_pc_rdata + 4);
 `else
   assign spec_pc_wdata = rvfi_pc_rdata + 4;
 `endif
 
-`ifdef RISCV_FORMAL_ALIGNED_MEM
-  wire [15:0] rdata = rvfi_mem_rdata >> (8*(addr-spec_mem_addr));
-  assign spec_mem_addr = addr & ~(`RISCV_FORMAL_XLEN/8-1);
-  assign spec_mem_rmask = ((1 << 2)-1) << (addr-spec_mem_addr);
-  assign spec_rd_wdata = spec_rd_addr ? rdata : 0;
-  assign spec_trap = ((addr & (2-1)) != 0) || !misa_ok;
-`else
-  wire [15:0] rdata = rvfi_mem_rdata;
-  assign spec_mem_addr = addr;
-  assign spec_mem_rmask = ((1 << 2)-1);
-  assign spec_rd_wdata = spec_rd_addr ? rdata : 0;
-  assign spec_trap = !misa_ok;
-`endif
-
   // default assignments
+  assign spec_trap = !misa_ok;
+  assign spec_mem_addr = 0;
+  assign spec_mem_rmask = 0;
   assign spec_mem_wmask = 0;
   assign spec_mem_wdata = 0;
 `ifdef RISCV_FORMAL_CUSTOM_ISA
   assign spec_rs3_addr = 0;
+  assign spec_post_rd_addr = 0;
+  assign spec_post_rd_wdata = 0;
 `endif
 endmodule

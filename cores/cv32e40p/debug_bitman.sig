@@ -70,6 +70,76 @@
   <spacer/>
   <group collapsed="false">
     <expr/>
+    <label>Bit Manipulation</label>
+    <wave collapsed="true">
+      <expr>checker_inst.insn_spec.rvfi_rs1_rdata</expr>
+      <label/>
+      <radix>checker_inst.rd_wdata</radix>
+    </wave>
+    <wave collapsed="true">
+      <expr>checker_inst.insn_spec.insn_ls2</expr>
+      <label/>
+      <radix/>
+    </wave>
+    <wave collapsed="true">
+      <expr>checker_inst.insn_spec.insn_ls3</expr>
+      <label/>
+      <radix/>
+    </wave>
+    <wave collapsed="true">
+      <expr>checker_inst.insn_spec.mask</expr>
+      <label/>
+      <radix/>
+    </wave>
+    <wave collapsed="true">
+      <expr>checker_inst.insn_spec.mask_sh</expr>
+      <label/>
+      <radix/>
+    </wave>
+    <wave collapsed="true">
+      <expr>checker_inst.insn_spec.rs1_masked</expr>
+      <label/>
+      <radix/>
+    </wave>
+    <wave collapsed="true">
+      <expr>checker_inst.insn_spec.res_u</expr>
+      <label/>
+      <radix/>
+    </wave>
+    <wave>
+      <expr>checker_inst.insn_spec.sig</expr>
+      <label/>
+      <radix/>
+    </wave>
+    <wave collapsed="true">
+      <expr>checker_inst.insn_spec.sext</expr>
+      <label/>
+      <radix/>
+    </wave>
+    <wave collapsed="true">
+      <expr>checker_inst.insn_spec.doc_res</expr>
+      <label/>
+      <radix/>
+    </wave>
+    <spacer/>
+  </group>
+  <wave collapsed="true">
+    <expr>wrapper.uut.ex_stage_i.alu_operand_a_i</expr>
+    <label/>
+    <radix>checker_inst.rd_wdata</radix>
+  </wave>
+  <wave collapsed="true">
+    <expr>wrapper.uut.ex_stage_i.alu_operand_b_i</expr>
+    <label/>
+    <radix>checker_inst.rd_wdata</radix>
+  </wave>
+  <wave collapsed="true">
+    <expr>wrapper.uut.ex_stage_i.alu_operand_c_i</expr>
+    <label/>
+    <radix>checker_inst.rd_wdata</radix>
+  </wave>
+  <group collapsed="false">
+    <expr/>
     <label>Rd</label>
     <wave collapsed="true">
       <expr>wrapper.uut.rvfi_rd_addr_ex</expr>
@@ -398,6 +468,30 @@
   <highlightlist>
     <!--Users can remove the highlightlist block if they want to load the signal save file into older version of Jasper-->
     <highlight>
+      <expr>checker_inst.insn_spec.RS1sh</expr>
+      <color>builtin_orange</color>
+    </highlight>
+    <highlight>
+      <expr>checker_inst.insn_spec.insn_ls2</expr>
+      <color>builtin_orange</color>
+    </highlight>
+    <highlight>
+      <expr>checker_inst.insn_spec.insn_ls3</expr>
+      <color>builtin_orange</color>
+    </highlight>
+    <highlight>
+      <expr>checker_inst.insn_spec.sext</expr>
+      <color>builtin_orange</color>
+    </highlight>
+    <highlight>
+      <expr>checker_inst.insn_spec.sext2</expr>
+      <color>builtin_orange</color>
+    </highlight>
+    <highlight>
+      <expr>checker_inst.insn_spec.sig</expr>
+      <color>builtin_orange</color>
+    </highlight>
+    <highlight>
       <expr>checker_inst.register_shadow</expr>
       <color>builtin_red</color>
     </highlight>
@@ -556,6 +650,42 @@
     <highlight>
       <expr>wrapper.uut.store_post_rd_data</expr>
       <color>builtin_orange</color>
+    </highlight>
+    <highlight>
+      <expr>checker_inst.insn_spec.BSR</expr>
+      <color>#beffc0</color>
+    </highlight>
+    <highlight>
+      <expr>checker_inst.insn_spec.BSRsh</expr>
+      <color>#beffc0</color>
+    </highlight>
+    <highlight>
+      <expr>checker_inst.insn_spec.RS1m</expr>
+      <color>#beffc0</color>
+    </highlight>
+    <highlight>
+      <expr>checker_inst.insn_spec.mask</expr>
+      <color>#beffc0</color>
+    </highlight>
+    <highlight>
+      <expr>checker_inst.insn_spec.mask_sh</expr>
+      <color>#beffc0</color>
+    </highlight>
+    <highlight>
+      <expr>checker_inst.insn_spec.res</expr>
+      <color>#beffc0</color>
+    </highlight>
+    <highlight>
+      <expr>checker_inst.insn_spec.res_u</expr>
+      <color>#beffc0</color>
+    </highlight>
+    <highlight>
+      <expr>checker_inst.insn_spec.resu</expr>
+      <color>#beffc0</color>
+    </highlight>
+    <highlight>
+      <expr>checker_inst.insn_spec.rs1_masked</expr>
+      <color>#beffc0</color>
     </highlight>
     <highlight>
       <expr>wrapper.uut.id_stage_i.instr</expr>
