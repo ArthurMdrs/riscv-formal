@@ -1339,6 +1339,15 @@ def insn_bit_man_2(insn, funct2, funct3, u=False, r=False, shamt=False, misa=MIS
         header(f, insn)
         format_bit_man(f)
         misa_check(f, misa)
+        
+        instr_type = 0
+        if   "extract" in insn: instr_type = 1
+        elif "insert"  in insn: instr_type = 2
+        elif "bclr"    in insn: instr_type = 3
+        elif "bset"    in insn: instr_type = 4
+        else:
+            print("  // SOMETHING IS WORNG IN INSN GENERATION!", file=f)
+            return
 
         print("", file=f)
         print("  // %s instruction" % insn.upper(), file=f)
@@ -1349,29 +1358,47 @@ def insn_bit_man_2(insn, funct2, funct3, u=False, r=False, shamt=False, misa=MIS
             print("  wire [4:0] insn_ls3    = rvfi_insn[29:25];", file=f)
             print("  wire [4:0] insn_ls2    = rvfi_insn[24:20];", file=f)
         print("", file=f)
-        print("  // Extract rs1[ls2+ls3 : ls2]", file=f)
+        if instr_type == 1:
+            print("  // Extract rs1[ls2+ls3 : ls2]", file=f)
+        elif instr_type == 2:
+            print("  // Extract rs1[ls3 : 0]", file=f)
+        elif instr_type == 3:
+            print("  // Clear rs1[ls2+ls3 : ls2]", file=f)
+        elif instr_type == 4:
+            print("  // Set rs1[ls2+ls3 : ls2]", file=f)
         print("  wire [31:0] mask       = (2 << insn_ls3) - 1;\t\t// mask[    ls3 :   0] = '1", file=f)
         print("  wire [31:0] mask_sh    = mask << insn_ls2;\t\t// mask[ls2+ls3 : ls2] = '1", file=f)
-        print("  wire [31:0] rs1_masked = rvfi_rs1_rdata & mask_sh;", file=f)
-        print("  wire [31:0] res_u      = rs1_masked >> insn_ls2;\t// Unsigned result", file=f)
-        print("", file=f)
-        if u:
-            print("  // Signal extension mask doesn't matter in unsigned operation", file=f)
-            print("  wire [31:0] sext = 32'b0;", file=f)
-        else:
+        if instr_type == 1:
+            print("  wire [31:0] rs1_masked = rvfi_rs1_rdata & mask_sh;\t// rs1[ls2+ls3 : ls2]", file=f)
+            print("  wire [31:0] res_u      = rs1_masked >> insn_ls2;\t// Unsigned result", file=f)
+        elif instr_type == 2:
+            print("  wire [31:0] rs1_masked = rvfi_rs1_rdata & mask;\t// rs1 [    ls3 :   0]", file=f)
+            print("  // Insert extracted portion in rd, read from rs3", file=f)
+            print("  wire [31:0] res_u      = (rvfi_rs3_rdata & ~mask_sh) | (rs1_masked << insn_ls2);", file=f)
+        elif instr_type == 3:
+            print("  wire [31:0] rs1_masked = rvfi_rs1_rdata & ~mask_sh;\t// rs1[ls2+ls3 : ls2] = '0", file=f)
+            print("  wire [31:0] res_u      = rs1_masked;", file=f)
+        elif instr_type == 4:
+            print("  wire [31:0] rs1_masked = rvfi_rs1_rdata | mask_sh;\t// rs1[ls2+ls3 : ls2] = '1", file=f)
+            print("  wire [31:0] res_u      = rs1_masked;", file=f)
+        if not u:
+            print("", file=f)
             print("  // Get position of MSB for signal extension (max is 31)", file=f)
             print("  wire [ 4:0] msb_pos = (insn_ls2 + insn_ls3 > 31) ? (31) : (insn_ls2 + insn_ls3);", file=f)
             print("  wire        sig     = rs1_masked[msb_pos];", file=f)
             print("  // Create signal extension mask (sext[31 : ls3+1] = 'sig)", file=f)
             print("  wire [31:0] sext    = {32{sig}} << (msb_pos - insn_ls2 + 1);", file=f)
+        if instr_type == 1:
+            print("", file=f)
+            print("  // Result according to documentation: (it is wrongly documented...)", file=f)
+            print("  wire [31:0] doc_res = ((rvfi_rs1_rdata & ((1 << insn_ls3) - 1) << insn_ls2) >> insn_ls2)%s;" % (" | sext" if not u else ""), file=f)
         print("", file=f)
-        print("  // Result according to documentation: (it is wrongly documented...)", file=f)
-        print("  wire [31:0] doc_res = ((rvfi_rs1_rdata & ((1 << insn_ls3) - 1) << insn_ls2) >> insn_ls2) | sext;", file=f)
-        print("", file=f)
-        print("  wire [31:0] result = res_u | sext;", file=f)
+        print("  wire [31:0] result = res_u%s;" % (" | sext" if not u else ""), file=f)
         assign(f, "spec_valid", "rvfi_valid && !insn_padding && insn_funct2 == 2'b%s && insn_funct3 == 3'b%s && insn_opcode == 7'b011_0011" % (funct2, funct3))
         assign(f, "spec_rs1_addr", "insn_rs1")
         assign(f, "spec_rs2_addr", "insn_rs2")
+        if instr_type == 2:
+            assign(f, "spec_rs3_addr", "insn_rd")
         assign(f, "spec_rd_addr", "insn_rd")
         assign(f, "spec_rd_wdata", "spec_rd_addr ? result : 0")
         assign_pc_wdata(f)
@@ -1630,14 +1657,21 @@ insn_p_l("p_lhu", "010_1000", "101", 2, False)
 insn_alu      ("p_ror", "000_0100", "101", "rvfi_rs1_rdata << (32-shamt) | rvfi_rs1_rdata >> shamt", shamt=True, misa=MISA_X)
 insn_alu      ("p_cnt", "000_1000", "011", "$countones(rvfi_rs1_rdata)", misa=MISA_X) # I tested this with Tabby, it works
 # insn_bit_man_1("p_cnt", "011", lnr=True , cnt=True)
+insn_p_clb    ("p_clb", "010")
 insn_bit_man_1("p_ff1", "000", lnr=False, cnt=False)
 insn_bit_man_1("p_fl1", "001", lnr=True , cnt=False)
-insn_p_clb    ("p_clb", "010")
 
 insn_bit_man_2("p_extract"  , "11", "000", u=False, r=False)
 insn_bit_man_2("p_extractu" , "11", "001", u=True , r=False)
+insn_bit_man_2("p_insert"   , "11", "010", u=True , r=False)
+insn_bit_man_2("p_bclr"     , "11", "011", u=True , r=False)
+insn_bit_man_2("p_bset"     , "11", "100", u=True , r=False)
+
 insn_bit_man_2("p_extractr" , "10", "000", u=False, r=True )
 insn_bit_man_2("p_extractur", "10", "001", u=True , r=True )
+insn_bit_man_2("p_insertr"  , "10", "010", u=True , r=True )
+insn_bit_man_2("p_bclrr"    , "10", "011", u=True , r=True )
+insn_bit_man_2("p_bsetr"    , "10", "100", u=True , r=True )
 
 # insn_hwlp("lp_starti",  "000", "rvfi_rs1_rdata + insn_imm")
 #### ================   XPULP - END   ================ ####

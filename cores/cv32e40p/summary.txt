@@ -1,0 +1,30 @@
+insn_p_bclr_ch0: FAIL
+ A counterexample (cex) with 20 cycles was found for the property "rvfi_testbench.checker_inst.AST_spec_pc_wdata" in 28.99 s.
+
+insn_p_bclrr_ch0: FAIL
+ A counterexample (cex) with 20 cycles was found for the property "rvfi_testbench.checker_inst.AST_spec_pc_wdata" in 27.14 s.
+
+insn_p_bset_ch0: FAIL
+ A counterexample (cex) with 20 cycles was found for the property "rvfi_testbench.checker_inst.AST_spec_pc_wdata" in 27.87 s.
+
+insn_p_bsetr_ch0: FAIL
+ A counterexample (cex) with 20 cycles was found for the property "rvfi_testbench.checker_inst.AST_spec_pc_wdata" in 9.77 s.
+
+insn_p_extract_ch0: FAIL
+ A counterexample (cex) with 20 cycles was found for the property "rvfi_testbench.checker_inst.AST_spec_pc_wdata" in 45.40 s.
+
+insn_p_extractr_ch0: FAIL
+ A counterexample (cex) with 20 cycles was found for the property "rvfi_testbench.checker_inst.AST_spec_pc_wdata" in 50.93 s.
+
+insn_p_extractu_ch0: FAIL
+ A counterexample (cex) with 20 cycles was found for the property "rvfi_testbench.checker_inst.AST_spec_pc_wdata" in 37.85 s.
+
+insn_p_extractur_ch0: FAIL
+ A counterexample (cex) with 20 cycles was found for the property "rvfi_testbench.checker_inst.AST_spec_pc_wdata" in 28.41 s.
+
+insn_p_insert_ch0: FAIL
+ A counterexample (cex) with 20 cycles was found for the property "rvfi_testbench.checker_inst.AST_spec_pc_wdata" in 7.29 s.
+
+insn_p_insertr_ch0: FAIL
+ A counterexample (cex) with 20 cycles was found for the property "rvfi_testbench.checker_inst.AST_spec_pc_wdata" in 36.21 s.
+

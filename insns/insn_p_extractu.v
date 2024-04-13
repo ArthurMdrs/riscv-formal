@@ -58,16 +58,13 @@ module rvfi_insn_p_extractu (
   // Extract rs1[ls2+ls3 : ls2]
   wire [31:0] mask       = (2 << insn_ls3) - 1;		// mask[    ls3 :   0] = '1
   wire [31:0] mask_sh    = mask << insn_ls2;		// mask[ls2+ls3 : ls2] = '1
-  wire [31:0] rs1_masked = rvfi_rs1_rdata & mask_sh;
+  wire [31:0] rs1_masked = rvfi_rs1_rdata & mask_sh;	// rs1[ls2+ls3 : ls2]
   wire [31:0] res_u      = rs1_masked >> insn_ls2;	// Unsigned result
 
-  // Signal extension mask doesn't matter in unsigned operation
-  wire [31:0] sext = 32'b0;
-
   // Result according to documentation: (it is wrongly documented...)
-  wire [31:0] doc_res = ((rvfi_rs1_rdata & ((1 << insn_ls3) - 1) << insn_ls2) >> insn_ls2) | sext;
+  wire [31:0] doc_res = ((rvfi_rs1_rdata & ((1 << insn_ls3) - 1) << insn_ls2) >> insn_ls2);
 
-  wire [31:0] result = res_u | sext;
+  wire [31:0] result = res_u;
   assign spec_valid = rvfi_valid && !insn_padding && insn_funct2 == 2'b11 && insn_funct3 == 3'b001 && insn_opcode == 7'b011_0011;
   assign spec_rs1_addr = insn_rs1;
   assign spec_rs2_addr = insn_rs2;

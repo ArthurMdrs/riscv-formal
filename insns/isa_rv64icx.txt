@@ -54,6 +54,10 @@ lw
 lwu
 or
 ori
+p_bclr
+p_bclrr
+p_bset
+p_bsetr
 p_clb
 p_cnt
 p_extract
@@ -62,6 +66,8 @@ p_extractu
 p_extractur
 p_ff1
 p_fl1
+p_insert
+p_insertr
 p_lb
 p_lbu
 p_lh

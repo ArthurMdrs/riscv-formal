@@ -58,7 +58,7 @@ module rvfi_insn_p_extract (
   // Extract rs1[ls2+ls3 : ls2]
   wire [31:0] mask       = (2 << insn_ls3) - 1;		// mask[    ls3 :   0] = '1
   wire [31:0] mask_sh    = mask << insn_ls2;		// mask[ls2+ls3 : ls2] = '1
-  wire [31:0] rs1_masked = rvfi_rs1_rdata & mask_sh;
+  wire [31:0] rs1_masked = rvfi_rs1_rdata & mask_sh;	// rs1[ls2+ls3 : ls2]
   wire [31:0] res_u      = rs1_masked >> insn_ls2;	// Unsigned result
 
   // Get position of MSB for signal extension (max is 31)

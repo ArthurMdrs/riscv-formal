@@ -1,6 +1,6 @@
 // DO NOT EDIT -- auto-generated from riscv-formal/insns/generate.py
 
-module rvfi_insn_p_extractr (
+module rvfi_insn_p_insert (
   input                                 rvfi_valid,
   input  [`RISCV_FORMAL_ILEN   - 1 : 0] rvfi_insn,
   input  [`RISCV_FORMAL_XLEN   - 1 : 0] rvfi_pc_rdata,
@@ -51,29 +51,22 @@ module rvfi_insn_p_extractr (
   wire misa_ok = 1;
 `endif
 
-  // P_EXTRACTR instruction
-  wire [4:0] insn_ls3    = rvfi_rs2_rdata[9:5];
-  wire [4:0] insn_ls2    = rvfi_rs2_rdata[4:0];
+  // P_INSERT instruction
+  wire [4:0] insn_ls3    = rvfi_insn[29:25];
+  wire [4:0] insn_ls2    = rvfi_insn[24:20];
 
-  // Extract rs1[ls2+ls3 : ls2]
+  // Extract rs1[ls3 : 0]
   wire [31:0] mask       = (2 << insn_ls3) - 1;		// mask[    ls3 :   0] = '1
   wire [31:0] mask_sh    = mask << insn_ls2;		// mask[ls2+ls3 : ls2] = '1
-  wire [31:0] rs1_masked = rvfi_rs1_rdata & mask_sh;	// rs1[ls2+ls3 : ls2]
-  wire [31:0] res_u      = rs1_masked >> insn_ls2;	// Unsigned result
+  wire [31:0] rs1_masked = rvfi_rs1_rdata & mask;	// rs1 [    ls3 :   0]
+  // Insert extracted portion in rd, read from rs3
+  wire [31:0] res_u      = (rvfi_rs3_rdata & ~mask_sh) | (rs1_masked << insn_ls2);
 
-  // Get position of MSB for signal extension (max is 31)
-  wire [ 4:0] msb_pos = (insn_ls2 + insn_ls3 > 31) ? (31) : (insn_ls2 + insn_ls3);
-  wire        sig     = rs1_masked[msb_pos];
-  // Create signal extension mask (sext[31 : ls3+1] = 'sig)
-  wire [31:0] sext    = {32{sig}} << (msb_pos - insn_ls2 + 1);
-
-  // Result according to documentation: (it is wrongly documented...)
-  wire [31:0] doc_res = ((rvfi_rs1_rdata & ((1 << insn_ls3) - 1) << insn_ls2) >> insn_ls2) | sext;
-
-  wire [31:0] result = res_u | sext;
-  assign spec_valid = rvfi_valid && !insn_padding && insn_funct2 == 2'b10 && insn_funct3 == 3'b000 && insn_opcode == 7'b011_0011;
+  wire [31:0] result = res_u;
+  assign spec_valid = rvfi_valid && !insn_padding && insn_funct2 == 2'b11 && insn_funct3 == 3'b010 && insn_opcode == 7'b011_0011;
   assign spec_rs1_addr = insn_rs1;
   assign spec_rs2_addr = insn_rs2;
+  assign spec_rs3_addr = insn_rd;
   assign spec_rd_addr = insn_rd;
   assign spec_rd_wdata = spec_rd_addr ? result : 0;
 `ifdef RISCV_FORMAL_CUSTOM_ISA
@@ -89,7 +82,6 @@ module rvfi_insn_p_extractr (
   assign spec_mem_wmask = 0;
   assign spec_mem_wdata = 0;
 `ifdef RISCV_FORMAL_CUSTOM_ISA
-  assign spec_rs3_addr = 0;
   assign spec_post_rd_addr = 0;
   assign spec_post_rd_wdata = 0;
 `endif
