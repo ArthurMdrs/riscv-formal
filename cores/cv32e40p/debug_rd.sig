@@ -136,6 +136,45 @@
   </group>
   <group collapsed="false">
     <expr/>
+    <label>Regfile Read Port</label>
+    <wave collapsed="true">
+      <expr>wrapper.uut.id_stage_i.instr</expr>
+      <label/>
+      <radix>checker_inst.rvfi_rs1_addr</radix>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.uut.id_stage_i.registers_i.raddr_a_i</expr>
+      <label/>
+      <radix>checker_inst.rvfi_rs1_addr</radix>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.uut.id_stage_i.registers_i.rdata_a_o</expr>
+      <label/>
+      <radix/>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.uut.id_stage_i.registers_i.raddr_b_i</expr>
+      <label/>
+      <radix>checker_inst.rvfi_rs1_addr</radix>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.uut.id_stage_i.registers_i.rdata_b_o</expr>
+      <label/>
+      <radix/>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.uut.id_stage_i.registers_i.raddr_c_i</expr>
+      <label/>
+      <radix>checker_inst.rvfi_rs1_addr</radix>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.uut.id_stage_i.registers_i.rdata_c_o</expr>
+      <label/>
+      <radix/>
+    </wave>
+  </group>
+  <group collapsed="true">
+    <expr/>
     <label>Regfile EX port</label>
     <wave>
       <expr>wrapper.uut.ex_stage_i.regfile_alu_we_fw_o</expr>
@@ -177,8 +216,43 @@
       <label/>
       <radix>checker_inst.rvfi_rs1_rdata</radix>
     </wave>
+    <spacer/>
   </group>
-  <spacer/>
+  <group collapsed="true">
+    <expr/>
+    <label>ALU</label>
+    <wave collapsed="true">
+      <expr>wrapper.uut.ex_stage_i.alu_operand_a_i</expr>
+      <label/>
+      <radix>checker_inst.pc_wdata</radix>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.uut.ex_stage_i.alu_operand_b_i</expr>
+      <label/>
+      <radix>checker_inst.pc_wdata</radix>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.uut.ex_stage_i.alu_operand_c_i</expr>
+      <label/>
+      <radix>checker_inst.pc_wdata</radix>
+    </wave>
+    <wave>
+      <expr>wrapper.uut.id_stage_i.rega_used_dec</expr>
+      <label/>
+      <radix/>
+    </wave>
+    <wave>
+      <expr>wrapper.uut.id_stage_i.regb_used_dec</expr>
+      <label/>
+      <radix/>
+    </wave>
+    <wave>
+      <expr>wrapper.uut.id_stage_i.regc_used_dec</expr>
+      <label/>
+      <radix/>
+    </wave>
+    <spacer/>
+  </group>
   <wave collapsed="true">
     <expr>wrapper.uut.rvfi_insn_id</expr>
     <label/>
@@ -393,8 +467,8 @@
       <label/>
       <radix/>
     </wave>
+    <spacer/>
   </group>
-  <spacer/>
   <highlightlist>
     <!--Users can remove the highlightlist block if they want to load the signal save file into older version of Jasper-->
     <highlight>

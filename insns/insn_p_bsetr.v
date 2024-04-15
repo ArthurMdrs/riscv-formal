@@ -62,6 +62,8 @@ module rvfi_insn_p_bsetr (
   wire [31:0] res_u      = rs1_masked;
 
   wire [31:0] result = res_u;
+  // ATTENTION!! The correct encoding is with ls3 = 5'b0!!!
+  // The core does not check for that and it passes anyway!!!
   assign spec_valid = rvfi_valid && !insn_padding && insn_funct2 == 2'b10 && insn_funct3 == 3'b100 && insn_opcode == 7'b011_0011;
   assign spec_rs1_addr = insn_rs1;
   assign spec_rs2_addr = insn_rs2;

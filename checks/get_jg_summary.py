@@ -31,9 +31,16 @@ def get_summary_from_log(file_path):
     covered             = 0
     ar_covered          = 0
     
+    def get_val(line):
+        for x in line.split():
+            if x.isdigit():
+                return int(x)
+        error("ERROR! Could not find value in line!")
+        return 0
+    
     with open(file_path, 'r') as file:
         found_summary = False
-        no_lines = 21
+        no_lines = 22
         for line in file:
             if line.strip() == 'SUMMARY':
                 found_summary = True
@@ -41,35 +48,42 @@ def get_summary_from_log(file_path):
                 vec.append(line)
                 no_lines -= 1
                 if "assertions" in line:
-                    assertions += int(line.split()[-1])
+                    assertions += get_val(line)
                 if "- proven" in line:
-                    proven += int(line.split()[-1])
+                    proven += get_val(line)
                 if "- bounded_proven" in line:
-                    bounded_proven += int(line.split()[-1])
+                    bounded_proven += get_val(line)
                 if "- marked_proven" in line:
-                    marked_proven += int(line.split()[-1])
+                    marked_proven += get_val(line)
                 if "- cex" in line:
-                    cex += int(line.split()[-1])
+                    cex += get_val(line)
                 if "- ar_cex" in line:
-                    ar_cex += int(line.split()[-1])
+                    ar_cex += get_val(line)
                 if "- undetermined" in line:
-                    undetermined += int(line.split()[-1])
+                    undetermined += get_val(line)
                 if "- unknown" in line:
-                    unknown += int(line.split()[-1])
+                    unknown += get_val(line)
                 if "- error" in line:
-                    error += int(line.split()[-1])
+                    error += get_val(line)
                 if "covers" in line:
-                    covers += int(line.split()[-1])
+                    covers += get_val(line)
                 if "- unreachable" in line:
-                    unreachable += int(line.split()[-1])
+                    unreachable += get_val(line)
                 if "- bounded_unreachable" in line:
-                    bounded_unreachable += int(line.split()[-1])
+                    bounded_unreachable += get_val(line)
                 if "- covered" in line:
-                    covered += int(line.split()[-1])
+                    covered += get_val(line)
                 if "- ar_covered" in line:
-                    ar_covered += int(line.split()[-1])
+                    ar_covered += get_val(line)
     if found_summary == False or error != 0:
         status = "ERROR"
+    elif assertions == 0: 
+        status = "ERROR"
+    # With just 1 assertion Jasper won't print summary automatically
+    # We have to use the info from report command, which is different
+    elif assertions == 1: 
+        if cex != 0 or ar_cex != 0:
+            status = "FAIL"
     elif assertions != (proven + bounded_proven + marked_proven):
         status = "FAIL"
     elif covers != (covered + ar_covered):

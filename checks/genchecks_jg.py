@@ -376,7 +376,7 @@ def check_insn(grp, insn, chanidx, csr_mode=False, illegal_csr=False):
         print_hfmt(tcl_file, """
                 : clear -all
                 :
-                : set depth @depth@
+                : set depth @depth_plus@
                 :
         """, **hargs)
 
@@ -437,6 +437,8 @@ def check_insn(grp, insn, chanidx, csr_mode=False, illegal_csr=False):
                 : set_max_trace_length $depth
                 : set_trace_optimization standard
                 : prove -instance checker_inst -iter $depth -dump_trace -dump_trace_type vcd -dump_trace_dir traces
+                : 
+                : report -summary
                 : 
         """, **hargs)
                 # : check_assumptions -show -dead_end
@@ -506,10 +508,6 @@ def check_insn(grp, insn, chanidx, csr_mode=False, illegal_csr=False):
 
         if compr:
             defines_str += hfmt("`define RISCV_FORMAL_COMPRESSED", **hargs)
-
-        # Code below would make this script behave differently than the regular genchecks
-        # if custom_isa:
-        #     defines_str += hfmt("`define RISCV_FORMAL_CUSTOM_ISA", **hargs)
             
         if "defines" in config:
             defines_str += hfmt(config["defines"], **hargs)
@@ -664,7 +662,7 @@ def check_cons(grp, check, chanidx=None, start=None, trig=None, depth=None, csr_
         print_hfmt(tcl_file, """
                 : clear -all
                 :
-                : set depth @depth@
+                : set depth @depth_plus@
                 :
         """, **hargs)
 
@@ -730,7 +728,6 @@ def check_cons(grp, check, chanidx=None, start=None, trig=None, depth=None, csr_
             for line in f.readlines():
                 if "rvformal_rand_const_reg" in line:
                     ndc = line.split()[-1][:-1]
-                    # print(ndc)
                     print(f"assume -name ASM_{ndc}_const {{@(posedge clock) (checker_inst.{ndc} == $past(checker_inst.{ndc}))}}", file=tcl_file)
         
         print_hfmt(tcl_file, """
@@ -739,6 +736,8 @@ def check_cons(grp, check, chanidx=None, start=None, trig=None, depth=None, csr_
                 : set_max_trace_length $depth
                 : set_trace_optimization standard
                 : prove -instance checker_inst -iter $depth -dump_trace -dump_trace_type vcd -dump_trace_dir traces
+                : 
+                : report -summary
                 : 
         """, **hargs)
                 # : check_assumptions -show -dead_end
@@ -800,10 +799,6 @@ def check_cons(grp, check, chanidx=None, start=None, trig=None, depth=None, csr_
 
         if hargs["check"] in ("liveness", "hang"):
             defines_str += hfmt("`define RISCV_FORMAL_FAIRNESS", **hargs)
-
-        # Code below would make this script behave differently than the regular genchecks
-        # if custom_isa:
-        #     defines_str += hfmt("`define RISCV_FORMAL_CUSTOM_ISA", **hargs)
 
         if "defines" in config:
             defines_str += hfmt(config["defines"], **hargs)

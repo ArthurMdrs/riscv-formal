@@ -52,15 +52,28 @@ module rvfi_insn_p_cnt (
 `endif
 
   // P_CNT instruction
-  wire [`RISCV_FORMAL_XLEN-1:0] result = $countones(rvfi_rs1_rdata);
-  assign spec_valid = rvfi_valid && !insn_padding && insn_funct7 == 7'b 000_1000 && insn_funct3 == 3'b 011 && insn_opcode == 7'b 0110011;
+  reg [31:0] result;
+  always_comb begin
+    result = 0;
+    for(int i = 31; i >= 0; i--)
+      if(rvfi_rs1_rdata[i]) begin
+        result++;
+      end
+  end
+  // ATTENTION!! The correct encoding is with rs2 = 5'b0!!!
+  // The core does not check for that and it passes anyway!!!
+  assign spec_valid = rvfi_valid && !insn_padding && insn_funct7 == 7'b000_1000 && insn_funct3 == 3'b011 && insn_opcode == 7'b011_0011;
   assign spec_rs1_addr = insn_rs1;
-  assign spec_rs2_addr = insn_rs2;
   assign spec_rd_addr = insn_rd;
   assign spec_rd_wdata = spec_rd_addr ? result : 0;
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  assign spec_pc_wdata = (rvfi_is_hwlp) ? (rvfi_hwlp_start) : (rvfi_pc_rdata + 4);
+`else
   assign spec_pc_wdata = rvfi_pc_rdata + 4;
+`endif
 
   // default assignments
+  assign spec_rs2_addr = 0;
   assign spec_trap = !misa_ok;
   assign spec_mem_addr = 0;
   assign spec_mem_rmask = 0;

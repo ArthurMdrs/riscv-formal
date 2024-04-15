@@ -125,31 +125,6 @@ module riscv_core
   input  logic [N_EXT_PERF_COUNTERS-1:0] ext_perf_counters_i
 
 `ifdef RISCV_FORMAL
-    // // Instruction Metadata
-    // output reg        rvfi_valid,
-    // output reg [63:0] rvfi_order,
-    // output reg [31:0] rvfi_insn,
-    // output reg        rvfi_trap,
-    // output reg        rvfi_halt,
-    // output reg        rvfi_intr,
-    // output reg [ 1:0] rvfi_mode,
-    // output reg [ 1:0] rvfi_ixl,
-    // // Integer Register Read/Write
-    // output reg [ 4:0] rvfi_rs1_addr,
-    // output reg [ 4:0] rvfi_rs2_addr,
-    // output reg [31:0] rvfi_rs1_rdata,
-    // output reg [31:0] rvfi_rs2_rdata,
-    // output reg [ 4:0] rvfi_rd_addr,
-    // output reg [31:0] rvfi_rd_wdata,
-    // // Program Counter
-    // output reg [31:0] rvfi_pc_rdata,
-    // output reg [31:0] rvfi_pc_wdata,
-    // // Memory Access
-    // output reg [31:0] rvfi_mem_addr,
-    // output reg [ 3:0] rvfi_mem_rmask,
-    // output reg [ 3:0] rvfi_mem_wmask,
-    // output reg [31:0] rvfi_mem_rdata,
-    // output reg [31:0] rvfi_mem_wdata,
     ,
     `RVFI_OUTPUTS
 `endif
@@ -1431,6 +1406,19 @@ module riscv_core
             rvfi_intr_id <= rvfi_intr_if;
             rvfi_intr_ex <= rvfi_intr_id;
             rvfi_intr_wb <= rvfi_intr_ex;
+            
+            // if (if_stage_i.if_ready)
+            //     rvfi_insn_if <= (if_stage_i.instr_compressed_int) ? {16'b0, if_stage_i.fetch_rdata[15:0]} : if_stage_i.instr_decompressed;
+            // if (id_stage_i.id_ready_o)
+            //     rvfi_insn_id <= rvfi_insn_if;
+            // if (ex_stage_i.ex_ready_o)
+            //     // If a mem instr is waiting for rvalid, don't update
+            //     if (replicate_ex)
+            //         rvfi_insn_ex <= rvfi_insn_ex;
+            //     else
+            //         rvfi_insn_ex <= rvfi_insn_id;
+            // if (load_store_unit_i.lsu_ready_wb_o)
+            //     rvfi_insn_wb <= rvfi_insn_ex;
         end
     end
     assign rvfi_intr = rvfi_intr_wb;
