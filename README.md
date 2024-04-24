@@ -8,7 +8,7 @@ This is a modified version of RISC-V Formal Verification Framework, adapted to w
 
 You will find the original README after this section.
 
-To generate the macros and instruction checks for the xpulp extension, run:
+To generate the macros and instruction checks for the xpulp extension, open the terminal in this directory and run:
 
 ```
 RVFORMAL_ROOT=$(pwd)
@@ -33,13 +33,16 @@ python3.11 generate.py
 Adapted checkers: 
 
 - rvfi_insn_check
+- rvfi_reg_check
+- rvfi_csrw_check
 
 What has been adapted:
 
-- Addition of rs3 (used in post-incrementing stores).
+- Addition of rs3 (used in some xpulp instructions).
 - Addition of rd for post-increments (used in post-incrementing stores/loads).
 - Addition of is_hwlp to indicate the last instruction in a hardware loop. WIP DOES NOT WORK
 - Addition of hwlp_start to indicate the PC of the first instruction in a hardware loop. WIP DOES NOT WORK
+- Named all assumptions, assertions and covers for better debugging.
 
 RISC-V Formal Verification Framework
 ====================================

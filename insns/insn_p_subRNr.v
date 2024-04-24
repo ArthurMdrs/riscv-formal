@@ -55,6 +55,9 @@ module rvfi_insn_p_subRNr (
   // P_SUBRNR instruction
   wire [4:0] insn_rs3 = insn_rd;
   wire [31:0] result = $signed(rvfi_rs3_rdata - rvfi_rs1_rdata + (1 << (rvfi_rs2_rdata[4:0] - 1))) >>> rvfi_rs2_rdata[4:0];
+  // ATTENTION!! The core does not check if ls3 = 0!!!
+  // This leads to it executing illegal instructions!!!
+  // Correct spec_valid: rvfi_valid && !insn_padding && insn_funct2 == 2'b01 && insn_funct3 == 3'b111 && insn_opcode == 7'b101_1011 && insn_ls3 == 5'b0
   assign spec_valid = rvfi_valid && !insn_padding && insn_funct2 == 2'b01 && insn_funct3 == 3'b111 && insn_opcode == 7'b101_1011;
   assign spec_rs1_addr = insn_rs1;
   assign spec_rs2_addr = insn_rs2;

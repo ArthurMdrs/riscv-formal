@@ -52,7 +52,7 @@ def process_files_in_folder(folder_path, insert_str):
 # ====================  MAIN CODE BEGIN  ==================== #
 
 incdirs_vec = []
-incfiles_str = ""
+incdirs_str = ""
 cfgname = "checks"
 
 if len(sys.argv) > 1:
@@ -64,9 +64,9 @@ get_from_config("[include-dirs]", incdirs_vec, cfgname)
 
 # Store all files and folders from the incdirs in a string
 for dir in incdirs_vec:
-    incfiles_str += get_file_names(dir)
+    incdirs_str += get_file_names(dir)
 
 # Insert the string into all the .sby files
-process_files_in_folder(cfgname, incfiles_str)
+process_files_in_folder(cfgname, incdirs_str)
 
 # ====================  MAIN CODE END  ==================== #

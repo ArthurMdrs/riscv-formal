@@ -112,14 +112,14 @@ module rvfi_wrapper (
     
     
     // Tie-offs
-    assign clk_i                = clock;
-    assign rst_ni               = !reset;
-    assign clock_en_i           = 1'b1;
-    assign test_en_i            = 1'b0;
-    assign fregfile_disable_i   = 1'b0;
-    assign boot_addr_i          = BOOT_ADDR;
-    assign core_id_i            = CORE_ID;
-    assign cluster_id_i         = CLUSTER_ID;
+    assign clk_i              = clock;
+    assign rst_ni             = !reset;
+    assign clock_en_i         = 1'b1;
+    assign test_en_i          = 1'b0;
+    assign fregfile_disable_i = 1'b0;
+    assign boot_addr_i        = BOOT_ADDR;
+    assign core_id_i          = CORE_ID;
+    assign cluster_id_i       = CLUSTER_ID;
     
     // Pulpissimo does not use the apu interconnect
     // This is used when there is an external FPU
@@ -235,7 +235,7 @@ module rvfi_wrapper (
     
     // No grant without request
     reg instr_gnt_wo_req = 0;
-    reg data_gnt_wo_req = 0;
+    reg data_gnt_wo_req  = 0;
 	always @(posedge clock) begin
         instr_gnt_wo_req = instr_gnt_i && !instr_req_o;
         data_gnt_wo_req  = data_gnt_i  && !data_req_o ;

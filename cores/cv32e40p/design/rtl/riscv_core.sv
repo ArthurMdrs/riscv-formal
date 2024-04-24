@@ -1200,12 +1200,12 @@ module riscv_core
 
     //====================   Instruction Metadata   ====================//
     reg        rvfi_valid_if, rvfi_valid_id, rvfi_valid_ex, rvfi_valid_wb;
+    reg [63:0]                                              rvfi_order_wb;
     reg [31:0] rvfi_insn_if , rvfi_insn_id , rvfi_insn_ex , rvfi_insn_wb ;
     reg                       rvfi_trap_id , rvfi_trap_ex , rvfi_trap_wb ;
     reg        rvfi_halt_if , rvfi_halt_id , rvfi_halt_ex , rvfi_halt_wb ;
     reg        rvfi_intr_if , rvfi_intr_id , rvfi_intr_ex , rvfi_intr_wb ;
     reg [ 1:0]                rvfi_mode_id , rvfi_mode_ex , rvfi_mode_wb ;
-    reg [63:0]                                              rvfi_order_wb;
     
     localparam COMP_LW = 5'b00_010, COMP_LWSP = 5'b10_010, COMP_SW = 5'b00_110, COMP_SWSP = 5'b10_110;
     
@@ -2178,9 +2178,59 @@ module riscv_core
     assign rvfi_csr_pmpaddr15_wdata = rvfi_csr_wdata_wb;
 
     `ifdef RISCV_FORMAL_CUSTOM_ISA
+    
+        // logic [31:0] hwlp_start0_id, hwlp_start0_ex, hwlp_start0_wb, hwlp_start1_id, hwlp_start1_ex, hwlp_start1_wb;
+        // // logic [31:0] hwlp_start0_ex, hwlp_start0_wb, hwlp_start1_ex, hwlp_start1_wb;
+        // // logic [31:0] hwlp_start0_ex, hwlp_start0_wb, hwlp_start1_ex, hwlp_start1_wb;
+        
+        // always @(posedge clk or negedge rst_ni) begin
+        //     if (!rst_ni) begin
+        //         hwlp_start0_id <= '0;
+        //         hwlp_start0_ex <= '0;
+        //         hwlp_start0_wb <= '0;
+        //         hwlp_start1_id <= '0;
+        //         hwlp_start1_ex <= '0;
+        //         hwlp_start1_wb <= '0;
+        //     end
+        //     else begin
+        //         if (id_stage_i.id_ready_o) begin
+        //             hwlp_start0_id <= hwlp_start[0];
+        //             hwlp_start1_id <= hwlp_start[1];
+        //         end
+        //         if (ex_stage_i.ex_ready_o) begin
+        //             // hwlp_start0_ex <= hwlp_start0_id;
+        //             // hwlp_start1_ex <= hwlp_start1_id;
+                    
+        //             if (replicate_ex) begin
+        //                 hwlp_start0_ex <= hwlp_start0_ex;
+        //                 hwlp_start1_ex <= hwlp_start1_ex;
+        //             end
+        //             else 
+        //             if (insn_id_is_csr && cs_registers_i.csr_we_int) begin
+        //                 hwlp_start0_ex <= hwlp_start[0];
+        //                 hwlp_start1_ex <= hwlp_start[1];
+        //             end
+                    
+        //             // if (!cs_registers_i.csr_we_int) begin
+        //             //     hwlp_start0_ex <= hwlp_start[0];
+        //             //     hwlp_start1_ex <= hwlp_start[1];
+        //             // end
+        //             // else if (insn_id_is_csr) begin
+        //             //     hwlp_start0_ex <= hwlp_start[0];
+        //             //     hwlp_start1_ex <= hwlp_start[1];
+        //             // end
+        //         end
+        //         if (load_store_unit_i.lsu_ready_wb_o) begin
+        //             hwlp_start0_wb <= hwlp_start0_ex;
+        //             hwlp_start1_wb <= hwlp_start1_ex;
+        //         end
+        //     end
+        // end
 
         //====================   CSR - hwlp_start0   ====================//
 
+        // assign rvfi_csr_hwlp_start0_rmask = '1;
+        // assign rvfi_csr_hwlp_start0_rdata = hwlp_start0_wb;
         assign rvfi_csr_hwlp_start0_rmask = rvfi_csr_mask_wb;
         assign rvfi_csr_hwlp_start0_rdata = rvfi_csr_rdata_wb;
         assign rvfi_csr_hwlp_start0_wmask = rvfi_csr_mask_wb;

@@ -1,5 +1,6 @@
 VCD = ./violation.vcd
 BATCH = -batch
+TOOL = jg
 
 # .SILENT:
 
@@ -32,6 +33,6 @@ clean:
 	@rm -rf checks *.sig~ jgproject 2> /dev/null || true
 
 summary:
-	@python3 gen_summary.py
+	@python3 gen_summary.py $(TOOL)
 	@if [ -e summary.txt ]; then echo Created file \"summary.txt\".; fi
 	

@@ -1,13 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <wavelist version="3">
-  <insertion-point-position>38</insertion-point-position>
+  <insertion-point-position>26</insertion-point-position>
   <wave>
     <expr>clock</expr>
-    <label/>
-    <radix/>
-  </wave>
-  <wave>
-    <expr>&lt;embedded&gt;::rvfi_testbench.checker_inst._assert_1</expr>
     <label/>
     <radix/>
   </wave>
@@ -80,8 +75,68 @@
       <label/>
       <radix/>
     </wave>
+    <wave collapsed="true">
+      <expr>checker_inst.csr_insn_rdata</expr>
+      <label/>
+      <radix>checker_inst.csr_insn_rdata</radix>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.uut.hwlp_start0_wb</expr>
+      <label/>
+      <radix>checker_inst.csr_insn_rdata</radix>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.uut.hwlp_start0_ex</expr>
+      <label/>
+      <radix>checker_inst.csr_insn_rdata</radix>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.uut.hwlp_start0_id</expr>
+      <label/>
+      <radix>checker_inst.csr_insn_rdata</radix>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.uut.hwlp_start[0]</expr>
+      <label/>
+      <radix>checker_inst.csr_insn_rdata</radix>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.uut.aux_csr_rd_wdata</expr>
+      <label/>
+      <radix>checker_inst.csr_insn_rdata</radix>
+    </wave>
+    <wave>
+      <expr>wrapper.uut.insn_id_is_csr</expr>
+      <label/>
+      <radix/>
+    </wave>
+    <spacer/>
   </group>
-  <spacer/>
+  <group collapsed="false">
+    <expr/>
+    <label>Regfile EX write port</label>
+    <wave collapsed="true">
+      <expr>wrapper.uut.id_stage_i.regfile_alu_waddr_fw_i</expr>
+      <label/>
+      <radix>checker_inst.register_index</radix>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.uut.id_stage_i.regfile_alu_wdata_fw_i</expr>
+      <label/>
+      <radix>checker_inst.register_shadow</radix>
+    </wave>
+    <wave>
+      <expr>wrapper.uut.id_stage_i.regfile_alu_we_fw_i</expr>
+      <label/>
+      <radix/>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.uut.id_stage_i.instr_rdata_i</expr>
+      <label/>
+      <radix>checker_inst.register_index</radix>
+    </wave>
+    <spacer/>
+  </group>
   <group collapsed="false">
     <expr/>
     <label>rvfi regs</label>
@@ -125,36 +180,6 @@
   <group collapsed="false">
     <expr/>
     <label>CSR</label>
-    <wave collapsed="true">
-      <expr>wrapper.uut.rvfi_csr_mask_ex</expr>
-      <label/>
-      <radix/>
-    </wave>
-    <wave collapsed="true">
-      <expr>wrapper.uut.rvfi_csr_mask_wb</expr>
-      <label/>
-      <radix/>
-    </wave>
-    <wave collapsed="true">
-      <expr>wrapper.uut.rvfi_csr_rdata_ex</expr>
-      <label/>
-      <radix>checker_inst.csr_insn_smask</radix>
-    </wave>
-    <wave collapsed="true">
-      <expr>wrapper.uut.rvfi_csr_rdata_wb</expr>
-      <label/>
-      <radix>checker_inst.csr_insn_smask</radix>
-    </wave>
-    <wave collapsed="true">
-      <expr>wrapper.uut.rvfi_csr_wdata_ex</expr>
-      <label/>
-      <radix>checker_inst.csr_insn_smask</radix>
-    </wave>
-    <wave collapsed="true">
-      <expr>wrapper.uut.rvfi_csr_wdata_wb</expr>
-      <label/>
-      <radix>checker_inst.csr_insn_smask</radix>
-    </wave>
     <wave>
       <expr>wrapper.uut.csr_access_ex</expr>
       <label/>
@@ -189,6 +214,31 @@
       <expr>wrapper.uut.cs_registers_i.csr_we_int</expr>
       <label/>
       <radix/>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.uut.rvfi_csr_mask_wb</expr>
+      <label/>
+      <radix/>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.uut.rvfi_csr_rdata_ex</expr>
+      <label/>
+      <radix>checker_inst.csr_insn_smask</radix>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.uut.rvfi_csr_rdata_wb</expr>
+      <label/>
+      <radix>checker_inst.csr_insn_smask</radix>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.uut.rvfi_csr_wdata_ex</expr>
+      <label/>
+      <radix>checker_inst.csr_insn_smask</radix>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.uut.rvfi_csr_wdata_wb</expr>
+      <label/>
+      <radix>checker_inst.csr_insn_smask</radix>
     </wave>
     <spacer/>
   </group>
@@ -225,33 +275,8 @@
       <label/>
       <radix/>
     </wave>
+    <spacer/>
   </group>
-  <spacer/>
-  <group collapsed="false">
-    <expr/>
-    <label>Regfile EX write port</label>
-    <wave collapsed="true">
-      <expr>wrapper.uut.id_stage_i.regfile_alu_waddr_fw_i</expr>
-      <label/>
-      <radix>checker_inst.register_index</radix>
-    </wave>
-    <wave collapsed="true">
-      <expr>wrapper.uut.id_stage_i.regfile_alu_wdata_fw_i</expr>
-      <label/>
-      <radix>checker_inst.register_shadow</radix>
-    </wave>
-    <wave>
-      <expr>wrapper.uut.id_stage_i.regfile_alu_we_fw_i</expr>
-      <label/>
-      <radix/>
-    </wave>
-    <wave collapsed="true">
-      <expr>wrapper.uut.id_stage_i.instr_rdata_i</expr>
-      <label/>
-      <radix>checker_inst.register_index</radix>
-    </wave>
-  </group>
-  <spacer/>
   <group collapsed="true">
     <expr/>
     <label>Regfile WB write port</label>
@@ -275,8 +300,8 @@
       <label/>
       <radix>checker_inst.register_index</radix>
     </wave>
+    <spacer/>
   </group>
-  <spacer/>
   <group collapsed="false">
     <expr/>
     <label>Metadata</label>
@@ -491,6 +516,11 @@
       <radix/>
     </wave>
     <wave>
+      <expr>wrapper.uut.replicate_ex</expr>
+      <label/>
+      <radix/>
+    </wave>
+    <wave>
       <expr>rvfi_trap</expr>
       <label/>
       <radix/>
@@ -531,6 +561,16 @@
     <expr>wrapper.uut.id_stage_i.instr_rdata_i</expr>
     <label/>
     <radix>checker_inst.register_index</radix>
+  </wave>
+  <wave collapsed="true">
+    <expr>wrapper.uut.if_stage_i.fetch_rdata</expr>
+    <label/>
+    <radix/>
+  </wave>
+  <wave collapsed="true">
+    <expr>wrapper.uut.if_stage_i.instr_decompressed</expr>
+    <label/>
+    <radix>wrapper.uut.rvfi_rs1_addr_wb</radix>
   </wave>
   <wave>
     <expr>wrapper.uut.id_stage_i.load_stall</expr>
@@ -656,6 +696,10 @@
     <highlight>
       <expr>wrapper.uut.rvfi_valid_wb</expr>
       <color>builtin_red</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.uut.rvfi_csr_mask_wb</expr>
+      <color>#aaffff</color>
     </highlight>
     <highlight>
       <expr>wrapper.uut.rvfi_csr_rdata_wb</expr>

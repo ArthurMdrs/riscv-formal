@@ -436,7 +436,7 @@ def check_insn(grp, insn, chanidx, csr_mode=False, illegal_csr=False):
                 : set_prove_target_bound $depth
                 : set_max_trace_length $depth
                 : set_trace_optimization standard
-                : prove -instance checker_inst -iter $depth -dump_trace -dump_trace_type vcd -dump_trace_dir traces
+                : prove -instance checker_inst -dump_trace -dump_trace_type vcd -dump_trace_dir traces
                 : 
                 : report -summary
                 : 
@@ -735,7 +735,7 @@ def check_cons(grp, check, chanidx=None, start=None, trig=None, depth=None, csr_
                 : set_prove_target_bound $depth
                 : set_max_trace_length $depth
                 : set_trace_optimization standard
-                : prove -instance checker_inst -iter $depth -dump_trace -dump_trace_type vcd -dump_trace_dir traces
+                : prove -instance checker_inst -dump_trace -dump_trace_type vcd -dump_trace_dir traces
                 : 
                 : report -summary
                 : 
