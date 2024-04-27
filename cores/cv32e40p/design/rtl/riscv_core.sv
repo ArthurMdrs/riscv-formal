@@ -2178,55 +2178,6 @@ module riscv_core
     assign rvfi_csr_pmpaddr15_wdata = rvfi_csr_wdata_wb;
 
     `ifdef RISCV_FORMAL_CUSTOM_ISA
-    
-        // logic [31:0] hwlp_start0_id, hwlp_start0_ex, hwlp_start0_wb, hwlp_start1_id, hwlp_start1_ex, hwlp_start1_wb;
-        // // logic [31:0] hwlp_start0_ex, hwlp_start0_wb, hwlp_start1_ex, hwlp_start1_wb;
-        // // logic [31:0] hwlp_start0_ex, hwlp_start0_wb, hwlp_start1_ex, hwlp_start1_wb;
-        
-        // always @(posedge clk or negedge rst_ni) begin
-        //     if (!rst_ni) begin
-        //         hwlp_start0_id <= '0;
-        //         hwlp_start0_ex <= '0;
-        //         hwlp_start0_wb <= '0;
-        //         hwlp_start1_id <= '0;
-        //         hwlp_start1_ex <= '0;
-        //         hwlp_start1_wb <= '0;
-        //     end
-        //     else begin
-        //         if (id_stage_i.id_ready_o) begin
-        //             hwlp_start0_id <= hwlp_start[0];
-        //             hwlp_start1_id <= hwlp_start[1];
-        //         end
-        //         if (ex_stage_i.ex_ready_o) begin
-        //             // hwlp_start0_ex <= hwlp_start0_id;
-        //             // hwlp_start1_ex <= hwlp_start1_id;
-                    
-        //             if (replicate_ex) begin
-        //                 hwlp_start0_ex <= hwlp_start0_ex;
-        //                 hwlp_start1_ex <= hwlp_start1_ex;
-        //             end
-        //             else 
-        //             if (insn_id_is_csr && cs_registers_i.csr_we_int) begin
-        //                 hwlp_start0_ex <= hwlp_start[0];
-        //                 hwlp_start1_ex <= hwlp_start[1];
-        //             end
-                    
-        //             // if (!cs_registers_i.csr_we_int) begin
-        //             //     hwlp_start0_ex <= hwlp_start[0];
-        //             //     hwlp_start1_ex <= hwlp_start[1];
-        //             // end
-        //             // else if (insn_id_is_csr) begin
-        //             //     hwlp_start0_ex <= hwlp_start[0];
-        //             //     hwlp_start1_ex <= hwlp_start[1];
-        //             // end
-        //         end
-        //         if (load_store_unit_i.lsu_ready_wb_o) begin
-        //             hwlp_start0_wb <= hwlp_start0_ex;
-        //             hwlp_start1_wb <= hwlp_start1_ex;
-        //         end
-        //     end
-        // end
-
         //====================   CSR - hwlp_start0   ====================//
 
         // assign rvfi_csr_hwlp_start0_rmask = '1;

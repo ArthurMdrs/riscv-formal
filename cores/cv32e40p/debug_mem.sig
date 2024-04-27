@@ -1,13 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <wavelist version="3">
-  <insertion-point-position>71</insertion-point-position>
+  <insertion-point-position>29</insertion-point-position>
   <wave>
     <expr>clock</expr>
-    <label/>
-    <radix/>
-  </wave>
-  <wave>
-    <expr>&lt;embedded&gt;::rvfi_testbench.checker_inst._assert_1</expr>
     <label/>
     <radix/>
   </wave>
@@ -273,12 +268,12 @@
       <radix/>
     </wave>
     <wave>
-      <expr>wrapper.uut.load_store_unit_i.data_we_o</expr>
+      <expr>wrapper.uut.load_store_unit_i.data_rvalid_i</expr>
       <label/>
       <radix/>
     </wave>
     <wave>
-      <expr>wrapper.uut.load_store_unit_i.data_rvalid_i</expr>
+      <expr>wrapper.uut.load_store_unit_i.data_we_o</expr>
       <label/>
       <radix/>
     </wave>
@@ -288,6 +283,16 @@
       <radix/>
     </wave>
   </group>
+  <wave>
+    <expr>wrapper.data_trans_pnd</expr>
+    <label/>
+    <radix/>
+  </wave>
+  <wave>
+    <expr>wrapper.instr_trans_pnd</expr>
+    <label/>
+    <radix/>
+  </wave>
   <wave collapsed="true">
     <expr>wrapper.uut.load_store_unit_i.CS</expr>
     <label/>
@@ -309,7 +314,7 @@
     <radix/>
   </wave>
   <spacer/>
-  <group collapsed="false">
+  <group collapsed="true">
     <expr/>
     <label>Got rvalid after wait</label>
     <group collapsed="true">
@@ -349,7 +354,7 @@
     <radix/>
   </wave>
   <spacer/>
-  <group collapsed="false">
+  <group collapsed="true">
     <expr/>
     <label>Regfile WB port</label>
     <wave>
@@ -389,7 +394,7 @@
     </wave>
   </group>
   <spacer/>
-  <group collapsed="false">
+  <group collapsed="true">
     <expr/>
     <label>rvfi_mem</label>
     <wave collapsed="true">
@@ -419,7 +424,7 @@
     </wave>
   </group>
   <spacer/>
-  <group collapsed="false">
+  <group collapsed="true">
     <expr/>
     <label>spec_mem</label>
     <wave collapsed="true">
@@ -444,7 +449,7 @@
     </wave>
   </group>
   <spacer/>
-  <group collapsed="false">
+  <group collapsed="true">
     <expr/>
     <label>Other useful signals</label>
     <wave collapsed="true">

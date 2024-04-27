@@ -1608,6 +1608,10 @@ def insn_vecop(insn, funct5, funct1, funct3, expr, hnb=True, sc=True, i=False, i
         header(f, insn)
         format_vecop(f)
         misa_check(f, misa)
+        
+        if i and (not sc):
+            print("// Error: Cannot have flag i without flag sc!!", file=f)
+            raise Exception("Cannot have flag i without flag sc!!")
 
         print("", file=f)
         print("  // %s instruction" % insn.upper(), file=f)
@@ -1971,8 +1975,7 @@ op_vec = [
             ["sll" , "op1[i] << op2[i]"                                         , False], # 0 1010
             ["or"  , "op1[i] | op2[i]"                                          , True ], # 0 1011
             ["xor" , "op1[i] ^ op2[i]"                                          , True ], # 0 1100
-            ["and" , "op1[i] & op2[i]"                                          , True ]  # 0 1101
-]
+            ["and" , "op1[i] & op2[i]"                                          , True ]] # 0 1101
 for op in op_vec:
     for hnb in [True, False]:
         for sc in [True, False]:
@@ -1999,8 +2002,7 @@ op_vec = [
             ["cmpgtu", "(op1[i] >  op2[i]) ? ('1) : ('0)"                  , False], # 0 0110
             ["cmpgeu", "(op1[i] >= op2[i]) ? ('1) : ('0)"                  , False], # 0 0111
             ["cmpltu", "(op1[i] <  op2[i]) ? ('1) : ('0)"                  , False], # 0 1000
-            ["cmpleu", "(op1[i] <= op2[i]) ? ('1) : ('0)"                  , False], # 0 1001
-]
+            ["cmpleu", "(op1[i] <= op2[i]) ? ('1) : ('0)"                  , False]] # 0 1001
 for op in op_vec:
     for hnb in [True, False]:
         for sc in [True, False]:

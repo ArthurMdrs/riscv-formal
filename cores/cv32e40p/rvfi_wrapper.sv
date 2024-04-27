@@ -1,7 +1,7 @@
 module rvfi_wrapper (
-	input logic clock,
-	input logic reset,
-	`RVFI_OUTPUTS
+    input logic clock,
+    input logic reset,
+    `RVFI_OUTPUTS
 );
 
     // localparams for the CV32E40P core
@@ -26,12 +26,9 @@ module rvfi_wrapper (
     // localparam APU_NUSFLAGS_CPU    =   5;
     // localparam DM_HaltAddress      = 32'h1A110800;
     
-    localparam BOOT_ADDR         = 32'h1A00_0080;
-    localparam CORE_ID           =  4'd0;
-    localparam CLUSTER_ID        =  6'd31;
-
-
-	// (* keep *) wire trap;
+    localparam BOOT_ADDR  = 32'h1A00_0080;
+    localparam CORE_ID    =  4'd0;
+    localparam CLUSTER_ID =  6'd31;
     
     
     
@@ -226,7 +223,7 @@ module rvfi_wrapper (
 
         .ext_perf_counters_i            ( ext_perf_counters_i     ),
         
-	   	`RVFI_CONN
+        `RVFI_CONN
     );   
     
     
@@ -234,48 +231,69 @@ module rvfi_wrapper (
     
     
     // No grant without request
-    reg instr_gnt_wo_req = 0;
-    reg data_gnt_wo_req  = 0;
-	always @(posedge clock) begin
-        instr_gnt_wo_req = instr_gnt_i && !instr_req_o;
-        data_gnt_wo_req  = data_gnt_i  && !data_req_o ;
-		ASM_no_gnt_wo_req_instr: assume (!instr_gnt_wo_req);
-		ASM_no_gnt_wo_req_data:  assume (!data_gnt_wo_req );
-	end
+    wire instr_gnt_wo_req = instr_gnt_i && !instr_req_o;
+    wire data_gnt_wo_req  = data_gnt_i  && !data_req_o ;
+    always @(posedge clock) begin
+        ASM_no_gnt_wo_req_instr: assume (!instr_gnt_wo_req);
+        ASM_no_gnt_wo_req_data:  assume (!data_gnt_wo_req );
+    end
     // assume property (@(posedge clock) instr_gnt_i |-> instr_req_o);
-    // To do: change concurrent covers below to immediate so SymbiYosys can compile them
+    // TODO: change concurrent covers below to immediate so SymbiYosys can compile them (idk if this is fact...)
     instr_req_can_happen: cover property (@(posedge clock) instr_req_o);
     data_req_can_happen:  cover property (@(posedge clock) data_req_o );
     
-    // Build aux code and assumptions for data_rvalid_i???
+    // No valid response without pending transaction
+    reg instr_trans_pnd;
+    reg data_trans_pnd;
+    always @(posedge clock or posedge reset) begin
+        if (reset) begin
+            instr_trans_pnd <= 1'b0;
+            data_trans_pnd  <= 1'b0;
+        end else begin
+            if (instr_gnt_i && instr_req_o)
+                instr_trans_pnd <= 1'b1;
+            else if (instr_rvalid_i)
+                instr_trans_pnd <= 1'b0;
+                
+            if (data_gnt_i && data_req_o)
+                data_trans_pnd <= 1'b1;
+            else if (data_rvalid_i)
+                data_trans_pnd <= 1'b0;
+            
+            if (!instr_trans_pnd)
+                ASM_no_rvld_wo_pnd_instr: assume (!instr_rvalid_i);
+            if (!data_trans_pnd)
+                ASM_no_rvld_wo_pnd_data: assume (!data_rvalid_i);
+        end
+    end
     
     
     
-	// always @(posedge clock) begin
+    // always @(posedge clock) begin
     //     // Don't allow the Pulp custom hardware loop instructions
-	// 	ASM_no_hwloop_instr: assume (uut.if_stage_i.fetch_rdata[6:0] != OPCODE_HWLOOP);
+    //  ASM_no_hwloop_instr: assume (uut.if_stage_i.fetch_rdata[6:0] != OPCODE_HWLOOP);
     //     // Don't allow hwloop CSRs access in a CSR instruction 
     //     if (uut.if_stage_i.fetch_rdata[6:0] == OPCODE_SYSTEM && uut.if_stage_i.fetch_rdata[14:12] != 3'b0) // This is a CSR instruction
-	// 	    ASM_no_hwloop_csr_instr: assume (uut.if_stage_i.fetch_rdata[31:20] != 12'h7C0 && 
+    //      ASM_no_hwloop_csr_instr: assume (uut.if_stage_i.fetch_rdata[31:20] != 12'h7C0 && 
     //                                          uut.if_stage_i.fetch_rdata[31:20] != 12'h7C1 && 
     //                                          uut.if_stage_i.fetch_rdata[31:20] != 12'h7C2 && 
     //                                          uut.if_stage_i.fetch_rdata[31:20] != 12'h7C4 && 
     //                                          uut.if_stage_i.fetch_rdata[31:20] != 12'h7C5 && 
     //                                          uut.if_stage_i.fetch_rdata[31:20] != 12'h7C6    );
-	// end
+    // end
 
 
 
 `ifdef CV32P_REG_CHECK
     // Post-Incrementing Load instructions write to 2 registers
     // This breaks the register consistency check, that assumes 1 write per instruction
-	always @(posedge clock) begin
+    always @(posedge clock) begin
         // Don't allow the Pulp custom Post-Incrementing Load instructions
-		ASM_no_loadpost_instr: assume (uut.if_stage_i.fetch_rdata[6:0] != OPCODE_LOAD_POST);
+        ASM_no_loadpost_instr: assume (uut.if_stage_i.fetch_rdata[6:0] != OPCODE_LOAD_POST);
         // Data memory errors will prevent valid from being raised, but post-increments still happen
         // Without valid, the reg check won't see the post-increment, causing an error
-		ASM_no_data_error: assume (uut.data_err_pmp == 1'b0);
-	end
+        ASM_no_data_error: assume (uut.data_err_pmp == 1'b0);
+    end
 `endif
 
 endmodule
