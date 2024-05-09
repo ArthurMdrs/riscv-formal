@@ -423,6 +423,7 @@ def check_insn(grp, insn, chanidx, csr_mode=False, illegal_csr=False):
         if "mul" in insn: bbox_str = "-bbox_mul 256"
         elif "div" in insn: bbox_str = "-bbox_div 256"
         elif "rem" in insn: bbox_str = "-bbox_div 256"
+        elif "dot" in insn: bbox_str = "-bbox_mul 256"
         else: bbox_str = ""
         
         # print(f"elaborate -top rvfi_testbench -create_related_covers witness {bbox_str}\n", file=tcl_file)

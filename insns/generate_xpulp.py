@@ -475,7 +475,7 @@ def format_p_b(f):
     print("  wire [2:0] insn_funct3 = rvfi_insn[14:12];", file=f)
     print("  wire [6:0] insn_opcode = rvfi_insn[ 6: 0];", file=f)
     
-def format_vecop(f):
+def format_simd(f):
     print("", file=f)
     print("  // PV-type instruction format", file=f)
     print("  wire [`RISCV_FORMAL_ILEN-1:0] insn_padding = rvfi_insn >> 16 >> 16;", file=f)
@@ -1603,10 +1603,10 @@ def insn_p_b(insn, funct3, expr, misa=MISA_X):
 
         footer(f)
 
-def insn_vecop(insn, funct5, funct1, funct3, expr, hnb=True, sc=True, i=False, imms=True, sh=False, rs2_is_0=False, misa=MISA_X):
+def insn_simd_alu(insn, funct5, funct1, funct3, expr, hnb=True, sc=True, i=False, imms=True, sh=False, rs2_is_0=False, misa=MISA_X):
     with open("insn_%s.v" % insn, "w") as f:
         header(f, insn)
-        format_vecop(f)
+        format_simd(f)
         misa_check(f, misa)
         
         if i and (not sc):
@@ -1675,6 +1675,213 @@ def insn_vecop(insn, funct5, funct1, funct3, expr, hnb=True, sc=True, i=False, i
 
         footer(f)
 
+def insn_simd_ext(insn, funct5, funct3, hnb=True, u=False, misa=MISA_X):
+    with open("insn_%s.v" % insn, "w") as f:
+        header(f, insn)
+        format_simd(f)
+        misa_check(f, misa)
+
+        print("", file=f)
+        print("  // %s instruction" % insn.upper(), file=f)
+        
+        if hnb: # Half-word mode
+            print("  wire        imm    = rvfi_insn[25];", file=f)
+            bits = "16"
+        else: # Byte mode
+            print("  wire [ 1:0] imm    = {rvfi_insn[20], rvfi_insn[25]};", file=f)
+            bits = "8"
+            
+        if u:
+            print("  wire [31:0] result = rvfi_rs1_rdata[imm*%s +: %s];" % (bits, bits), file=f)
+        else:
+            print("  wire [31:0] result = $signed(rvfi_rs1_rdata[imm*%s +: %s]);" % (bits, bits), file=f)
+        
+        
+        assign(f, "spec_valid", "rvfi_valid && !insn_padding && insn_funct5 == 5'd%s && insn_funct1 == 1'b0 && insn_funct3 == 3'b%s && insn_opcode == 7'b101_0111" % (funct5, funct3))
+        assign(f, "spec_rs1_addr", "insn_rs1")
+        assign(f, "spec_rd_addr", "insn_rd")
+        assign(f, "spec_rd_wdata", "spec_rd_addr ? result : 0")
+        assign_pc_wdata(f)
+
+        footer(f)
+
+def insn_simd_ins(insn, funct5, funct3, hnb=True, misa=MISA_X):
+    with open("insn_%s.v" % insn, "w") as f:
+        header(f, insn)
+        format_simd(f)
+        misa_check(f, misa)
+
+        print("", file=f)
+        print("  // %s instruction" % insn.upper(), file=f)
+        
+        if hnb: # Half-word mode
+            print("  wire        imm       = rvfi_insn[25];", file=f)
+            print("  wire [31:0] rd_masked = rvfi_rs3_rdata & ~(32'hFFFF << imm*16);", file=f)
+            print("  wire [31:0] rs1_slice = rvfi_rs1_rdata[15:0] << imm*16;", file=f)
+            print("  wire [31:0] result    = rd_masked | rs1_slice;", file=f)
+        else: # Byte mode
+            print("  wire [ 1:0] imm       = {rvfi_insn[20], rvfi_insn[25]};", file=f)
+            print("  wire [31:0] rd_masked = rvfi_rs3_rdata & ~(32'hFF << imm*8);", file=f)
+            print("  wire [31:0] rs1_slice = rvfi_rs1_rdata[7:0] << imm*8;", file=f)
+            print("  wire [31:0] result    = rd_masked | rs1_slice;", file=f)
+        
+        assign(f, "spec_valid", "rvfi_valid && !insn_padding && insn_funct5 == 5'd%s && insn_funct1 == 1'b0 && insn_funct3 == 3'b%s && insn_opcode == 7'b101_0111" % (funct5, funct3))
+        assign(f, "spec_rs1_addr", "insn_rs1")
+        assign(f, "spec_rs3_addr", "insn_rd")
+        assign(f, "spec_rd_addr", "insn_rd")
+        assign(f, "spec_rd_wdata", "spec_rd_addr ? result : 0")
+        assign_pc_wdata(f)
+
+        footer(f)
+
+def insn_simd_shu(insn, funct5, funct3, hnb=True, sci=False, shuffleI=0, shuffle2=False, misa=MISA_X):
+    with open("insn_%s.v" % insn, "w") as f:
+        header(f, insn)
+        format_simd(f)
+        misa_check(f, misa)
+        
+        if shuffleI!=0 and (not sci):
+            print("// Error: Cannot have shuffleI instruction without flag sci!!", file=f)
+            raise Exception("Cannot have shuffleI instruction without flag sci!!")
+        if shuffle2 and sci:
+            print("// Error: Cannot have shuffle2 instruction with flag sci!!", file=f)
+            raise Exception("Cannot have shuffle2 instruction with flag sci!!")
+
+        print("", file=f)
+        print("  // %s instruction" % insn.upper(), file=f)
+        
+        if sci:
+            print("  wire [5:0] insn_imm = {rvfi_insn[24:20], rvfi_insn[25]};", file=f)
+        
+        if hnb: # Half-word mode
+            print("  reg         pos;", file=f)
+            cnt = "2"
+            bits = "16"
+        else: # Byte mode
+            print("  reg  [ 2:0] pos;", file=f)
+            cnt = "4"
+            bits = "8"
+        
+        pos_imm = "insn_imm[i]" if hnb else f"(i == 3) ? ({shuffleI}) : (insn_imm[i*2 +: 2])"
+        pos_rs2 = f"rvfi_rs2_rdata[i*{bits}]" if hnb else f"rvfi_rs2_rdata[i*{bits} +: 2]"
+        
+        print("  reg  [31:0] result;", file=f)
+        print("  always_comb", file=f)
+        print("    for (int i = 0; i < %s; i++) begin" % cnt, file=f)
+        print("      pos = %s;" % (pos_imm if sci else pos_rs2), file=f)
+        if shuffle2:
+            print(f"      if (rvfi_rs2_rdata[i*{bits} + {int(cnt)>>1}])", file=f)
+        print("      result[i*%s +: %s] = rvfi_rs1_rdata[pos*%s +: %s];" % (bits, bits, bits, bits), file=f)
+        if shuffle2:
+            print(f"      else", file=f)
+            print("      result[i*%s +: %s] = rvfi_rs3_rdata[pos*%s +: %s];" % (bits, bits, bits, bits), file=f)
+        print("    end", file=f)
+        
+        if not sci:
+            print("  // ATTENTION!! The core does not check if rvfi_insn[25] = 0!!!", file=f)
+            print("  // This leads to it executing illegal instructions!!!", file=f)
+        assign(f, "spec_valid", "rvfi_valid && !insn_padding && insn_funct5 == 5'd%s && insn_funct1 == 1'b0 && insn_funct3 == 3'b%s && insn_opcode == 7'b101_0111" % (funct5, funct3))
+        assign(f, "spec_rs1_addr", "insn_rs1")
+        if not sci:
+            assign(f, "spec_rs2_addr", "insn_rs2")
+        if shuffle2:
+            assign(f, "spec_rs3_addr", "insn_rd")
+        assign(f, "spec_rd_addr", "insn_rd")
+        assign(f, "spec_rd_wdata", "spec_rd_addr ? result : 0")
+        assign_pc_wdata(f)
+
+        footer(f)
+
+def insn_simd_pack(insn, funct5, funct3, hi=False, lo=False, misa=MISA_X):
+    with open("insn_%s.v" % insn, "w") as f:
+        header(f, insn)
+        format_simd(f)
+        misa_check(f, misa)
+        
+        if hi and lo:
+            print("// Error: Cannot have packhi and packlo at the same time!!", file=f)
+            raise Exception("Cannot have packhi and packlo at the same time!!")
+
+        print("", file=f)
+        print("  // %s instruction" % insn.upper(), file=f)
+            
+        pos = 16 if hi else 0
+        
+        print("  int pos;", file=f)
+        print("  reg  [31:0] result;", file=f)
+        print("  always_comb begin", file=f)
+        if hi or lo:
+            print("      result = rvfi_rs3_rdata;", file=f)
+            print("      pos = %d;" % (16 if hi else 0), file=f)
+            print("      result[pos +: 8] = rvfi_rs2_rdata[0 +: 8];", file=f)
+            print("      result[(8+pos) +: 8] = rvfi_rs1_rdata[0 +: 8];", file=f)
+        else:
+            print("      // ATTENTION!! According to the docs, pos = 0!!!", file=f)
+            print("      // In newer docs: rvfi_insn[25]==0 means pv.pack and rvfi_insn[25]==1 means pv.pack.h", file=f)
+            print("      pos = (rvfi_insn[25]) ? (16) : (0);", file=f)
+            print("      result[ 0 +: 16] = rvfi_rs2_rdata[pos +: 16];", file=f)
+            print("      result[16 +: 16] = rvfi_rs1_rdata[pos +: 16];", file=f)
+        print("  end", file=f)
+        
+        print("  // ATTENTION!! The core does not check if rvfi_insn[25] = 0!!!", file=f)
+        print("  // This leads to it executing illegal instructions!!!", file=f)
+        assign(f, "spec_valid", "rvfi_valid && !insn_padding && insn_funct5 == 5'd%s && insn_funct1 == 1'b0 && insn_funct3 == 3'b%s && insn_opcode == 7'b101_0111" % (funct5, funct3))
+        assign(f, "spec_rs1_addr", "insn_rs1")
+        assign(f, "spec_rs2_addr", "insn_rs2")
+        if hi or lo:
+            assign(f, "spec_rs3_addr", "insn_rd")
+        assign(f, "spec_rd_addr", "insn_rd")
+        assign(f, "spec_rd_wdata", "spec_rd_addr ? result : 0")
+        assign_pc_wdata(f)
+
+        footer(f)
+
+def insn_simd_dot(insn, funct5, funct3, hnb=True, sc=True, i=False, imms=True, misa=MISA_X):
+    with open("insn_%s.v" % insn, "w") as f:
+        header(f, insn)
+        format_simd(f)
+        misa_check(f, misa)
+        
+        if i and (not sc):
+            print("// Error: Cannot have flag i without flag sc!!", file=f)
+            raise Exception("Cannot have flag i without flag sc!!")
+
+        print("", file=f)
+        print("  // %s instruction" % insn.upper(), file=f)
+        
+        if hnb: # Half-word mode
+            cnt = 2
+            bits = 16
+        else: # Byte mode
+            cnt = 4
+            bits = 8
+        
+        print("  reg [%d:0] op1 [%d:0];" % ((bits-1), (cnt-1)), file=f)
+        print("  reg [%d:0] op2 [%d:0];" % ((bits-1), (cnt-1)), file=f)
+        print("  reg [31:0] result;", file=f)
+        print("  always_comb begin", file=f)
+        print("    result = 0;", file=f)
+        print("    for(int i = 0; i < %d; i++) begin" % cnt, file=f)
+        print("      op1[i] = rvfi_rs1_rdata[i*%d+:%d];" % (bits, bits), file=f)
+        if sc:
+            if i:
+                print("      op2[i] = %s{rvfi_insn[24:20], rvfi_insn[25]}%s;" % (("$signed(", ")") if imms else ("", "")), file=f)
+            else:
+                print("      op2[i] = rvfi_rs2_rdata[%d:0];" % (bits-1), file=f)
+        else:
+            print("      op2[i] = rvfi_rs2_rdata[i*%d+:%d];" % (bits, bits), file=f)
+        print("      result += op1[i] * op2[i];", file=f)
+        print("    end", file=f)
+        print("  end", file=f)
+        
+        assign(f, "spec_valid", "rvfi_valid && !insn_padding && insn_funct5 == 5'd%s && insn_funct1 == 1'b0 && insn_funct3 == 3'b%s && insn_opcode == 7'b101_0111" % (funct5, funct3))
+        assign(f, "spec_rs1_addr", "insn_rs1")
+        assign(f, "spec_rs2_addr", "insn_rs2")
+        assign(f, "spec_rd_addr", "insn_rd")
+        assign(f, "spec_rd_wdata", "spec_rd_addr ? result : 0")
+        assign_pc_wdata(f)
+
+        footer(f)
 
 # def insn_hwlp(insn, funct3, expression, misa=MISA_X):
     # with open("insn_%s.v" % insn, "w") as f:
@@ -1987,9 +2194,34 @@ for op in op_vec:
                 expr   = op[1]
                 imms   = op[2]
                 sh     = (funct5 in [8, 9, 10])
-                insn_vecop(insn, funct5, funct1, funct3, expr, hnb, sc, i, imms, sh)
-insn_vecop("pv_abs_h", "14", "0", "000", "($signed(op1[i]) < 0) ? (-op1[i]) : (op1[i])", hnb=True , sc=False, i=False, imms=False, sh=False, rs2_is_0=True)
-insn_vecop("pv_abs_b", "14", "0", "001", "($signed(op1[i]) < 0) ? (-op1[i]) : (op1[i])", hnb=False, sc=False, i=False, imms=False, sh=False, rs2_is_0=True)
+                insn_simd_alu(insn, funct5, funct1, funct3, expr, hnb, sc, i, imms, sh)
+insn_simd_alu("pv_abs_h", "14", "0", "000", "($signed(op1[i]) < 0) ? (-op1[i]) : (op1[i])", hnb=True , sc=False, i=False, imms=False, sh=False, rs2_is_0=True)
+insn_simd_alu("pv_abs_b", "14", "0", "001", "($signed(op1[i]) < 0) ? (-op1[i]) : (op1[i])", hnb=False, sc=False, i=False, imms=False, sh=False, rs2_is_0=True)
+
+# Vectorial operations (SIMD) - Bit Manipulations
+insn_simd_ext("pv_extract_h" , "15", "110", hnb=True , u=False)
+insn_simd_ext("pv_extract_b" , "15", "111", hnb=False, u=False)
+insn_simd_ext("pv_extractu_h", "18", "110", hnb=True , u=True )
+insn_simd_ext("pv_extractu_b", "18", "111", hnb=False, u=True )
+insn_simd_ins("pv_insert_h"  , "22", "110", hnb=True )
+insn_simd_ins("pv_insert_b"  , "22", "111", hnb=False)
+
+# Vectorial operations (SIMD) - Dot Product TODO TODO TODO
+insn_simd_dot("pv_dotup_h", "16", "000", hnb=True, sc=False, i=False, imms=False, misa=MISA_X)
+
+# Vectorial operations (SIMD) - Shuffle and Pack
+insn_simd_shu("pv_shuffle_h"      , "24", "000", hnb=True , sci=False)
+insn_simd_shu("pv_shuffle_sci_h"  , "24", "110", hnb=True , sci=True )
+insn_simd_shu("pv_shuffle_b"      , "24", "001", hnb=False, sci=False)
+insn_simd_shu("pv_shuffleI0_sci_b", "24", "111", hnb=False, sci=True , shuffleI=0)
+insn_simd_shu("pv_shuffleI1_sci_b", "29", "111", hnb=False, sci=True , shuffleI=1)
+insn_simd_shu("pv_shuffleI2_sci_b", "30", "111", hnb=False, sci=True , shuffleI=2)
+insn_simd_shu("pv_shuffleI3_sci_b", "31", "111", hnb=False, sci=True , shuffleI=3)
+insn_simd_shu("pv_shuffle2_h"     , "25", "000", hnb=True , sci=False, shuffle2=True)
+insn_simd_shu("pv_shuffle2_b"     , "25", "001", hnb=False, sci=False, shuffle2=True)
+insn_simd_pack("pv_pack_h"        , "26", "000", hi =False, lo =False)
+insn_simd_pack("pv_packhi_b"      , "27", "001", hi =True , lo =False)
+insn_simd_pack("pv_packlo_b"      , "28", "001", hi =False, lo =True )
 
 # Vectorial operations (SIMD) - Comparison
 op_vec = [
@@ -2014,7 +2246,7 @@ for op in op_vec:
                 expr   = op[1]
                 imms   = op[2]
                 sh     = False
-                insn_vecop(insn, funct5, funct1, funct3, expr, hnb, sc, i, imms, sh)
+                insn_simd_alu(insn, funct5, funct1, funct3, expr, hnb, sc, i, imms, sh)
 
 #### ================   XPULP - END   ================ ####
 

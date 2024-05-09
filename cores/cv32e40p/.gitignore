@@ -12,3 +12,6 @@ disasm.o
 disasm.s
 *.vcd
 bugs/
+summary.txt
+disasm_all.py
+vcd_files.txt

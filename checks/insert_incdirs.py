@@ -42,10 +42,17 @@ def process_files_in_folder(folder_path, insert_str):
             with open(file_path, 'r') as file:
                 lines = file.readlines()
             with open(file_path, 'w') as file:
+                temp = False
                 for line in lines:
+                    if temp and not "read " in line: 
+                        file.write("read -sv ")
+                        for x in insert_str.split("\n"):
+                            file.write(x+" ")
+                        file.write("\n")
+                        temp = False
                     file.write(line)
-                    if line.strip() == "[files]":
-                        file.write(insert_str)
+                    if line.strip() == "[script]":
+                        temp = True
 
 # ====================  FUNCTIONS END  ==================== #
 
@@ -54,6 +61,7 @@ def process_files_in_folder(folder_path, insert_str):
 incdirs_vec = []
 incdirs_str = ""
 cfgname = "checks"
+cwd = f"{os.getcwd()}"
 
 if len(sys.argv) > 1:
     assert len(sys.argv) == 2
@@ -63,8 +71,13 @@ if len(sys.argv) > 1:
 get_from_config("[include-dirs]", incdirs_vec, cfgname)
 
 # Store all files and folders from the incdirs in a string
-for dir in incdirs_vec:
-    incdirs_str += get_file_names(dir)
+for dir_path in incdirs_vec:
+    incdirs_str += get_file_names(dir_path)
+    # dir = dir_path.split("/")[-1]
+    link_path = f"{os.getcwd()}/include{incdirs_vec.index(dir_path)}"
+    # system(f"ln -s {dir_path} {cfgname}/{}")
+    # print(dir_path)
+    # print(link_path)
 
 # Insert the string into all the .sby files
 process_files_in_folder(cfgname, incdirs_str)

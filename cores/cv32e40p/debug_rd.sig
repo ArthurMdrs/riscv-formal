@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <wavelist version="3">
-  <insertion-point-position>30</insertion-point-position>
+  <insertion-point-position>9</insertion-point-position>
   <wave>
     <expr>clock</expr>
     <label/>
@@ -35,6 +35,16 @@
     <expr>checker_inst.rvfi_rs2_rdata</expr>
     <label/>
     <radix>checker_inst.rvfi_rs1_rdata</radix>
+  </wave>
+  <wave collapsed="true">
+    <expr>checker_inst.rvfi_rs3_addr</expr>
+    <label/>
+    <radix>checker_inst.rvfi_rs1_addr</radix>
+  </wave>
+  <wave collapsed="true">
+    <expr>checker_inst.rvfi_rs3_rdata</expr>
+    <label/>
+    <radix>checker_inst.rd_wdata</radix>
   </wave>
   <spacer/>
   <wave collapsed="true">
@@ -79,12 +89,12 @@
     <wave collapsed="true">
       <expr>wrapper.uut.rvfi_rd_addr_wb</expr>
       <label/>
-      <radix/>
+      <radix>checker_inst.rvfi_rs1_addr</radix>
     </wave>
     <wave collapsed="true">
       <expr>checker_inst.spec_rd_addr</expr>
       <label/>
-      <radix/>
+      <radix>checker_inst.rvfi_rs1_addr</radix>
     </wave>
     <wave collapsed="true">
       <expr>wrapper.uut.rvfi_rd_wdata_ex</expr>
@@ -489,6 +499,14 @@
     </highlight>
     <highlight>
       <expr>checker_inst.rvfi_rs2_rdata</expr>
+      <color>builtin_blue</color>
+    </highlight>
+    <highlight>
+      <expr>checker_inst.rvfi_rs3_addr</expr>
+      <color>builtin_orange</color>
+    </highlight>
+    <highlight>
+      <expr>checker_inst.rvfi_rs3_rdata</expr>
       <color>builtin_blue</color>
     </highlight>
     <highlight>
