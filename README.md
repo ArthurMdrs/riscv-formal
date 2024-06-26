@@ -44,6 +44,11 @@ What has been adapted:
 - Addition of hwlp_start to indicate the PC of the first instruction in a hardware loop. WIP DOES NOT WORK
 - Named all assumptions, assertions and covers for better debugging.
 
+v1.8.2 files changed:
+- top and core
+- mult (altops)
+- alu (altops for div/rem)
+
 RISC-V Formal Verification Framework
 ====================================
 
