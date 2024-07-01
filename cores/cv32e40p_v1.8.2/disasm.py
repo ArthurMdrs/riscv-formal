@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from Verilog_VCD.Verilog_VCD import parse_vcd
+from Verilog_VCD.Verilog_VCD import parse_vcd # type: ignore
 from os import system
 from sys import argv
 
@@ -10,12 +10,26 @@ rvfi_insn = None
 
 for netinfo in parse_vcd(argv[1]).values():
     for net in netinfo['nets']:
-        if net["hier"] == "rvfi_testbench.wrapper" and net["name"] == "rvfi_valid":
+        # if net["hier"] == "rvfi_testbench.wrapper" and (net["name"] == "rvfi_valid" or net["name"] == "rvfi_order[0]"):
+        if net["hier"] == "rvfi_testbench.wrapper" and (net["name"].startswith("rvfi_valid")):
             rvfi_valid = netinfo['tv']
-        if net["hier"] == "rvfi_testbench.wrapper" and (net["name"] == "rvfi_order" or net["name"] == "rvfi_order[63:0]"):
+        # if net["hier"] == "rvfi_testbench.wrapper" and (net["name"] == "rvfi_order" or net["name"] == "rvfi_order[63:0]"):
+        if net["hier"] == "rvfi_testbench.wrapper" and (net["name"].startswith("rvfi_order")):
             rvfi_order = netinfo['tv']
-        if net["hier"] == "rvfi_testbench.wrapper" and (net["name"] == "rvfi_insn" or net["name"] == "rvfi_insn[31:0]"):
+        # if net["hier"] == "rvfi_testbench.wrapper" and (net["name"] == "rvfi_insn" or net["name"] == "rvfi_insn[31:0]"):
+        if net["hier"] == "rvfi_testbench.wrapper" and (net["name"].startswith("rvfi_insn")):
             rvfi_insn = netinfo['tv']
+
+assert(rvfi_valid != None)
+assert(rvfi_order != None)
+assert(rvfi_insn != None)
+
+# print(rvfi_valid)
+# for x in rvfi_valid: print(x)
+
+# Expect a list of (int, str) holding time values and signal values
+nret = len(rvfi_valid[0][1])
+# print(nret)
 
 time_vals = []
 valid_time_vals = []
@@ -51,15 +65,28 @@ def fill_time_slots (time_vals, unfilled_slots, tuple_vec):
 rvfi_valid = fill_time_slots(time_vals, valid_time_vals, rvfi_valid)
 rvfi_order = fill_time_slots(time_vals, order_time_vals, rvfi_order)
 rvfi_insn  = fill_time_slots(time_vals, insn_time_vals , rvfi_insn )
+# print(rvfi_valid)
+# print(rvfi_insn)
 
 assert len(rvfi_valid) == len(rvfi_order)
 assert len(rvfi_valid) == len(rvfi_insn)
 
 prog = list()
 
+# print(len(rvfi_order[0][1]))
 for tv_valid, tv_order, tv_insn in zip(rvfi_valid, rvfi_order, rvfi_insn):
-    if tv_valid[1] == '1':
-        prog.append((int(tv_order[1], 2), int(tv_insn[1], 2)))
+    # print(tv_valid, tv_order, tv_insn)
+    # print(tv_order[1][127])
+    # for ch in range(nret):
+    #     print(tv_valid[1][ch], end=" ")
+    # print()
+#     if tv_valid[1] == '1':
+#         prog.append((int(tv_order[1], 2), int(tv_insn[1], 2)))
+    for ch in range(nret):
+        if tv_valid[1][ch] == '1':
+            prog.append((int(tv_order[1][ch*64:ch*64+64], 2), int(tv_insn[1][ch*32:ch*32+32], 2)))
+            # prog.append((tv_order[1][ch*64:ch*64+64], tv_insn[1][ch*32:ch*32+32]))
+# for x in prog: print(x)
 
 with open("disasm.s", "w") as f:
     for tv_order, tv_insn in sorted(prog):

@@ -27,7 +27,7 @@ gtkw:
 
 disasm:
 	python3 disasm.py $(VCD)
-	
+
 clean:
 	@echo "Removing checks folder."
 	@rm -rf checks *.sig~ jgproject 2> /dev/null || true
@@ -37,5 +37,10 @@ summary:
 	@if [ -e summary.txt ]; then echo Created file \"summary.txt\".; fi
 
 core:
-	git clone https://github.com/ArthurMdrs/cv32e40p.git
-	
+	@echo Updating submodules (the only submodule is the core).
+	@git submodule update --init --recursive
+
+isa:
+	@echo Generating instruction files in /path/to/riscv-formal/insns.
+	@cd ../../insns && rm -f *.v *.txt
+	@cd ../../insns && python3 generate_xpulp.py

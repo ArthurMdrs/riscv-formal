@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <wavelist version="3">
-  <insertion-point-position>50</insertion-point-position>
+  <insertion-point-position>17</insertion-point-position>
   <wave>
     <expr>clock</expr>
     <label/>
     <radix/>
   </wave>
-  <group collapsed="true">
+  <group collapsed="false">
     <expr/>
     <label>rs1</label>
     <wave collapsed="true">
@@ -45,6 +45,40 @@
       <radix>wrapper.core_top_i.core_i.rvfi_rs1_rdata_id</radix>
     </wave>
     <spacer/>
+  </group>
+  <group collapsed="false">
+    <expr/>
+    <label>rs2</label>
+    <wave collapsed="true">
+      <expr>wrapper.core_top_i.core_i.rvfi_rs2_addr_id</expr>
+      <label/>
+      <radix>wrapper.core_top_i.core_i.rvfi_rs1_addr_id</radix>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.core_top_i.core_i.rvfi_rs2_addr_ex</expr>
+      <label/>
+      <radix>wrapper.core_top_i.core_i.rvfi_rs1_addr_id</radix>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.core_top_i.core_i.rvfi_rs2_addr_wb</expr>
+      <label/>
+      <radix>wrapper.core_top_i.core_i.rvfi_rs1_addr_id</radix>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.core_top_i.core_i.rvfi_rs2_rdata_id</expr>
+      <label/>
+      <radix>checker_inst.pc_wdata</radix>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.core_top_i.core_i.rvfi_rs2_rdata_ex</expr>
+      <label/>
+      <radix>checker_inst.pc_wdata</radix>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.core_top_i.core_i.rvfi_rs2_rdata_wb</expr>
+      <label/>
+      <radix>checker_inst.pc_wdata</radix>
+    </wave>
   </group>
   <group collapsed="true">
     <expr/>
@@ -173,41 +207,6 @@
   </group>
   <group collapsed="false">
     <expr/>
-    <label>Valid</label>
-    <wave>
-      <expr>wrapper.core_top_i.core_i.rvfi_valid_mask</expr>
-      <label/>
-      <radix/>
-    </wave>
-    <wave>
-      <expr>wrapper.core_top_i.core_i.rvfi_valid_if</expr>
-      <label/>
-      <radix/>
-    </wave>
-    <wave>
-      <expr>wrapper.core_top_i.core_i.rvfi_valid_id</expr>
-      <label/>
-      <radix/>
-    </wave>
-    <wave>
-      <expr>wrapper.core_top_i.core_i.rvfi_valid_ex</expr>
-      <label/>
-      <radix/>
-    </wave>
-    <wave>
-      <expr>wrapper.core_top_i.core_i.rvfi_valid_wb</expr>
-      <label/>
-      <radix/>
-    </wave>
-    <wave>
-      <expr>wrapper.core_top_i.core_i.rvfi_valid</expr>
-      <label/>
-      <radix/>
-    </wave>
-    <spacer/>
-  </group>
-  <group collapsed="false">
-    <expr/>
     <label>PC</label>
     <wave collapsed="true">
       <expr>wrapper.core_top_i.core_i.pc_if</expr>
@@ -228,21 +227,6 @@
       <expr>wrapper.core_top_i.core_i.ex_stage_i.jump_target_o</expr>
       <label/>
       <radix>checker_inst.pc_wdata</radix>
-    </wave>
-    <wave collapsed="true">
-      <expr>wrapper.core_top_i.core_i.if_stage_i.instr_addr_o</expr>
-      <label/>
-      <radix/>
-    </wave>
-    <wave collapsed="true">
-      <expr>wrapper.core_top_i.core_i.if_stage_i.pc_if_o</expr>
-      <label/>
-      <radix>checker_inst.pc_wdata</radix>
-    </wave>
-    <wave>
-      <expr>wrapper.core_top_i.core_i.if_stage_i.if_ready</expr>
-      <label/>
-      <radix/>
     </wave>
     <wave collapsed="true">
       <expr>wrapper.core_top_i.core_i.rvfi_pc_rdata_if</expr>
@@ -278,6 +262,46 @@
       <expr>wrapper.core_top_i.core_i.rvfi_pc_wdata_wb</expr>
       <label/>
       <radix>checker_inst.pc_wdata</radix>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.core_top_i.core_i.rvfi_pc_wdata</expr>
+      <label/>
+      <radix>checker_inst.pc_wdata</radix>
+    </wave>
+    <spacer/>
+  </group>
+  <group collapsed="false">
+    <expr/>
+    <label>Valid</label>
+    <wave>
+      <expr>wrapper.core_top_i.core_i.rvfi_valid_mask</expr>
+      <label/>
+      <radix/>
+    </wave>
+    <wave>
+      <expr>wrapper.core_top_i.core_i.rvfi_valid_if</expr>
+      <label/>
+      <radix/>
+    </wave>
+    <wave>
+      <expr>wrapper.core_top_i.core_i.rvfi_valid_id</expr>
+      <label/>
+      <radix/>
+    </wave>
+    <wave>
+      <expr>wrapper.core_top_i.core_i.rvfi_valid_ex</expr>
+      <label/>
+      <radix/>
+    </wave>
+    <wave>
+      <expr>wrapper.core_top_i.core_i.rvfi_valid_wb</expr>
+      <label/>
+      <radix/>
+    </wave>
+    <wave>
+      <expr>wrapper.core_top_i.core_i.rvfi_valid</expr>
+      <label/>
+      <radix/>
     </wave>
     <spacer/>
   </group>
@@ -592,6 +616,14 @@
     </highlight>
     <highlight>
       <expr>wrapper.core_top_i.core_i.rvfi_rs1_rdata_wb</expr>
+      <color>builtin_red</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.core_top_i.core_i.rvfi_rs2_addr_wb</expr>
+      <color>builtin_red</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.core_top_i.core_i.rvfi_rs2_rdata_wb</expr>
       <color>builtin_red</color>
     </highlight>
     <highlight>

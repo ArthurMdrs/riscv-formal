@@ -29,7 +29,7 @@ illegal_csrs = set()
 csr_tests = {}
 csr_spec = None
 compr = False
-custom_isa = False
+# custom_isa = False
 
 depths = list()
 groups = [None]
@@ -136,8 +136,8 @@ if "64" in isa:
 if "c" in isa:
     compr = True
 
-if "x" in isa:
-    custom_isa = True
+# if "x" in isa:
+#     custom_isa = True
 
 def add_csr_tests(name, test_str):
     # use regex to split by spaces, unless those spaces are inside quotation marks
@@ -428,6 +428,7 @@ def check_insn(grp, insn, chanidx, csr_mode=False, illegal_csr=False):
         
         # print(f"elaborate -top rvfi_testbench -create_related_covers witness {bbox_str}\n", file=tcl_file)
         print(f"elaborate -top rvfi_testbench -no_preconditions {bbox_str}\n", file=tcl_file)
+        # print(f"elaborate -top rvfi_testbench {bbox_str}\n", file=tcl_file)
         print("clock clock\nreset reset\n", file=tcl_file)
 
         if "script-link" in config:

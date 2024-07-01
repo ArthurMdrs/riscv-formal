@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <wavelist version="3">
-  <insertion-point-position>41</insertion-point-position>
+  <insertion-point-position>37</insertion-point-position>
   <wave>
     <expr>clock</expr>
     <label/>
@@ -169,21 +169,6 @@
       <label/>
       <radix/>
     </wave>
-    <group collapsed="true">
-      <expr>wrapper.core_top_i.core_i.load_store_unit_i.cnt_q!=0&amp;&amp;!wrapper.core_top_i.core_i.load_store_unit_i.count_down</expr>
-      <label>wrapper.core_top_i.core_i.load_store_unit_i.cnt_q!=0&amp;&amp;!wrapper.core_top_i.core_i.load_store_unit_i.count_down</label>
-      <radix/>
-      <wave collapsed="true">
-        <expr>wrapper.core_top_i.core_i.load_store_unit_i.cnt_q</expr>
-        <label/>
-        <radix/>
-      </wave>
-      <wave>
-        <expr>wrapper.core_top_i.core_i.load_store_unit_i.count_down</expr>
-        <label/>
-        <radix/>
-      </wave>
-    </group>
     <wave>
       <expr>wrapper.core_top_i.core_i.id_stage_i.load_stall</expr>
       <label/>

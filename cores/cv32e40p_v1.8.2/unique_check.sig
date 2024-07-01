@@ -1,32 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <wavelist version="3">
-  <insertion-point-position>31</insertion-point-position>
+  <insertion-point-position>21</insertion-point-position>
   <wave>
     <expr>clock</expr>
     <label/>
     <radix/>
   </wave>
-  <wave collapsed="true">
-    <expr>checker_inst.pc_rdata</expr>
-    <label/>
-    <radix>checker_inst.expect_pc</radix>
-  </wave>
-  <wave>
-    <expr>checker_inst.rvfi_intr</expr>
-    <label/>
-    <radix/>
-  </wave>
-  <wave>
-    <expr>checker_inst.expect_pc_valid</expr>
-    <label/>
-    <radix/>
-  </wave>
-  <wave collapsed="true">
-    <expr>checker_inst.expect_pc</expr>
-    <label/>
-    <radix>checker_inst.expect_pc</radix>
-  </wave>
-  <group collapsed="false">
+  <group collapsed="true">
     <expr/>
     <label>PC</label>
     <wave>
@@ -149,29 +129,9 @@
       <label/>
       <radix/>
     </wave>
-    <wave>
-      <expr>wrapper.core_top_i.core_i.valid_missed_branch</expr>
-      <label/>
-      <radix/>
-    </wave>
     <spacer/>
   </group>
-  <wave>
-    <expr>wrapper.core_top_i.core_i.incr_cntup</expr>
-    <label/>
-    <radix/>
-  </wave>
-  <wave collapsed="true">
-    <expr>wrapper.core_top_i.core_i.order_incr</expr>
-    <label/>
-    <radix/>
-  </wave>
-  <wave collapsed="true">
-    <expr>wrapper.core_top_i.core_i.order_incr_q</expr>
-    <label/>
-    <radix/>
-  </wave>
-  <group collapsed="false">
+  <group collapsed="true">
     <expr/>
     <label>group 1</label>
     <wave collapsed="true">
@@ -206,6 +166,41 @@
     </wave>
     <wave>
       <expr>wrapper.core_top_i.core_i.id_stage_i.branch_in_ex_o</expr>
+      <label/>
+      <radix/>
+    </wave>
+    <spacer/>
+  </group>
+  <group collapsed="false">
+    <expr/>
+    <label>Channel 1</label>
+    <wave>
+      <expr>wrapper.core_top_i.core_i.stall_ex</expr>
+      <label/>
+      <radix/>
+    </wave>
+    <wave>
+      <expr>wrapper.core_top_i.core_i.incr_cntup</expr>
+      <label/>
+      <radix/>
+    </wave>
+    <wave>
+      <expr>wrapper.core_top_i.core_i.valid_missed_branch</expr>
+      <label/>
+      <radix/>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.core_top_i.core_i.order_incr</expr>
+      <label/>
+      <radix/>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.core_top_i.core_i.order_incr_q</expr>
+      <label/>
+      <radix/>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.core_top_i.core_i.order_plus_incr</expr>
       <label/>
       <radix/>
     </wave>
@@ -307,7 +302,7 @@
     </wave>
     <spacer/>
   </group>
-  <group collapsed="false">
+  <group collapsed="true">
     <expr/>
     <label>Trap</label>
     <wave>
@@ -662,7 +657,7 @@
     </wave>
     <spacer/>
   </group>
-  <group collapsed="false">
+  <group collapsed="true">
     <expr/>
     <label>Core ready/valid</label>
     <wave>
@@ -730,20 +725,32 @@
   <highlightlist>
     <!--Users can remove the highlightlist block if they want to load the signal save file into older version of Jasper-->
     <highlight>
-      <expr>checker_inst.expect_pc</expr>
-      <color>builtin_green</color>
-    </highlight>
-    <highlight>
-      <expr>checker_inst.expect_pc_valid</expr>
-      <color>builtin_green</color>
-    </highlight>
-    <highlight>
       <expr>checker_inst.insn_spec.spec_pc_wdata</expr>
       <color>builtin_green</color>
     </highlight>
     <highlight>
       <expr>checker_inst.insn_spec.spec_rd_addr</expr>
       <color>builtin_green</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.core_top_i.core_i.gen_rvfi_ch1.rvfi_insn_ch1</expr>
+      <color>builtin_red</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.core_top_i.core_i.gen_rvfi_ch1.rvfi_order_ch1</expr>
+      <color>builtin_red</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.core_top_i.core_i.gen_rvfi_ch1.rvfi_pc_rdata_ch1</expr>
+      <color>builtin_red</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.core_top_i.core_i.gen_rvfi_ch1.rvfi_pc_wdata_ch1</expr>
+      <color>builtin_red</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.core_top_i.core_i.gen_rvfi_ch1.rvfi_valid_ch1</expr>
+      <color>builtin_red</color>
     </highlight>
     <highlight>
       <expr>wrapper.core_top_i.core_i.id_stage_i.controller_i.illegal_insn_n</expr>

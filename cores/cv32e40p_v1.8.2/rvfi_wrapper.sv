@@ -140,20 +140,6 @@ module rvfi_wrapper (
     
     
     
-    
-    
-    // // No grant without request
-    // wire instr_gnt_wo_req = instr_gnt_i && !instr_req_o;
-    // wire data_gnt_wo_req  = data_gnt_i  && !data_req_o ;
-    // always @(posedge clock) begin
-    //     ASM_no_gnt_wo_req_instr: assume (!instr_gnt_wo_req);
-    //     ASM_no_gnt_wo_req_data:  assume (!data_gnt_wo_req );
-    // end
-    // // assume property (@(posedge clock) instr_gnt_i |-> instr_req_o);
-    // // TODO: change concurrent covers below to immediate so SymbiYosys can compile them (idk if this is fact...)
-    // instr_req_can_happen: cover property (@(posedge clock) instr_req_o);
-    // data_req_can_happen:  cover property (@(posedge clock) data_req_o );
-    
     // No valid response without pending transaction
     reg [1:0] instr_trans_pnd;
     reg [1:0] data_trans_pnd ;
@@ -189,44 +175,6 @@ module rvfi_wrapper (
                 ASM_no_rvld_wo_pnd_data : assume (!data_rvalid_i );
         end
     end
-    // always_comb begin
-    //     unique case ({count_up, count_down})
-    //         2'b00: begin
-    //             next_cnt = cnt_q;
-    //         end
-    //         2'b01: begin
-    //             next_cnt = cnt_q - 1'b1;
-    //         end
-    //         2'b10: begin
-    //             next_cnt = cnt_q + 1'b1;
-    //         end
-    //         2'b11: begin
-    //             next_cnt = cnt_q;
-    //         end
-    //     endcase
-    // end
-    
-    // always @(posedge clock or posedge reset) begin
-    //     if (reset) begin
-    //         instr_trans_pnd <= 1'b0;
-    //         data_trans_pnd  <= 1'b0;
-    //     end else begin
-    //         if (instr_gnt_i && instr_req_o)
-    //             instr_trans_pnd <= instr_trans_pnd + 1'b1;
-    //         else if (instr_rvalid_i)
-    //             instr_trans_pnd <= 1'b0;
-                
-    //         if (data_gnt_i && data_req_o)
-    //             data_trans_pnd <= 1'b1;
-    //         else if (data_rvalid_i)
-    //             data_trans_pnd <= 1'b0;
-            
-    //         if (!instr_trans_pnd)
-    //             ASM_no_rvld_wo_pnd_instr: assume (!instr_rvalid_i);
-    //         if (!data_trans_pnd)
-    //             ASM_no_rvld_wo_pnd_data: assume (!data_rvalid_i);
-    //     end
-    // end
     
     
     
