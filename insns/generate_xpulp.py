@@ -14,6 +14,21 @@
 # ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
+from sys import argv
+
+if len(argv) == 1:
+    core_version = "v1.8.2"
+else:
+    assert(len(argv) == 2), "There should be only 1 argument, being the core version (\"v1.8.2\", \"pulpissimo\")"
+    core_version = argv[1]
+    assert core_version in ["v1.8.2", "pulpissimo"], "Core version should be in the list: \"v1.8.2\", \"pulpissimo\""
+print("Generating instructions for CV32E40P version %s." % core_version)
+
+opcode_cv0 = "7'b000_1011"
+opcode_cv1 = "7'b010_1011"
+opcode_cv2 = "7'b101_1011"
+opcode_cv3 = "7'b111_1011"
+
 current_isa = []
 isa_database = dict()
 defaults_cache = None
@@ -418,26 +433,30 @@ def format_cj(f):
 #### ================   XPULP - BEGIN   ================ ####
 def format_p_s(f):
     print("", file=f)
-    print("  // P_S-type instruction format", file=f)
+    # print("  // P_S-type instruction format", file=f)
+    print("  // Post-incrementing Store instruction format", file=f)
     print("  wire [`RISCV_FORMAL_ILEN-1:0] insn_padding = rvfi_insn >> 16 >> 16;", file=f)
     print("  wire [`RISCV_FORMAL_XLEN-1:0] insn_imm = $signed({rvfi_insn[31:25], rvfi_insn[11:7]});", file=f)
     print("  wire [6:0] insn_funct7  = rvfi_insn[31:25];", file=f)
     print("  wire [4:0] insn_rs2     = rvfi_insn[24:20];", file=f)
     print("  wire [4:0] insn_rs1     = rvfi_insn[19:15];", file=f)
-    print("  wire [4:0] insn_post_rd = rvfi_insn[19:15];", file=f)
+    # print("  wire [4:0] insn_post_rd = rvfi_insn[19:15];", file=f)
+    print("  wire [4:0] insn_post_rd = insn_rs1;", file=f)
     print("  wire [2:0] insn_funct3  = rvfi_insn[14:12];", file=f)
     print("  wire [4:0] insn_rs3     = rvfi_insn[11: 7];", file=f)
     print("  wire [6:0] insn_opcode  = rvfi_insn[ 6: 0];", file=f)
 
 def format_p_l(f):
     print("", file=f)
-    print("  // P_L-type instruction format", file=f)
+    # print("  // P_L-type instruction format", file=f)
+    print("  // Post-incrementing Load instruction format", file=f)
     print("  wire [`RISCV_FORMAL_ILEN-1:0] insn_padding = rvfi_insn >> 16 >> 16;", file=f)
     print("  wire [`RISCV_FORMAL_XLEN-1:0] insn_imm = $signed(rvfi_insn[31:20]);", file=f)
     print("  wire [6:0] insn_funct7  = rvfi_insn[31:25];", file=f)
     print("  wire [4:0] insn_rs2     = rvfi_insn[24:20];", file=f)
     print("  wire [4:0] insn_rs1     = rvfi_insn[19:15];", file=f)
-    print("  wire [4:0] insn_post_rd = rvfi_insn[19:15];", file=f)
+    # print("  wire [4:0] insn_post_rd = rvfi_insn[19:15];", file=f)
+    print("  wire [4:0] insn_post_rd = insn_rs1;", file=f)
     print("  wire [2:0] insn_funct3  = rvfi_insn[14:12];", file=f)
     print("  wire [4:0] insn_rd      = rvfi_insn[11: 7];", file=f)
     print("  wire [6:0] insn_opcode  = rvfi_insn[ 6: 0];", file=f)
@@ -1906,6 +1925,139 @@ def insn_simd_dot(insn, funct5, funct3, hnb=True, sc=True, i=False, imms=True, m
     #     print("", file=f)
 
     #     footer(f)
+
+def insn_cv_l(insn, funct3, numbytes, signext, misa=MISA_X):
+    with open("insn_%s.v" % insn, "w") as f:
+        header(f, insn)
+        format_p_s(f)
+        misa_check(f, misa)
+
+        print("", file=f)
+        print("  // %s instruction" % insn.upper(), file=f)
+        
+        print("  reg funct7_valid, funct3_valid;", file=f)
+        print("  always @(*) begin", file=f)
+        print("    funct7_valid = 1'b0;", file=f)
+        print("    funct3_valid = 1'b0;\n", file=f)
+        print("    if (insn_funct3[1:0] == 2'b11) begin", file=f)
+        if signext:
+            print("      if (insn_funct7[6:3] == 4'b000_0 && insn_funct7[1:0] != 2'b11)", file=f)
+        else:
+            print("      if (insn_funct7[6:3] == 4'b000_1 && insn_funct7[1:0] != 2'b11)", file=f)
+        print("        funct7_valid = 1'b1;", file=f)
+        print("    end", file=f)
+        print("    else begin", file=f)
+        print("      funct7_valid = 1'b1;", file=f)
+        print("    end\n", file=f)
+        print("    if (insn_funct3 == 3'b011)", file=f)
+        print("      funct3_valid = (insn_opcode == %s);" % opcode_cv1, file=f)
+        print("    else if (insn_funct3 == 3'b%s)" % funct3, file=f)
+        print("      funct3_valid = (insn_opcode == %s);" % opcode_cv0, file=f)
+        print("  end", file=f)
+        
+        print("", file=f)
+        print("  wire [`RISCV_FORMAL_XLEN-1:0] op2 = (insn_funct3[1:0] == 2'b11) ? (rvfi_rs2_rdata) : (insn_imm);", file=f)
+        print("  wire [`RISCV_FORMAL_XLEN-1:0] result = rvfi_rs1_rdata + op2;", file=f)
+        print("  wire [`RISCV_FORMAL_XLEN-1:0] addr = (insn_funct3[1:0] == 2'b11 && insn_funct7[2]) ? (result) : (rvfi_rs1_rdata);", file=f)
+        assign(f, "spec_valid", "rvfi_valid && !insn_padding && funct3_valid && funct7_valid")
+        assign(f, "spec_rs1_addr", "insn_rs1")
+        assign(f, "spec_rs2_addr", "insn_rs2")
+        assign(f, "spec_rd_addr", "insn_rd")
+        assign(f, "spec_post_rd_addr", "(insn_funct3[1:0] == 2'b11 && insn_funct7[2]) ? ('0) : (insn_post_rd)")
+        assign(f, "spec_post_rd_wdata", "spec_post_rd_addr ? result : 0")
+        assign_pc_wdata(f)
+        
+        print("", file=f)
+        print("`ifdef RISCV_FORMAL_ALIGNED_MEM", file=f)
+
+        print("  wire [%d:0] rdata = rvfi_mem_rdata >> (8*(addr-spec_mem_addr));" % (8*numbytes-1), file=f)
+        assign(f, "spec_mem_addr", "addr & ~(`RISCV_FORMAL_XLEN/8-1)")
+        assign(f, "spec_mem_rmask", "((1 << %d)-1) << (addr-spec_mem_addr)" % numbytes)
+        if signext:
+            assign(f, "spec_rd_wdata", "spec_rd_addr ? $signed(rdata) : 0")
+        else:
+            assign(f, "spec_rd_wdata", "spec_rd_addr ? rdata : 0")
+        assign(f, "spec_trap", "((addr & (%d-1)) != 0) || !misa_ok" % numbytes)
+
+        print("`else", file=f)
+
+        print("  wire [%d:0] rdata = rvfi_mem_rdata;" % (8*numbytes-1), file=f)
+        assign(f, "spec_mem_addr", "addr")
+        assign(f, "spec_mem_rmask", "((1 << %d)-1)" % numbytes)
+        if signext:
+            assign(f, "spec_rd_wdata", "spec_rd_addr ? $signed(rdata) : 0")
+        else:
+            assign(f, "spec_rd_wdata", "spec_rd_addr ? rdata : 0")
+        assign(f, "spec_trap", "!misa_ok")
+
+        print("`endif", file=f)
+
+        footer(f)
+
+def insn_cv_s(insn, funct3, numbytes, misa=MISA_X):
+    with open("insn_%s.v" % insn, "w") as f:
+        header(f, insn)
+        format_p_s(f)
+        misa_check(f, misa)
+
+        print("", file=f)
+        print("  // %s instruction" % insn.upper(), file=f)
+        
+        print("  reg funct7_valid, funct3_valid;", file=f)
+        print("  always @(*) begin", file=f)
+        print("    funct7_valid = 1'b0;", file=f)
+        print("    funct3_valid = 1'b0;\n", file=f)
+        print("    if (insn_funct3[1:0] == 2'b11) begin", file=f)
+        print("      if (insn_funct7[6:3] == 4'b001_0 && insn_funct7[1:0] != 2'b11)", file=f)
+        print("        funct7_valid = 1'b1;", file=f)
+        print("    end", file=f)
+        print("    else begin", file=f)
+        print("      funct7_valid = 1'b1;", file=f)
+        print("    end\n", file=f)
+        print("    if (insn_funct3 inside {3'b011, 3'b%s})" % funct3, file=f)
+        print("      funct3_valid = 1'b1;", file=f)
+        print("  end", file=f)
+        
+        print("", file=f)
+        # print("  wire [`RISCV_FORMAL_XLEN-1:0] op2 = (insn_funct3[2]) ? (rvfi_rs3_rdata) : (insn_imm);", file=f)
+        print("  wire [`RISCV_FORMAL_XLEN-1:0] op2 = (insn_funct3[1:0] == 2'b11) ? (rvfi_rs3_rdata) : (insn_imm);", file=f)
+        print("  wire [`RISCV_FORMAL_XLEN-1:0] result = rvfi_rs1_rdata + op2;", file=f)
+        # print("  wire [`RISCV_FORMAL_XLEN-1:0] addr = (insn_opcode[3]) ? (rvfi_rs1_rdata) : (result);", file=f)
+        print("  wire [`RISCV_FORMAL_XLEN-1:0] addr = (insn_funct3[1:0] == 2'b11 && insn_funct7[2]) ? (result) : (rvfi_rs1_rdata);", file=f)
+        # assign(f, "spec_valid", "rvfi_valid && !insn_padding && funct3_valid && funct7_valid")
+        # if use_f7:
+        #     assign(f, "spec_valid", "rvfi_valid && !insn_padding && insn_funct7 == 7'b%s && insn_funct3 == 3'b%s && insn_opcode == %s" % (funct7, funct3, opcode_cv1))
+        # else:
+        #     assign(f, "spec_valid", "rvfi_valid && !insn_padding && insn_funct3 == 3'b%s && insn_opcode == %s" % (funct3, opcode_cv1))
+        assign(f, "spec_valid", "rvfi_valid && !insn_padding && funct3_valid && funct7_valid && insn_opcode == %s" % (opcode_cv1))
+        assign(f, "spec_rs1_addr", "insn_rs1")
+        assign(f, "spec_rs2_addr", "insn_rs2")
+        # assign(f, "spec_rs3_addr", "(insn_funct3[2]) ? (insn_rs3) : ('0)")
+        # assign(f, "spec_post_rd_addr", "(insn_opcode[3]) ? (insn_post_rd) : ('0)")
+        assign(f, "spec_rs3_addr", "(insn_funct3[1:0] == 2'b11) ? (insn_rs3) : ('0)")
+        assign(f, "spec_post_rd_addr", "(insn_funct3[1:0] == 2'b11 && insn_funct7[2]) ? ('0) : (insn_post_rd)")
+        assign(f, "spec_post_rd_wdata", "spec_post_rd_addr ? result : 0")
+        assign_pc_wdata(f)
+        
+        print("", file=f)
+        print("`ifdef RISCV_FORMAL_ALIGNED_MEM", file=f)
+
+        assign(f, "spec_mem_addr", "addr & ~(`RISCV_FORMAL_XLEN/8-1)")
+        assign(f, "spec_mem_wmask", "((1 << %d)-1) << (addr-spec_mem_addr)" % numbytes)
+        assign(f, "spec_mem_wdata", "rvfi_rs2_rdata << (8*(addr-spec_mem_addr))")
+        assign(f, "spec_trap", "((addr & (%d-1)) != 0) || !misa_ok" % numbytes)
+
+        print("`else", file=f)
+
+        assign(f, "spec_mem_addr", "addr")
+        assign(f, "spec_mem_wmask", "((1 << %d)-1)" % numbytes)
+        assign(f, "spec_mem_wdata", "rvfi_rs2_rdata")
+        assign(f, "spec_trap", "!misa_ok")
+
+        print("`endif", file=f)
+
+        footer(f)
+
 #### ================   XPULP - END   ================ ####
 
 ## Base Integer ISA (I)
@@ -2087,167 +2239,189 @@ insn_c_lsp("c_ldsp", "011", 8, True)
 insn_c_ssp("c_sdsp", "111", 8)
 
 #### ================   XPULP - BEGIN   ================ ####
-## Pulpissimo Custom ISA (xpulpv2)
+if core_version == "pulpissimo":
+    ## Pulpissimo Custom ISA (xpulpv3)
 
-current_isa = ["rv32ix"]
+    current_isa = ["rv32ix"]
 
-# Post-incrementing stores
-insn_p_s("p_sb", "00", 1)
-insn_p_s("p_sh", "01", 2)
-insn_p_s("p_sw", "10", 4)
+    # Post-incrementing stores
+    insn_p_s("p_sb", "00", 1)
+    insn_p_s("p_sh", "01", 2)
+    insn_p_s("p_sw", "10", 4)
 
-# Post-incrementing loads
-insn_p_l("p_lb" , "000_0000", "000", 1, True)
-insn_p_l("p_lh" , "000_1000", "001", 2, True)
-insn_p_l("p_lw" , "001_0000", "010", 4, True)
-insn_p_l("p_lbu", "010_0000", "100", 1, False)
-insn_p_l("p_lhu", "010_1000", "101", 2, False)
+    # Post-incrementing loads
+    insn_p_l("p_lb" , "000_0000", "000", 1, True)
+    insn_p_l("p_lh" , "000_1000", "001", 2, True)
+    insn_p_l("p_lw" , "001_0000", "010", 4, True)
+    insn_p_l("p_lbu", "010_0000", "100", 1, False)
+    insn_p_l("p_lhu", "010_1000", "101", 2, False)
 
-# Hardware loops TODO TODO TODO
-# insn_hwlp("lp_starti",  "000", "rvfi_rs1_rdata + insn_imm")
+    # Hardware loops TODO TODO TODO
+    # insn_hwlp("lp_starti",  "000", "rvfi_rs1_rdata + insn_imm")
 
-# Bit manipulation operations
-insn_alu      ("p_ror", "000_0100", "101", "rvfi_rs1_rdata << (32-shamt) | rvfi_rs1_rdata >> shamt", shamt=True, misa=MISA_X)
-# insn_alu      ("p_cnt", "000_1000", "011", "$countones(rvfi_rs1_rdata)", misa=MISA_X) # I tested this with Tabby, it works
-insn_bit_man_1("p_ff1", "000", lnr=False, cnt=False)
-insn_bit_man_1("p_fl1", "001", lnr=True , cnt=False)
-insn_p_clb    ("p_clb", "010")
-insn_bit_man_1("p_cnt", "011", lnr=True , cnt=True )
+    # Bit manipulation operations
+    insn_alu      ("p_ror", "000_0100", "101", "rvfi_rs1_rdata << (32-shamt) | rvfi_rs1_rdata >> shamt", shamt=True, misa=MISA_X)
+    # insn_alu      ("p_cnt", "000_1000", "011", "$countones(rvfi_rs1_rdata)", misa=MISA_X) # I tested this with Tabby, it works
+    insn_bit_man_1("p_ff1", "000", lnr=False, cnt=False)
+    insn_bit_man_1("p_fl1", "001", lnr=True , cnt=False)
+    insn_p_clb    ("p_clb", "010")
+    insn_bit_man_1("p_cnt", "011", lnr=True , cnt=True )
 
-insn_bit_man_2("p_extract"  , "11", "000", u=False, r=False)
-insn_bit_man_2("p_extractu" , "11", "001", u=True , r=False)
-insn_bit_man_2("p_insert"   , "11", "010", u=True , r=False)
-insn_bit_man_2("p_bclr"     , "11", "011", u=True , r=False)
-insn_bit_man_2("p_bset"     , "11", "100", u=True , r=False)
+    insn_bit_man_2("p_extract"  , "11", "000", u=False, r=False)
+    insn_bit_man_2("p_extractu" , "11", "001", u=True , r=False)
+    insn_bit_man_2("p_insert"   , "11", "010", u=True , r=False)
+    insn_bit_man_2("p_bclr"     , "11", "011", u=True , r=False)
+    insn_bit_man_2("p_bset"     , "11", "100", u=True , r=False)
 
-insn_bit_man_2("p_extractr" , "10", "000", u=False, r=True )
-insn_bit_man_2("p_extractur", "10", "001", u=True , r=True )
-insn_bit_man_2("p_insertr"  , "10", "010", u=True , r=True )
-insn_bit_man_2("p_bclrr"    , "10", "011", u=True , r=True )
-insn_bit_man_2("p_bsetr"    , "10", "100", u=True , r=True )
+    insn_bit_man_2("p_extractr" , "10", "000", u=False, r=True )
+    insn_bit_man_2("p_extractur", "10", "001", u=True , r=True )
+    insn_bit_man_2("p_insertr"  , "10", "010", u=True , r=True )
+    insn_bit_man_2("p_bclrr"    , "10", "011", u=True , r=True )
+    insn_bit_man_2("p_bsetr"    , "10", "100", u=True , r=True )
 
-# General ALU operations
-insn_gen_alu("p_abs"  , "000_0010", "000", "($signed(rvfi_rs1_rdata) < 0) ? (-rvfi_rs1_rdata) : (rvfi_rs1_rdata)"                     , rs2_is_0=True )
-insn_gen_alu("p_slet" , "000_0010", "010", "($signed(rvfi_rs1_rdata) <= $signed(rvfi_rs2_rdata)) ? (1) : (0)"                         , rs2_is_0=False)
-insn_gen_alu("p_sletu", "000_0010", "011", "(rvfi_rs1_rdata <= rvfi_rs2_rdata) ? (1) : (0)"                                           , rs2_is_0=False)
-insn_gen_alu("p_min"  , "000_0010", "100", "($signed(rvfi_rs1_rdata) < $signed(rvfi_rs2_rdata)) ? (rvfi_rs1_rdata) : (rvfi_rs2_rdata)", rs2_is_0=False)
-insn_gen_alu("p_minu" , "000_0010", "101", "(rvfi_rs1_rdata < rvfi_rs2_rdata) ? (rvfi_rs1_rdata) : (rvfi_rs2_rdata)"                  , rs2_is_0=False)
-insn_gen_alu("p_max"  , "000_0010", "110", "($signed(rvfi_rs1_rdata) < $signed(rvfi_rs2_rdata)) ? (rvfi_rs2_rdata) : (rvfi_rs1_rdata)", rs2_is_0=False)
-insn_gen_alu("p_maxu" , "000_0010", "111", "(rvfi_rs1_rdata < rvfi_rs2_rdata) ? (rvfi_rs2_rdata) : (rvfi_rs1_rdata)"                  , rs2_is_0=False)
-insn_gen_alu("p_exths", "000_1000", "100", "{{16{rvfi_rs1_rdata[15]}}, rvfi_rs1_rdata[15:0]}"                                         , rs2_is_0=True )
-insn_gen_alu("p_exthz", "000_1000", "101", "{16'b0, rvfi_rs1_rdata[15:0]}"                                                            , rs2_is_0=True )
-insn_gen_alu("p_extbs", "000_1000", "110", "{{24{rvfi_rs1_rdata[7]}}, rvfi_rs1_rdata[7:0]}"                                           , rs2_is_0=True )
-insn_gen_alu("p_extbz", "000_1000", "111", "{24'b0, rvfi_rs1_rdata[7:0]}"                                                             , rs2_is_0=True )
+    # General ALU operations
+    insn_gen_alu("p_abs"  , "000_0010", "000", "($signed(rvfi_rs1_rdata) < 0) ? (-rvfi_rs1_rdata) : (rvfi_rs1_rdata)"                     , rs2_is_0=True )
+    insn_gen_alu("p_slet" , "000_0010", "010", "($signed(rvfi_rs1_rdata) <= $signed(rvfi_rs2_rdata)) ? (1) : (0)"                         , rs2_is_0=False)
+    insn_gen_alu("p_sletu", "000_0010", "011", "(rvfi_rs1_rdata <= rvfi_rs2_rdata) ? (1) : (0)"                                           , rs2_is_0=False)
+    insn_gen_alu("p_min"  , "000_0010", "100", "($signed(rvfi_rs1_rdata) < $signed(rvfi_rs2_rdata)) ? (rvfi_rs1_rdata) : (rvfi_rs2_rdata)", rs2_is_0=False)
+    insn_gen_alu("p_minu" , "000_0010", "101", "(rvfi_rs1_rdata < rvfi_rs2_rdata) ? (rvfi_rs1_rdata) : (rvfi_rs2_rdata)"                  , rs2_is_0=False)
+    insn_gen_alu("p_max"  , "000_0010", "110", "($signed(rvfi_rs1_rdata) < $signed(rvfi_rs2_rdata)) ? (rvfi_rs2_rdata) : (rvfi_rs1_rdata)", rs2_is_0=False)
+    insn_gen_alu("p_maxu" , "000_0010", "111", "(rvfi_rs1_rdata < rvfi_rs2_rdata) ? (rvfi_rs2_rdata) : (rvfi_rs1_rdata)"                  , rs2_is_0=False)
+    insn_gen_alu("p_exths", "000_1000", "100", "{{16{rvfi_rs1_rdata[15]}}, rvfi_rs1_rdata[15:0]}"                                         , rs2_is_0=True )
+    insn_gen_alu("p_exthz", "000_1000", "101", "{16'b0, rvfi_rs1_rdata[15:0]}"                                                            , rs2_is_0=True )
+    insn_gen_alu("p_extbs", "000_1000", "110", "{{24{rvfi_rs1_rdata[7]}}, rvfi_rs1_rdata[7:0]}"                                           , rs2_is_0=True )
+    insn_gen_alu("p_extbz", "000_1000", "111", "{24'b0, rvfi_rs1_rdata[7:0]}"                                                             , rs2_is_0=True )
 
-insn_clip("p_clip"  , "001", u=False, r=False)
-insn_clip("p_clipu" , "010", u=True , r=False)
-insn_clip("p_clipr" , "101", u=False, r=True )
-insn_clip("p_clipur", "110", u=True , r=True )
+    insn_clip("p_clip"  , "001", u=False, r=False)
+    insn_clip("p_clipu" , "010", u=True , r=False)
+    insn_clip("p_clipr" , "101", u=False, r=True )
+    insn_clip("p_clipur", "110", u=True , r=True )
 
-insn_gen_alu_N("p_addN"   , "00", "010", "$signed(rvfi_rs1_rdata + rvfi_rs2_rdata) >>> insn_ls3"                        , ls3_is_0=False, rs3_used=False)
-insn_gen_alu_N("p_adduN"  , "10", "010", "(rvfi_rs1_rdata + rvfi_rs2_rdata) >> insn_ls3"                                , ls3_is_0=False, rs3_used=False)
-insn_gen_alu_N("p_addRN"  , "00", "110", "$signed(rvfi_rs1_rdata + rvfi_rs2_rdata + (1 << (insn_ls3 - 1))) >>> insn_ls3", ls3_is_0=False, rs3_used=False)
-insn_gen_alu_N("p_adduRN" , "10", "110", "(rvfi_rs1_rdata + rvfi_rs2_rdata + (1 << (insn_ls3 - 1))) >> insn_ls3"        , ls3_is_0=False, rs3_used=False)
-insn_gen_alu_N("p_subN"   , "00", "011", "$signed(rvfi_rs1_rdata - rvfi_rs2_rdata) >>> insn_ls3"                        , ls3_is_0=False, rs3_used=False)
-insn_gen_alu_N("p_subuN"  , "10", "011", "(rvfi_rs1_rdata - rvfi_rs2_rdata) >> insn_ls3"                                , ls3_is_0=False, rs3_used=False)
-insn_gen_alu_N("p_subRN"  , "00", "111", "$signed(rvfi_rs1_rdata - rvfi_rs2_rdata + (1 << (insn_ls3 - 1))) >>> insn_ls3", ls3_is_0=False, rs3_used=False)
-insn_gen_alu_N("p_subuRN" , "10", "111", "(rvfi_rs1_rdata - rvfi_rs2_rdata + (1 << (insn_ls3 - 1))) >> insn_ls3"        , ls3_is_0=False, rs3_used=False)
-insn_gen_alu_N("p_addNr"  , "01", "010", "$signed(rvfi_rs1_rdata + rvfi_rs3_rdata) >>> rvfi_rs2_rdata[4:0]"                                   , ls3_is_0=True, rs3_used=True)
-insn_gen_alu_N("p_adduNr" , "11", "010", "(rvfi_rs1_rdata + rvfi_rs3_rdata) >> rvfi_rs2_rdata[4:0]"                                           , ls3_is_0=True, rs3_used=True)
-insn_gen_alu_N("p_addRNr" , "01", "110", "$signed(rvfi_rs1_rdata + rvfi_rs3_rdata + (1 << (rvfi_rs2_rdata[4:0] - 1))) >>> rvfi_rs2_rdata[4:0]", ls3_is_0=True, rs3_used=True)
-insn_gen_alu_N("p_adduRNr", "11", "110", "(rvfi_rs1_rdata + rvfi_rs3_rdata + (1 << (rvfi_rs2_rdata[4:0] - 1))) >> rvfi_rs2_rdata[4:0]"        , ls3_is_0=True, rs3_used=True)
-insn_gen_alu_N("p_subNr"  , "01", "011", "$signed(rvfi_rs3_rdata - rvfi_rs1_rdata) >>> rvfi_rs2_rdata[4:0]"                                   , ls3_is_0=True, rs3_used=True)
-insn_gen_alu_N("p_subuNr" , "11", "011", "(rvfi_rs3_rdata - rvfi_rs1_rdata) >> rvfi_rs2_rdata[4:0]"                                           , ls3_is_0=True, rs3_used=True)
-insn_gen_alu_N("p_subRNr" , "01", "111", "$signed(rvfi_rs3_rdata - rvfi_rs1_rdata + (1 << (rvfi_rs2_rdata[4:0] - 1))) >>> rvfi_rs2_rdata[4:0]", ls3_is_0=True, rs3_used=True)
-insn_gen_alu_N("p_subuRNr", "11", "111", "(rvfi_rs3_rdata - rvfi_rs1_rdata + (1 << (rvfi_rs2_rdata[4:0] - 1))) >> rvfi_rs2_rdata[4:0]"        , ls3_is_0=True, rs3_used=True)
+    insn_gen_alu_N("p_addN"   , "00", "010", "$signed(rvfi_rs1_rdata + rvfi_rs2_rdata) >>> insn_ls3"                        , ls3_is_0=False, rs3_used=False)
+    insn_gen_alu_N("p_adduN"  , "10", "010", "(rvfi_rs1_rdata + rvfi_rs2_rdata) >> insn_ls3"                                , ls3_is_0=False, rs3_used=False)
+    insn_gen_alu_N("p_addRN"  , "00", "110", "$signed(rvfi_rs1_rdata + rvfi_rs2_rdata + (1 << (insn_ls3 - 1))) >>> insn_ls3", ls3_is_0=False, rs3_used=False)
+    insn_gen_alu_N("p_adduRN" , "10", "110", "(rvfi_rs1_rdata + rvfi_rs2_rdata + (1 << (insn_ls3 - 1))) >> insn_ls3"        , ls3_is_0=False, rs3_used=False)
+    insn_gen_alu_N("p_subN"   , "00", "011", "$signed(rvfi_rs1_rdata - rvfi_rs2_rdata) >>> insn_ls3"                        , ls3_is_0=False, rs3_used=False)
+    insn_gen_alu_N("p_subuN"  , "10", "011", "(rvfi_rs1_rdata - rvfi_rs2_rdata) >> insn_ls3"                                , ls3_is_0=False, rs3_used=False)
+    insn_gen_alu_N("p_subRN"  , "00", "111", "$signed(rvfi_rs1_rdata - rvfi_rs2_rdata + (1 << (insn_ls3 - 1))) >>> insn_ls3", ls3_is_0=False, rs3_used=False)
+    insn_gen_alu_N("p_subuRN" , "10", "111", "(rvfi_rs1_rdata - rvfi_rs2_rdata + (1 << (insn_ls3 - 1))) >> insn_ls3"        , ls3_is_0=False, rs3_used=False)
+    insn_gen_alu_N("p_addNr"  , "01", "010", "$signed(rvfi_rs1_rdata + rvfi_rs3_rdata) >>> rvfi_rs2_rdata[4:0]"                                   , ls3_is_0=True, rs3_used=True)
+    insn_gen_alu_N("p_adduNr" , "11", "010", "(rvfi_rs1_rdata + rvfi_rs3_rdata) >> rvfi_rs2_rdata[4:0]"                                           , ls3_is_0=True, rs3_used=True)
+    insn_gen_alu_N("p_addRNr" , "01", "110", "$signed(rvfi_rs1_rdata + rvfi_rs3_rdata + (1 << (rvfi_rs2_rdata[4:0] - 1))) >>> rvfi_rs2_rdata[4:0]", ls3_is_0=True, rs3_used=True)
+    insn_gen_alu_N("p_adduRNr", "11", "110", "(rvfi_rs1_rdata + rvfi_rs3_rdata + (1 << (rvfi_rs2_rdata[4:0] - 1))) >> rvfi_rs2_rdata[4:0]"        , ls3_is_0=True, rs3_used=True)
+    insn_gen_alu_N("p_subNr"  , "01", "011", "$signed(rvfi_rs3_rdata - rvfi_rs1_rdata) >>> rvfi_rs2_rdata[4:0]"                                   , ls3_is_0=True, rs3_used=True)
+    insn_gen_alu_N("p_subuNr" , "11", "011", "(rvfi_rs3_rdata - rvfi_rs1_rdata) >> rvfi_rs2_rdata[4:0]"                                           , ls3_is_0=True, rs3_used=True)
+    insn_gen_alu_N("p_subRNr" , "01", "111", "$signed(rvfi_rs3_rdata - rvfi_rs1_rdata + (1 << (rvfi_rs2_rdata[4:0] - 1))) >>> rvfi_rs2_rdata[4:0]", ls3_is_0=True, rs3_used=True)
+    insn_gen_alu_N("p_subuRNr", "11", "111", "(rvfi_rs3_rdata - rvfi_rs1_rdata + (1 << (rvfi_rs2_rdata[4:0] - 1))) >> rvfi_rs2_rdata[4:0]"        , ls3_is_0=True, rs3_used=True)
 
-# Immediate branching operations
-insn_p_b("p_beqimm", "010", "(rvfi_rs1_rdata == insn_imm5)")
-insn_p_b("p_bneimm", "011", "(rvfi_rs1_rdata != insn_imm5)")
+    # Immediate branching operations
+    insn_p_b("p_beqimm", "010", "(rvfi_rs1_rdata == insn_imm5)")
+    insn_p_b("p_bneimm", "011", "(rvfi_rs1_rdata != insn_imm5)")
 
-# Multiply-accumulate TODO TODO TODO
+    # Multiply-accumulate TODO TODO TODO
 
-# Vectorial operations (SIMD) - ALU
-op_vec = [
-            ["add" , "op1[i] + op2[i]"                                          , True ], # 0 0000
-            ["sub" , "op1[i] - op2[i]"                                          , True ], # 0 0001
-            ["avg" , "$signed(op1[i] + op2[i]) >>> 1"                           , True ], # 0 0010
-            ["avgu", "(op1[i] + op2[i]) >> 1"                                   , False], # 0 0011
-            ["min" , "($signed(op1[i]) < $signed(op2[i])) ? (op1[i]) : (op2[i])", True ], # 0 0100
-            ["minu", "(op1[i] < op2[i]) ? (op1[i]) : (op2[i])"                  , False], # 0 0101
-            ["max" , "($signed(op1[i]) > $signed(op2[i])) ? (op1[i]) : (op2[i])", True ], # 0 0110
-            ["maxu", "(op1[i] > op2[i]) ? (op1[i]) : (op2[i])"                  , False], # 0 0111
-            ["srl" , "op1[i] >> op2[i]"                                         , False], # 0 1000
-            ["sra" , "$signed(op1[i]) >>> op2[i]"                               , False], # 0 1001
-            ["sll" , "op1[i] << op2[i]"                                         , False], # 0 1010
-            ["or"  , "op1[i] | op2[i]"                                          , True ], # 0 1011
-            ["xor" , "op1[i] ^ op2[i]"                                          , True ], # 0 1100
-            ["and" , "op1[i] & op2[i]"                                          , True ]] # 0 1101
-for op in op_vec:
-    for hnb in [True, False]:
-        for sc in [True, False]:
-            for i in ([True, False] if sc else [False]):
-                insn   = "pv_"+op[0]+("_sc" if sc else "")+("i" if i else "")+"_"+("h" if hnb else "b")
-                funct5 = op_vec.index(op)
-                funct1 = "0"
-                funct3 = str(int(sc))+str(int(i))+str(int(not hnb))
-                expr   = op[1]
-                imms   = op[2]
-                sh     = (funct5 in [8, 9, 10])
-                insn_simd_alu(insn, funct5, funct1, funct3, expr, hnb, sc, i, imms, sh)
-insn_simd_alu("pv_abs_h", "14", "0", "000", "($signed(op1[i]) < 0) ? (-op1[i]) : (op1[i])", hnb=True , sc=False, i=False, imms=False, sh=False, rs2_is_0=True)
-insn_simd_alu("pv_abs_b", "14", "0", "001", "($signed(op1[i]) < 0) ? (-op1[i]) : (op1[i])", hnb=False, sc=False, i=False, imms=False, sh=False, rs2_is_0=True)
+    # Vectorial operations (SIMD) - ALU
+    op_vec = [
+                ["add" , "op1[i] + op2[i]"                                          , True ], # 0 0000
+                ["sub" , "op1[i] - op2[i]"                                          , True ], # 0 0001
+                ["avg" , "$signed(op1[i] + op2[i]) >>> 1"                           , True ], # 0 0010
+                ["avgu", "(op1[i] + op2[i]) >> 1"                                   , False], # 0 0011
+                ["min" , "($signed(op1[i]) < $signed(op2[i])) ? (op1[i]) : (op2[i])", True ], # 0 0100
+                ["minu", "(op1[i] < op2[i]) ? (op1[i]) : (op2[i])"                  , False], # 0 0101
+                ["max" , "($signed(op1[i]) > $signed(op2[i])) ? (op1[i]) : (op2[i])", True ], # 0 0110
+                ["maxu", "(op1[i] > op2[i]) ? (op1[i]) : (op2[i])"                  , False], # 0 0111
+                ["srl" , "op1[i] >> op2[i]"                                         , False], # 0 1000
+                ["sra" , "$signed(op1[i]) >>> op2[i]"                               , False], # 0 1001
+                ["sll" , "op1[i] << op2[i]"                                         , False], # 0 1010
+                ["or"  , "op1[i] | op2[i]"                                          , True ], # 0 1011
+                ["xor" , "op1[i] ^ op2[i]"                                          , True ], # 0 1100
+                ["and" , "op1[i] & op2[i]"                                          , True ]] # 0 1101
+    for op in op_vec:
+        for hnb in [True, False]:
+            for sc in [True, False]:
+                for i in ([True, False] if sc else [False]):
+                    insn   = "pv_"+op[0]+("_sc" if sc else "")+("i" if i else "")+"_"+("h" if hnb else "b")
+                    funct5 = op_vec.index(op)
+                    funct1 = "0"
+                    funct3 = str(int(sc))+str(int(i))+str(int(not hnb))
+                    expr   = op[1]
+                    imms   = op[2]
+                    sh     = (funct5 in [8, 9, 10])
+                    insn_simd_alu(insn, funct5, funct1, funct3, expr, hnb, sc, i, imms, sh)
+    insn_simd_alu("pv_abs_h", "14", "0", "000", "($signed(op1[i]) < 0) ? (-op1[i]) : (op1[i])", hnb=True , sc=False, i=False, imms=False, sh=False, rs2_is_0=True)
+    insn_simd_alu("pv_abs_b", "14", "0", "001", "($signed(op1[i]) < 0) ? (-op1[i]) : (op1[i])", hnb=False, sc=False, i=False, imms=False, sh=False, rs2_is_0=True)
 
-# Vectorial operations (SIMD) - Bit Manipulations
-insn_simd_ext("pv_extract_h" , "15", "110", hnb=True , u=False)
-insn_simd_ext("pv_extract_b" , "15", "111", hnb=False, u=False)
-insn_simd_ext("pv_extractu_h", "18", "110", hnb=True , u=True )
-insn_simd_ext("pv_extractu_b", "18", "111", hnb=False, u=True )
-insn_simd_ins("pv_insert_h"  , "22", "110", hnb=True )
-insn_simd_ins("pv_insert_b"  , "22", "111", hnb=False)
+    # Vectorial operations (SIMD) - Bit Manipulations
+    insn_simd_ext("pv_extract_h" , "15", "110", hnb=True , u=False)
+    insn_simd_ext("pv_extract_b" , "15", "111", hnb=False, u=False)
+    insn_simd_ext("pv_extractu_h", "18", "110", hnb=True , u=True )
+    insn_simd_ext("pv_extractu_b", "18", "111", hnb=False, u=True )
+    insn_simd_ins("pv_insert_h"  , "22", "110", hnb=True )
+    insn_simd_ins("pv_insert_b"  , "22", "111", hnb=False)
 
-# Vectorial operations (SIMD) - Dot Product TODO TODO TODO
-insn_simd_dot("pv_dotup_h", "16", "000", hnb=True, sc=False, i=False, imms=False, misa=MISA_X)
+    # Vectorial operations (SIMD) - Dot Product TODO TODO TODO
+    insn_simd_dot("pv_dotup_h", "16", "000", hnb=True, sc=False, i=False, imms=False, misa=MISA_X)
 
-# Vectorial operations (SIMD) - Shuffle and Pack
-insn_simd_shu("pv_shuffle_h"      , "24", "000", hnb=True , sci=False)
-insn_simd_shu("pv_shuffle_sci_h"  , "24", "110", hnb=True , sci=True )
-insn_simd_shu("pv_shuffle_b"      , "24", "001", hnb=False, sci=False)
-insn_simd_shu("pv_shuffleI0_sci_b", "24", "111", hnb=False, sci=True , shuffleI=0)
-insn_simd_shu("pv_shuffleI1_sci_b", "29", "111", hnb=False, sci=True , shuffleI=1)
-insn_simd_shu("pv_shuffleI2_sci_b", "30", "111", hnb=False, sci=True , shuffleI=2)
-insn_simd_shu("pv_shuffleI3_sci_b", "31", "111", hnb=False, sci=True , shuffleI=3)
-insn_simd_shu("pv_shuffle2_h"     , "25", "000", hnb=True , sci=False, shuffle2=True)
-insn_simd_shu("pv_shuffle2_b"     , "25", "001", hnb=False, sci=False, shuffle2=True)
-insn_simd_pack("pv_pack_h"        , "26", "000", hi =False, lo =False)
-insn_simd_pack("pv_packhi_b"      , "27", "001", hi =True , lo =False)
-insn_simd_pack("pv_packlo_b"      , "28", "001", hi =False, lo =True )
+    # Vectorial operations (SIMD) - Shuffle and Pack
+    insn_simd_shu("pv_shuffle_h"      , "24", "000", hnb=True , sci=False)
+    insn_simd_shu("pv_shuffle_sci_h"  , "24", "110", hnb=True , sci=True )
+    insn_simd_shu("pv_shuffle_b"      , "24", "001", hnb=False, sci=False)
+    insn_simd_shu("pv_shuffleI0_sci_b", "24", "111", hnb=False, sci=True , shuffleI=0)
+    insn_simd_shu("pv_shuffleI1_sci_b", "29", "111", hnb=False, sci=True , shuffleI=1)
+    insn_simd_shu("pv_shuffleI2_sci_b", "30", "111", hnb=False, sci=True , shuffleI=2)
+    insn_simd_shu("pv_shuffleI3_sci_b", "31", "111", hnb=False, sci=True , shuffleI=3)
+    insn_simd_shu("pv_shuffle2_h"     , "25", "000", hnb=True , sci=False, shuffle2=True)
+    insn_simd_shu("pv_shuffle2_b"     , "25", "001", hnb=False, sci=False, shuffle2=True)
+    insn_simd_pack("pv_pack_h"        , "26", "000", hi =False, lo =False)
+    insn_simd_pack("pv_packhi_b"      , "27", "001", hi =True , lo =False)
+    insn_simd_pack("pv_packlo_b"      , "28", "001", hi =False, lo =True )
 
-# Vectorial operations (SIMD) - Comparison
-op_vec = [
-            ["cmpeq" , "($signed(op1[i]) == $signed(op2[i])) ? ('1) : ('0)", True ], # 0 0000
-            ["cmpne" , "($signed(op1[i]) != $signed(op2[i])) ? ('1) : ('0)", True ], # 0 0001
-            ["cmpgt" , "($signed(op1[i]) >  $signed(op2[i])) ? ('1) : ('0)", True ], # 0 0010
-            ["cmpge" , "($signed(op1[i]) >= $signed(op2[i])) ? ('1) : ('0)", True ], # 0 0011
-            ["cmplt" , "($signed(op1[i]) <  $signed(op2[i])) ? ('1) : ('0)", True ], # 0 0100
-            ["cmple" , "($signed(op1[i]) <= $signed(op2[i])) ? ('1) : ('0)", True ], # 0 0101
-            ["cmpgtu", "(op1[i] >  op2[i]) ? ('1) : ('0)"                  , False], # 0 0110
-            ["cmpgeu", "(op1[i] >= op2[i]) ? ('1) : ('0)"                  , False], # 0 0111
-            ["cmpltu", "(op1[i] <  op2[i]) ? ('1) : ('0)"                  , False], # 0 1000
-            ["cmpleu", "(op1[i] <= op2[i]) ? ('1) : ('0)"                  , False]] # 0 1001
-for op in op_vec:
-    for hnb in [True, False]:
-        for sc in [True, False]:
-            for i in ([True, False] if sc else [False]):
-                insn   = "pv_"+op[0]+("_sc" if sc else "")+("i" if i else "")+"_"+("h" if hnb else "b")
-                funct5 = op_vec.index(op)
-                funct1 = "1"
-                funct3 = str(int(sc))+str(int(i))+str(int(not hnb))
-                expr   = op[1]
-                imms   = op[2]
-                sh     = False
-                insn_simd_alu(insn, funct5, funct1, funct3, expr, hnb, sc, i, imms, sh)
+    # Vectorial operations (SIMD) - Comparison
+    op_vec = [
+                ["cmpeq" , "($signed(op1[i]) == $signed(op2[i])) ? ('1) : ('0)", True ], # 0 0000
+                ["cmpne" , "($signed(op1[i]) != $signed(op2[i])) ? ('1) : ('0)", True ], # 0 0001
+                ["cmpgt" , "($signed(op1[i]) >  $signed(op2[i])) ? ('1) : ('0)", True ], # 0 0010
+                ["cmpge" , "($signed(op1[i]) >= $signed(op2[i])) ? ('1) : ('0)", True ], # 0 0011
+                ["cmplt" , "($signed(op1[i]) <  $signed(op2[i])) ? ('1) : ('0)", True ], # 0 0100
+                ["cmple" , "($signed(op1[i]) <= $signed(op2[i])) ? ('1) : ('0)", True ], # 0 0101
+                ["cmpgtu", "(op1[i] >  op2[i]) ? ('1) : ('0)"                  , False], # 0 0110
+                ["cmpgeu", "(op1[i] >= op2[i]) ? ('1) : ('0)"                  , False], # 0 0111
+                ["cmpltu", "(op1[i] <  op2[i]) ? ('1) : ('0)"                  , False], # 0 1000
+                ["cmpleu", "(op1[i] <= op2[i]) ? ('1) : ('0)"                  , False]] # 0 1001
+    for op in op_vec:
+        for hnb in [True, False]:
+            for sc in [True, False]:
+                for i in ([True, False] if sc else [False]):
+                    insn   = "pv_"+op[0]+("_sc" if sc else "")+("i" if i else "")+"_"+("h" if hnb else "b")
+                    funct5 = op_vec.index(op)
+                    funct1 = "1"
+                    funct3 = str(int(sc))+str(int(i))+str(int(not hnb))
+                    expr   = op[1]
+                    imms   = op[2]
+                    sh     = False
+                    insn_simd_alu(insn, funct5, funct1, funct3, expr, hnb, sc, i, imms, sh)
 
+
+
+if core_version == "v1.8.2":
+    ## CV32E40P v1.8.2 Custom ISA (CORE-V)
+
+    current_isa = ["rv32ix"]
+
+    # Post-incrementing loads
+    insn_cv_l("cv_lb" , "000", 1, True)
+    insn_cv_l("cv_lh" , "001", 2, True)
+    insn_cv_l("cv_lw" , "010", 4, True)
+    insn_cv_l("cv_lbu", "100", 1, False)
+    insn_cv_l("cv_lhu", "101", 2, False)
+
+    # Post-incrementing stores
+    insn_cv_s("cv_sb", "000", 1)
+    insn_cv_s("cv_sh", "001", 2)
+    insn_cv_s("cv_sw", "010", 4)
+
+    
+    
 #### ================   XPULP - END   ================ ####
 
 ## ISA Propagate

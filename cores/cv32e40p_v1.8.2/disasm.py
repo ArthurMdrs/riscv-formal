@@ -77,15 +77,9 @@ prog = list()
 for tv_valid, tv_order, tv_insn in zip(rvfi_valid, rvfi_order, rvfi_insn):
     # print(tv_valid, tv_order, tv_insn)
     # print(tv_order[1][127])
-    # for ch in range(nret):
-    #     print(tv_valid[1][ch], end=" ")
-    # print()
-#     if tv_valid[1] == '1':
-#         prog.append((int(tv_order[1], 2), int(tv_insn[1], 2)))
     for ch in range(nret):
         if tv_valid[1][ch] == '1':
             prog.append((int(tv_order[1][ch*64:ch*64+64], 2), int(tv_insn[1][ch*32:ch*32+32], 2)))
-            # prog.append((tv_order[1][ch*64:ch*64+64], tv_insn[1][ch*32:ch*32+32]))
 # for x in prog: print(x)
 
 with open("disasm.s", "w") as f:
@@ -94,9 +88,6 @@ with open("disasm.s", "w") as f:
             print(".hword 0x%04x # %d" % (tv_insn, tv_order), file=f)
         else:
             print(".word 0x%08x # %d" % (tv_insn, tv_order), file=f)
-
-# system("riscv32-unknown-elf-gcc -march=rv32imc_xcorev -c disasm.s")
-# system("riscv32-unknown-elf-objdump -d -M numeric,no-aliases disasm.o")
 
 system("riscv32-corev-elf-gcc -march=rv32imc_zicsr_zfinx_xcvalu_xcvbi_xcvbitmanip_xcvhwlp_xcvmac_xcvmem_xcvsimd -c disasm.s")
 system("riscv32-corev-elf-objdump -D -M numeric,no-aliases -j .text disasm.o")

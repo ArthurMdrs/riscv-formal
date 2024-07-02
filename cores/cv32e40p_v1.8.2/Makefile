@@ -43,4 +43,4 @@ core:
 isa:
 	@echo Generating instruction files in /path/to/riscv-formal/insns.
 	@cd ../../insns && rm -f *.v *.txt
-	@cd ../../insns && python3 generate_xpulp.py
+	@cd ../../insns && python3 generate_xpulp.py v1.8.2

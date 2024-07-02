@@ -737,6 +737,7 @@ def check_cons(grp, check, chanidx=None, start=None, trig=None, depth=None, csr_
                 : set_prove_target_bound $depth
                 : set_max_trace_length $depth
                 : set_trace_optimization standard
+                : set_prove_time_limit 4d
                 : prove -instance checker_inst -dump_trace -dump_trace_type vcd -dump_trace_dir traces
                 : 
                 : report -summary
