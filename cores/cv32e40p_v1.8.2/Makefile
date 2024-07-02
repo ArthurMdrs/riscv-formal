@@ -37,7 +37,7 @@ summary:
 	@if [ -e summary.txt ]; then echo Created file \"summary.txt\".; fi
 
 core:
-	@echo Updating submodules (the only submodule is the core).
+	@echo "Updating submodules (the only submodule is the core)."
 	@git submodule update --init --recursive
 
 isa:

@@ -1929,8 +1929,12 @@ def insn_simd_dot(insn, funct5, funct3, hnb=True, sc=True, i=False, imms=True, m
 def insn_cv_l(insn, funct3, numbytes, signext, misa=MISA_X):
     with open("insn_%s.v" % insn, "w") as f:
         header(f, insn)
-        format_p_s(f)
+        format_p_l(f)
         misa_check(f, misa)
+        
+        f2 = "10"                    # word
+        if(numbytes == 2): f2 = "01" # half-word
+        if(numbytes == 1): f2 = "00" # byte
 
         print("", file=f)
         print("  // %s instruction" % insn.upper(), file=f)
@@ -1941,9 +1945,9 @@ def insn_cv_l(insn, funct3, numbytes, signext, misa=MISA_X):
         print("    funct3_valid = 1'b0;\n", file=f)
         print("    if (insn_funct3[1:0] == 2'b11) begin", file=f)
         if signext:
-            print("      if (insn_funct7[6:3] == 4'b000_0 && insn_funct7[1:0] != 2'b11)", file=f)
+            print("      if (insn_funct7[6:3] == 4'b000_0 && insn_funct7[1:0] == 2'b%s)" % f2, file=f)
         else:
-            print("      if (insn_funct7[6:3] == 4'b000_1 && insn_funct7[1:0] != 2'b11)", file=f)
+            print("      if (insn_funct7[6:3] == 4'b000_1 && insn_funct7[1:0] == 2'b%s)" % f2, file=f)
         print("        funct7_valid = 1'b1;", file=f)
         print("    end", file=f)
         print("    else begin", file=f)
@@ -1961,7 +1965,8 @@ def insn_cv_l(insn, funct3, numbytes, signext, misa=MISA_X):
         print("  wire [`RISCV_FORMAL_XLEN-1:0] addr = (insn_funct3[1:0] == 2'b11 && insn_funct7[2]) ? (result) : (rvfi_rs1_rdata);", file=f)
         assign(f, "spec_valid", "rvfi_valid && !insn_padding && funct3_valid && funct7_valid")
         assign(f, "spec_rs1_addr", "insn_rs1")
-        assign(f, "spec_rs2_addr", "insn_rs2")
+        # assign(f, "spec_rs2_addr", "insn_rs2")
+        assign(f, "spec_rs2_addr", "(insn_funct3[1:0] == 2'b11) ? (insn_rs2) : ('0)")
         assign(f, "spec_rd_addr", "insn_rd")
         assign(f, "spec_post_rd_addr", "(insn_funct3[1:0] == 2'b11 && insn_funct7[2]) ? ('0) : (insn_post_rd)")
         assign(f, "spec_post_rd_wdata", "spec_post_rd_addr ? result : 0")
@@ -1999,6 +2004,10 @@ def insn_cv_s(insn, funct3, numbytes, misa=MISA_X):
         header(f, insn)
         format_p_s(f)
         misa_check(f, misa)
+        
+        f2 = "10"                    # word
+        if(numbytes == 2): f2 = "01" # half-word
+        if(numbytes == 1): f2 = "00" # byte
 
         print("", file=f)
         print("  // %s instruction" % insn.upper(), file=f)
@@ -2008,7 +2017,7 @@ def insn_cv_s(insn, funct3, numbytes, misa=MISA_X):
         print("    funct7_valid = 1'b0;", file=f)
         print("    funct3_valid = 1'b0;\n", file=f)
         print("    if (insn_funct3[1:0] == 2'b11) begin", file=f)
-        print("      if (insn_funct7[6:3] == 4'b001_0 && insn_funct7[1:0] != 2'b11)", file=f)
+        print("      if (insn_funct7[6:3] == 4'b001_0 && insn_funct7[1:0] == 2'b%s)" % f2, file=f)
         print("        funct7_valid = 1'b1;", file=f)
         print("    end", file=f)
         print("    else begin", file=f)

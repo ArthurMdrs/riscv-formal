@@ -86,7 +86,7 @@ module rvfi_wrapper (
         .FPU_ADDMUL_LAT           ( 0 ),
         .FPU_OTHERS_LAT           ( 0 ),
         .ZFINX                    ( 0 ),
-        .COREV_PULP               ( 0 ),
+        .COREV_PULP               ( 1 ),
         .COREV_CLUSTER            ( 0 ),
         .NUM_MHPMCOUNTERS         ( 1 )
     ) core_top_i (

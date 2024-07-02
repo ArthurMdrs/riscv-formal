@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <wavelist version="3">
-  <insertion-point-position>17</insertion-point-position>
+  <insertion-point-position>41</insertion-point-position>
   <wave>
     <expr>clock</expr>
     <label/>
     <radix/>
   </wave>
-  <group collapsed="false">
+  <group collapsed="true">
     <expr/>
     <label>rs1</label>
     <wave collapsed="true">
@@ -46,7 +46,7 @@
     </wave>
     <spacer/>
   </group>
-  <group collapsed="false">
+  <group collapsed="true">
     <expr/>
     <label>rs2</label>
     <wave collapsed="true">
@@ -148,11 +148,6 @@
       <label/>
       <radix>checker_inst.pc_wdata</radix>
     </wave>
-    <wave>
-      <expr>checker_inst.insn_spec.cond</expr>
-      <label/>
-      <radix/>
-    </wave>
     <spacer/>
   </group>
   <group collapsed="false">
@@ -202,6 +197,11 @@
       <expr>wrapper.core_top_i.core_i.rvfi_insn_wb</expr>
       <label/>
       <radix>checker_inst.rs1_addr</radix>
+    </wave>
+    <wave>
+      <expr>wrapper.core_top_i.core_i.rvfi_valid</expr>
+      <label/>
+      <radix/>
     </wave>
     <spacer/>
   </group>
@@ -267,6 +267,32 @@
       <expr>wrapper.core_top_i.core_i.rvfi_pc_wdata</expr>
       <label/>
       <radix>checker_inst.pc_wdata</radix>
+    </wave>
+    <wave>
+      <expr>wrapper.core_top_i.core_i.id_stage_i.id_ready_o</expr>
+      <label/>
+      <radix/>
+    </wave>
+    <spacer/>
+    <wave collapsed="true">
+      <expr>wrapper.core_top_i.core_i.if_stage_i.aligner_i.pc_q</expr>
+      <label/>
+      <radix>checker_inst.pc_wdata</radix>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.core_top_i.core_i.if_stage_i.aligner_i.pc_n</expr>
+      <label/>
+      <radix>checker_inst.pc_wdata</radix>
+    </wave>
+    <wave>
+      <expr>wrapper.core_top_i.core_i.hwlp_jump</expr>
+      <label/>
+      <radix/>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.core_top_i.core_i.hwlp_target</expr>
+      <label/>
+      <radix/>
     </wave>
     <spacer/>
   </group>
@@ -523,10 +549,6 @@
   <highlightlist>
     <!--Users can remove the highlightlist block if they want to load the signal save file into older version of Jasper-->
     <highlight>
-      <expr>checker_inst.insn_spec.spec_pc_wdata</expr>
-      <color>builtin_green</color>
-    </highlight>
-    <highlight>
       <expr>checker_inst.insn_spec.spec_rd_addr</expr>
       <color>builtin_green</color>
     </highlight>
@@ -571,10 +593,6 @@
       <color>builtin_blue</color>
     </highlight>
     <highlight>
-      <expr>wrapper.core_top_i.core_i.rvfi_insn_wb</expr>
-      <color>builtin_red</color>
-    </highlight>
-    <highlight>
       <expr>wrapper.core_top_i.core_i.rvfi_mem_addr_wb</expr>
       <color>builtin_red</color>
     </highlight>
@@ -592,14 +610,6 @@
     </highlight>
     <highlight>
       <expr>wrapper.core_top_i.core_i.rvfi_mem_wmask_wb</expr>
-      <color>builtin_red</color>
-    </highlight>
-    <highlight>
-      <expr>wrapper.core_top_i.core_i.rvfi_pc_rdata_wb</expr>
-      <color>builtin_red</color>
-    </highlight>
-    <highlight>
-      <expr>wrapper.core_top_i.core_i.rvfi_pc_wdata_wb</expr>
       <color>builtin_red</color>
     </highlight>
     <highlight>
@@ -643,8 +653,24 @@
       <color>builtin_blue</color>
     </highlight>
     <highlight>
+      <expr>checker_inst.insn_spec.spec_pc_wdata</expr>
+      <color>#55ff7f</color>
+    </highlight>
+    <highlight>
       <expr>wrapper.core_top_i.core_i.if_stage_i.instr_compressed_int</expr>
       <color>#55ffff</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.core_top_i.core_i.rvfi_insn_wb</expr>
+      <color>#ff8787</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.core_top_i.core_i.rvfi_pc_rdata_wb</expr>
+      <color>#ff8787</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.core_top_i.core_i.rvfi_pc_wdata_wb</expr>
+      <color>#ff8787</color>
     </highlight>
   </highlightlist>
 </wavelist>
