@@ -60,7 +60,7 @@ module rvfi_insn_cv_lw (
     funct3_valid = 1'b0;
 
     if (insn_funct3[1:0] == 2'b11) begin
-      if (insn_funct7[6:3] == 4'b000_0 && insn_funct7[1:0] != 2'b11)
+      if (insn_funct7[6:3] == 4'b000_0 && insn_funct7[1:0] == 2'b10)
         funct7_valid = 1'b1;
     end
     else begin

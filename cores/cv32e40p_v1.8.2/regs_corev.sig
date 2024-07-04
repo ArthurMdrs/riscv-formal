@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <wavelist version="3">
-  <insertion-point-position>47</insertion-point-position>
+  <insertion-point-position>21</insertion-point-position>
   <wave>
     <expr>clock</expr>
     <label/>
@@ -107,6 +107,31 @@
   </group>
   <group collapsed="false">
     <expr/>
+    <label>post_rd</label>
+    <wave collapsed="true">
+      <expr>wrapper.core_top_i.core_i.rvfi_post_rd_wdata_ex</expr>
+      <label/>
+      <radix>checker_inst.pc_wdata</radix>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.core_top_i.core_i.rvfi_post_rd_wdata_wb</expr>
+      <label/>
+      <radix>checker_inst.pc_wdata</radix>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.core_top_i.core_i.rvfi_post_rd_addr_ex</expr>
+      <label/>
+      <radix>checker_inst.post_rd_addr</radix>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.core_top_i.core_i.rvfi_post_rd_addr_wb</expr>
+      <label/>
+      <radix>checker_inst.post_rd_addr</radix>
+    </wave>
+    <spacer/>
+  </group>
+  <group collapsed="false">
+    <expr/>
     <label>Spec regs</label>
     <wave collapsed="true">
       <expr>checker_inst.insn_spec.spec_rd_addr</expr>
@@ -122,6 +147,16 @@
       <expr>checker_inst.insn_spec.spec_pc_wdata</expr>
       <label/>
       <radix>checker_inst.pc_wdata</radix>
+    </wave>
+    <wave collapsed="true">
+      <expr>checker_inst.insn_spec.spec_post_rd_wdata</expr>
+      <label/>
+      <radix>wrapper.core_top_i.core_i.rvfi_rs1_rdata_id</radix>
+    </wave>
+    <wave collapsed="true">
+      <expr>checker_inst.insn_spec.spec_post_rd_addr</expr>
+      <label/>
+      <radix>checker_inst.post_rd_addr</radix>
     </wave>
     <spacer/>
   </group>

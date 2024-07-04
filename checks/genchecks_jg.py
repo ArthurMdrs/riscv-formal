@@ -446,7 +446,8 @@ def check_insn(grp, insn, chanidx, csr_mode=False, illegal_csr=False):
                 # : check_assumptions -show -dead_end
                 # : 
                 # : prove -bg -instance checker_inst -iter $depth -dump_trace -dump_trace_type vcd -dump_trace_dir traces
-        
+                # : prove -property <embedded>::rvfi_testbench.checker_inst.AST_spec_pc_wdata
+                
         check_dir = f"{cfgname}/{check}/"
         shutil.copy(basedir+"/checks/rvfi_macros.vh", check_dir)
         shutil.copy(basedir+"/checks/rvfi_channel.sv", check_dir)
@@ -906,10 +907,12 @@ with open(f"{cfgname}/Makefile", "w") as mkfile:
         print(f"{check}: {check}/jgproject", file=mkfile)
         print(f"{check}/jgproject:", file=mkfile)
         if abspath:
+            print(f"\tmkdir $(shell pwd)/{check}/traces", file=mkfile)
             print(f"\tcd $(shell pwd)/{check} && {jgcmd} $(shell pwd)/{check}_jg.tcl $(BATCH)", file=mkfile)
             print(f"\tgzip -rfd $(shell pwd)/{check}/traces", file=mkfile)
             print(f"\tcd $(shell pwd)/{check} && python3 $(shell pwd)/../../../../checks/get_jg_summary.py", file=mkfile)
         else:
+            print(f"\tmkdir {check}/traces", file=mkfile)
             print(f"\tcd {check} && {jgcmd} {check}_jg.tcl $(BATCH)", file=mkfile)
             print(f"\tgzip -rfd {check}/traces", file=mkfile)
             print(f"\tcd {check} && python3 ../../../../checks/get_jg_summary.py", file=mkfile)

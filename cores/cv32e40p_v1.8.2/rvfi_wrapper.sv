@@ -80,13 +80,19 @@ module rvfi_wrapper (
     
     
     
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+    localparam COREV_PULP = 1;
+`else
+    localparam COREV_PULP = 0;
+`endif
+    
     `default_nettype none
     cv32e40p_top #(
         .FPU                      ( 0 ),
         .FPU_ADDMUL_LAT           ( 0 ),
         .FPU_OTHERS_LAT           ( 0 ),
         .ZFINX                    ( 0 ),
-        .COREV_PULP               ( 1 ),
+        .COREV_PULP               ( COREV_PULP ),
         .COREV_CLUSTER            ( 0 ),
         .NUM_MHPMCOUNTERS         ( 1 )
     ) core_top_i (
