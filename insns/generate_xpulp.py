@@ -433,14 +433,12 @@ def format_cj(f):
 #### ================   XPULP - BEGIN   ================ ####
 def format_p_s(f):
     print("", file=f)
-    # print("  // P_S-type instruction format", file=f)
-    print("  // Post-incrementing Store instruction format", file=f)
+    print("  // Custom Store instruction format", file=f)
     print("  wire [`RISCV_FORMAL_ILEN-1:0] insn_padding = rvfi_insn >> 16 >> 16;", file=f)
     print("  wire [`RISCV_FORMAL_XLEN-1:0] insn_imm = $signed({rvfi_insn[31:25], rvfi_insn[11:7]});", file=f)
     print("  wire [6:0] insn_funct7  = rvfi_insn[31:25];", file=f)
     print("  wire [4:0] insn_rs2     = rvfi_insn[24:20];", file=f)
     print("  wire [4:0] insn_rs1     = rvfi_insn[19:15];", file=f)
-    # print("  wire [4:0] insn_post_rd = rvfi_insn[19:15];", file=f)
     print("  wire [4:0] insn_post_rd = insn_rs1;", file=f)
     print("  wire [2:0] insn_funct3  = rvfi_insn[14:12];", file=f)
     print("  wire [4:0] insn_rs3     = rvfi_insn[11: 7];", file=f)
@@ -448,14 +446,12 @@ def format_p_s(f):
 
 def format_p_l(f):
     print("", file=f)
-    # print("  // P_L-type instruction format", file=f)
-    print("  // Post-incrementing Load instruction format", file=f)
+    print("  // Custom Load instruction format", file=f)
     print("  wire [`RISCV_FORMAL_ILEN-1:0] insn_padding = rvfi_insn >> 16 >> 16;", file=f)
     print("  wire [`RISCV_FORMAL_XLEN-1:0] insn_imm = $signed(rvfi_insn[31:20]);", file=f)
     print("  wire [6:0] insn_funct7  = rvfi_insn[31:25];", file=f)
     print("  wire [4:0] insn_rs2     = rvfi_insn[24:20];", file=f)
     print("  wire [4:0] insn_rs1     = rvfi_insn[19:15];", file=f)
-    # print("  wire [4:0] insn_post_rd = rvfi_insn[19:15];", file=f)
     print("  wire [4:0] insn_post_rd = insn_rs1;", file=f)
     print("  wire [2:0] insn_funct3  = rvfi_insn[14:12];", file=f)
     print("  wire [4:0] insn_rd      = rvfi_insn[11: 7];", file=f)
@@ -486,7 +482,7 @@ def format_gen_alu_N(f):
 
 def format_p_b(f):
     print("", file=f)
-    print("  // P_B-type instruction format", file=f)
+    print("  // Custom branch instruction format", file=f)
     print("  wire [`RISCV_FORMAL_ILEN-1:0] insn_padding = rvfi_insn >> 16 >> 16;", file=f)
     print("  wire [`RISCV_FORMAL_XLEN-1:0] insn_imm12 = $signed({rvfi_insn[31], rvfi_insn[7], rvfi_insn[30:25], rvfi_insn[11:8], 1'b0});", file=f)
     print("  wire [`RISCV_FORMAL_XLEN-1:0] insn_imm5 = $signed(rvfi_insn[24:20]);", file=f)
@@ -506,13 +502,25 @@ def format_simd(f):
     print("  wire [4:0] insn_rd     = rvfi_insn[11: 7];", file=f)
     print("  wire [6:0] insn_opcode = rvfi_insn[ 6: 0];", file=f)
     
-def assign_pc_wdata(f):
+def format_cv_bit_man(f):
+    print("", file=f)
+    print("  // Bit Manipulation instruction format", file=f)
+    print("  wire [`RISCV_FORMAL_ILEN-1:0] insn_padding = rvfi_insn >> 16 >> 16;", file=f)
+    print("  wire [1:0] insn_funct2 = rvfi_insn[31:30];", file=f)
+    print("  wire [4:0] insn_ls3    = rvfi_insn[29:25];", file=f)
+    print("  wire [4:0] insn_ls2    = rvfi_insn[24:20];", file=f)
+    print("  wire [4:0] insn_rs1    = rvfi_insn[19:15];", file=f)
+    print("  wire [2:0] insn_funct3 = rvfi_insn[14:12];", file=f)
+    print("  wire [4:0] insn_rd     = rvfi_insn[11: 7];", file=f)
+    print("  wire [6:0] insn_opcode = rvfi_insn[ 6: 0];", file=f)
+
+def assign_pc_wdata(f, c=False):
+    n = "2" if c else "4"
     print("`ifdef RISCV_FORMAL_CUSTOM_ISA", file=f)
-    assign(f, "spec_pc_wdata", "(rvfi_is_hwlp) ? (rvfi_hwlp_start) : (rvfi_pc_rdata + 4)")
+    assign(f, "spec_pc_wdata", "(rvfi_is_hwlp) ? (rvfi_hwlp_start) : (rvfi_pc_rdata + %s)" % n)
     print("`else", file=f)
-    assign(f, "spec_pc_wdata", "rvfi_pc_rdata + 4")
+    assign(f, "spec_pc_wdata", "rvfi_pc_rdata + %s" % n)
     print("`endif", file=f)
-    
 #### ================   XPULP - END   ================ ####
 
 def insn_lui(insn="lui", misa=0):
@@ -526,7 +534,7 @@ def insn_lui(insn="lui", misa=0):
         assign(f, "spec_valid", "rvfi_valid && !insn_padding && insn_opcode == 7'b 0110111")
         assign(f, "spec_rd_addr", "insn_rd")
         assign(f, "spec_rd_wdata", "spec_rd_addr ? insn_imm : 0")
-        # assign(f, "spec_pc_wdata", "rvfi_pc_rdata + 4")        
+        # assign(f, "spec_pc_wdata", "rvfi_pc_rdata + 4")
         assign_pc_wdata(f)
 
         footer(f)
@@ -542,7 +550,8 @@ def insn_auipc(insn="auipc", misa=0):
         assign(f, "spec_valid", "rvfi_valid && !insn_padding && insn_opcode == 7'b 0010111")
         assign(f, "spec_rd_addr", "insn_rd")
         assign(f, "spec_rd_wdata", "spec_rd_addr ? rvfi_pc_rdata + insn_imm : 0")
-        assign(f, "spec_pc_wdata", "rvfi_pc_rdata + 4")
+        # assign(f, "spec_pc_wdata", "rvfi_pc_rdata + 4")
+        assign_pc_wdata(f)
 
         footer(f)
 
@@ -590,7 +599,11 @@ def insn_b(insn, funct3, expr, misa=0):
         print("", file=f)
         print("  // %s instruction" % insn.upper(), file=f)
         print("  wire cond = %s;" % expr, file=f)
+        print("`ifdef RISCV_FORMAL_CUSTOM_ISA", file=f)
+        print("  wire [`RISCV_FORMAL_XLEN-1:0] next_pc = (cond) ? (rvfi_pc_rdata + insn_imm) : ((rvfi_is_hwlp) ? (rvfi_hwlp_start) : (rvfi_pc_rdata + 4));", file=f)
+        print("`else", file=f)
         print("  wire [`RISCV_FORMAL_XLEN-1:0] next_pc = cond ? rvfi_pc_rdata + insn_imm : rvfi_pc_rdata + 4;", file=f)
+        print("`endif", file=f)
         assign(f, "spec_valid", "rvfi_valid && !insn_padding && insn_funct3 == 3'b %s && insn_opcode == 7'b 1100011" % funct3)
         assign(f, "spec_rs1_addr", "insn_rs1")
         assign(f, "spec_rs2_addr", "insn_rs2")
@@ -620,7 +633,8 @@ def insn_l(insn, funct3, numbytes, signext, misa=0):
             assign(f, "spec_rd_wdata", "spec_rd_addr ? $signed(result) : 0")
         else:
             assign(f, "spec_rd_wdata", "spec_rd_addr ? result : 0")
-        assign(f, "spec_pc_wdata", "rvfi_pc_rdata + 4")
+        # assign(f, "spec_pc_wdata", "rvfi_pc_rdata + 4")
+        assign_pc_wdata(f)
         assign(f, "spec_trap", "((addr & (%d-1)) != 0) || !misa_ok" % numbytes)
 
         print("`else", file=f)
@@ -636,7 +650,8 @@ def insn_l(insn, funct3, numbytes, signext, misa=0):
             assign(f, "spec_rd_wdata", "spec_rd_addr ? $signed(result) : 0")
         else:
             assign(f, "spec_rd_wdata", "spec_rd_addr ? result : 0")
-        assign(f, "spec_pc_wdata", "rvfi_pc_rdata + 4")
+        # assign(f, "spec_pc_wdata", "rvfi_pc_rdata + 4")
+        assign_pc_wdata(f)
         assign(f, "spec_trap", "!misa_ok")
 
         print("`endif", file=f)
@@ -660,7 +675,8 @@ def insn_s(insn, funct3, numbytes, misa=0):
         assign(f, "spec_mem_addr", "addr & ~(`RISCV_FORMAL_XLEN/8-1)")
         assign(f, "spec_mem_wmask", "((1 << %d)-1) << (addr-spec_mem_addr)" % numbytes)
         assign(f, "spec_mem_wdata", "rvfi_rs2_rdata << (8*(addr-spec_mem_addr))")
-        assign(f, "spec_pc_wdata", "rvfi_pc_rdata + 4")
+        # assign(f, "spec_pc_wdata", "rvfi_pc_rdata + 4")
+        assign_pc_wdata(f)
         assign(f, "spec_trap", "((addr & (%d-1)) != 0) || !misa_ok" % numbytes)
 
         print("`else", file=f)
@@ -672,7 +688,8 @@ def insn_s(insn, funct3, numbytes, misa=0):
         assign(f, "spec_mem_addr", "addr")
         assign(f, "spec_mem_wmask", "((1 << %d)-1)" % numbytes)
         assign(f, "spec_mem_wdata", "rvfi_rs2_rdata")
-        assign(f, "spec_pc_wdata", "rvfi_pc_rdata + 4")
+        # assign(f, "spec_pc_wdata", "rvfi_pc_rdata + 4")
+        assign_pc_wdata(f)
         assign(f, "spec_trap", "!misa_ok")
 
         print("`endif", file=f)
@@ -702,7 +719,8 @@ def insn_imm(insn, funct3, expr, wmode=False, misa=0):
             assign(f, "spec_rd_wdata", "spec_rd_addr ? {{`RISCV_FORMAL_XLEN-32{result[31]}}, result} : 0")
         else:
             assign(f, "spec_rd_wdata", "spec_rd_addr ? result : 0")
-        assign(f, "spec_pc_wdata", "rvfi_pc_rdata + 4")
+        # assign(f, "spec_pc_wdata", "rvfi_pc_rdata + 4")
+        assign_pc_wdata(f)
 
         footer(f)
 
@@ -731,7 +749,8 @@ def insn_shimm(insn, funct6, funct3, expr, wmode=False, misa=0):
             assign(f, "spec_rd_wdata", "spec_rd_addr ? {{`RISCV_FORMAL_XLEN-32{result[31]}}, result} : 0")
         else:
             assign(f, "spec_rd_wdata", "spec_rd_addr ? result : 0")
-        assign(f, "spec_pc_wdata", "rvfi_pc_rdata + 4")
+        # assign(f, "spec_pc_wdata", "rvfi_pc_rdata + 4")
+        assign_pc_wdata(f)
 
         footer(f)
 
@@ -776,7 +795,8 @@ def insn_alu(insn, funct7, funct3, expr, alt_add=None, alt_sub=None, shamt=False
             assign(f, "spec_rd_wdata", "spec_rd_addr ? {{`RISCV_FORMAL_XLEN-32{result[31]}}, result} : 0")
         else:
             assign(f, "spec_rd_wdata", "spec_rd_addr ? result : 0")
-        assign(f, "spec_pc_wdata", "rvfi_pc_rdata + 4")
+        # assign(f, "spec_pc_wdata", "rvfi_pc_rdata + 4")
+        assign_pc_wdata(f)
 
         footer(f)
 
@@ -809,7 +829,8 @@ def insn_amo(insn, funct5, funct3, expr, misa=MISA_A):
         assign(f, "spec_mem_addr", "addr & ~(`RISCV_FORMAL_XLEN/8-1)")
         assign(f, "spec_mem_wmask", "((1 << %d)-1) << (addr-spec_mem_addr)" % numbytes)
         assign(f, "spec_mem_wdata", "mem_result << (8*(addr-spec_mem_addr))")
-        assign(f, "spec_pc_wdata", "rvfi_pc_rdata + 4")
+        # assign(f, "spec_pc_wdata", "rvfi_pc_rdata + 4")
+        assign_pc_wdata(f)
         assign(f, "spec_trap", "((addr & (%d-1)) != 0) || !misa_ok" % numbytes)
 
         print("`else", file=f)
@@ -822,7 +843,8 @@ def insn_amo(insn, funct5, funct3, expr, misa=MISA_A):
         assign(f, "spec_mem_addr", "addr")
         assign(f, "spec_mem_wmask", "((1 << %d)-1)" % numbytes)
         assign(f, "spec_mem_wdata", "mem_result")
-        assign(f, "spec_pc_wdata", "rvfi_pc_rdata + 4")
+        # assign(f, "spec_pc_wdata", "rvfi_pc_rdata + 4")
+        assign_pc_wdata(f)
         assign(f, "spec_trap", "((addr & (%d-1)) != 0) || !misa_ok" % numbytes)
 
         print("`endif", file=f)
@@ -842,7 +864,8 @@ def insn_c_addi4spn(insn="c_addi4spn", misa=MISA_C):
         assign(f, "spec_rs1_addr", "2")
         assign(f, "spec_rd_addr", "insn_rd")
         assign(f, "spec_rd_wdata", "spec_rd_addr ? result : 0")
-        assign(f, "spec_pc_wdata", "rvfi_pc_rdata + 2")
+        # assign(f, "spec_pc_wdata", "rvfi_pc_rdata + 2")
+        assign_pc_wdata(f, c=True)
 
         footer(f)
 
@@ -867,7 +890,8 @@ def insn_c_l(insn, funct3, numbytes, signext, misa=MISA_C):
             assign(f, "spec_rd_wdata", "spec_rd_addr ? $signed(result) : 0")
         else:
             assign(f, "spec_rd_wdata", "spec_rd_addr ? result : 0")
-        assign(f, "spec_pc_wdata", "rvfi_pc_rdata + 2")
+        # assign(f, "spec_pc_wdata", "rvfi_pc_rdata + 2")
+        assign_pc_wdata(f, c=True)
         assign(f, "spec_trap", "((addr & (%d-1)) != 0) || !misa_ok" % numbytes)
 
         print("`else", file=f)
@@ -883,7 +907,8 @@ def insn_c_l(insn, funct3, numbytes, signext, misa=MISA_C):
             assign(f, "spec_rd_wdata", "spec_rd_addr ? $signed(result) : 0")
         else:
             assign(f, "spec_rd_wdata", "spec_rd_addr ? result : 0")
-        assign(f, "spec_pc_wdata", "rvfi_pc_rdata + 2")
+        # assign(f, "spec_pc_wdata", "rvfi_pc_rdata + 2")
+        assign_pc_wdata(f, c=True)
         assign(f, "spec_trap", "!misa_ok")
 
         print("`endif", file=f)
@@ -907,7 +932,8 @@ def insn_c_s(insn, funct3, numbytes, misa=MISA_C):
         assign(f, "spec_mem_addr", "addr & ~(`RISCV_FORMAL_XLEN/8-1)")
         assign(f, "spec_mem_wmask", "((1 << %d)-1) << (addr-spec_mem_addr)" % numbytes)
         assign(f, "spec_mem_wdata", "rvfi_rs2_rdata << (8*(addr-spec_mem_addr))")
-        assign(f, "spec_pc_wdata", "rvfi_pc_rdata + 2")
+        # assign(f, "spec_pc_wdata", "rvfi_pc_rdata + 2")
+        assign_pc_wdata(f, c=True)
         assign(f, "spec_trap", "((addr & (%d-1)) != 0) || !misa_ok" % numbytes)
 
         print("`else", file=f)
@@ -918,7 +944,8 @@ def insn_c_s(insn, funct3, numbytes, misa=MISA_C):
         assign(f, "spec_mem_addr", "addr")
         assign(f, "spec_mem_wmask", "((1 << %d)-1)" % numbytes)
         assign(f, "spec_mem_wdata", "rvfi_rs2_rdata")
-        assign(f, "spec_pc_wdata", "rvfi_pc_rdata + 2")
+        # assign(f, "spec_pc_wdata", "rvfi_pc_rdata + 2")
+        assign_pc_wdata(f, c=True)
         assign(f, "spec_trap", "!misa_ok")
 
         print("`endif", file=f)
@@ -945,7 +972,8 @@ def insn_c_addi(insn="c_addi", wmode=False, misa=MISA_C):
             assign(f, "spec_rd_wdata", "spec_rd_addr ? {{`RISCV_FORMAL_XLEN-32{result[31]}}, result} : 0")
         else:
             assign(f, "spec_rd_wdata", "spec_rd_addr ? result : 0")
-        assign(f, "spec_pc_wdata", "rvfi_pc_rdata + 2")
+        # assign(f, "spec_pc_wdata", "rvfi_pc_rdata + 2")
+        assign_pc_wdata(f, c=True)
 
         footer(f)
 
@@ -978,7 +1006,8 @@ def insn_c_li(insn="c_li", misa=MISA_C):
         assign(f, "spec_valid", "rvfi_valid && !insn_padding && insn_funct3 == 3'b 010 && insn_opcode == 2'b 01")
         assign(f, "spec_rd_addr", "insn_rs1_rd")
         assign(f, "spec_rd_wdata", "spec_rd_addr ? result : 0")
-        assign(f, "spec_pc_wdata", "rvfi_pc_rdata + 2")
+        # assign(f, "spec_pc_wdata", "rvfi_pc_rdata + 2")
+        assign_pc_wdata(f, c=True)
 
         footer(f)
 
@@ -995,7 +1024,8 @@ def insn_c_addi16sp(insn="c_addi16sp", misa=MISA_C):
         assign(f, "spec_rs1_addr", "insn_rs1_rd")
         assign(f, "spec_rd_addr", "insn_rs1_rd")
         assign(f, "spec_rd_wdata", "spec_rd_addr ? result : 0")
-        assign(f, "spec_pc_wdata", "rvfi_pc_rdata + 2")
+        # assign(f, "spec_pc_wdata", "rvfi_pc_rdata + 2")
+        assign_pc_wdata(f, c=True)
 
         footer(f)
 
@@ -1011,7 +1041,8 @@ def insn_c_lui(insn="c_lui", misa=MISA_C):
         assign(f, "spec_valid", "rvfi_valid && !insn_padding && insn_funct3 == 3'b 011 && insn_opcode == 2'b 01 && insn_rs1_rd != 5'd 2 && insn_imm")
         assign(f, "spec_rd_addr", "insn_rs1_rd")
         assign(f, "spec_rd_wdata", "spec_rd_addr ? result : 0")
-        assign(f, "spec_pc_wdata", "rvfi_pc_rdata + 2")
+        # assign(f, "spec_pc_wdata", "rvfi_pc_rdata + 2")
+        assign_pc_wdata(f, c=True)
 
         footer(f)
 
@@ -1028,7 +1059,8 @@ def insn_c_sri(insn, funct2, expr, misa=MISA_C):
         assign(f, "spec_rs1_addr", "insn_rs1_rd")
         assign(f, "spec_rd_addr", "insn_rs1_rd")
         assign(f, "spec_rd_wdata", "spec_rd_addr ? result : 0")
-        assign(f, "spec_pc_wdata", "rvfi_pc_rdata + 2")
+        # assign(f, "spec_pc_wdata", "rvfi_pc_rdata + 2")
+        assign_pc_wdata(f, c=True)
 
         footer(f)
 
@@ -1045,7 +1077,8 @@ def insn_c_andi(insn="c_andi", misa=MISA_C):
         assign(f, "spec_rs1_addr", "insn_rs1_rd")
         assign(f, "spec_rd_addr", "insn_rs1_rd")
         assign(f, "spec_rd_wdata", "spec_rd_addr ? result : 0")
-        assign(f, "spec_pc_wdata", "rvfi_pc_rdata + 2")
+        # assign(f, "spec_pc_wdata", "rvfi_pc_rdata + 2")
+        assign_pc_wdata(f, c=True)
 
         footer(f)
 
@@ -1069,7 +1102,8 @@ def insn_c_alu(insn, funct6, funct2, expr, wmode=False, misa=MISA_C):
             assign(f, "spec_rd_wdata", "spec_rd_addr ? {{`RISCV_FORMAL_XLEN-32{result[31]}}, result} : 0")
         else:
             assign(f, "spec_rd_wdata", "spec_rd_addr ? result : 0")
-        assign(f, "spec_pc_wdata", "rvfi_pc_rdata + 2")
+        # assign(f, "spec_pc_wdata", "rvfi_pc_rdata + 2")
+        assign_pc_wdata(f, c=True)
 
         footer(f)
 
@@ -1082,7 +1116,11 @@ def insn_c_b(insn, funct3, expr, misa=MISA_C):
         print("", file=f)
         print("  // %s instruction" % insn.upper(), file=f)
         print("  wire cond = %s;" % expr, file=f)
+        print("`ifdef RISCV_FORMAL_CUSTOM_ISA", file=f)
+        print("  wire [`RISCV_FORMAL_XLEN-1:0] next_pc = (cond) ? (rvfi_pc_rdata + insn_imm) : ((rvfi_is_hwlp) ? (rvfi_hwlp_start) : (rvfi_pc_rdata + 2));", file=f)
+        print("`else", file=f)
         print("  wire [`RISCV_FORMAL_XLEN-1:0] next_pc = cond ? rvfi_pc_rdata + insn_imm : rvfi_pc_rdata + 2;", file=f)
+        print("`endif", file=f)
         assign(f, "spec_valid", "rvfi_valid && !insn_padding && insn_funct3 == 3'b %s && insn_opcode == 2'b 01" % funct3)
         assign(f, "spec_rs1_addr", "insn_rs1")
         assign(f, "spec_pc_wdata", "next_pc")
@@ -1103,7 +1141,8 @@ def insn_c_sli(insn, expr, misa=MISA_C):
         assign(f, "spec_rs1_addr", "insn_rs1_rd")
         assign(f, "spec_rd_addr", "insn_rs1_rd")
         assign(f, "spec_rd_wdata", "spec_rd_addr ? result : 0")
-        assign(f, "spec_pc_wdata", "rvfi_pc_rdata + 2")
+        # assign(f, "spec_pc_wdata", "rvfi_pc_rdata + 2")
+        assign_pc_wdata(f, c=True)
 
         footer(f)
 
@@ -1128,7 +1167,8 @@ def insn_c_lsp(insn, funct3, numbytes, signext, misa=MISA_C):
             assign(f, "spec_rd_wdata", "spec_rd_addr ? $signed(result) : 0")
         else:
             assign(f, "spec_rd_wdata", "spec_rd_addr ? result : 0")
-        assign(f, "spec_pc_wdata", "rvfi_pc_rdata + 2")
+        # assign(f, "spec_pc_wdata", "rvfi_pc_rdata + 2")
+        assign_pc_wdata(f, c=True)
         assign(f, "spec_trap", "((addr & (%d-1)) != 0) || !misa_ok" % numbytes)
 
         print("`else", file=f)
@@ -1144,7 +1184,8 @@ def insn_c_lsp(insn, funct3, numbytes, signext, misa=MISA_C):
             assign(f, "spec_rd_wdata", "spec_rd_addr ? $signed(result) : 0")
         else:
             assign(f, "spec_rd_wdata", "spec_rd_addr ? result : 0")
-        assign(f, "spec_pc_wdata", "rvfi_pc_rdata + 2")
+        # assign(f, "spec_pc_wdata", "rvfi_pc_rdata + 2")
+        assign_pc_wdata(f, c=True)
         assign(f, "spec_trap", "!misa_ok")
 
         print("`endif", file=f)
@@ -1168,7 +1209,8 @@ def insn_c_ssp(insn, funct3, numbytes, misa=MISA_C):
         assign(f, "spec_mem_addr", "addr & ~(`RISCV_FORMAL_XLEN/8-1)")
         assign(f, "spec_mem_wmask", "((1 << %d)-1) << (addr-spec_mem_addr)" % numbytes)
         assign(f, "spec_mem_wdata", "rvfi_rs2_rdata << (8*(addr-spec_mem_addr))")
-        assign(f, "spec_pc_wdata", "rvfi_pc_rdata + 2")
+        # assign(f, "spec_pc_wdata", "rvfi_pc_rdata + 2")
+        assign_pc_wdata(f, c=True)
         assign(f, "spec_trap", "((addr & (%d-1)) != 0) || !misa_ok" % numbytes)
 
         print("`else", file=f)
@@ -1180,7 +1222,8 @@ def insn_c_ssp(insn, funct3, numbytes, misa=MISA_C):
         assign(f, "spec_mem_addr", "addr")
         assign(f, "spec_mem_wmask", "((1 << %d)-1)" % numbytes)
         assign(f, "spec_mem_wdata", "rvfi_rs2_rdata")
-        assign(f, "spec_pc_wdata", "rvfi_pc_rdata + 2")
+        # assign(f, "spec_pc_wdata", "rvfi_pc_rdata + 2")
+        assign_pc_wdata(f, c=True)
         assign(f, "spec_trap", "!misa_ok")
 
         print("`endif", file=f)
@@ -1224,7 +1267,8 @@ def insn_c_mvadd(insn, funct4, add, misa=MISA_C):
         assign(f, "spec_rs2_addr", "insn_rs2")
         assign(f, "spec_rd_addr", "insn_rs1_rd")
         assign(f, "spec_rd_wdata", "spec_rd_addr ? result : 0")
-        assign(f, "spec_pc_wdata", "rvfi_pc_rdata + 2")
+        # assign(f, "spec_pc_wdata", "rvfi_pc_rdata + 2")
+        assign_pc_wdata(f, c=True)
 
         footer(f)
 
@@ -2057,6 +2101,252 @@ def insn_cv_s(insn, funct3, numbytes, misa=MISA_X):
 
         footer(f)
 
+def insn_cv_bit_man_1(insn, funct2, funct3, u=False, misa=MISA_X):
+    with open("insn_%s.v" % insn, "w") as f:
+        header(f, insn)
+        format_cv_bit_man(f)
+        misa_check(f, misa)
+        
+        instr_type = 0
+        if   "extract" in insn: instr_type = 1
+        elif "insert"  in insn: instr_type = 2
+        elif "bclr"    in insn: instr_type = 3
+        elif "bset"    in insn: instr_type = 4
+        else:
+            print("  // SOMETHING IS WRONG WITH INSN GENERATION!", file=f)
+            return
+
+        print("", file=f)
+        print("  // %s instruction" % insn.upper(), file=f)
+        print("", file=f)
+        if instr_type == 1:
+            print("  // Extract rs1[ls2+ls3 : ls2]", file=f)
+        elif instr_type == 2:
+            print("  // Insert rs1[ls3 : 0]", file=f)
+        elif instr_type == 3:
+            print("  // Clear rs1[ls2+ls3 : ls2]", file=f)
+        elif instr_type == 4:
+            print("  // Set rs1[ls2+ls3 : ls2]", file=f)
+            
+        print("  wire [31:0] mask       = (2 << insn_ls3) - 1;\t\t// mask[    ls3 :   0] = '1", file=f)
+        print("  wire [31:0] mask_sh    = mask << insn_ls2;\t\t// mask[ls2+ls3 : ls2] = '1", file=f)
+        
+        if instr_type == 1:
+            print("  wire [31:0] rs1_masked = rvfi_rs1_rdata & mask_sh;\t// rs1[ls2+ls3 : ls2]", file=f)
+            print("  wire [31:0] res_u      = rs1_masked >> insn_ls2;\t// Unsigned result", file=f)
+        elif instr_type == 2:
+            print("  wire [31:0] rs1_masked = rvfi_rs1_rdata & mask;\t// rs1 [    ls3 :   0]", file=f)
+            print("  // Insert extracted portion in rd, read from rs3", file=f)
+            print("  wire [31:0] res_u      = (rvfi_rs3_rdata & ~mask_sh) | (rs1_masked << insn_ls2);", file=f)
+        elif instr_type == 3:
+            print("  // Documentation for this instruction is a bit unclear, but this is the intended result", file=f)
+            print("  wire [31:0] rs1_masked = rvfi_rs1_rdata & ~mask_sh;\t// rs1[ls2+ls3 : ls2] = '0", file=f)
+            print("  wire [31:0] res_u      = rs1_masked;", file=f)
+        elif instr_type == 4:
+            print("  // Documentation for this instruction is a bit unclear, but this is the intended result", file=f)
+            print("  wire [31:0] rs1_masked = rvfi_rs1_rdata | mask_sh;\t// rs1[ls2+ls3 : ls2] = '1", file=f)
+            print("  wire [31:0] res_u      = rs1_masked;", file=f)
+            
+        if not u:
+            print("", file=f)
+            print("  // Get position of MSB for signal extension (max is 31)", file=f)
+            print("  wire [ 4:0] msb_pos = (insn_ls2 + insn_ls3 > 31) ? (31) : (insn_ls2 + insn_ls3);", file=f)
+            print("  wire        sig     = rs1_masked[msb_pos];", file=f)
+            print("  // Create signal extension mask (sext[31 : ls3+1] = 'sig)", file=f)
+            print("  wire [31:0] sext    = {32{sig}} << (msb_pos - insn_ls2 + 1);", file=f)
+        print("", file=f)
+        print("  wire [31:0] result = res_u%s;" % (" | sext" if not u else ""), file=f)
+        assign(f, "spec_valid", "rvfi_valid && !insn_padding && insn_funct2 == 2'b%s && insn_funct3 == 3'b%s && insn_opcode == %s" % (funct2, funct3, opcode_cv2))
+        assign(f, "spec_rs1_addr", "insn_rs1")
+        if instr_type == 2:
+            assign(f, "spec_rs3_addr", "insn_rd")
+        assign(f, "spec_rd_addr", "insn_rd")
+        assign(f, "spec_rd_wdata", "spec_rd_addr ? result : 0")
+        assign_pc_wdata(f)
+
+        footer(f)
+
+def insn_cv_bitrev(insn, misa=MISA_X):
+    with open("insn_%s.v" % insn, "w") as f:
+        header(f, insn)
+        format_cv_bit_man(f)
+        misa_check(f, misa)
+
+        print("", file=f)
+        print("  // %s instruction" % insn.upper(), file=f)
+        
+        print("  wire [ 1:0] n_bits = insn_ls3[1:0] + 2'b01;", file=f)
+        print("  wire [31:0] shifted_op = rvfi_rs1_rdata << insn_ls2;", file=f)
+        print("  reg [31:0] result;", file=f)
+        print("  always_comb begin", file=f)
+        print("    case (n_bits)", file=f)
+        print("      2'd1: begin", file=f)
+        print("        for (int i = 0; i < 32; i++)", file=f)
+        print("          result[i] = shifted_op[31-i];", file=f)
+        print("      end", file=f)
+        print("      2'd2: begin", file=f)
+        print("        for (int i = 0; i < 16; i++)", file=f)
+        print("          result[i*2+:2] = shifted_op[31-i*2-:2];", file=f)
+        print("      end", file=f)
+        print("      2'd3: begin", file=f)
+        print("        for (int i = 0; i < 10; i++)", file=f)
+        print("          result[i*3+:3] = shifted_op[31-i*3-:3];", file=f)
+        print("        result[31:30] = 2'b0;", file=f)
+        print("      end", file=f)
+        print("      default: result = '0;", file=f)
+        print("    endcase", file=f)
+        print("  end", file=f)
+        print("  wire valid_ls3 = insn_ls3[4:2] == 3'b000 && insn_ls3[1:0] != 2'b11;", file=f)
+        
+        print("  // The core does not check that insn_ls3[1:0] != 2'b11!!!", file=f)
+        
+        assign(f, "spec_valid", "rvfi_valid && !insn_padding && insn_funct2 == 2'b11 && valid_ls3 && insn_funct3 == 3'b001 && insn_opcode == %s" % (opcode_cv2))
+        assign(f, "spec_rs1_addr", "insn_rs1")
+        assign(f, "spec_rd_addr", "insn_rd")
+        assign(f, "spec_rd_wdata", "spec_rd_addr ? result : 0")
+        assign_pc_wdata(f)
+
+        footer(f)
+
+def insn_cv_bit_man_2(insn, funct7, u=False, misa=MISA_X):
+    with open("insn_%s.v" % insn, "w") as f:
+        header(f, insn)
+        format_r(f)
+        misa_check(f, misa)
+        
+        instr_type = 0
+        if   "extract" in insn: instr_type = 1
+        elif "insert"  in insn: instr_type = 2
+        elif "bclr"    in insn: instr_type = 3
+        elif "bset"    in insn: instr_type = 4
+        else:
+            print("  // SOMETHING IS WRONG WITH INSN GENERATION!", file=f)
+            return
+
+        print("", file=f)
+        print("  // %s instruction" % insn.upper(), file=f)
+        print("", file=f)
+        print("  wire [4:0] insn_ls2 = rvfi_rs2_rdata[4:0];", file=f)
+        print("  wire [4:0] insn_ls3 = rvfi_rs2_rdata[9:5];", file=f)
+        print("", file=f)
+        if instr_type == 1:
+            print("  // Extract rs1[ls2+ls3 : ls2]", file=f)
+        elif instr_type == 2:
+            print("  // Insert rs1[ls3 : 0]", file=f)
+        elif instr_type == 3:
+            print("  // Clear rs1[ls2+ls3 : ls2]", file=f)
+        elif instr_type == 4:
+            print("  // Set rs1[ls2+ls3 : ls2]", file=f)
+            
+        print("  wire [31:0] mask       = (2 << insn_ls3) - 1;\t\t// mask[    ls3 :   0] = '1", file=f)
+        print("  wire [31:0] mask_sh    = mask << insn_ls2;\t\t// mask[ls2+ls3 : ls2] = '1", file=f)
+        
+        if instr_type == 1:
+            print("  wire [31:0] rs1_masked = rvfi_rs1_rdata & mask_sh;\t// rs1[ls2+ls3 : ls2]", file=f)
+            print("  wire [31:0] res_u      = rs1_masked >> insn_ls2;\t// Unsigned result", file=f)
+        elif instr_type == 2:
+            print("  wire [31:0] rs1_masked = rvfi_rs1_rdata & mask;\t// rs1 [    ls3 :   0]", file=f)
+            print("  // Insert extracted portion in rd, read from rs3", file=f)
+            print("  wire [31:0] res_u      = (rvfi_rs3_rdata & ~mask_sh) | (rs1_masked << insn_ls2);", file=f)
+        elif instr_type == 3:
+            print("  // Documentation for this instruction is a bit unclear, but this is the intended result", file=f)
+            print("  wire [31:0] rs1_masked = rvfi_rs1_rdata & ~mask_sh;\t// rs1[ls2+ls3 : ls2] = '0", file=f)
+            print("  wire [31:0] res_u      = rs1_masked;", file=f)
+        elif instr_type == 4:
+            print("  // Documentation for this instruction is a bit unclear, but this is the intended result", file=f)
+            print("  wire [31:0] rs1_masked = rvfi_rs1_rdata | mask_sh;\t// rs1[ls2+ls3 : ls2] = '1", file=f)
+            print("  wire [31:0] res_u      = rs1_masked;", file=f)
+            
+        if not u:
+            print("", file=f)
+            print("  // Get position of MSB for signal extension (max is 31)", file=f)
+            print("  wire [ 4:0] msb_pos = (insn_ls2 + insn_ls3 > 31) ? (31) : (insn_ls2 + insn_ls3);", file=f)
+            print("  wire        sig     = rs1_masked[msb_pos];", file=f)
+            # print("  wire        sig     = rvfi_rs1_rdata[msb_pos];", file=f)
+            print("  // Create signal extension mask (sext[31 : ls3+1] = 'sig)", file=f)
+            print("  wire [31:0] sext    = {32{sig}} << (msb_pos - insn_ls2 + 1);", file=f)
+        print("", file=f)
+        print("  wire [31:0] result = res_u%s;" % (" | sext" if not u else ""), file=f)
+        assign(f, "spec_valid", "rvfi_valid && !insn_padding && insn_funct7 == 7'b%s && insn_funct3 == 3'b011 && insn_opcode == %s" % (funct7, opcode_cv1))
+        assign(f, "spec_rs1_addr", "insn_rs1")
+        assign(f, "spec_rs2_addr", "insn_rs2")
+        if instr_type == 2:
+            assign(f, "spec_rs3_addr", "insn_rd")
+        assign(f, "spec_rd_addr", "insn_rd")
+        assign(f, "spec_rd_wdata", "spec_rd_addr ? result : 0")
+        assign_pc_wdata(f)
+
+        footer(f)
+
+def insn_cv_ror(insn, misa=MISA_X):
+    with open("insn_%s.v" % insn, "w") as f:
+        header(f, insn)
+        format_r(f)
+        misa_check(f, misa)
+
+        print("", file=f)
+        print("  // %s instruction" % insn.upper(), file=f)
+        print("  wire [ 4:0] shamt  = rvfi_rs2_rdata[4:0];", file=f)
+        print("  wire [31:0] result = rvfi_rs1_rdata << (32-shamt) | rvfi_rs1_rdata >> shamt;", file=f)
+        assign(f, "spec_valid", "rvfi_valid && !insn_padding && insn_funct7 == 7'b010_0000 && insn_funct3 == 3'b011 && insn_opcode == %s" % opcode_cv1)
+        assign(f, "spec_rs1_addr", "insn_rs1")
+        assign(f, "spec_rs2_addr", "insn_rs2")
+        assign(f, "spec_rd_addr", "insn_rd")
+        assign(f, "spec_rd_wdata", "spec_rd_addr ? result : 0")
+        assign_pc_wdata(f)
+
+        footer(f)
+
+def insn_cv_bit_man_3(insn, funct7, lnr=False, clb=False, cnt=False, misa=MISA_X):
+    with open("insn_%s.v" % insn, "w") as f:
+        header(f, insn)
+        format_r(f)
+        misa_check(f, misa)
+        
+        assert not (cnt and clb), "clb and cnt must NOT be asserted at the same time."
+
+        print("", file=f)
+        print("  // %s instruction" % insn.upper(), file=f)
+        
+        print("  reg [31:0] result;", file=f)
+        print("  always_comb begin", file=f)
+        
+        print("    result = %s;" % ("0" if (clb or cnt) else "32"), file=f)
+            
+        if clb:
+            print("    if(rvfi_rs1_rdata != '0)", file=f)
+        
+        if lnr:
+            print("    for(int i = 31; i >= 0; i--)", file=f)
+        else:
+            print("    for(int i = 0; i < 32; i++)", file=f)
+            
+        if clb:
+            print("      if(i != 0) begin", file=f)
+            print("        if(rvfi_rs1_rdata[i] != rvfi_rs1_rdata[i-1])", file=f)
+            print("          break;", file=f)
+            print("        else", file=f)
+        else:
+            print("      if(rvfi_rs1_rdata[i]) begin", file=f)
+        
+        if clb or cnt:
+            print("        result++;", file=f)
+        else:
+            print("        result = i;", file=f)
+            print("        break;", file=f)
+            
+        print("      end", file=f)
+        
+        print("  end", file=f)
+        
+        assign(f, "spec_valid", "rvfi_valid && !insn_padding && !insn_rs2 && insn_funct7 == 7'b%s && insn_funct3 == 3'b011 && insn_opcode == %s" % (funct7, opcode_cv1))
+        assign(f, "spec_rs1_addr", "insn_rs1")
+        assign(f, "spec_rd_addr", "insn_rd")
+        assign(f, "spec_rd_wdata", "spec_rd_addr ? result : 0")
+        assign_pc_wdata(f)
+
+        footer(f)
+
 #### ================   XPULP - END   ================ ####
 
 ## Base Integer ISA (I)
@@ -2418,7 +2708,29 @@ if core_version == "v1.8.2":
     insn_cv_s("cv_sb", "000", 1)
     insn_cv_s("cv_sh", "001", 2)
     insn_cv_s("cv_sw", "010", 4)
-
+    
+    # ALU - Bit manipulation operations
+    insn_cv_bit_man_1("cv_extract" , "00", "000", u=False)
+    insn_cv_bit_man_1("cv_extractu", "01", "000", u=True )
+    insn_cv_bit_man_1("cv_insert"  , "10", "000", u=True )
+    insn_cv_bit_man_1("cv_bclr"    , "00", "001", u=True )
+    insn_cv_bit_man_1("cv_bset"    , "01", "001", u=True )
+    
+    insn_cv_bitrev("cv_bitrev")
+    
+    insn_cv_bit_man_2("cv_extractr" , "001_1000", u=False)
+    insn_cv_bit_man_2("cv_extractur", "001_1001", u=True )
+    insn_cv_bit_man_2("cv_insertr"  , "001_1010", u=True )
+    insn_cv_bit_man_2("cv_bclrr"    , "001_1100", u=True )
+    insn_cv_bit_man_2("cv_bsetr"    , "001_1101", u=True )
+    
+    insn_cv_ror("cv_ror")
+    
+    insn_cv_bit_man_3("cv_ff1", "010_0001", lnr=False, clb=False, cnt=False)
+    insn_cv_bit_man_3("cv_fl1", "010_0010", lnr=True , clb=False, cnt=False)
+    insn_cv_bit_man_3("cv_clb", "010_0011", lnr=True , clb=True , cnt=False)
+    insn_cv_bit_man_3("cv_cnt", "010_0100", lnr=True , clb=False, cnt=True )
+    
     
     
 #### ================   XPULP - END   ================ ####

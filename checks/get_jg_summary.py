@@ -76,9 +76,12 @@ def get_summary_from_log(file_path):
                 if "- ar_covered" in line:
                     ar_covered += get_val(line)
     if found_summary == False or error != 0:
-        status = "ERROR"
+        status = "ERROR" # Couldn't find a summary in the log
     elif assertions == 0: 
-        status = "ERROR"
+        if covers == 0:
+            status = "ERROR" # There are no assertions or covers
+        elif unreachable != 0 or bounded_unreachable != 0:
+            status = "FAIL"
     # With just 1 assertion Jasper won't print summary automatically
     # We have to use the info from report command, which is different
     elif assertions == 1: 
@@ -95,10 +98,14 @@ def get_summary_from_log(file_path):
 # ====================  MAIN CODE BEGIN  ==================== #  
 
 file_path = 'jgproject/jg.log'
+time_path = 'time.txt'
 if os.path.exists(file_path):
     cex_vec = get_cex_from_log(file_path)
     summary_vec, status = get_summary_from_log(file_path)
     with open(status, 'w') as file:
+        with open(time_path, 'r') as time_file:
+            for line in time_file.readlines():
+                file.write(line)
         for line in cex_vec:
             file.write(line)
         file.write('\n')

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <wavelist version="3">
-  <insertion-point-position>47</insertion-point-position>
+  <insertion-point-position>56</insertion-point-position>
   <wave>
     <expr>clock</expr>
     <label/>
@@ -258,11 +258,6 @@
       <label/>
       <radix/>
     </wave>
-    <wave>
-      <expr>wrapper.core_top_i.core_i.insn_id_is_branch</expr>
-      <label/>
-      <radix/>
-    </wave>
     <spacer/>
     <wave collapsed="true">
       <expr>wrapper.core_top_i.core_i.if_stage_i.aligner_i.pc_q</expr>
@@ -301,6 +296,31 @@
     </wave>
     <spacer/>
   </group>
+  <wave>
+    <expr>wrapper.core_top_i.core_i.branch_in_ex</expr>
+    <label/>
+    <radix/>
+  </wave>
+  <wave>
+    <expr>wrapper.core_top_i.core_i.branch_decision</expr>
+    <label/>
+    <radix/>
+  </wave>
+  <wave collapsed="true">
+    <expr>wrapper.core_top_i.core_i.jump_target_ex</expr>
+    <label/>
+    <radix>checker_inst.pc_wdata</radix>
+  </wave>
+  <wave collapsed="true">
+    <expr>wrapper.core_top_i.core_i.branch_target_q</expr>
+    <label/>
+    <radix/>
+  </wave>
+  <wave>
+    <expr>wrapper.core_top_i.core_i.branch_taken_q</expr>
+    <label/>
+    <radix/>
+  </wave>
   <group collapsed="false">
     <expr/>
     <label>Hwlp</label>

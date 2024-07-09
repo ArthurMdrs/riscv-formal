@@ -52,7 +52,11 @@ module rvfi_insn_auipc (
   assign spec_valid = rvfi_valid && !insn_padding && insn_opcode == 7'b 0010111;
   assign spec_rd_addr = insn_rd;
   assign spec_rd_wdata = spec_rd_addr ? rvfi_pc_rdata + insn_imm : 0;
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  assign spec_pc_wdata = (rvfi_is_hwlp) ? (rvfi_hwlp_start) : (rvfi_pc_rdata + 4);
+`else
   assign spec_pc_wdata = rvfi_pc_rdata + 4;
+`endif
 
   // default assignments
   assign spec_rs1_addr = 0;

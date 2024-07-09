@@ -55,7 +55,11 @@ module rvfi_insn_c_addi (
   assign spec_rs1_addr = insn_rs1_rd;
   assign spec_rd_addr = insn_rs1_rd;
   assign spec_rd_wdata = spec_rd_addr ? result : 0;
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  assign spec_pc_wdata = (rvfi_is_hwlp) ? (rvfi_hwlp_start) : (rvfi_pc_rdata + 2);
+`else
   assign spec_pc_wdata = rvfi_pc_rdata + 2;
+`endif
 
   // default assignments
   assign spec_rs2_addr = 0;

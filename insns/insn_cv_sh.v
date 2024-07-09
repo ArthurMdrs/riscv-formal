@@ -35,7 +35,7 @@ module rvfi_insn_cv_sh (
   output [`RISCV_FORMAL_XLEN   - 1 : 0] spec_mem_wdata
 );
 
-  // Post-incrementing Store instruction format
+  // Custom Store instruction format
   wire [`RISCV_FORMAL_ILEN-1:0] insn_padding = rvfi_insn >> 16 >> 16;
   wire [`RISCV_FORMAL_XLEN-1:0] insn_imm = $signed({rvfi_insn[31:25], rvfi_insn[11:7]});
   wire [6:0] insn_funct7  = rvfi_insn[31:25];

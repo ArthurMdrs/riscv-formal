@@ -59,7 +59,11 @@ module rvfi_insn_c_sd (
   assign spec_mem_addr = addr & ~(`RISCV_FORMAL_XLEN/8-1);
   assign spec_mem_wmask = ((1 << 8)-1) << (addr-spec_mem_addr);
   assign spec_mem_wdata = rvfi_rs2_rdata << (8*(addr-spec_mem_addr));
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  assign spec_pc_wdata = (rvfi_is_hwlp) ? (rvfi_hwlp_start) : (rvfi_pc_rdata + 2);
+`else
   assign spec_pc_wdata = rvfi_pc_rdata + 2;
+`endif
   assign spec_trap = ((addr & (8-1)) != 0) || !misa_ok;
 `else
   assign spec_valid = rvfi_valid && !insn_padding && insn_funct3 == 3'b 111 && insn_opcode == 2'b 00;
@@ -68,7 +72,11 @@ module rvfi_insn_c_sd (
   assign spec_mem_addr = addr;
   assign spec_mem_wmask = ((1 << 8)-1);
   assign spec_mem_wdata = rvfi_rs2_rdata;
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  assign spec_pc_wdata = (rvfi_is_hwlp) ? (rvfi_hwlp_start) : (rvfi_pc_rdata + 2);
+`else
   assign spec_pc_wdata = rvfi_pc_rdata + 2;
+`endif
   assign spec_trap = !misa_ok;
 `endif
 

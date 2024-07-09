@@ -60,7 +60,11 @@ module rvfi_insn_lh (
   assign spec_mem_addr = addr & ~(`RISCV_FORMAL_XLEN/8-1);
   assign spec_mem_rmask = ((1 << 2)-1) << (addr-spec_mem_addr);
   assign spec_rd_wdata = spec_rd_addr ? $signed(result) : 0;
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  assign spec_pc_wdata = (rvfi_is_hwlp) ? (rvfi_hwlp_start) : (rvfi_pc_rdata + 4);
+`else
   assign spec_pc_wdata = rvfi_pc_rdata + 4;
+`endif
   assign spec_trap = ((addr & (2-1)) != 0) || !misa_ok;
 `else
   wire [`RISCV_FORMAL_XLEN-1:0] addr = rvfi_rs1_rdata + insn_imm;
@@ -71,7 +75,11 @@ module rvfi_insn_lh (
   assign spec_mem_addr = addr;
   assign spec_mem_rmask = ((1 << 2)-1);
   assign spec_rd_wdata = spec_rd_addr ? $signed(result) : 0;
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  assign spec_pc_wdata = (rvfi_is_hwlp) ? (rvfi_hwlp_start) : (rvfi_pc_rdata + 4);
+`else
   assign spec_pc_wdata = rvfi_pc_rdata + 4;
+`endif
   assign spec_trap = !misa_ok;
 `endif
 

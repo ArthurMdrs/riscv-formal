@@ -51,7 +51,11 @@ module rvfi_insn_c_beqz (
 
   // C_BEQZ instruction
   wire cond = rvfi_rs1_rdata == 0;
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+  wire [`RISCV_FORMAL_XLEN-1:0] next_pc = (cond) ? (rvfi_pc_rdata + insn_imm) : ((rvfi_is_hwlp) ? (rvfi_hwlp_start) : (rvfi_pc_rdata + 2));
+`else
   wire [`RISCV_FORMAL_XLEN-1:0] next_pc = cond ? rvfi_pc_rdata + insn_imm : rvfi_pc_rdata + 2;
+`endif
   assign spec_valid = rvfi_valid && !insn_padding && insn_funct3 == 3'b 110 && insn_opcode == 2'b 01;
   assign spec_rs1_addr = insn_rs1;
   assign spec_pc_wdata = next_pc;

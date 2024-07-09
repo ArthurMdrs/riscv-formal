@@ -112,7 +112,11 @@ module rvfi_csrw_check (
 	wire [`RISCV_FORMAL_XLEN-1:0] effective_csr_insn_wmask = csr_insn_rmask | csr_insn_wmask;
 	wire [`RISCV_FORMAL_XLEN-1:0] effective_csr_insn_wdata = (csr_insn_wdata & csr_insn_wmask) | (csr_insn_rdata & ~csr_insn_wmask);
 
+`ifdef RISCV_FORMAL_CUSTOM_ISA
+	wire [`RISCV_FORMAL_XLEN-1:0] spec_pc_wdata = (rvfi.is_hwlp) ? (rvfi.hwlp_start) : (rvfi.pc_rdata + 4);
+`else
 	wire [`RISCV_FORMAL_XLEN-1:0] spec_pc_wdata = rvfi.pc_rdata + 4;
+`endif
 
 	wire insn_pma_x;
 

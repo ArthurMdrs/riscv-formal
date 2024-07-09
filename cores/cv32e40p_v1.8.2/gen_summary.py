@@ -12,8 +12,12 @@ with open('summary.txt', 'w') as summary_file:
                 folder_name = os.path.basename(root)
                 result = file
                 summary_file.write(f"{folder_name}: {result}\n")
+                i = 0
                 with open(os.path.join(root, file), 'r') as f:
                     for line in f:
+                        if i < 2:
+                            summary_file.write(line)
+                            i += 1
                         if "counterexample" in line and tool == "jg":
                             temp = line.split(":")[-1]
                             summary_file.write(temp)

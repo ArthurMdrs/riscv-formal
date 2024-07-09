@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <wavelist version="3">
-  <insertion-point-position>21</insertion-point-position>
+  <insertion-point-position>19</insertion-point-position>
   <wave>
     <expr>clock</expr>
     <label/>
     <radix/>
   </wave>
-  <group collapsed="true">
+  <group collapsed="false">
     <expr/>
     <label>rs1</label>
     <wave collapsed="true">
@@ -82,6 +82,41 @@
   </group>
   <group collapsed="false">
     <expr/>
+    <label>rs3</label>
+    <wave collapsed="true">
+      <expr>wrapper.core_top_i.core_i.rvfi_rs3_addr_id</expr>
+      <label/>
+      <radix>wrapper.core_top_i.core_i.rvfi_rs1_addr_id</radix>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.core_top_i.core_i.rvfi_rs3_addr_ex</expr>
+      <label/>
+      <radix>wrapper.core_top_i.core_i.rvfi_rs1_addr_id</radix>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.core_top_i.core_i.rvfi_rs3_addr_wb</expr>
+      <label/>
+      <radix>wrapper.core_top_i.core_i.rvfi_rs1_addr_id</radix>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.core_top_i.core_i.rvfi_rs3_rdata_id</expr>
+      <label/>
+      <radix>checker_inst.rd_wdata</radix>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.core_top_i.core_i.rvfi_rs3_rdata_ex</expr>
+      <label/>
+      <radix>checker_inst.rd_wdata</radix>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.core_top_i.core_i.rvfi_rs3_rdata_wb</expr>
+      <label/>
+      <radix>checker_inst.rd_wdata</radix>
+    </wave>
+    <spacer/>
+  </group>
+  <group collapsed="false">
+    <expr/>
     <label>rd</label>
     <wave collapsed="true">
       <expr>wrapper.core_top_i.core_i.rvfi_rd_addr_ex</expr>
@@ -144,19 +179,14 @@
       <radix>wrapper.core_top_i.core_i.rvfi_rs1_rdata_id</radix>
     </wave>
     <wave collapsed="true">
-      <expr>checker_inst.insn_spec.spec_pc_wdata</expr>
+      <expr>checker_inst.insn_spec.spec_post_rd_addr</expr>
       <label/>
-      <radix>checker_inst.pc_wdata</radix>
+      <radix>checker_inst.post_rd_addr</radix>
     </wave>
     <wave collapsed="true">
       <expr>checker_inst.insn_spec.spec_post_rd_wdata</expr>
       <label/>
       <radix>wrapper.core_top_i.core_i.rvfi_rs1_rdata_id</radix>
-    </wave>
-    <wave collapsed="true">
-      <expr>checker_inst.insn_spec.spec_post_rd_addr</expr>
-      <label/>
-      <radix>checker_inst.post_rd_addr</radix>
     </wave>
     <spacer/>
   </group>
@@ -290,11 +320,6 @@
     </wave>
     <wave>
       <expr>wrapper.core_top_i.core_i.valid_missed_branch</expr>
-      <label/>
-      <radix/>
-    </wave>
-    <wave>
-      <expr>wrapper.core_top_i.core_i.insn_id_is_branch</expr>
       <label/>
       <radix/>
     </wave>
@@ -747,6 +772,14 @@
       <color>builtin_red</color>
     </highlight>
     <highlight>
+      <expr>wrapper.core_top_i.core_i.rvfi_rs3_addr_wb</expr>
+      <color>builtin_red</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.core_top_i.core_i.rvfi_rs3_rdata_wb</expr>
+      <color>builtin_red</color>
+    </highlight>
+    <highlight>
       <expr>wrapper.core_top_i.core_i.rvfi_valid_mask</expr>
       <color>builtin_blue</color>
     </highlight>
@@ -765,6 +798,10 @@
     <highlight>
       <expr>checker_inst.insn_spec.spec_pc_wdata</expr>
       <color>#55ff7f</color>
+    </highlight>
+    <highlight>
+      <expr>checker_inst.insn_spec.spec_rd_wdata</expr>
+      <color>#beffc0</color>
     </highlight>
     <highlight>
       <expr>wrapper.core_top_i.core_i.if_stage_i.instr_compressed_int</expr>
