@@ -470,7 +470,7 @@ def format_bit_man(f):
 
 def format_gen_alu_N(f):
     print("", file=f)
-    print("  // ALU op with normalization instruction format", file=f)
+    print("  // Add/Sub with Normalization instruction format", file=f)
     print("  wire [`RISCV_FORMAL_ILEN-1:0] insn_padding = rvfi_insn >> 16 >> 16;", file=f)
     print("  wire [1:0] insn_funct2 = rvfi_insn[31:30];", file=f)
     print("  wire [4:0] insn_ls3    = rvfi_insn[29:25];", file=f)
@@ -485,7 +485,7 @@ def format_p_b(f):
     print("  // Custom branch instruction format", file=f)
     print("  wire [`RISCV_FORMAL_ILEN-1:0] insn_padding = rvfi_insn >> 16 >> 16;", file=f)
     print("  wire [`RISCV_FORMAL_XLEN-1:0] insn_imm12 = $signed({rvfi_insn[31], rvfi_insn[7], rvfi_insn[30:25], rvfi_insn[11:8], 1'b0});", file=f)
-    print("  wire [`RISCV_FORMAL_XLEN-1:0] insn_imm5 = $signed(rvfi_insn[24:20]);", file=f)
+    print("  wire [`RISCV_FORMAL_XLEN-1:0] insn_imm5  = $signed(rvfi_insn[24:20]);", file=f)
     print("  wire [4:0] insn_rs1    = rvfi_insn[19:15];", file=f)
     print("  wire [2:0] insn_funct3 = rvfi_insn[14:12];", file=f)
     print("  wire [6:0] insn_opcode = rvfi_insn[ 6: 0];", file=f)
@@ -513,6 +513,18 @@ def format_cv_bit_man(f):
     print("  wire [2:0] insn_funct3 = rvfi_insn[14:12];", file=f)
     print("  wire [4:0] insn_rd     = rvfi_insn[11: 7];", file=f)
     print("  wire [6:0] insn_opcode = rvfi_insn[ 6: 0];", file=f)
+
+def format_cv_gen_alu_Nr(f):
+    print("", file=f)
+    print("  // Add/Sub with Normalization instruction format", file=f)
+    print("  wire [`RISCV_FORMAL_ILEN-1:0] insn_padding = rvfi_insn >> 16 >> 16;", file=f)
+    print("  wire [6:0] insn_funct7  = rvfi_insn[31:25];", file=f)
+    print("  wire [4:0] insn_rs2     = rvfi_insn[24:20];", file=f)
+    print("  wire [4:0] insn_rs1     = rvfi_insn[19:15];", file=f)
+    print("  wire [2:0] insn_funct3  = rvfi_insn[14:12];", file=f)
+    print("  wire [4:0] insn_rd      = rvfi_insn[11: 7];", file=f)
+    print("  wire [4:0] insn_rs3     = insn_rd;", file=f)
+    print("  wire [6:0] insn_opcode  = rvfi_insn[ 6: 0];", file=f)
 
 def assign_pc_wdata(f, c=False):
     n = "2" if c else "4"
@@ -2347,6 +2359,144 @@ def insn_cv_bit_man_3(insn, funct7, lnr=False, clb=False, cnt=False, misa=MISA_X
 
         footer(f)
 
+def insn_cv_gen_alu(insn, funct7, expr, rs2_is_0=False, misa=MISA_X):
+    with open("insn_%s.v" % insn, "w") as f:
+        header(f, insn)
+        format_r(f)
+        misa_check(f, misa)
+
+        print("", file=f)
+        print("  // %s instruction" % insn.upper(), file=f)
+        print("  wire [31:0] result = %s;" % expr, file=f)
+        if rs2_is_0:
+            assign(f, "spec_valid", "rvfi_valid && !insn_padding && !insn_rs2 && insn_funct7 == 7'b%s && insn_funct3 == 3'b011 && insn_opcode == %s" % (funct7, opcode_cv1))
+        else:
+            assign(f, "spec_valid", "rvfi_valid && !insn_padding && insn_funct7 == 7'b%s && insn_funct3 == 3'b011 && insn_opcode == %s" % (funct7, opcode_cv1))
+        assign(f, "spec_rs1_addr", "insn_rs1")
+        if rs2_is_0:
+            assign(f, "spec_rs2_addr", "0")
+        else:
+            assign(f, "spec_rs2_addr", "insn_rs2")
+        assign(f, "spec_rd_addr", "insn_rd")
+        assign(f, "spec_rd_wdata", "spec_rd_addr ? result : 0")
+        assign_pc_wdata(f)
+
+        footer(f)
+
+def insn_cv_clip(insn, funct7, u=False, r=False, misa=MISA_X):
+    with open("insn_%s.v" % insn, "w") as f:
+        header(f, insn)
+        format_r(f)
+        misa_check(f, misa)
+
+        print("", file=f)
+        print("  // %s instruction" % insn.upper(), file=f)
+        if not r:
+            print("  wire [ 4:0] insn_ls2 = rvfi_insn[24:20];", file=f)
+        
+        print("  reg signed [31:0] compl;", file=f)
+        print("  reg signed [31:0] compg;", file=f)
+        print("  always_comb begin", file=f)
+        if u:
+            print("    compl = '0;", file=f)
+        if not r:
+            print("    if (insn_ls2 == 0) begin", file=f)
+            if not u: print("      compl = -1;", file=f)
+            print("      compg = 0;", file=f)
+            print("    end", file=f)
+            print("    else", file=f)
+        print("    begin", file=f)
+        if r:
+            if not u: print("      compl = -({1'b0, rvfi_rs2_rdata[30:0]} + 1);", file=f)
+            print("      compg = {1'b0, rvfi_rs2_rdata[30:0]};", file=f)
+        else:
+            if not u: print("      compl = -(1 << (insn_ls2 - 1));", file=f)
+            print("      compg = (1 << (insn_ls2 - 1)) - 1;", file=f)
+        print("    end", file=f)
+        print("  end", file=f)
+        
+        print("", file=f)
+        print("  reg [31:0] result;", file=f)
+        print("  always_comb begin", file=f)
+        print("    if ($signed(rvfi_rs1_rdata) <= compl)", file=f)
+        print("      result = compl;", file=f)
+        print("    else if ($signed(rvfi_rs1_rdata) >= compg)", file=f)
+        print("      result = compg;", file=f)
+        print("    else", file=f)
+        print("      result = rvfi_rs1_rdata;", file=f)
+        print("  end", file=f)
+        
+        assign(f, "spec_valid", "rvfi_valid && !insn_padding && insn_funct7 == 7'b%s && insn_funct3 == 3'b011 && insn_opcode == %s" % (funct7, opcode_cv1))
+        assign(f, "spec_rs1_addr", "insn_rs1")
+        if r:
+            assign(f, "spec_rs2_addr", "insn_rs2")
+        assign(f, "spec_rd_addr", "insn_rd")
+        assign(f, "spec_rd_wdata", "spec_rd_addr ? result : 0")
+        assign_pc_wdata(f)
+
+        footer(f)
+
+def insn_cv_gen_alu_N(insn, funct2, funct3, expr, misa=MISA_X):
+    with open("insn_%s.v" % insn, "w") as f:
+        header(f, insn)
+        format_gen_alu_N(f)
+        misa_check(f, misa)
+
+        print("", file=f)
+        print("  // %s instruction" % insn.upper(), file=f)
+        print("  wire [31:0] result = %s;" % expr, file=f)
+        assign(f, "spec_valid", "rvfi_valid && !insn_padding && insn_funct2 == 2'b%s && insn_funct3 == 3'b%s && insn_opcode == %s" % (funct2, funct3, opcode_cv2))
+        assign(f, "spec_rs1_addr", "insn_rs1")
+        assign(f, "spec_rs2_addr", "insn_rs2")
+        assign(f, "spec_rd_addr", "insn_rd")
+        assign(f, "spec_rd_wdata", "spec_rd_addr ? result : 0")
+        assign_pc_wdata(f)
+
+        footer(f)
+
+def insn_cv_gen_alu_Nr(insn, funct7, expr, misa=MISA_X):
+    with open("insn_%s.v" % insn, "w") as f:
+        header(f, insn)
+        format_cv_gen_alu_Nr(f)
+        misa_check(f, misa)
+
+        print("", file=f)
+        print("  // %s instruction" % insn.upper(), file=f)
+        print("  wire [31:0] result = %s;" % expr, file=f)
+        assign(f, "spec_valid", "rvfi_valid && !insn_padding && insn_funct7 == 7'b%s && insn_funct3 == 3'b011 && insn_opcode == %s" % (funct7, opcode_cv1))
+        assign(f, "spec_rs1_addr", "insn_rs1")
+        assign(f, "spec_rs2_addr", "insn_rs2")
+        assign(f, "spec_rs3_addr", "insn_rs3")
+        assign(f, "spec_rd_addr", "insn_rd")
+        assign(f, "spec_rd_wdata", "spec_rd_addr ? result : 0")
+        assign_pc_wdata(f)
+
+        footer(f)
+
+def insn_cv_b(insn, funct3, expr, misa=MISA_X):
+    with open("insn_%s.v" % insn, "w") as f:
+        header(f, insn)
+        format_p_b(f)
+        misa_check(f, misa, ialign16=True)
+
+        print("", file=f)
+        print("  // %s instruction" % insn.upper(), file=f)
+        print("  wire cond = %s;" % expr, file=f)
+        print("  reg [`RISCV_FORMAL_XLEN-1:0] next_pc;", file=f)
+        print("  always_comb", file=f)
+        print("    if (cond)", file=f)
+        print("      next_pc = rvfi_pc_rdata + insn_imm12;", file=f)
+        print("    else if (rvfi_is_hwlp)", file=f)
+        print("      next_pc = rvfi_hwlp_start;", file=f)
+        print("    else", file=f)
+        print("      next_pc = rvfi_pc_rdata + 4;", file=f)
+        assign(f, "spec_valid", "rvfi_valid && !insn_padding && insn_funct3 == 3'b%s && insn_opcode == %s" % (funct3, opcode_cv0))
+        assign(f, "spec_rs1_addr", "insn_rs1")
+        assign(f, "spec_pc_wdata", "next_pc")
+        assign(f, "spec_trap", "(ialign16 ? (next_pc[0] != 0) : (next_pc[1:0] != 0)) || !misa_ok")
+
+        footer(f)
+
 #### ================   XPULP - END   ================ ####
 
 ## Base Integer ISA (I)
@@ -2730,6 +2880,46 @@ if core_version == "v1.8.2":
     insn_cv_bit_man_3("cv_fl1", "010_0010", lnr=True , clb=False, cnt=False)
     insn_cv_bit_man_3("cv_clb", "010_0011", lnr=True , clb=True , cnt=False)
     insn_cv_bit_man_3("cv_cnt", "010_0100", lnr=True , clb=False, cnt=True )
+    
+    # General ALU operations
+    insn_cv_gen_alu("cv_abs"  , "010_1000", "($signed(rvfi_rs1_rdata) < 0) ? (-rvfi_rs1_rdata) : (rvfi_rs1_rdata)"                     , rs2_is_0=True )
+    insn_cv_gen_alu("cv_slet" , "010_1001", "($signed(rvfi_rs1_rdata) <= $signed(rvfi_rs2_rdata)) ? (1) : (0)"                         , rs2_is_0=False)
+    insn_cv_gen_alu("cv_sletu", "010_1010", "(rvfi_rs1_rdata <= rvfi_rs2_rdata) ? (1) : (0)"                                           , rs2_is_0=False)
+    insn_cv_gen_alu("cv_min"  , "010_1011", "($signed(rvfi_rs1_rdata) < $signed(rvfi_rs2_rdata)) ? (rvfi_rs1_rdata) : (rvfi_rs2_rdata)", rs2_is_0=False)
+    insn_cv_gen_alu("cv_minu" , "010_1100", "(rvfi_rs1_rdata < rvfi_rs2_rdata) ? (rvfi_rs1_rdata) : (rvfi_rs2_rdata)"                  , rs2_is_0=False)
+    insn_cv_gen_alu("cv_max"  , "010_1101", "($signed(rvfi_rs1_rdata) < $signed(rvfi_rs2_rdata)) ? (rvfi_rs2_rdata) : (rvfi_rs1_rdata)", rs2_is_0=False)
+    insn_cv_gen_alu("cv_maxu" , "010_1110", "(rvfi_rs1_rdata < rvfi_rs2_rdata) ? (rvfi_rs2_rdata) : (rvfi_rs1_rdata)"                  , rs2_is_0=False)
+    insn_cv_gen_alu("cv_exths", "011_0000", "{{16{rvfi_rs1_rdata[15]}}, rvfi_rs1_rdata[15:0]}"                                         , rs2_is_0=True )
+    insn_cv_gen_alu("cv_exthz", "011_0001", "{16'b0, rvfi_rs1_rdata[15:0]}"                                                            , rs2_is_0=True )
+    insn_cv_gen_alu("cv_extbs", "011_0010", "{{24{rvfi_rs1_rdata[7]}}, rvfi_rs1_rdata[7:0]}"                                           , rs2_is_0=True )
+    insn_cv_gen_alu("cv_extbz", "011_0011", "{24'b0, rvfi_rs1_rdata[7:0]}"                                                             , rs2_is_0=True )
+    
+    insn_cv_clip("cv_clip"  , "011_1000", u=False, r=False)
+    insn_cv_clip("cv_clipu" , "011_1001", u=True , r=False)
+    insn_cv_clip("cv_clipr" , "011_1010", u=False, r=True )
+    insn_cv_clip("cv_clipur", "011_1011", u=True , r=True )
+    
+    insn_cv_gen_alu_N("cv_addN"  , "00", "010", "$signed(rvfi_rs1_rdata + rvfi_rs2_rdata) >>> insn_ls3"                        )
+    insn_cv_gen_alu_N("cv_adduN" , "01", "010", "(rvfi_rs1_rdata + rvfi_rs2_rdata) >> insn_ls3"                                )
+    insn_cv_gen_alu_N("cv_addRN" , "10", "010", "$signed(rvfi_rs1_rdata + rvfi_rs2_rdata + (1 << (insn_ls3 - 1))) >>> insn_ls3")
+    insn_cv_gen_alu_N("cv_adduRN", "11", "010", "(rvfi_rs1_rdata + rvfi_rs2_rdata + (1 << (insn_ls3 - 1))) >> insn_ls3"        )
+    insn_cv_gen_alu_N("cv_subN"  , "00", "011", "$signed(rvfi_rs1_rdata - rvfi_rs2_rdata) >>> insn_ls3"                        )
+    insn_cv_gen_alu_N("cv_subuN" , "01", "011", "(rvfi_rs1_rdata - rvfi_rs2_rdata) >> insn_ls3"                                )
+    insn_cv_gen_alu_N("cv_subRN" , "10", "011", "$signed(rvfi_rs1_rdata - rvfi_rs2_rdata + (1 << (insn_ls3 - 1))) >>> insn_ls3")
+    insn_cv_gen_alu_N("cv_subuRN", "11", "011", "(rvfi_rs1_rdata - rvfi_rs2_rdata + (1 << (insn_ls3 - 1))) >> insn_ls3"        )
+    
+    insn_cv_gen_alu_Nr("cv_addNr"  , "100_0000", "$signed(rvfi_rs1_rdata + rvfi_rs3_rdata) >>> rvfi_rs2_rdata[4:0]"                                   )
+    insn_cv_gen_alu_Nr("cv_adduNr" , "100_0001", "(rvfi_rs1_rdata + rvfi_rs3_rdata) >> rvfi_rs2_rdata[4:0]"                                           )
+    insn_cv_gen_alu_Nr("cv_addRNr" , "100_0010", "$signed(rvfi_rs1_rdata + rvfi_rs3_rdata + (1 << (rvfi_rs2_rdata[4:0] - 1))) >>> rvfi_rs2_rdata[4:0]")
+    insn_cv_gen_alu_Nr("cv_adduRNr", "100_0011", "(rvfi_rs1_rdata + rvfi_rs3_rdata + (1 << (rvfi_rs2_rdata[4:0] - 1))) >> rvfi_rs2_rdata[4:0]"        )
+    insn_cv_gen_alu_Nr("cv_subNr"  , "100_0100", "$signed(rvfi_rs3_rdata - rvfi_rs1_rdata) >>> rvfi_rs2_rdata[4:0]"                                   )
+    insn_cv_gen_alu_Nr("cv_subuNr" , "100_0101", "(rvfi_rs3_rdata - rvfi_rs1_rdata) >> rvfi_rs2_rdata[4:0]"                                           )
+    insn_cv_gen_alu_Nr("cv_subRNr" , "100_0110", "$signed(rvfi_rs3_rdata - rvfi_rs1_rdata + (1 << (rvfi_rs2_rdata[4:0] - 1))) >>> rvfi_rs2_rdata[4:0]")
+    insn_cv_gen_alu_Nr("cv_subuRNr", "100_0111", "(rvfi_rs3_rdata - rvfi_rs1_rdata + (1 << (rvfi_rs2_rdata[4:0] - 1))) >> rvfi_rs2_rdata[4:0]"        )
+    
+    # Immediate Branching operations
+    insn_cv_b("cv_beqimm", "110", "(rvfi_rs1_rdata == insn_imm5)")
+    insn_cv_b("cv_bneimm", "111", "(rvfi_rs1_rdata != insn_imm5)")
     
     
     
