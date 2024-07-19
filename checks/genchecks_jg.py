@@ -420,11 +420,13 @@ def check_insn(grp, insn, chanidx, csr_mode=False, illegal_csr=False):
         if "script-sources" in config:
             print_hfmt(tcl_file, config["script-sources"], **hargs)
         
-        if "mul" in insn: bbox_str = "-bbox_mul 256"
-        elif "div" in insn: bbox_str = "-bbox_div 256"
-        elif "rem" in insn: bbox_str = "-bbox_div 256"
-        elif "dot" in insn: bbox_str = "-bbox_mul 256"
-        else: bbox_str = ""
+        if   "mul" in insn: bbox_str = "-bbox_mul 256" # M extension, cv_mul*
+        elif "mac" in insn: bbox_str = "-bbox_mul 256" # cv_mac*
+        elif "msu" in insn: bbox_str = "-bbox_mul 256" # cv_msu
+        elif "div" in insn: bbox_str = "-bbox_div 256" # M extension
+        elif "rem" in insn: bbox_str = "-bbox_div 256" # M extension
+        elif "dot" in insn: bbox_str = "-bbox_mul 256" # cv_dot*
+        else              : bbox_str = ""
         
         # print(f"elaborate -top rvfi_testbench -create_related_covers witness {bbox_str}\n", file=tcl_file)
         print(f"elaborate -top rvfi_testbench -no_preconditions {bbox_str}\n", file=tcl_file)
@@ -444,6 +446,7 @@ def check_insn(grp, insn, chanidx, csr_mode=False, illegal_csr=False):
                 : 
         """, **hargs)
                 # : check_assumptions -show -dead_end
+                # : set_prove_time_limit 1m30s
                 # : 
                 # : prove -bg -instance checker_inst -iter $depth -dump_trace -dump_trace_type vcd -dump_trace_dir traces
                 # : prove -instance checker_inst -dump_trace -dump_trace_type vcd -dump_trace_dir traces

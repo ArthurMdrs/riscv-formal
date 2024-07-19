@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <wavelist version="3">
-  <insertion-point-position>19</insertion-point-position>
+  <insertion-point-position>24</insertion-point-position>
   <wave>
     <expr>clock</expr>
     <label/>
@@ -46,7 +46,7 @@
     </wave>
     <spacer/>
   </group>
-  <group collapsed="true">
+  <group collapsed="false">
     <expr/>
     <label>rs2</label>
     <wave collapsed="true">
@@ -80,7 +80,7 @@
       <radix>checker_inst.pc_wdata</radix>
     </wave>
   </group>
-  <group collapsed="false">
+  <group collapsed="true">
     <expr/>
     <label>rs3</label>
     <wave collapsed="true">
@@ -112,6 +112,31 @@
       <expr>wrapper.core_top_i.core_i.rvfi_rs3_rdata_wb</expr>
       <label/>
       <radix>checker_inst.rd_wdata</radix>
+    </wave>
+    <spacer/>
+  </group>
+  <group collapsed="false">
+    <expr/>
+    <label>Spec regs</label>
+    <wave collapsed="true">
+      <expr>checker_inst.insn_spec.spec_rd_addr</expr>
+      <label/>
+      <radix/>
+    </wave>
+    <wave collapsed="true">
+      <expr>checker_inst.insn_spec.spec_rd_wdata</expr>
+      <label/>
+      <radix>wrapper.core_top_i.core_i.rvfi_rs1_rdata_id</radix>
+    </wave>
+    <wave collapsed="true">
+      <expr>checker_inst.insn_spec.spec_post_rd_addr</expr>
+      <label/>
+      <radix>checker_inst.post_rd_addr</radix>
+    </wave>
+    <wave collapsed="true">
+      <expr>checker_inst.insn_spec.spec_post_rd_wdata</expr>
+      <label/>
+      <radix>wrapper.core_top_i.core_i.rvfi_rs1_rdata_id</radix>
     </wave>
     <spacer/>
   </group>
@@ -162,31 +187,6 @@
       <expr>wrapper.core_top_i.core_i.rvfi_post_rd_addr_wb</expr>
       <label/>
       <radix>checker_inst.post_rd_addr</radix>
-    </wave>
-    <spacer/>
-  </group>
-  <group collapsed="false">
-    <expr/>
-    <label>Spec regs</label>
-    <wave collapsed="true">
-      <expr>checker_inst.insn_spec.spec_rd_addr</expr>
-      <label/>
-      <radix/>
-    </wave>
-    <wave collapsed="true">
-      <expr>checker_inst.insn_spec.spec_rd_wdata</expr>
-      <label/>
-      <radix>wrapper.core_top_i.core_i.rvfi_rs1_rdata_id</radix>
-    </wave>
-    <wave collapsed="true">
-      <expr>checker_inst.insn_spec.spec_post_rd_addr</expr>
-      <label/>
-      <radix>checker_inst.post_rd_addr</radix>
-    </wave>
-    <wave collapsed="true">
-      <expr>checker_inst.insn_spec.spec_post_rd_wdata</expr>
-      <label/>
-      <radix>wrapper.core_top_i.core_i.rvfi_rs1_rdata_id</radix>
     </wave>
     <spacer/>
   </group>

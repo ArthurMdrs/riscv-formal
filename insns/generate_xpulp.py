@@ -492,7 +492,7 @@ def format_p_b(f):
     
 def format_simd(f):
     print("", file=f)
-    print("  // PV-type instruction format", file=f)
+    print("  // SIMD instruction format", file=f)
     print("  wire [`RISCV_FORMAL_ILEN-1:0] insn_padding = rvfi_insn >> 16 >> 16;", file=f)
     print("  wire [4:0] insn_funct5 = rvfi_insn[31:27];", file=f)
     print("  wire       insn_funct1 = rvfi_insn[   26];", file=f)
@@ -2497,6 +2497,565 @@ def insn_cv_b(insn, funct3, expr, misa=MISA_X):
 
         footer(f)
 
+def insn_cv_mac16(insn, funct2, funct3, alt_add=None, alt_sub=None, u=False, h=False, R=False, ac=False, misa=MISA_X):
+    with open("insn_%s.v" % insn, "w") as f:
+        header(f, insn)
+        format_gen_alu_N(f)
+        misa_check(f, misa)
+        
+        round = " + (1 << (insn_ls3 - 1))" if R else ""
+
+        print("", file=f)
+        print("  // %s instruction" % insn.upper(), file=f)
+        if ac:
+            print("  wire [4:0] insn_rs3 = insn_rd;", file=f)
+            
+        if h:
+            if u:
+                print("  wire [31:0] op1 = {16'b0, rvfi_rs1_rdata[31:16]};", file=f)
+                print("  wire [31:0] op2 = {16'b0, rvfi_rs2_rdata[31:16]};", file=f)
+            else:
+                print("  wire [31:0] op1 = {{16{rvfi_rs1_rdata[31]}}, rvfi_rs1_rdata[31:16]};", file=f)
+                print("  wire [31:0] op2 = {{16{rvfi_rs2_rdata[31]}}, rvfi_rs2_rdata[31:16]};", file=f)
+        else:
+            if u:
+                print("  wire [31:0] op1 = {16'b0, rvfi_rs1_rdata[15:0]};", file=f)
+                print("  wire [31:0] op2 = {16'b0, rvfi_rs2_rdata[15:0]};", file=f)
+            else:
+                print("  wire [31:0] op1 = {{16{rvfi_rs1_rdata[15]}}, rvfi_rs1_rdata[15:0]};", file=f)
+                print("  wire [31:0] op2 = {{16{rvfi_rs2_rdata[15]}}, rvfi_rs2_rdata[15:0]};", file=f)
+            
+        if alt_add is not None or alt_sub is not None:
+            print("`ifdef RISCV_FORMAL_ALTOPS", file=f)
+            if alt_add is not None:
+                print("  wire [31:0] altops_bitmask = 64'h%016x;" % (alt_add), file=f)
+                print("  wire [31:0] result = (((op1 + op2) & rvfi_rs3_rdata) >> insn_ls3) ^ altops_bitmask;", file=f)
+            else:
+                print("  wire [31:0] altops_bitmask = 64'h%016x;" % (alt_sub), file=f)
+                print("  wire [31:0] result = (((op1 - op2) & rvfi_rs3_rdata) >> insn_ls3) ^ altops_bitmask;", file=f)
+            print("`else", file=f)
+            if u:
+                print("  wire [31:0] result = (op1 * op2 + rvfi_rs3_rdata%s) >> insn_ls3;" % (round), file=f)
+            else:
+                print("  wire [31:0] result = $signed(op1 * op2 + rvfi_rs3_rdata%s) >>> insn_ls3;" % (round), file=f)
+            print("`endif", file=f)
+        else:
+            if u:
+                print("  wire [31:0] result = (op1 * op2 + rvfi_rs3_rdata%s) >> insn_ls3;" % (round), file=f)
+            else:
+                print("  wire [31:0] result = $signed(op1 * op2 + rvfi_rs3_rdata%s) >>> insn_ls3;" % (round), file=f)
+            
+        assign(f, "spec_valid", "rvfi_valid && !insn_padding && insn_funct2 == 2'b%s && insn_funct3 == 3'b%s && insn_opcode == %s" % (funct2, funct3, opcode_cv2))
+        assign(f, "spec_rs1_addr", "insn_rs1")
+        assign(f, "spec_rs2_addr", "insn_rs2")
+        if ac:
+            assign(f, "spec_rs3_addr", "insn_rs3")
+        assign(f, "spec_rd_addr", "insn_rd")
+        assign(f, "spec_rd_wdata", "spec_rd_addr ? result : 0")
+        assign_pc_wdata(f)
+
+        footer(f)
+
+def insn_cv_mac32(insn, funct7, alt_add=None, alt_sub=None, sign="", misa=MISA_X):
+    with open("insn_%s.v" % insn, "w") as f:
+        header(f, insn)
+        format_r(f)
+        misa_check(f, misa)
+
+        print("", file=f)
+        print("  // %s instruction" % insn.upper(), file=f)
+        if alt_add is not None or alt_sub is not None:
+            print("`ifdef RISCV_FORMAL_ALTOPS", file=f)
+            if alt_add is not None:
+                print("  wire [31:0] altops_bitmask = 64'h%016x;" % (alt_add), file=f)
+                print("  wire [31:0] result = ((rvfi_rs1_rdata + rvfi_rs2_rdata) | rvfi_rs3_rdata) ^ altops_bitmask;", file=f)
+            else:
+                print("  wire [31:0] altops_bitmask = 64'h%016x;" % (alt_sub), file=f)
+                print("  wire [31:0] result = ((rvfi_rs1_rdata - rvfi_rs2_rdata) | rvfi_rs3_rdata) ^ altops_bitmask;", file=f)
+            print("`else", file=f)
+            print("  wire [31:0] result = rvfi_rs3_rdata %s (rvfi_rs1_rdata * rvfi_rs2_rdata);" % (sign), file=f)
+            print("`endif", file=f)
+        else:
+            print("  wire [31:0] result = rvfi_rs3_rdata %s (rvfi_rs1_rdata * rvfi_rs2_rdata);" % (sign), file=f)
+        assign(f, "spec_valid", "rvfi_valid && !insn_padding && insn_funct7 == 7'b%s && insn_funct3 == 3'b011 && insn_opcode == %s" % (funct7, opcode_cv1))
+        assign(f, "spec_rs1_addr", "insn_rs1")
+        assign(f, "spec_rs2_addr", "insn_rs2")
+        assign(f, "spec_rs3_addr", "insn_rd")
+        assign(f, "spec_rd_addr", "insn_rd")
+        assign(f, "spec_rd_wdata", "spec_rd_addr ? result : 0")
+        assign_pc_wdata(f)
+
+        footer(f)
+
+def insn_cv_simd_alu(insn, funct5, funct1, funct3, expr, hnb=True, sc=True, i=False, imms=True, sh=False, zero_bits=None, misa=MISA_X):
+    with open("insn_%s.v" % insn, "w") as f:
+        header(f, insn)
+        format_simd(f)
+        misa_check(f, misa)
+        
+        if i: assert sc, "Cannot have flag i without flag sc!!"
+        if sh: assert zero_bits is None, "Incompatible arguments!!"
+
+        print("", file=f)
+        print("  // %s instruction" % insn.upper(), file=f)
+        
+        if i:
+            if imms:
+                immediate = "$signed({rvfi_insn[24:20], rvfi_insn[25]})"
+            else:
+                immediate = "{rvfi_insn[24:20], rvfi_insn[25]}"
+        
+        if hnb: # Half-word mode
+            print("  reg [15:0] op1 [1:0];", file=f)
+            print("  reg [15:0] op2 [1:0];", file=f)
+            print("  reg [15:0] res [1:0];", file=f)
+            print("  always_comb", file=f)
+            print("    for(int i = 0; i < 2; i++) begin", file=f)
+            print("      op1[i] = rvfi_rs1_rdata[i*16+:16];", file=f)
+            if sc:
+                if i:
+                    print("      op2[i] = %s;" % (immediate), file=f)
+                else:
+                    print("      op2[i] = rvfi_rs2_rdata[15:0];", file=f)
+            else:
+                print("      op2[i] = rvfi_rs2_rdata[i*16+:16];", file=f)
+            if sh:
+                print("      op2[i] = op2[i][3:0];", file=f)
+            print("      res[i] = %s;" % expr, file=f)
+            print("    end", file=f)
+            print("  wire [31:0] result = {res[1], res[0]};", file=f)
+        else: # Byte mode
+            print("  reg [7:0] op1 [3:0];", file=f)
+            print("  reg [7:0] op2 [3:0];", file=f)
+            print("  reg [7:0] res [3:0];", file=f)
+            print("  always_comb", file=f)
+            print("    for(int i = 0; i < 4; i++) begin", file=f)
+            print("      op1[i] = rvfi_rs1_rdata[i*8+:8];", file=f)
+            if sc:
+                if i:
+                    print("      op2[i] = %s;" % (immediate), file=f)
+                else:
+                    print("      op2[i] = rvfi_rs2_rdata[7:0];", file=f)
+            else:
+                print("      op2[i] = rvfi_rs2_rdata[i*8+:8];", file=f)
+            if sh:
+                print("      op2[i] = op2[i][2:0];", file=f)
+            print("      res[i] = %s;" % expr, file=f)
+            print("    end", file=f)
+            print("  wire [31:0] result = {res[3], res[2], res[1], res[0]};", file=f)
+        
+        if i:
+            if sh:
+                temp = "rvfi_insn[24:23] == 2'b0" if hnb else "rvfi_insn[24:22] == 3'b0"
+                print("  wire flag = %s;" % temp, file=f)
+            else:
+                print("  wire flag = 1'b1;", file=f)
+        elif zero_bits is not None:
+            print("  wire flag = rvfi_insn[%s] == '0;" % zero_bits, file=f)
+        else:
+            print("  wire flag = rvfi_insn[25] == 1'b0;", file=f)
+        
+        if zero_bits is not None:
+            assign(f, "spec_valid", "rvfi_valid && !insn_padding && flag && insn_funct5 == 5'b%s && insn_funct1 == 1'b%s && insn_funct3 == 3'b%s && insn_opcode == %s" % (funct5, funct1, funct3, opcode_cv3))
+        else:
+            assign(f, "spec_valid", "rvfi_valid && !insn_padding && flag && insn_funct5 == 5'b%s && insn_funct1 == 1'b%s && insn_funct3 == 3'b%s && insn_opcode == %s" % (funct5, funct1, funct3, opcode_cv3))
+        assign(f, "spec_rs1_addr", "insn_rs1")
+        if not i:
+            assign(f, "spec_rs2_addr", "insn_rs2")
+        assign(f, "spec_rd_addr", "insn_rd")
+        assign(f, "spec_rd_wdata", "spec_rd_addr ? result : 0")
+        assign_pc_wdata(f)
+
+        footer(f)
+
+def insn_cv_simd_ext_ins(insn, funct3, hnb=True, eni=True, u=False, misa=MISA_X):
+    with open("insn_%s.v" % insn, "w") as f:
+        header(f, insn)
+        format_simd(f)
+        misa_check(f, misa)
+        
+        if u: assert eni, "There is no insertu.h or insertu.b!!"
+
+        print("", file=f)
+        print("  // %s instruction" % insn.upper(), file=f)
+        
+        if hnb: # Half-word mode
+            print("  wire        sel = rvfi_insn[25];", file=f)
+            if eni:
+                print("  wire [15:0] selected = rvfi_rs1_rdata[sel*16+:16];", file=f)
+                if u:
+                    print("  wire [31:0] result = {16'b0, selected};", file=f)
+                else:
+                    print("  wire [31:0] result = {{16{selected[15]}}, selected};", file=f)
+            else:
+                print("  reg  [15:0] res [1:0];", file=f)
+                print("  always_comb", file=f)
+                print("    for(int i = 0; i < 2; i++) begin", file=f)
+                print("      if (i == sel)", file=f)
+                print("        res[i] = rvfi_rs1_rdata[15:0];", file=f)
+                print("      else", file=f)
+                print("        res[i] = rvfi_rs3_rdata[i*16+:16];", file=f)
+                print("    end", file=f)
+                print("  wire [31:0] result = {res[1], res[0]};", file=f)
+        else: # Byte mode
+            print("  wire [ 1:0] sel = {rvfi_insn[20], rvfi_insn[25]};", file=f)
+            if eni:
+                print("  wire [ 7:0] selected = rvfi_rs1_rdata[sel*8+:8];", file=f)
+                if u:
+                    print("  wire [31:0] result = {24'b0, selected};", file=f)
+                else:
+                    print("  wire [31:0] result = {{24{selected[7]}}, selected};", file=f)
+            else:
+                print("  reg  [ 7:0] res [3:0];", file=f)
+                print("  always_comb", file=f)
+                print("    for(int i = 0; i < 4; i++) begin", file=f)
+                print("      if (i == sel)", file=f)
+                print("        res[i] = rvfi_rs1_rdata[7:0];", file=f)
+                print("      else", file=f)
+                print("        res[i] = rvfi_rs3_rdata[i*8+:8];", file=f)
+                print("    end", file=f)
+                print("  wire [31:0] result = {res[3], res[2], res[1], res[0]};", file=f)
+        
+        if hnb:
+            print("  wire flag = rvfi_insn[24:20] == '0;", file=f)
+        else:
+            print("  wire flag = rvfi_insn[24:21] == '0;", file=f)
+        
+        assign(f, "spec_valid", "rvfi_valid && !insn_padding && flag && insn_funct5 == 5'b1_0111 && insn_funct1 == 1'b0 && insn_funct3 == 3'b%s && insn_opcode == %s" % (funct3, opcode_cv3))
+        assign(f, "spec_rs1_addr", "insn_rs1")
+        if not eni:
+            assign(f, "spec_rs3_addr", "insn_rd")
+        assign(f, "spec_rd_addr", "insn_rd")
+        assign(f, "spec_rd_wdata", "spec_rd_addr ? result : 0")
+        assign_pc_wdata(f)
+
+        footer(f)
+
+def insn_cv_simd_dot(insn, funct5, funct3, hnb=True, sc=True, i=False, imms=True, rs1s=True, ac=False, alt_add=None, misa=MISA_X):
+    with open("insn_%s.v" % insn, "w") as f:
+        header(f, insn)
+        format_simd(f)
+        misa_check(f, misa)
+        
+        if i: assert sc, "Cannot have flag i without flag sc!!"
+
+        print("", file=f)
+        print("  // %s instruction" % insn.upper(), file=f)
+        
+        if i:
+            if imms:
+                immediate = "$signed({rvfi_insn[24:20], rvfi_insn[25]})"
+            else:
+                immediate = "{rvfi_insn[24:20], rvfi_insn[25]}"
+        
+        if imms or rs1s:
+            res_sum = "$signed(res[0]) + $signed(res[1]) + $signed(res[2]) + $signed(res[3])"
+        else:
+            res_sum = "res[0] + res[1] + res[2] + res[3]"
+        
+        
+        if alt_add is not None:
+            print("`ifdef RISCV_FORMAL_ALTOPS", file=f)
+            if hnb:
+                if sc:
+                    if i:
+                        print("  wire [31:0] op2 = {2{{10{%s}}, rvfi_insn[24:20], rvfi_insn[25]}};" % ("rvfi_insn[24]" if imms else "1'b0"), file=f)
+                    else:
+                        print("  wire [31:0] op2 = {2{rvfi_rs2_rdata[15:0]}};", file=f)
+                else:
+                    print("  wire [31:0] op2 = rvfi_rs2_rdata;", file=f)
+            else:
+                if sc:
+                    if i:
+                        print("  wire [31:0] op2 = {4{{2{%s}}, rvfi_insn[24:20], rvfi_insn[25]}};" % ("rvfi_insn[24]" if imms else "1'b0"), file=f)
+                    else:
+                        print("  wire [31:0] op2 = {4{rvfi_rs2_rdata[7:0]}};", file=f)
+                else:
+                    print("  wire [31:0] op2 = rvfi_rs2_rdata;", file=f)
+            print("  wire [31:0] altops_bitmask = 64'h%016x;" % (alt_add), file=f)
+            print("  wire [31:0] result = ((rvfi_rs1_rdata + op2) ^ rvfi_rs3_rdata) ^ altops_bitmask;", file=f)
+            print("`else", file=f)
+        
+        if hnb: # Half-word mode
+            print("  reg [15:0] op1 [1:0];", file=f)
+            print("  reg [15:0] op2 [1:0];", file=f)
+            print("  reg [31:0] res [1:0];", file=f)
+            print("  always_comb", file=f)
+            print("    for(int i = 0; i < 2; i++) begin", file=f)
+            print("      op1[i] = rvfi_rs1_rdata[i*16+:16];", file=f)
+            if sc:
+                if i:
+                    print("      op2[i] = %s;" % (immediate), file=f) # sci
+                else:
+                    print("      op2[i] = rvfi_rs2_rdata[15:0];", file=f) # sc
+            else:
+                print("      op2[i] = rvfi_rs2_rdata[i*16+:16];", file=f) # no sc
+            if rs1s and imms:
+                print("      res[i] = $signed(op1[i]) * $signed(op2[i]);", file=f) # dotsp
+            elif not rs1s and imms:
+                print("      res[i] = $signed({1'b0, op1[i]}) * $signed(op2[i]);", file=f) # dotusp
+            else:
+                print("      res[i] = op1[i] * op2[i];", file=f) # dotup
+            print("    end", file=f)
+            print("  wire [31:0] res_sum = res[0] + res[1];", file=f)
+        else: # Byte mode
+            print("  reg [ 7:0] op1 [3:0];", file=f)
+            print("  reg [ 7:0] op2 [3:0];", file=f)
+            print("  reg [15:0] res [3:0];", file=f)
+            print("  always_comb", file=f)
+            print("    for(int i = 0; i < 4; i++) begin", file=f)
+            print("      op1[i] = rvfi_rs1_rdata[i*8+:8];", file=f)
+            if sc:
+                if i:
+                    print("      op2[i] = %s;" % (immediate), file=f) # sci
+                else:
+                    print("      op2[i] = rvfi_rs2_rdata[7:0];", file=f) # sc
+            else:
+                print("      op2[i] = rvfi_rs2_rdata[i*8+:8];", file=f) # no sc
+            if rs1s and imms:
+                print("      res[i] = $signed(op1[i]) * $signed(op2[i]);", file=f) # dotsp
+            elif not rs1s and imms:
+                print("      res[i] = $signed({1'b0, op1[i]}) * $signed(op2[i]);", file=f) # dotusp
+            else:
+                print("      res[i] = op1[i] * op2[i];", file=f) # dotup
+            print("    end", file=f)
+            print("  wire [31:0] res_sum = %s;" % res_sum, file=f)
+            
+        if ac:
+            print("  wire [31:0] result = res_sum + rvfi_rs3_rdata;", file=f)
+        else:
+            print("  wire [31:0] result = res_sum;", file=f)
+        
+        if alt_add is not None:
+            print("`endif", file=f)
+            
+        if i:
+            print("  wire flag = 1'b1;", file=f)
+        else:
+            print("  wire flag = rvfi_insn[25] == 1'b0;", file=f)
+        
+        assign(f, "spec_valid", "rvfi_valid && !insn_padding && flag && insn_funct5 == 5'b%s && insn_funct1 == 1'b%s && insn_funct3 == 3'b%s && insn_opcode == %s" % (funct5, funct1, funct3, opcode_cv3))
+        assign(f, "spec_rs1_addr", "insn_rs1")
+        if not i:
+            assign(f, "spec_rs2_addr", "insn_rs2")
+        if ac:
+            assign(f, "spec_rs3_addr", "insn_rd")
+        assign(f, "spec_rd_addr", "insn_rd")
+        assign(f, "spec_rd_wdata", "spec_rd_addr ? result : 0")
+        assign_pc_wdata(f)
+
+        footer(f)
+
+def insn_cv_simd_shu(insn, funct5, funct3, hnb=True, sci=False, shuffleI=None, shuffle2=False, misa=MISA_X):
+    with open("insn_%s.v" % insn, "w") as f:
+        header(f, insn)
+        format_simd(f)
+        misa_check(f, misa)
+        
+        if shuffleI!=None and (not sci):
+            assert False, "Cannot have shuffleI instruction without flag sci!!"
+        if shuffle2 and sci:
+            assert False, "Cannot have shuffle2 instruction with flag sci!!"
+        if shuffleI!=None and hnb:
+            assert False, "Cannot have shuffleI instruction with half-word operation!!"
+
+        print("", file=f)
+        print("  // %s instruction" % insn.upper(), file=f)
+        
+        if sci:
+            print("  wire [5:0] insn_imm = {rvfi_insn[24:20], rvfi_insn[25]};", file=f)
+        
+        if hnb: # Half-word mode
+            print("  reg         pos;", file=f)
+            cnt = "2"
+            bits = "16"
+        else: # Byte mode
+            print("  reg  [ 2:0] pos;", file=f)
+            cnt = "4"
+            bits = "8"
+        
+        pos_imm = "insn_imm[i]" if hnb else f"(i == 3) ? ({shuffleI}) : (insn_imm[i*2 +: 2])"
+        pos_rs2 = f"rvfi_rs2_rdata[i*{bits}]" if hnb else f"rvfi_rs2_rdata[i*{bits} +: 2]"
+        
+        print("  reg  [31:0] result;", file=f)
+        print("  always_comb", file=f)
+        print("    for (int i = 0; i < %s; i++) begin" % cnt, file=f)
+        print("      pos = %s;" % (pos_imm if sci else pos_rs2), file=f)
+        if shuffle2:
+            print(f"      if (rvfi_rs2_rdata[i*{bits} + {int(cnt)>>1}])", file=f)
+        print("      result[i*%s +: %s] = rvfi_rs1_rdata[pos*%s +: %s];" % (bits, bits, bits, bits), file=f)
+        if shuffle2:
+            print(f"      else", file=f)
+            print("      result[i*%s +: %s] = rvfi_rs3_rdata[pos*%s +: %s];" % (bits, bits, bits, bits), file=f)
+        print("    end", file=f)
+        
+        if hnb and sci:
+            print("  wire flag = rvfi_insn[24:21] == 4'b0;", file=f)
+        elif sci:
+            print("  wire flag = 1'b1;", file=f)
+        else:
+            print("  wire flag = rvfi_insn[25] == 1'b0;", file=f)
+        assign(f, "spec_valid", "rvfi_valid && !insn_padding && flag && insn_funct5 == 5'b%s && insn_funct1 == 1'b0 && insn_funct3 == 3'b%s && insn_opcode == %s" % (funct5, funct3, opcode_cv3))
+        
+        assign(f, "spec_rs1_addr", "insn_rs1")
+        if not sci:
+            assign(f, "spec_rs2_addr", "insn_rs2")
+        if shuffle2:
+            assign(f, "spec_rs3_addr", "insn_rd")
+        assign(f, "spec_rd_addr", "insn_rd")
+        assign(f, "spec_rd_wdata", "spec_rd_addr ? result : 0")
+        assign_pc_wdata(f)
+
+        footer(f)
+
+def insn_cv_simd_pack(insn, funct5, funct3, hnb=True, hinlo=True, misa=MISA_X):
+    with open("insn_%s.v" % insn, "w") as f:
+        header(f, insn)
+        format_simd(f)
+        misa_check(f, misa)
+        
+        print("", file=f)
+        print("  // %s instruction" % insn.upper(), file=f)
+        
+        print("  int pos;", file=f)
+        print("  reg [31:0] result;", file=f)
+        print("  always_comb begin", file=f)
+        if hnb:
+            print("      pos = %s;" % (16 if hinlo else 0), file=f)
+            print("      result[15: 0] = rvfi_rs2_rdata[pos +: 16];", file=f)
+            print("      result[31:16] = rvfi_rs1_rdata[pos +: 16];", file=f)
+        else:
+            print("      result = rvfi_rs3_rdata;", file=f)
+            print("      pos = %d;" % (16 if hinlo else 0), file=f)
+            print("      result[pos +: 8] = rvfi_rs2_rdata[0 +: 8];", file=f)
+            print("      result[(8+pos) +: 8] = rvfi_rs1_rdata[0 +: 8];", file=f)
+        print("  end", file=f)
+        
+        print("  wire flag = rvfi_insn[25] == 1'b%d;" % (1 if hinlo else 0), file=f)
+        assign(f, "spec_valid", "rvfi_valid && !insn_padding && flag && insn_funct5 == 5'b%s && insn_funct1 == 1'b0 && insn_funct3 == 3'b%s && insn_opcode == %s" % (funct5, funct3, opcode_cv3))
+        
+        assign(f, "spec_rs1_addr", "insn_rs1")
+        assign(f, "spec_rs2_addr", "insn_rs2")
+        if not hnb:
+            assign(f, "spec_rs3_addr", "insn_rd")
+        assign(f, "spec_rd_addr", "insn_rd")
+        assign(f, "spec_rd_wdata", "spec_rd_addr ? result : 0")
+        assign_pc_wdata(f)
+
+        footer(f)
+
+def insn_cv_cplxmul(insn, funct5, funct3, rni=True, shift=15, alt_add=None, alt_sub=None, misa=MISA_X):
+    with open("insn_%s.v" % insn, "w") as f:
+        header(f, insn)
+        format_simd(f)
+        misa_check(f, misa)
+        
+        print("", file=f)
+        print("  // %s instruction" % insn.upper(), file=f)
+        
+        if alt_add is not None or alt_sub is not None:
+            print("`ifdef RISCV_FORMAL_ALTOPS", file=f)
+            if alt_add is not None:
+                print("  wire [31:0] altops_bitmask = 64'h%016x;" % (alt_add), file=f)
+                print("  wire [31:0] result = ((rvfi_rs1_rdata + rvfi_rs2_rdata) | rvfi_rs3_rdata) ^ altops_bitmask;", file=f)
+            else:
+                print("  wire [31:0] altops_bitmask = 64'h%016x;" % (alt_sub), file=f)
+                print("  wire [31:0] result = ((rvfi_rs1_rdata - rvfi_rs2_rdata) | rvfi_rs3_rdata) ^ altops_bitmask;", file=f)
+            print("`else", file=f)
+            
+        print("  wire [31:0] result;", file=f)
+        print("  wire [15:0] rs1_re = rvfi_rs1_rdata[15: 0];", file=f)
+        print("  wire [15:0] rs1_im = rvfi_rs1_rdata[31:16];", file=f)
+        print("  wire [15:0] rs2_re = rvfi_rs2_rdata[15: 0];", file=f)
+        print("  wire [15:0] rs2_im = rvfi_rs2_rdata[31:16];", file=f)
+        if rni:
+            print("  wire [31:0] product = $signed(rs1_re)*$signed(rs2_re) - $signed(rs1_im)*$signed(rs2_im);", file=f)
+            print("  assign result[31:16] = rvfi_rs3_rdata[31:16];", file=f)
+            print("  assign result[15: 0] = $signed(product) >>> %d;" % shift, file=f)
+        else:
+            print("  wire [31:0] product = $signed(rs1_re)*$signed(rs2_im) + $signed(rs1_im)*$signed(rs2_re);", file=f)
+            print("  assign result[31:16] = $signed(product) >>> %d;" % shift, file=f)
+            print("  assign result[15: 0] = rvfi_rs3_rdata[15: 0];", file=f)
+        
+        if alt_add is not None or alt_sub is not None:
+            print("`endif", file=f)
+        
+        print("  wire flag = rvfi_insn[25] == 1'b%d;" % (0 if rni else 1), file=f)
+        assign(f, "spec_valid", "rvfi_valid && !insn_padding && flag && insn_funct5 == 5'b%s && insn_funct1 == 1'b1 && insn_funct3 == 3'b%s && insn_opcode == %s" % (funct5, funct3, opcode_cv3))
+        
+        assign(f, "spec_rs1_addr", "insn_rs1")
+        assign(f, "spec_rs2_addr", "insn_rs2")
+        assign(f, "spec_rs3_addr", "insn_rd")
+        assign(f, "spec_rd_addr", "insn_rd")
+        assign(f, "spec_rd_wdata", "spec_rd_addr ? result : 0")
+        assign_pc_wdata(f)
+
+        footer(f)
+
+def insn_cv_cplxconj(insn, misa=MISA_X):
+    with open("insn_%s.v" % insn, "w") as f:
+        header(f, insn)
+        format_simd(f)
+        misa_check(f, misa)
+        
+        print("", file=f)
+        print("  // %s instruction" % insn.upper(), file=f)
+        
+        print("  wire [31:0] result;", file=f)
+        print("  assign result[31:16] = - rvfi_rs1_rdata[31:16];", file=f)
+        print("  assign result[15: 0] = rvfi_rs1_rdata[15: 0];", file=f)
+        
+        print("  wire flag = rvfi_insn[25:20] == 6'b0;", file=f)
+        assign(f, "spec_valid", "rvfi_valid && !insn_padding && flag && insn_funct5 == 5'b0_1011 && insn_funct1 == 1'b1 && insn_funct3 == 3'b000 && insn_opcode == %s" % (opcode_cv3))
+        
+        assign(f, "spec_rs1_addr", "insn_rs1")
+        assign(f, "spec_rd_addr", "insn_rd")
+        assign(f, "spec_rd_wdata", "spec_rd_addr ? result : 0")
+        assign_pc_wdata(f)
+
+        footer(f)
+
+def insn_cv_cplxaddsub(insn, funct5, funct3, rot=False, shift=0, sign="", misa=MISA_X):
+    with open("insn_%s.v" % insn, "w") as f:
+        header(f, insn)
+        format_simd(f)
+        misa_check(f, misa)
+        
+        if rot:
+            assert (shift in [0, 1, 2, 3]), "Invalid shift value."
+        else:
+            assert (shift in [1, 2, 3]), "Invalid shift value."
+        
+        print("", file=f)
+        print("  // %s instruction" % insn.upper(), file=f)
+        
+        print("  wire [15:0] rs1_re = rvfi_rs1_rdata[15: 0];", file=f)
+        print("  wire [15:0] rs1_im = rvfi_rs1_rdata[31:16];", file=f)
+        print("  wire [15:0] rs2_re = rvfi_rs2_rdata[15: 0];", file=f)
+        print("  wire [15:0] rs2_im = rvfi_rs2_rdata[31:16];", file=f)
+        print("  wire [15:0] res_re;", file=f)
+        print("  wire [15:0] res_im;", file=f)
+        if rot:
+            print("  assign res_im = rs2_re - rs1_re;", file=f)
+            print("  assign res_re = rs1_im - rs2_im;", file=f)
+        else:
+            print("  assign res_im = rs1_im %s rs2_im;" % sign, file=f)
+            print("  assign res_re = rs1_re %s rs2_re;" % sign, file=f)
+        print("  wire [31:0] result;", file=f)
+        print("  assign result[31:16] = $signed(res_im) >>> %d;" % shift, file=f)
+        print("  assign result[15: 0] = $signed(res_re) >>> %d;" % shift, file=f)
+        
+        print("  wire flag = rvfi_insn[25] == 1'b0;", file=f)
+        assign(f, "spec_valid", "rvfi_valid && !insn_padding && flag && insn_funct5 == 5'b%s && insn_funct1 == 1'b1 && insn_funct3 == 3'b%s && insn_opcode == %s" % (funct5, funct3, opcode_cv3))
+        
+        assign(f, "spec_rs1_addr", "insn_rs1")
+        assign(f, "spec_rs2_addr", "insn_rs2")
+        assign(f, "spec_rd_addr", "insn_rd")
+        assign(f, "spec_rd_wdata", "spec_rd_addr ? result : 0")
+        assign_pc_wdata(f)
+
+        footer(f)
+
 #### ================   XPULP - END   ================ ####
 
 ## Base Integer ISA (I)
@@ -2920,6 +3479,151 @@ if core_version == "v1.8.2":
     # Immediate Branching operations
     insn_cv_b("cv_beqimm", "110", "(rvfi_rs1_rdata == insn_imm5)")
     insn_cv_b("cv_bneimm", "111", "(rvfi_rs1_rdata != insn_imm5)")
+    
+    # Half-word multiply operations with post shift
+    insn_cv_mac16("cv_muluN"   , "00", "101", u=True , h=False, R=False, ac=False, alt_add=0x2cdf52a55876063e)
+    insn_cv_mac16("cv_mulhhuN" , "01", "101", u=True , h=True , R=False, ac=False, alt_add=0x2cdf52a55876063e)
+    insn_cv_mac16("cv_mulsN"   , "00", "100", u=False, h=False, R=False, ac=False, alt_add=0x15d01651f6583fb7)
+    insn_cv_mac16("cv_mulhhsN" , "01", "100", u=False, h=True , R=False, ac=False, alt_add=0x15d01651f6583fb7)
+    insn_cv_mac16("cv_muluRN"  , "10", "101", u=True , h=False, R=True , ac=False, alt_add=0xea3969edecfbe137)
+    insn_cv_mac16("cv_mulhhuRN", "11", "101", u=True , h=True , R=True , ac=False, alt_add=0xea3969edecfbe137)
+    insn_cv_mac16("cv_mulsRN"  , "10", "100", u=False, h=False, R=True , ac=False, alt_add=0xd13db50d949ce5e8)
+    insn_cv_mac16("cv_mulhhsRN", "11", "100", u=False, h=True , R=True , ac=False, alt_add=0xd13db50d949ce5e8)
+    
+    # Half-word multiply-accumulate operations with post shift
+    insn_cv_mac16("cv_macuN"   , "00", "111", u=True , h=False, R=False, ac=True , alt_add=0x2cdf52a55876063e)
+    insn_cv_mac16("cv_machhuN" , "01", "111", u=True , h=True , R=False, ac=True , alt_add=0x2cdf52a55876063e)
+    insn_cv_mac16("cv_macsN"   , "00", "110", u=False, h=False, R=False, ac=True , alt_add=0x15d01651f6583fb7)
+    insn_cv_mac16("cv_machhsN" , "01", "110", u=False, h=True , R=False, ac=True , alt_add=0x15d01651f6583fb7)
+    insn_cv_mac16("cv_macuRN"  , "10", "111", u=True , h=False, R=True , ac=True , alt_add=0xea3969edecfbe137)
+    insn_cv_mac16("cv_machhuRN", "11", "111", u=True , h=True , R=True , ac=True , alt_add=0xea3969edecfbe137)
+    insn_cv_mac16("cv_macsRN"  , "10", "110", u=False, h=False, R=True , ac=True , alt_add=0xd13db50d949ce5e8)
+    insn_cv_mac16("cv_machhsRN", "11", "110", u=False, h=True , R=True , ac=True , alt_add=0xd13db50d949ce5e8)
+    
+    # Word multiply-accumulate operations
+    insn_cv_mac32("cv_mac", "100_1000", sign="+", alt_add=0x2cdf52a55876063e)
+    insn_cv_mac32("cv_msu", "100_1001", sign="-", alt_sub=0x2cdf52a55876063e)
+    
+    # Vectorial operations (SIMD) - ALU
+    op_vec = [ #  insn      expression                                                imms    funct5
+                ["add" , "op1[i] + op2[i]"                                          , True , "0_0000"],
+                ["sub" , "op1[i] - op2[i]"                                          , True , "0_0001"],
+                ["avg" , "$signed(op1[i] + op2[i]) >>> 1"                           , True , "0_0010"],
+                ["avgu", "(op1[i] + op2[i]) >> 1"                                   , False, "0_0011"],
+                ["min" , "($signed(op1[i]) < $signed(op2[i])) ? (op1[i]) : (op2[i])", True , "0_0100"],
+                ["minu", "(op1[i] < op2[i]) ? (op1[i]) : (op2[i])"                  , False, "0_0101"],
+                ["max" , "($signed(op1[i]) > $signed(op2[i])) ? (op1[i]) : (op2[i])", True , "0_0110"],
+                ["maxu", "(op1[i] > op2[i]) ? (op1[i]) : (op2[i])"                  , False, "0_0111"],
+                ["srl" , "op1[i] >> op2[i]"                                         , False, "0_1000"],
+                ["sra" , "$signed(op1[i]) >>> op2[i]"                               , False, "0_1001"],
+                ["sll" , "op1[i] << op2[i]"                                         , False, "0_1010"],
+                ["or"  , "op1[i] | op2[i]"                                          , True , "0_1011"],
+                ["xor" , "op1[i] ^ op2[i]"                                          , True , "0_1100"],
+                ["and" , "op1[i] & op2[i]"                                          , True , "0_1101"]]
+    for op in op_vec:
+        for hnb in [True, False]:
+            for sc in [True, False]:
+                for i in ([True, False] if sc else [False]):
+                    insn   = "cv_"+op[0]+("_sc" if sc else "")+("i" if i else "")+"_"+("h" if hnb else "b")
+                    funct5 = op[3]
+                    funct1 = "0"
+                    funct3 = str(int(sc))+str(int(i))+str(int(not hnb))
+                    expr   = op[1]
+                    imms   = op[2]
+                    sh     = (op[0] in ["srl", "sra", "sll"])
+                    insn_cv_simd_alu(insn, funct5, funct1, funct3, expr, hnb, sc, i, imms, sh)
+    insn_cv_simd_alu("cv_abs_h", "0_1110", "0", "000", "($signed(op1[i]) < 0) ? (-op1[i]) : (op1[i])", hnb=True , sc=False, i=False, imms=False, sh=False, zero_bits="25:20")
+    insn_cv_simd_alu("cv_abs_b", "0_1110", "0", "001", "($signed(op1[i]) < 0) ? (-op1[i]) : (op1[i])", hnb=False, sc=False, i=False, imms=False, sh=False, zero_bits="25:20")
+
+    # Vectorial operations (SIMD) - Bit Manipulation
+    insn_cv_simd_ext_ins("cv_extract_h" , "000", hnb=True , eni=True , u=False)
+    insn_cv_simd_ext_ins("cv_extract_b" , "001", hnb=False, eni=True , u=False)
+    insn_cv_simd_ext_ins("cv_extractu_h", "010", hnb=True , eni=True , u=True )
+    insn_cv_simd_ext_ins("cv_extractu_b", "011", hnb=False, eni=True , u=True )
+    insn_cv_simd_ext_ins("cv_insert_h"  , "100", hnb=True , eni=False, u=False)
+    insn_cv_simd_ext_ins("cv_insert_b"  , "101", hnb=False, eni=False, u=False)
+    
+    # Vectorial operations (SIMD) - Dot Product
+    op_vec = [ #  insn      imms   rs1s    ac     funct5
+                ["dotup"  , False, False, False, "1_0000"],
+                ["dotusp" , True , False, False, "1_0001"],
+                ["dotsp"  , True , True , False, "1_0010"],
+                ["sdotup" , False, False, True , "1_0011"],
+                ["sdotusp", True , False, True , "1_0100"],
+                ["sdotsp" , True , True , True , "1_0101"]]
+    for op in op_vec:
+        for hnb in [True, False]:
+            for sc in [True, False]:
+                for i in ([True, False] if sc else [False]):
+                    insn   = "cv_"+op[0]+("_sc" if sc else "")+("i" if i else "")+"_"+("h" if hnb else "b")
+                    funct5 = op[4]
+                    funct3 = str(int(sc))+str(int(i))+str(int(not hnb))
+                    imms   = op[1]
+                    rs1s   = op[2]
+                    ac = op[3]
+                    insn_cv_simd_dot(insn, funct5, funct3, hnb, sc, i, imms, rs1s, ac, alt_add=0x15d01651f6583fb7)
+    
+    # Vectorial operations (SIMD) - Shuffle and Pack
+    insn_cv_simd_shu("cv_shuffle_h"      , "1_1000", "000", hnb=True , sci=False)
+    insn_cv_simd_shu("cv_shuffle_sci_h"  , "1_1000", "110", hnb=True , sci=True )
+    insn_cv_simd_shu("cv_shuffle_b"      , "1_1000", "001", hnb=False, sci=False)
+    insn_cv_simd_shu("cv_shuffleI0_sci_b", "1_1000", "111", hnb=False, sci=True , shuffleI=0)
+    insn_cv_simd_shu("cv_shuffleI1_sci_b", "1_1001", "111", hnb=False, sci=True , shuffleI=1)
+    insn_cv_simd_shu("cv_shuffleI2_sci_b", "1_1010", "111", hnb=False, sci=True , shuffleI=2)
+    insn_cv_simd_shu("cv_shuffleI3_sci_b", "1_1011", "111", hnb=False, sci=True , shuffleI=3)
+    insn_cv_simd_shu("cv_shuffle2_h"     , "1_1100", "000", hnb=True , sci=False, shuffle2=True)
+    insn_cv_simd_shu("cv_shuffle2_b"     , "1_1100", "001", hnb=False, sci=False, shuffle2=True)
+    insn_cv_simd_pack("cv_pack"          , "1_1110", "000", hnb=True , hinlo=False)
+    insn_cv_simd_pack("cv_pack_h"        , "1_1110", "000", hnb=True , hinlo=True )
+    insn_cv_simd_pack("cv_packhi_b"      , "1_1111", "001", hnb=False, hinlo=True )
+    insn_cv_simd_pack("cv_packlo_b"      , "1_1111", "001", hnb=False, hinlo=False)
+    
+    # Vectorial operations (SIMD) - Comparison
+    op_vec = [ #  insn        expression                                         imms    funct5
+                ["cmpeq" , "($signed(op1[i]) == $signed(op2[i])) ? ('1) : ('0)", True , "0_0000"], # 0 0000
+                ["cmpne" , "($signed(op1[i]) != $signed(op2[i])) ? ('1) : ('0)", True , "0_0001"], # 0 0001
+                ["cmpgt" , "($signed(op1[i]) >  $signed(op2[i])) ? ('1) : ('0)", True , "0_0010"], # 0 0010
+                ["cmpge" , "($signed(op1[i]) >= $signed(op2[i])) ? ('1) : ('0)", True , "0_0011"], # 0 0011
+                ["cmplt" , "($signed(op1[i]) <  $signed(op2[i])) ? ('1) : ('0)", True , "0_0100"], # 0 0100
+                ["cmple" , "($signed(op1[i]) <= $signed(op2[i])) ? ('1) : ('0)", True , "0_0101"], # 0 0101
+                ["cmpgtu", "(op1[i] >  op2[i]) ? ('1) : ('0)"                  , False, "0_0110"], # 0 0110
+                ["cmpgeu", "(op1[i] >= op2[i]) ? ('1) : ('0)"                  , False, "0_0111"], # 0 0111
+                ["cmpltu", "(op1[i] <  op2[i]) ? ('1) : ('0)"                  , False, "0_1000"], # 0 1000
+                ["cmpleu", "(op1[i] <= op2[i]) ? ('1) : ('0)"                  , False, "0_1001"]] # 0 1001
+    for op in op_vec:
+        for hnb in [True, False]:
+            for sc in [True, False]:
+                for i in ([True, False] if sc else [False]):
+                    insn   = "cv_"+op[0]+("_sc" if sc else "")+("i" if i else "")+"_"+("h" if hnb else "b")
+                    funct5 = op[3]
+                    funct1 = "1"
+                    funct3 = str(int(sc))+str(int(i))+str(int(not hnb))
+                    expr   = op[1]
+                    imms   = op[2]
+                    sh     = False
+                    insn_cv_simd_alu(insn, funct5, funct1, funct3, expr, hnb, sc, i, imms, sh)
+    
+    # Vectorial operations (SIMD) - Complex-number operations
+    insn_cv_cplxmul  ("cv_cplxmul_r"     , "0_1010", "000", rni=True , shift=15, alt_add=0xd13db50d949ce5e8)
+    insn_cv_cplxmul  ("cv_cplxmul_r_div2", "0_1010", "010", rni=True , shift=16, alt_add=0xd13db50d949ce5e8)
+    insn_cv_cplxmul  ("cv_cplxmul_r_div4", "0_1010", "100", rni=True , shift=17, alt_add=0xd13db50d949ce5e8)
+    insn_cv_cplxmul  ("cv_cplxmul_r_div8", "0_1010", "110", rni=True , shift=18, alt_add=0xd13db50d949ce5e8)
+    insn_cv_cplxmul  ("cv_cplxmul_i"     , "0_1010", "000", rni=False, shift=15, alt_sub=0xea3969edecfbe137)
+    insn_cv_cplxmul  ("cv_cplxmul_i_div2", "0_1010", "010", rni=False, shift=16, alt_sub=0xea3969edecfbe137)
+    insn_cv_cplxmul  ("cv_cplxmul_i_div4", "0_1010", "100", rni=False, shift=17, alt_sub=0xea3969edecfbe137)
+    insn_cv_cplxmul  ("cv_cplxmul_i_div8", "0_1010", "110", rni=False, shift=18, alt_sub=0xea3969edecfbe137)
+    insn_cv_cplxconj ("cv_cplxconj")
+    insn_cv_cplxaddsub("cv_subrotmj"     , "0_1100", "000", rot=True , shift=0)
+    insn_cv_cplxaddsub("cv_subrotmj_div2", "0_1100", "010", rot=True , shift=1)
+    insn_cv_cplxaddsub("cv_subrotmj_div4", "0_1100", "100", rot=True , shift=2)
+    insn_cv_cplxaddsub("cv_subrotmj_div8", "0_1100", "110", rot=True , shift=3)
+    insn_cv_cplxaddsub("cv_add_div2"     , "0_1101", "010", rot=False, shift=1, sign="+")
+    insn_cv_cplxaddsub("cv_add_div4"     , "0_1101", "100", rot=False, shift=2, sign="+")
+    insn_cv_cplxaddsub("cv_add_div8"     , "0_1101", "110", rot=False, shift=3, sign="+")
+    insn_cv_cplxaddsub("cv_sub_div2"     , "0_1110", "010", rot=False, shift=1, sign="-")
+    insn_cv_cplxaddsub("cv_sub_div4"     , "0_1110", "100", rot=False, shift=2, sign="-")
+    insn_cv_cplxaddsub("cv_sub_div8"     , "0_1110", "110", rot=False, shift=3, sign="-")
+    
     
     
     

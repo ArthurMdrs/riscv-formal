@@ -182,6 +182,11 @@ module rvfi_wrapper (
         end
     end
     
+`ifdef CV32P_PC_FWD
+    ASM_no_hwlp_0: assume property (core_top_i.core_i.hwlp_cnt[0] == '0);
+    ASM_no_hwlp_1: assume property (core_top_i.core_i.hwlp_cnt[1] == '0);
+`endif
+    
     
     
     // always @(posedge clock) begin
