@@ -1,3 +1,6 @@
 [submodule "cores/cv32e40p_v1.8.2/cv32e40p"]
 	path = cores/cv32e40p_v1.8.2/cv32e40p
 	url = https://github.com/ArthurMdrs/cv32e40p.git
+[submodule "cores/risc-x/RISC-X"]
+	path = cores/risc-x/RISC-X
+	url = https://github.com/ArthurMdrs/RISC-X.git

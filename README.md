@@ -4,11 +4,23 @@ RISC-V Formal Verification Framework - Pulpissimo Edition
 
 **This is work in progress.**
 
-This is a modified version of RISC-V Formal Verification Framework, adapted to work with Pulpissimo's custom ISA extension, xpulp. Specifically, the version used in Pulpissimo v7.0.0.
+This is a modified version of RISC-V Formal Verification Framework, adapted to work with OpenHW's CV32E40P core and its CORE-V custom extensions.
+
+Previously, we have worked on CV32E40P's version used in Pulpissimo v7.0.0, when the custom extension was called XPULP. That can be found in `cores/cv32e40p`. We have shifted focus, and, currently, we are working on version 1.8.2, which can be found in `cores/cv32e40p_v1.8.2`.
 
 You will find the original README after this section.
 
-To generate the macros and instruction checks for the xpulp extension, open the terminal in this directory and run:
+The tool should still normally work with cores that do not implement the CORE-V extensions. By default, the added macros and instruction checks for the custom extensions are present in this repository. To revert to original settings, open the terminal in this directory and run:
+
+```
+RVFORMAL_ROOT=$(pwd)
+cd $RVFORMAL_ROOT/checks
+python3.11 rvfi_macros.py > rvfi_macros.vh
+cd $RVFORMAL_ROOT/insns
+python3.11 generate.py
+```
+
+To generate the macros and instruction checks for the custom extensions:
 
 ```
 RVFORMAL_ROOT=$(pwd)
@@ -20,16 +32,6 @@ python3.11 generate_xpulp.py
 
 Obs.: You don't need Python3.11, any version of Python from 3.7 and up should be fine.
 
-To revert to original settings:
-
-```
-RVFORMAL_ROOT=$(pwd)
-cd $RVFORMAL_ROOT/checks
-python3.11 rvfi_macros.py > rvfi_macros.vh
-cd $RVFORMAL_ROOT/insns
-python3.11 generate.py
-```
-
 Adapted checkers: 
 
 - rvfi_insn_check
@@ -38,16 +40,42 @@ Adapted checkers:
 
 What has been adapted:
 
-- Addition of rs3 (used in some xpulp instructions).
+- Addition of rs3 (used in some core-v instructions).
 - Addition of rd for post-increments (used in post-incrementing stores/loads).
-- Addition of is_hwlp to indicate the last instruction in a hardware loop. WIP DOES NOT WORK
-- Addition of hwlp_start to indicate the PC of the first instruction in a hardware loop. WIP DOES NOT WORK
-- Named all assumptions, assertions and covers for better debugging.
+- Addition of is_hwlp to indicate the last instruction in a hardware loop.
+- Addition of hwlp_start to signal the first instruction in a hardware loop.
+- Named all assumptions, assertions and covers in the adapted checkers for easier debugging.
 
-v1.8.2 files changed:
-- top and core
+CV32E40P v1.8.2 RTL files changed:
+- top and core (to add RVFI)
 - mult (altops)
 - alu (altops for div/rem)
+
+Alternative arithmetic operations were implemented for the CORE-V instructions that involve multiplication. They are listed in the table below, where op1 is rs1, op3 is rd (output to RVFI as rs3) and shamt is encoded in the ls3 field of cv_mul.* and cv_mac.* instructions. op2 can be: 
+- cv_muluN, cv_muluRN, cv_macuN, cv_macuRN: Zext(rs2[15:0]).
+- cv_mulhhuN, cv_mulhhuRN, cv_machhuN, cv_machhuRN: Zext(rs2[31:16]).
+- cv_mulsN, cv_mulsRN, cv_macsN, cv_macsRN: Sext(rs2[15:0]).
+- cv_mulhhsN, cv_mulhhsRN, cv_machhsN, cv_machhsRN: Sext(rs2[31:16]).
+- cv_dot.\*, cv_sdot.\*: rs2, scalar replication of rs2 or scalar replication of immediate.
+- mac, msu, cv_cplxmul_r.\*, cv_cplxmul_i.\*: rs2.
+
+| Instructions           |  Operation                             |      Bitmask       |
+|:----------------------:|:--------------------------------------:|:------------------:|
+| cv_muluN, cv_mulhhuN   |  ((op1 + op2) >> shamt) ^ mask         | 0x2cdf52a55876063e | 
+| cv_mulsN, cv_mulhhsN   |  ((op1 + op2) >> shamt) ^ mask         | 0x15d01651f6583fb7 |
+| cv_muluRN, cv_mulhhuRN |  ((op1 + op2) >> shamt) ^ mask         | 0xea3969edecfbe137 |
+| cv_mulsRN, cv_mulhhsRN |  ((op1 + op2) >> shamt) ^ mask         | 0xd13db50d949ce5e8 |
+| cv_macuN, cv_machhuN   | (((op1 + op2) & op3) >> shamt) ^ mask  | 0x2cdf52a55876063e |
+| cv_macsN, cv_machhsN   | (((op1 + op2) & op3) >> shamt) ^ mask  | 0x15d01651f6583fb7 |
+| cv_macuRN, cv_machhuRN | (((op1 + op2) & op3) >> shamt) ^ mask  | 0xea3969edecfbe137 |
+| cv_macsRN, cv_machhsRN | (((op1 + op2) & op3) >> shamt) ^ mask  | 0xd13db50d949ce5e8 |
+| cv_mac                 |  ((op1 + op2) \| op3) ^ mask           | 0x2cdf52a55876063e |
+| cv_msu                 |  ((op1 - op2) \| op3) ^ mask           | 0x2cdf52a55876063e |
+| cv_dot.*               |   (op1 + op2) ^ mask                   | 0x15d01651f6583fb7 |
+| cv_sdot.*              |  ((op1 + op2) ^ op3) ^ mask            | 0x15d01651f6583fb7 |
+| cv_cplxmul_r.*         |  ((op1 + op2) \| op3) ^ mask           | 0xd13db50d949ce5e8 |
+| cv_cplxmul_i.*         |  ((op1 - op2) \| op3) ^ mask           | 0xea3969edecfbe137 |
+
 
 RISC-V Formal Verification Framework
 ====================================
