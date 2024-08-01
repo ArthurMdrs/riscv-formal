@@ -1,34 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <wavelist version="3">
-  <insertion-point-position>53</insertion-point-position>
+  <insertion-point-position>5</insertion-point-position>
   <wave>
     <expr>clock</expr>
     <label/>
     <radix/>
   </wave>
+  <wave>
+    <expr>checker_inst.csr_illacc</expr>
+    <label/>
+    <radix/>
+  </wave>
+  <wave collapsed="true">
+    <expr>checker_inst.rvfi.mode</expr>
+    <label/>
+    <radix/>
+  </wave>
+  <wave collapsed="true">
+    <expr>checker_inst.csr_insn_rmask</expr>
+    <label/>
+    <radix/>
+  </wave>
+  <wave collapsed="true">
+    <expr>checker_inst.csr_insn_rdata</expr>
+    <label/>
+    <radix>wrapper.rvfi_inst.rs1_or_fwd_id</radix>
+  </wave>
   <group collapsed="false">
     <expr/>
     <label>rvfi_valid</label>
-    <wave>
-      <expr>wrapper.core_inst.valid_if</expr>
-      <label/>
-      <radix/>
-    </wave>
-    <wave>
-      <expr>wrapper.core_inst.valid_id</expr>
-      <label/>
-      <radix/>
-    </wave>
-    <wave>
-      <expr>wrapper.core_inst.valid_ex</expr>
-      <label/>
-      <radix/>
-    </wave>
-    <wave>
-      <expr>wrapper.core_inst.valid_mem</expr>
-      <label/>
-      <radix/>
-    </wave>
     <wave>
       <expr>wrapper.rvfi_inst.rvfi_valid_id</expr>
       <label/>
@@ -53,11 +53,6 @@
   <group collapsed="false">
     <expr/>
     <label>Instr</label>
-    <wave collapsed="true">
-      <expr>wrapper.core_inst.instr_if</expr>
-      <label/>
-      <radix/>
-    </wave>
     <wave collapsed="true">
       <expr>wrapper.rvfi_inst.instr_id</expr>
       <label/>
@@ -93,17 +88,7 @@
       <radix/>
     </wave>
     <wave>
-      <expr>wrapper.core_inst.trap_id</expr>
-      <label/>
-      <radix/>
-    </wave>
-    <wave>
-      <expr>wrapper.core_inst.trap_ex</expr>
-      <label/>
-      <radix/>
-    </wave>
-    <wave>
-      <expr>wrapper.rvfi_inst.rvfi_trap_ex</expr>
+      <expr>wrapper.rvfi_inst.trap_ex</expr>
       <label/>
       <radix/>
     </wave>
@@ -254,11 +239,6 @@
       <radix/>
     </wave>
     <wave collapsed="true">
-      <expr>wrapper.core_inst.if_stage_inst.pc_if_n</expr>
-      <label/>
-      <radix/>
-    </wave>
-    <wave collapsed="true">
       <expr>wrapper.rvfi_inst.pc_if</expr>
       <label/>
       <radix/>
@@ -308,74 +288,8 @@
       <radix>wrapper.rvfi_inst.rs1_or_fwd_id</radix>
     </wave>
   </group>
-  <group collapsed="false">
-    <expr/>
-    <label>Spec</label>
-    <wave collapsed="true">
-      <expr>checker_inst.insn_spec.spec_rd_addr</expr>
-      <label/>
-      <radix/>
-    </wave>
-    <wave collapsed="true">
-      <expr>checker_inst.insn_spec.spec_rd_wdata</expr>
-      <label/>
-      <radix>wrapper.rvfi_inst.rs1_or_fwd_id</radix>
-    </wave>
-    <wave collapsed="true">
-      <expr>checker_inst.insn_spec.spec_rs1_addr</expr>
-      <label/>
-      <radix/>
-    </wave>
-    <wave collapsed="true">
-      <expr>checker_inst.insn_spec.spec_rs2_addr</expr>
-      <label/>
-      <radix/>
-    </wave>
-    <wave collapsed="true">
-      <expr>checker_inst.insn_spec.spec_pc_wdata</expr>
-      <label/>
-      <radix/>
-    </wave>
-    <wave>
-      <expr>checker_inst.insn_spec.spec_trap</expr>
-      <label/>
-      <radix/>
-    </wave>
-  </group>
-  <group collapsed="false">
-    <expr/>
-    <label>Spec mem</label>
-    <wave collapsed="true">
-      <expr>checker_inst.insn_spec.spec_mem_rmask</expr>
-      <label/>
-      <radix/>
-    </wave>
-    <wave collapsed="true">
-      <expr>checker_inst.insn_spec.spec_mem_wmask</expr>
-      <label/>
-      <radix/>
-    </wave>
-    <wave collapsed="true">
-      <expr>checker_inst.insn_spec.spec_mem_wdata</expr>
-      <label/>
-      <radix/>
-    </wave>
-    <wave collapsed="true">
-      <expr>checker_inst.insn_spec.spec_mem_addr</expr>
-      <label/>
-      <radix>wrapper.rvfi_inst.rs1_or_fwd_id</radix>
-    </wave>
-  </group>
   <highlightlist>
     <!--Users can remove the highlightlist block if they want to load the signal save file into older version of Jasper-->
-    <highlight>
-      <expr>checker_inst.insn_spec.spec_pc_wdata</expr>
-      <color>#beffc0</color>
-    </highlight>
-    <highlight>
-      <expr>checker_inst.insn_spec.spec_rd_addr</expr>
-      <color>#beffc0</color>
-    </highlight>
     <highlight>
       <expr>wrapper.rvfi_inst.instr_wb</expr>
       <color>#ff8787</color>

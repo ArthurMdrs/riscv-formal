@@ -1,14 +1,13 @@
 VCD = ./violation.vcd
 BATCH = -batch
 TOOL = jg
+CORE = RISC-X
 
-# .SILENT:
-
-run: run_checks
+run: checks.cfg run_checks
 
 run_checks:
-	@$(eval TIME_START = $(shell date))
 	@if [ ! -d checks ]; then $(MAKE) gen_jg BATCH=$(BATCH); fi
+	@$(eval TIME_START = $(shell date))
 	@make -C checks
 	@echo Proccess start: $(TIME_START)
 	@echo Proccess end  : $$(date)
@@ -36,11 +35,23 @@ summary:
 	@python3 gen_summary.py $(TOOL)
 	@if [ -e summary.txt ]; then echo Created file \"summary.txt\".; fi
 
-# core:
-# 	@echo "Updating submodules (the only submodule is the core)."
-# 	@git submodule update --init --recursive
+core:
+	@echo "Updating submodules (the only submodule is the core)."
+	@git submodule update --init --recursive
 
 isa:
 	@echo Generating instruction files in /path/to/riscv-formal/insns.
 	@cd ../../insns && rm -f *.v *.txt
 	@cd ../../insns && python3 generate.py
+
+checks.cfg: 
+	@if [ ! -d $(CORE) ]; then $(MAKE) core; fi
+	@cp $(CORE)/fv/checks.cfg ./checks.cfg
+
+cp_to_fv:
+	@if [ ! -d $(CORE) ]; then $(MAKE) core; fi
+	@cp *.sig checks.cfg $(CORE)/fv/
+
+cp_from_fv:
+	@if [ ! -d $(CORE) ]; then $(MAKE) core; fi
+	@cp $(CORE)/fv/*.sig $(CORE)/fv/checks.cfg ./

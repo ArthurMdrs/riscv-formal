@@ -146,6 +146,8 @@ module rvfi_wrapper (
     
     
     
+    default clocking default_clk @(posedge clk_i); endclocking
+    
     // No valid response without pending transaction
     reg [1:0] instr_trans_pnd;
     reg [1:0] data_trans_pnd ;
@@ -181,40 +183,53 @@ module rvfi_wrapper (
                 ASM_no_rvld_wo_pnd_data : assume (!data_rvalid_i );
         end
     end
-    
+
 `ifdef CV32P_PC_FWD
     ASM_no_hwlp_0: assume property (core_top_i.core_i.hwlp_cnt[0] == '0);
     ASM_no_hwlp_1: assume property (core_top_i.core_i.hwlp_cnt[1] == '0);
 `endif
-    
-    
-    
-    // always @(posedge clock) begin
-    //     // Don't allow the Pulp custom hardware loop instructions
-    //  ASM_no_hwloop_instr: assume (uut.if_stage_i.fetch_rdata[6:0] != OPCODE_HWLOOP);
-    //     // Don't allow hwloop CSRs access in a CSR instruction 
-    //     if (uut.if_stage_i.fetch_rdata[6:0] == OPCODE_SYSTEM && uut.if_stage_i.fetch_rdata[14:12] != 3'b0) // This is a CSR instruction
-    //      ASM_no_hwloop_csr_instr: assume (uut.if_stage_i.fetch_rdata[31:20] != 12'h7C0 && 
-    //                                          uut.if_stage_i.fetch_rdata[31:20] != 12'h7C1 && 
-    //                                          uut.if_stage_i.fetch_rdata[31:20] != 12'h7C2 && 
-    //                                          uut.if_stage_i.fetch_rdata[31:20] != 12'h7C4 && 
-    //                                          uut.if_stage_i.fetch_rdata[31:20] != 12'h7C5 && 
-    //                                          uut.if_stage_i.fetch_rdata[31:20] != 12'h7C6    );
-    // end
 
+`ifdef CV32P_REG_CHECK
+    import cv32e40p_pkg::*;
+    `define INSTR core_top_i.core_i.if_stage_i.instr_aligned
 
+    // Post-Increment Register-Immediate Load
+    parameter INSTR_CVLBI = {17'b?, 3'b000, 5'b?, OPCODE_CUSTOM_0};
+    parameter INSTR_CVLBUI = {17'b?, 3'b100, 5'b?, OPCODE_CUSTOM_0};
+    parameter INSTR_CVLHI = {17'b?, 3'b001, 5'b?, OPCODE_CUSTOM_0};
+    parameter INSTR_CVLHUI = {17'b?, 3'b101, 5'b?, OPCODE_CUSTOM_0};
+    parameter INSTR_CVLWI = {17'b?, 3'b010, 5'b?, OPCODE_CUSTOM_0};
 
-// `ifdef CV32P_REG_CHECK
-//     // Post-Incrementing Load instructions write to 2 registers
-//     // This breaks the register consistency check, that assumes 1 write per instruction
-//     always @(posedge clock) begin
-//         // Don't allow the Pulp custom Post-Incrementing Load instructions
-//         ASM_no_loadpost_instr: assume (uut.if_stage_i.fetch_rdata[6:0] != OPCODE_LOAD_POST);
-//         // Data memory errors will prevent valid from being raised, but post-increments still happen
-//         // Without valid, the reg check won't see the post-increment, causing an error
-//         ASM_no_data_error: assume (uut.data_err_pmp == 1'b0);
-//     end
-// `endif
+    // Post-Increment Register-Register Load
+    parameter INSTR_CVRRPOSTL = {7'b000?0??, 5'b?, 5'b?, 3'b011, 5'b?, OPCODE_CUSTOM_1};
+    
+    wire postincr_l = `INSTR inside {INSTR_CVLBI, INSTR_CVLBUI, INSTR_CVLHI, INSTR_CVLHUI, INSTR_CVLWI, INSTR_CVRRPOSTL};
+    ASM_no_post_load: assume property (!postincr_l);
+    
+    // Post-Increment Register-Immediate Store
+    parameter INSTR_CVSBI = {17'b?, 3'b000, 5'b?, OPCODE_CUSTOM_1};
+    parameter INSTR_CVSHI = {17'b?, 3'b001, 5'b?, OPCODE_CUSTOM_1};
+    parameter INSTR_CVSWI = {17'b?, 3'b010, 5'b?, OPCODE_CUSTOM_1};
+
+    // Post-Increment Register-Register Store operations encoding
+    parameter INSTR_CVRRPOSTS = {7'b00100??, 5'b?, 5'b?, 3'b011, 5'b?, OPCODE_CUSTOM_1};
+    
+    wire postincr_s = `INSTR inside {INSTR_CVSBI, INSTR_CVSHI, INSTR_CVSWI, INSTR_CVRRPOSTS};
+    ASM_no_post_store: assume property (!postincr_s);
+    
+    parameter INSTR_CVSTARTI = {12'b?, 5'b00000, 3'b100, 4'b0000, 1'b?, OPCODE_CUSTOM_1};
+    parameter INSTR_CVSTART = {12'b000000000000, 5'b?, 3'b100, 4'b0001, 1'b?, OPCODE_CUSTOM_1};
+    parameter INSTR_CVENDI = {12'b?, 5'b00000, 3'b100, 4'b0010, 1'b?, OPCODE_CUSTOM_1};
+    parameter INSTR_CVEND = {12'b000000000000, 5'b?, 3'b100, 4'b0011, 1'b?, OPCODE_CUSTOM_1};
+    parameter INSTR_CVCOUNTI = {12'b?, 5'b00000, 3'b100, 4'b0100, 1'b?, OPCODE_CUSTOM_1};
+    parameter INSTR_CVCOUNT = {12'b000000000000, 5'b?, 3'b100, 4'b0101, 1'b?, OPCODE_CUSTOM_1};
+    parameter INSTR_CVSETUPI = {17'b?, 3'b100, 4'b0110, 1'b?, OPCODE_CUSTOM_1};
+    parameter INSTR_CVSETUP = {12'b?, 5'b?, 3'b100, 4'b0111, 1'b?, OPCODE_CUSTOM_1};
+    
+    wire hwlp = `INSTR inside {INSTR_CVSTARTI, INSTR_CVSTART, INSTR_CVENDI, INSTR_CVEND,
+                               INSTR_CVCOUNTI, INSTR_CVCOUNT, INSTR_CVSETUPI, INSTR_CVSETUP};
+    ASM_no_hwlp: assume property (!hwlp);
+`endif
 
 endmodule
 
