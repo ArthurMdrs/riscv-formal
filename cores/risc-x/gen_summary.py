@@ -19,7 +19,10 @@ with open('summary.txt', 'w') as summary_file:
                             summary_file.write(line)
                             i += 1
                         if "counterexample" in line and tool == "jg":
-                            temp = line.split(":")[-1]
+                            temp = line.split(":", 2)[-1]
+                            summary_file.write(temp)
+                        if "proven unreachable" in line and tool == "jg":
+                            temp = line.split(":", 2)[-1]
                             summary_file.write(temp)
                         if "failed assertion" in line and tool == "sby":
                             summary_file.write(line)

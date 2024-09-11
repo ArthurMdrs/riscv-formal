@@ -50,8 +50,8 @@ checks.cfg:
 
 cp_to_fv:
 	@if [ ! -d $(CORE) ]; then $(MAKE) core; fi
-	@cp *.sig checks.cfg $(CORE)/fv/
+	@cp *.sig checks.cfg disasm.py gen_summary.py $(CORE)/fv/
 
 cp_from_fv:
 	@if [ ! -d $(CORE) ]; then $(MAKE) core; fi
-	@cp $(CORE)/fv/*.sig $(CORE)/fv/checks.cfg ./
+	@cp $(CORE)/fv/*.sig $(CORE)/fv/checks.cfg $(CORE)/fv/disasm.py $(CORE)/fv/gen_summary.py ./

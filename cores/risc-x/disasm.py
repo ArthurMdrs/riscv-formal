@@ -92,7 +92,7 @@ with open("disasm.s", "w") as f:
 # system("riscv32-corev-elf-gcc -march=rv32imc_zicsr_zfinx_xcvalu_xcvbi_xcvbitmanip_xcvhwlp_xcvmac_xcvmem_xcvsimd -c disasm.s")
 # system("riscv32-corev-elf-objdump -D -M numeric,no-aliases -j .text disasm.o")
 
-system("riscv32-unknown-linux-gnu-gcc -march=rv32imc_zicsr -mabi=ilp32 -c disasm.s")
+system("riscv32-unknown-linux-gnu-gcc -march=rv32imfc_zicsr -mabi=ilp32 -c disasm.s")
 system("riscv32-unknown-linux-gnu-objdump -D -M numeric,no-aliases -j .text disasm.o")
 
 # multilib_defaults:

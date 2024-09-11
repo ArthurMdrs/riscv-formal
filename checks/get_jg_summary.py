@@ -10,6 +10,14 @@ def get_cex_from_log(file_path):
                 vec.append(line)
     return vec
 
+def get_unrchb_from_log(file_path):
+    vec = []    
+    with open(file_path, 'r') as file:
+        for line in file:
+            if 'proven unreachable' in line:
+                vec.append(line)
+    return vec
+
 
 
 def get_summary_from_log(file_path):
@@ -101,12 +109,15 @@ file_path = 'jgproject/jg.log'
 time_path = 'time.txt'
 if os.path.exists(file_path):
     cex_vec = get_cex_from_log(file_path)
+    unrchb_vec = get_unrchb_from_log(file_path)
     summary_vec, status = get_summary_from_log(file_path)
     with open(status, 'w') as file:
         with open(time_path, 'r') as time_file:
             for line in time_file.readlines():
                 file.write(line)
         for line in cex_vec:
+            file.write(line)
+        for line in unrchb_vec:
             file.write(line)
         file.write('\n')
         for line in summary_vec:
