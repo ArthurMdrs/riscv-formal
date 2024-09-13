@@ -1,0 +1,1460 @@
+regular_insn_add_ch0: PASS
+Thu Sep 12 23:50:43 -03 2024
+Thu Sep 12 23:52:02 -03 2024
+
+regular_insn_addi_ch0: PASS
+Thu Sep 12 23:52:02 -03 2024
+Thu Sep 12 23:53:25 -03 2024
+
+regular_insn_and_ch0: PASS
+Thu Sep 12 23:53:25 -03 2024
+Thu Sep 12 23:54:39 -03 2024
+
+regular_insn_andi_ch0: PASS
+Thu Sep 12 23:54:39 -03 2024
+Thu Sep 12 23:56:01 -03 2024
+
+regular_insn_auipc_ch0: PASS
+Thu Sep 12 23:56:01 -03 2024
+Thu Sep 12 23:57:53 -03 2024
+
+regular_insn_beq_ch0: PASS
+Thu Sep 12 23:57:53 -03 2024
+Fri Sep 13 00:00:24 -03 2024
+
+regular_insn_bge_ch0: PASS
+Fri Sep 13 00:00:24 -03 2024
+Fri Sep 13 00:03:14 -03 2024
+
+regular_insn_bgeu_ch0: PASS
+Fri Sep 13 00:03:14 -03 2024
+Fri Sep 13 00:05:40 -03 2024
+
+regular_insn_blt_ch0: PASS
+Fri Sep 13 00:05:40 -03 2024
+Fri Sep 13 00:08:40 -03 2024
+
+regular_insn_bltu_ch0: PASS
+Fri Sep 13 00:08:40 -03 2024
+Fri Sep 13 00:11:06 -03 2024
+
+regular_insn_bne_ch0: PASS
+Fri Sep 13 00:11:06 -03 2024
+Fri Sep 13 00:13:41 -03 2024
+
+regular_insn_c_add_ch0: PASS
+Fri Sep 13 00:13:41 -03 2024
+Fri Sep 13 00:14:50 -03 2024
+
+regular_insn_c_addi_ch0: PASS
+Fri Sep 13 00:17:19 -03 2024
+Fri Sep 13 00:18:28 -03 2024
+
+regular_insn_c_addi16sp_ch0: PASS
+Fri Sep 13 00:14:50 -03 2024
+Fri Sep 13 00:16:09 -03 2024
+
+regular_insn_c_addi4spn_ch0: PASS
+Fri Sep 13 00:16:09 -03 2024
+Fri Sep 13 00:17:19 -03 2024
+
+regular_insn_c_and_ch0: PASS
+Fri Sep 13 00:18:28 -03 2024
+Fri Sep 13 00:19:37 -03 2024
+
+regular_insn_c_andi_ch0: PASS
+Fri Sep 13 00:19:37 -03 2024
+Fri Sep 13 00:20:46 -03 2024
+
+regular_insn_c_beqz_ch0: PASS
+Fri Sep 13 00:20:47 -03 2024
+Fri Sep 13 00:22:49 -03 2024
+
+regular_insn_c_bnez_ch0: PASS
+Fri Sep 13 00:22:49 -03 2024
+Fri Sep 13 00:25:05 -03 2024
+
+regular_insn_c_j_ch0: PASS
+Fri Sep 13 00:25:05 -03 2024
+Fri Sep 13 00:25:54 -03 2024
+
+regular_insn_c_jal_ch0: PASS
+Fri Sep 13 00:25:54 -03 2024
+Fri Sep 13 00:26:57 -03 2024
+
+regular_insn_c_jalr_ch0: PASS
+Fri Sep 13 00:26:57 -03 2024
+Fri Sep 13 00:27:37 -03 2024
+
+regular_insn_c_jr_ch0: PASS
+Fri Sep 13 00:27:37 -03 2024
+Fri Sep 13 00:28:02 -03 2024
+
+regular_insn_c_li_ch0: PASS
+Fri Sep 13 00:28:02 -03 2024
+Fri Sep 13 00:29:14 -03 2024
+
+regular_insn_c_lui_ch0: PASS
+Fri Sep 13 00:29:14 -03 2024
+Fri Sep 13 00:30:21 -03 2024
+
+regular_insn_c_lw_ch0: PASS
+Fri Sep 13 00:30:21 -03 2024
+Fri Sep 13 00:35:32 -03 2024
+
+regular_insn_c_lwsp_ch0: PASS
+Fri Sep 13 00:35:32 -03 2024
+Fri Sep 13 00:41:04 -03 2024
+
+regular_insn_c_mv_ch0: PASS
+Fri Sep 13 00:41:05 -03 2024
+Fri Sep 13 00:42:16 -03 2024
+
+regular_insn_c_or_ch0: PASS
+Fri Sep 13 00:42:16 -03 2024
+Fri Sep 13 00:43:45 -03 2024
+
+regular_insn_c_slli_ch0: PASS
+Fri Sep 13 00:43:45 -03 2024
+Fri Sep 13 00:45:15 -03 2024
+
+regular_insn_c_srai_ch0: PASS
+Fri Sep 13 00:45:15 -03 2024
+Fri Sep 13 00:46:47 -03 2024
+
+regular_insn_c_srli_ch0: PASS
+Fri Sep 13 00:46:47 -03 2024
+Fri Sep 13 00:48:14 -03 2024
+
+regular_insn_c_sub_ch0: PASS
+Fri Sep 13 00:48:14 -03 2024
+Fri Sep 13 00:49:27 -03 2024
+
+regular_insn_c_sw_ch0: PASS
+Fri Sep 13 00:49:27 -03 2024
+Fri Sep 13 00:56:09 -03 2024
+
+regular_insn_c_swsp_ch0: PASS
+Fri Sep 13 00:56:10 -03 2024
+Fri Sep 13 01:01:50 -03 2024
+
+regular_insn_c_xor_ch0: PASS
+Fri Sep 13 01:01:50 -03 2024
+Fri Sep 13 01:03:11 -03 2024
+
+regular_insn_jal_ch0: PASS
+Fri Sep 13 01:03:12 -03 2024
+Fri Sep 13 01:04:27 -03 2024
+
+regular_insn_jalr_ch0: PASS
+Fri Sep 13 01:04:27 -03 2024
+Fri Sep 13 01:05:08 -03 2024
+
+regular_insn_lb_ch0: PASS
+Fri Sep 13 01:05:08 -03 2024
+Fri Sep 13 01:09:38 -03 2024
+
+regular_insn_lbu_ch0: PASS
+Fri Sep 13 01:09:38 -03 2024
+Fri Sep 13 01:14:22 -03 2024
+
+regular_insn_lh_ch0: PASS
+Fri Sep 13 01:14:22 -03 2024
+Fri Sep 13 01:21:10 -03 2024
+
+regular_insn_lhu_ch0: PASS
+Fri Sep 13 01:21:10 -03 2024
+Fri Sep 13 01:27:52 -03 2024
+
+regular_insn_lui_ch0: PASS
+Fri Sep 13 01:27:52 -03 2024
+Fri Sep 13 01:29:13 -03 2024
+
+regular_insn_lw_ch0: PASS
+Fri Sep 13 01:29:13 -03 2024
+Fri Sep 13 01:36:10 -03 2024
+
+regular_insn_or_ch0: PASS
+Fri Sep 13 01:36:10 -03 2024
+Fri Sep 13 01:37:25 -03 2024
+
+regular_insn_ori_ch0: PASS
+Fri Sep 13 01:37:25 -03 2024
+Fri Sep 13 01:39:04 -03 2024
+
+regular_insn_sb_ch0: PASS
+Fri Sep 13 01:39:04 -03 2024
+Fri Sep 13 01:43:47 -03 2024
+
+regular_insn_sh_ch0: PASS
+Fri Sep 13 01:43:47 -03 2024
+Fri Sep 13 01:50:44 -03 2024
+
+regular_insn_sll_ch0: PASS
+Fri Sep 13 01:50:45 -03 2024
+Fri Sep 13 01:52:04 -03 2024
+
+regular_insn_slli_ch0: PASS
+Fri Sep 13 01:52:04 -03 2024
+Fri Sep 13 01:53:41 -03 2024
+
+regular_insn_slt_ch0: PASS
+Fri Sep 13 01:53:41 -03 2024
+Fri Sep 13 01:54:57 -03 2024
+
+regular_insn_slti_ch0: PASS
+Fri Sep 13 01:54:57 -03 2024
+Fri Sep 13 01:56:17 -03 2024
+
+regular_insn_sltiu_ch0: PASS
+Fri Sep 13 01:56:17 -03 2024
+Fri Sep 13 01:57:42 -03 2024
+
+regular_insn_sltu_ch0: PASS
+Fri Sep 13 01:57:42 -03 2024
+Fri Sep 13 01:58:58 -03 2024
+
+regular_insn_sra_ch0: PASS
+Fri Sep 13 01:58:58 -03 2024
+Fri Sep 13 02:00:41 -03 2024
+
+regular_insn_srai_ch0: PASS
+Fri Sep 13 02:00:41 -03 2024
+Fri Sep 13 02:02:26 -03 2024
+
+regular_insn_srl_ch0: PASS
+Fri Sep 13 02:02:26 -03 2024
+Fri Sep 13 02:03:46 -03 2024
+
+regular_insn_srli_ch0: PASS
+Fri Sep 13 02:03:46 -03 2024
+Fri Sep 13 02:05:21 -03 2024
+
+regular_insn_sub_ch0: PASS
+Fri Sep 13 02:05:21 -03 2024
+Fri Sep 13 02:06:43 -03 2024
+
+regular_insn_sw_ch0: PASS
+Fri Sep 13 02:06:43 -03 2024
+Fri Sep 13 02:15:59 -03 2024
+
+regular_insn_xor_ch0: PASS
+Fri Sep 13 02:15:59 -03 2024
+Fri Sep 13 02:17:15 -03 2024
+
+regular_insn_xori_ch0: PASS
+Fri Sep 13 02:17:15 -03 2024
+Fri Sep 13 02:18:40 -03 2024
+
+mul_insn_mul_ch0: PASS
+Fri Sep 13 02:18:40 -03 2024
+Fri Sep 13 02:22:41 -03 2024
+
+mul_insn_mulh_ch0: PASS
+Fri Sep 13 02:22:41 -03 2024
+Fri Sep 13 02:25:12 -03 2024
+
+mul_insn_mulhsu_ch0: PASS
+Fri Sep 13 02:25:12 -03 2024
+Fri Sep 13 02:28:03 -03 2024
+
+mul_insn_mulhu_ch0: PASS
+Fri Sep 13 02:28:03 -03 2024
+Fri Sep 13 02:30:12 -03 2024
+
+div_insn_div_ch0: PASS
+Fri Sep 13 02:30:12 -03 2024
+Fri Sep 13 03:47:09 -03 2024
+
+div_insn_divu_ch0: PASS
+Fri Sep 13 03:47:09 -03 2024
+Fri Sep 13 05:22:43 -03 2024
+
+div_insn_rem_ch0: PASS
+Fri Sep 13 05:22:43 -03 2024
+Fri Sep 13 06:57:02 -03 2024
+
+div_insn_remu_ch0: PASS
+Fri Sep 13 06:57:02 -03 2024
+Fri Sep 13 08:26:11 -03 2024
+
+corev_insn_cv_abs_ch0: PASS
+Thu Sep 12 15:02:52 -03 2024
+Thu Sep 12 15:04:24 -03 2024
+
+corev_insn_cv_abs_b_ch0: PASS
+Thu Sep 12 15:01:36 -03 2024
+Thu Sep 12 15:02:52 -03 2024
+
+corev_insn_cv_abs_h_ch0: PASS
+Thu Sep 12 15:04:24 -03 2024
+Thu Sep 12 15:05:45 -03 2024
+
+corev_insn_cv_addN_ch0: PASS
+Thu Sep 12 15:05:45 -03 2024
+Thu Sep 12 15:07:43 -03 2024
+
+corev_insn_cv_addNr_ch0: PASS
+Thu Sep 12 15:07:43 -03 2024
+Thu Sep 12 15:09:49 -03 2024
+
+corev_insn_cv_addRN_ch0: PASS
+Thu Sep 12 15:09:49 -03 2024
+Thu Sep 12 15:11:45 -03 2024
+
+corev_insn_cv_addRNr_ch0: PASS
+Thu Sep 12 15:11:45 -03 2024
+Thu Sep 12 15:13:42 -03 2024
+
+corev_insn_cv_add_b_ch0: PASS
+Thu Sep 12 15:13:42 -03 2024
+Thu Sep 12 15:14:59 -03 2024
+
+corev_insn_cv_add_div2_ch0: PASS
+Thu Sep 12 15:14:59 -03 2024
+Thu Sep 12 15:16:20 -03 2024
+
+corev_insn_cv_add_div4_ch0: PASS
+Thu Sep 12 15:16:20 -03 2024
+Thu Sep 12 15:17:45 -03 2024
+
+corev_insn_cv_add_div8_ch0: PASS
+Thu Sep 12 15:17:45 -03 2024
+Thu Sep 12 15:19:09 -03 2024
+
+corev_insn_cv_add_h_ch0: PASS
+Thu Sep 12 15:19:09 -03 2024
+Thu Sep 12 15:20:35 -03 2024
+
+corev_insn_cv_add_sc_b_ch0: PASS
+Thu Sep 12 15:20:35 -03 2024
+Thu Sep 12 15:22:03 -03 2024
+
+corev_insn_cv_add_sc_h_ch0: PASS
+Thu Sep 12 15:22:03 -03 2024
+Thu Sep 12 15:23:34 -03 2024
+
+corev_insn_cv_add_sci_b_ch0: PASS
+Thu Sep 12 15:23:34 -03 2024
+Thu Sep 12 15:25:03 -03 2024
+
+corev_insn_cv_add_sci_h_ch0: PASS
+Thu Sep 12 15:25:03 -03 2024
+Thu Sep 12 15:26:29 -03 2024
+
+corev_insn_cv_adduN_ch0: PASS
+Thu Sep 12 15:26:29 -03 2024
+Thu Sep 12 15:28:02 -03 2024
+
+corev_insn_cv_adduNr_ch0: PASS
+Thu Sep 12 15:28:02 -03 2024
+Thu Sep 12 15:29:43 -03 2024
+
+corev_insn_cv_adduRN_ch0: PASS
+Thu Sep 12 15:29:43 -03 2024
+Thu Sep 12 15:31:25 -03 2024
+
+corev_insn_cv_adduRNr_ch0: PASS
+Thu Sep 12 15:31:25 -03 2024
+Thu Sep 12 15:33:09 -03 2024
+
+corev_insn_cv_and_b_ch0: PASS
+Thu Sep 12 15:33:09 -03 2024
+Thu Sep 12 15:34:35 -03 2024
+
+corev_insn_cv_and_h_ch0: PASS
+Thu Sep 12 15:34:35 -03 2024
+Thu Sep 12 15:35:58 -03 2024
+
+corev_insn_cv_and_sc_b_ch0: PASS
+Thu Sep 12 15:35:58 -03 2024
+Thu Sep 12 15:37:15 -03 2024
+
+corev_insn_cv_and_sc_h_ch0: PASS
+Thu Sep 12 15:37:15 -03 2024
+Thu Sep 12 15:38:47 -03 2024
+
+corev_insn_cv_and_sci_b_ch0: PASS
+Thu Sep 12 15:38:47 -03 2024
+Thu Sep 12 15:40:02 -03 2024
+
+corev_insn_cv_and_sci_h_ch0: PASS
+Thu Sep 12 15:40:02 -03 2024
+Thu Sep 12 15:41:18 -03 2024
+
+corev_insn_cv_avg_b_ch0: PASS
+Thu Sep 12 15:41:18 -03 2024
+Thu Sep 12 15:42:38 -03 2024
+
+corev_insn_cv_avg_h_ch0: PASS
+Thu Sep 12 15:42:38 -03 2024
+Thu Sep 12 15:44:03 -03 2024
+
+corev_insn_cv_avg_sc_b_ch0: PASS
+Thu Sep 12 15:44:03 -03 2024
+Thu Sep 12 15:45:25 -03 2024
+
+corev_insn_cv_avg_sc_h_ch0: PASS
+Thu Sep 12 15:45:26 -03 2024
+Thu Sep 12 15:47:02 -03 2024
+
+corev_insn_cv_avg_sci_b_ch0: PASS
+Thu Sep 12 15:47:02 -03 2024
+Thu Sep 12 15:48:24 -03 2024
+
+corev_insn_cv_avg_sci_h_ch0: PASS
+Thu Sep 12 15:48:24 -03 2024
+Thu Sep 12 15:49:45 -03 2024
+
+corev_insn_cv_avgu_b_ch0: PASS
+Thu Sep 12 15:49:45 -03 2024
+Thu Sep 12 15:51:19 -03 2024
+
+corev_insn_cv_avgu_h_ch0: PASS
+Thu Sep 12 15:51:19 -03 2024
+Thu Sep 12 15:52:47 -03 2024
+
+corev_insn_cv_avgu_sc_b_ch0: PASS
+Thu Sep 12 15:52:47 -03 2024
+Thu Sep 12 15:54:04 -03 2024
+
+corev_insn_cv_avgu_sc_h_ch0: PASS
+Thu Sep 12 15:54:04 -03 2024
+Thu Sep 12 15:55:25 -03 2024
+
+corev_insn_cv_avgu_sci_b_ch0: PASS
+Thu Sep 12 15:55:25 -03 2024
+Thu Sep 12 15:56:49 -03 2024
+
+corev_insn_cv_avgu_sci_h_ch0: PASS
+Thu Sep 12 15:56:49 -03 2024
+Thu Sep 12 15:58:09 -03 2024
+
+corev_insn_cv_bclr_ch0: PASS
+Thu Sep 12 15:58:09 -03 2024
+Thu Sep 12 15:59:29 -03 2024
+
+corev_insn_cv_bclrr_ch0: PASS
+Thu Sep 12 15:59:29 -03 2024
+Thu Sep 12 16:01:07 -03 2024
+
+corev_insn_cv_beqimm_ch0: PASS
+Thu Sep 12 16:01:07 -03 2024
+Thu Sep 12 16:03:35 -03 2024
+
+corev_insn_cv_bitrev_ch0: PASS
+Thu Sep 12 16:03:35 -03 2024
+Thu Sep 12 16:05:02 -03 2024
+
+corev_insn_cv_bneimm_ch0: PASS
+Thu Sep 12 16:05:02 -03 2024
+Thu Sep 12 16:07:28 -03 2024
+
+corev_insn_cv_bset_ch0: PASS
+Thu Sep 12 16:07:28 -03 2024
+Thu Sep 12 16:08:57 -03 2024
+
+corev_insn_cv_bsetr_ch0: PASS
+Thu Sep 12 16:08:57 -03 2024
+Thu Sep 12 16:10:30 -03 2024
+
+corev_insn_cv_clb_ch0: PASS
+Thu Sep 12 16:10:30 -03 2024
+Thu Sep 12 16:11:59 -03 2024
+
+corev_insn_cv_clip_ch0: PASS
+Thu Sep 12 16:11:59 -03 2024
+Thu Sep 12 16:13:26 -03 2024
+
+corev_insn_cv_clipr_ch0: PASS
+Thu Sep 12 16:13:26 -03 2024
+Thu Sep 12 16:14:57 -03 2024
+
+corev_insn_cv_clipu_ch0: PASS
+Thu Sep 12 16:14:57 -03 2024
+Thu Sep 12 16:16:12 -03 2024
+
+corev_insn_cv_clipur_ch0: PASS
+Thu Sep 12 16:16:12 -03 2024
+Thu Sep 12 16:17:33 -03 2024
+
+corev_insn_cv_cmpeq_b_ch0: PASS
+Thu Sep 12 16:17:33 -03 2024
+Thu Sep 12 16:19:08 -03 2024
+
+corev_insn_cv_cmpeq_h_ch0: PASS
+Thu Sep 12 16:19:08 -03 2024
+Thu Sep 12 16:20:32 -03 2024
+
+corev_insn_cv_cmpeq_sc_b_ch0: PASS
+Thu Sep 12 16:20:32 -03 2024
+Thu Sep 12 16:21:49 -03 2024
+
+corev_insn_cv_cmpeq_sc_h_ch0: PASS
+Thu Sep 12 16:21:49 -03 2024
+Thu Sep 12 16:23:06 -03 2024
+
+corev_insn_cv_cmpeq_sci_b_ch0: PASS
+Thu Sep 12 16:23:07 -03 2024
+Thu Sep 12 16:24:38 -03 2024
+
+corev_insn_cv_cmpeq_sci_h_ch0: PASS
+Thu Sep 12 16:24:38 -03 2024
+Thu Sep 12 16:25:50 -03 2024
+
+corev_insn_cv_cmpge_b_ch0: PASS
+Thu Sep 12 16:25:50 -03 2024
+Thu Sep 12 16:27:07 -03 2024
+
+corev_insn_cv_cmpge_h_ch0: PASS
+Thu Sep 12 16:27:07 -03 2024
+Thu Sep 12 16:28:33 -03 2024
+
+corev_insn_cv_cmpge_sc_b_ch0: PASS
+Thu Sep 12 16:28:33 -03 2024
+Thu Sep 12 16:29:53 -03 2024
+
+corev_insn_cv_cmpge_sc_h_ch0: PASS
+Thu Sep 12 16:29:53 -03 2024
+Thu Sep 12 16:31:18 -03 2024
+
+corev_insn_cv_cmpge_sci_b_ch0: PASS
+Thu Sep 12 16:31:18 -03 2024
+Thu Sep 12 16:32:48 -03 2024
+
+corev_insn_cv_cmpge_sci_h_ch0: PASS
+Thu Sep 12 16:32:48 -03 2024
+Thu Sep 12 16:34:18 -03 2024
+
+corev_insn_cv_cmpgeu_b_ch0: PASS
+Thu Sep 12 16:34:18 -03 2024
+Thu Sep 12 16:35:48 -03 2024
+
+corev_insn_cv_cmpgeu_h_ch0: PASS
+Thu Sep 12 16:35:48 -03 2024
+Thu Sep 12 16:37:18 -03 2024
+
+corev_insn_cv_cmpgeu_sc_b_ch0: PASS
+Thu Sep 12 16:37:18 -03 2024
+Thu Sep 12 16:38:44 -03 2024
+
+corev_insn_cv_cmpgeu_sc_h_ch0: PASS
+Thu Sep 12 16:38:44 -03 2024
+Thu Sep 12 16:40:10 -03 2024
+
+corev_insn_cv_cmpgeu_sci_b_ch0: PASS
+Thu Sep 12 16:40:10 -03 2024
+Thu Sep 12 16:41:35 -03 2024
+
+corev_insn_cv_cmpgeu_sci_h_ch0: PASS
+Thu Sep 12 16:41:35 -03 2024
+Thu Sep 12 16:42:52 -03 2024
+
+corev_insn_cv_cmpgt_b_ch0: PASS
+Thu Sep 12 16:42:52 -03 2024
+Thu Sep 12 16:44:17 -03 2024
+
+corev_insn_cv_cmpgt_h_ch0: PASS
+Thu Sep 12 16:44:17 -03 2024
+Thu Sep 12 16:45:37 -03 2024
+
+corev_insn_cv_cmpgt_sc_b_ch0: PASS
+Thu Sep 12 16:45:37 -03 2024
+Thu Sep 12 16:47:03 -03 2024
+
+corev_insn_cv_cmpgt_sc_h_ch0: PASS
+Thu Sep 12 16:47:03 -03 2024
+Thu Sep 12 16:48:19 -03 2024
+
+corev_insn_cv_cmpgt_sci_b_ch0: PASS
+Thu Sep 12 16:48:19 -03 2024
+Thu Sep 12 16:49:40 -03 2024
+
+corev_insn_cv_cmpgt_sci_h_ch0: PASS
+Thu Sep 12 16:49:40 -03 2024
+Thu Sep 12 16:50:59 -03 2024
+
+corev_insn_cv_cmpgtu_b_ch0: PASS
+Thu Sep 12 16:50:59 -03 2024
+Thu Sep 12 16:52:22 -03 2024
+
+corev_insn_cv_cmpgtu_h_ch0: PASS
+Thu Sep 12 16:52:22 -03 2024
+Thu Sep 12 16:53:43 -03 2024
+
+corev_insn_cv_cmpgtu_sc_b_ch0: PASS
+Thu Sep 12 16:53:43 -03 2024
+Thu Sep 12 16:54:58 -03 2024
+
+corev_insn_cv_cmpgtu_sc_h_ch0: PASS
+Thu Sep 12 16:54:58 -03 2024
+Thu Sep 12 16:56:15 -03 2024
+
+corev_insn_cv_cmpgtu_sci_b_ch0: PASS
+Thu Sep 12 16:56:15 -03 2024
+Thu Sep 12 16:57:48 -03 2024
+
+corev_insn_cv_cmpgtu_sci_h_ch0: PASS
+Thu Sep 12 16:57:49 -03 2024
+Thu Sep 12 16:59:02 -03 2024
+
+corev_insn_cv_cmple_b_ch0: PASS
+Thu Sep 12 16:59:02 -03 2024
+Thu Sep 12 17:00:29 -03 2024
+
+corev_insn_cv_cmple_h_ch0: PASS
+Thu Sep 12 17:00:29 -03 2024
+Thu Sep 12 17:02:20 -03 2024
+
+corev_insn_cv_cmple_sc_b_ch0: PASS
+Thu Sep 12 17:02:20 -03 2024
+Thu Sep 12 17:03:44 -03 2024
+
+corev_insn_cv_cmple_sc_h_ch0: PASS
+Thu Sep 12 17:03:44 -03 2024
+Thu Sep 12 17:04:58 -03 2024
+
+corev_insn_cv_cmple_sci_b_ch0: PASS
+Thu Sep 12 17:04:58 -03 2024
+Thu Sep 12 17:06:25 -03 2024
+
+corev_insn_cv_cmple_sci_h_ch0: PASS
+Thu Sep 12 17:06:25 -03 2024
+Thu Sep 12 17:07:48 -03 2024
+
+corev_insn_cv_cmpleu_b_ch0: PASS
+Thu Sep 12 17:07:48 -03 2024
+Thu Sep 12 17:09:20 -03 2024
+
+corev_insn_cv_cmpleu_h_ch0: PASS
+Thu Sep 12 17:09:20 -03 2024
+Thu Sep 12 17:10:39 -03 2024
+
+corev_insn_cv_cmpleu_sc_b_ch0: PASS
+Thu Sep 12 17:10:39 -03 2024
+Thu Sep 12 17:11:56 -03 2024
+
+corev_insn_cv_cmpleu_sc_h_ch0: PASS
+Thu Sep 12 17:11:56 -03 2024
+Thu Sep 12 17:13:12 -03 2024
+
+corev_insn_cv_cmpleu_sci_b_ch0: PASS
+Thu Sep 12 17:13:12 -03 2024
+Thu Sep 12 17:14:38 -03 2024
+
+corev_insn_cv_cmpleu_sci_h_ch0: PASS
+Thu Sep 12 17:14:38 -03 2024
+Thu Sep 12 17:15:57 -03 2024
+
+corev_insn_cv_cmplt_b_ch0: PASS
+Thu Sep 12 17:15:57 -03 2024
+Thu Sep 12 17:17:13 -03 2024
+
+corev_insn_cv_cmplt_h_ch0: PASS
+Thu Sep 12 17:17:13 -03 2024
+Thu Sep 12 17:18:37 -03 2024
+
+corev_insn_cv_cmplt_sc_b_ch0: PASS
+Thu Sep 12 17:18:37 -03 2024
+Thu Sep 12 17:20:02 -03 2024
+
+corev_insn_cv_cmplt_sc_h_ch0: PASS
+Thu Sep 12 17:20:02 -03 2024
+Thu Sep 12 17:21:36 -03 2024
+
+corev_insn_cv_cmplt_sci_b_ch0: PASS
+Thu Sep 12 17:21:36 -03 2024
+Thu Sep 12 17:23:05 -03 2024
+
+corev_insn_cv_cmplt_sci_h_ch0: PASS
+Thu Sep 12 17:23:05 -03 2024
+Thu Sep 12 17:24:23 -03 2024
+
+corev_insn_cv_cmpltu_b_ch0: PASS
+Thu Sep 12 17:24:23 -03 2024
+Thu Sep 12 17:25:40 -03 2024
+
+corev_insn_cv_cmpltu_h_ch0: PASS
+Thu Sep 12 17:25:40 -03 2024
+Thu Sep 12 17:27:03 -03 2024
+
+corev_insn_cv_cmpltu_sc_b_ch0: PASS
+Thu Sep 12 17:27:03 -03 2024
+Thu Sep 12 17:28:18 -03 2024
+
+corev_insn_cv_cmpltu_sc_h_ch0: PASS
+Thu Sep 12 17:28:18 -03 2024
+Thu Sep 12 17:29:49 -03 2024
+
+corev_insn_cv_cmpltu_sci_b_ch0: PASS
+Thu Sep 12 17:29:49 -03 2024
+Thu Sep 12 17:31:17 -03 2024
+
+corev_insn_cv_cmpltu_sci_h_ch0: PASS
+Thu Sep 12 17:31:17 -03 2024
+Thu Sep 12 17:32:42 -03 2024
+
+corev_insn_cv_cmpne_b_ch0: PASS
+Thu Sep 12 17:32:42 -03 2024
+Thu Sep 12 17:34:07 -03 2024
+
+corev_insn_cv_cmpne_h_ch0: PASS
+Thu Sep 12 17:34:07 -03 2024
+Thu Sep 12 17:35:36 -03 2024
+
+corev_insn_cv_cmpne_sc_b_ch0: PASS
+Thu Sep 12 17:35:36 -03 2024
+Thu Sep 12 17:37:06 -03 2024
+
+corev_insn_cv_cmpne_sc_h_ch0: PASS
+Thu Sep 12 17:37:06 -03 2024
+Thu Sep 12 17:38:36 -03 2024
+
+corev_insn_cv_cmpne_sci_b_ch0: PASS
+Thu Sep 12 17:38:36 -03 2024
+Thu Sep 12 17:40:11 -03 2024
+
+corev_insn_cv_cmpne_sci_h_ch0: PASS
+Thu Sep 12 17:40:11 -03 2024
+Thu Sep 12 17:41:22 -03 2024
+
+corev_insn_cv_cnt_ch0: PASS
+Thu Sep 12 17:41:22 -03 2024
+Thu Sep 12 17:42:56 -03 2024
+
+corev_insn_cv_cplxconj_ch0: PASS
+Thu Sep 12 17:42:56 -03 2024
+Thu Sep 12 17:44:16 -03 2024
+
+corev_insn_cv_cplxmul_i_ch0: PASS
+Thu Sep 12 17:44:16 -03 2024
+Thu Sep 12 17:45:38 -03 2024
+
+corev_insn_cv_cplxmul_i_div2_ch0: PASS
+Thu Sep 12 17:45:38 -03 2024
+Thu Sep 12 17:47:02 -03 2024
+
+corev_insn_cv_cplxmul_i_div4_ch0: PASS
+Thu Sep 12 17:47:02 -03 2024
+Thu Sep 12 17:48:28 -03 2024
+
+corev_insn_cv_cplxmul_i_div8_ch0: PASS
+Thu Sep 12 17:48:28 -03 2024
+Thu Sep 12 17:50:11 -03 2024
+
+corev_insn_cv_cplxmul_r_ch0: PASS
+Thu Sep 12 17:50:11 -03 2024
+Thu Sep 12 17:51:35 -03 2024
+
+corev_insn_cv_cplxmul_r_div2_ch0: PASS
+Thu Sep 12 17:51:35 -03 2024
+Thu Sep 12 17:53:02 -03 2024
+
+corev_insn_cv_cplxmul_r_div4_ch0: PASS
+Thu Sep 12 17:53:02 -03 2024
+Thu Sep 12 17:54:53 -03 2024
+
+corev_insn_cv_cplxmul_r_div8_ch0: PASS
+Thu Sep 12 17:54:53 -03 2024
+Thu Sep 12 17:56:20 -03 2024
+
+corev_insn_cv_dotsp_b_ch0: PASS
+Thu Sep 12 17:56:20 -03 2024
+Thu Sep 12 17:57:44 -03 2024
+
+corev_insn_cv_dotsp_h_ch0: PASS
+Thu Sep 12 17:57:44 -03 2024
+Thu Sep 12 17:59:15 -03 2024
+
+corev_insn_cv_dotsp_sc_b_ch0: PASS
+Thu Sep 12 17:59:15 -03 2024
+Thu Sep 12 18:00:37 -03 2024
+
+corev_insn_cv_dotsp_sc_h_ch0: PASS
+Thu Sep 12 18:00:37 -03 2024
+Thu Sep 12 18:01:53 -03 2024
+
+corev_insn_cv_dotsp_sci_b_ch0: PASS
+Thu Sep 12 18:01:53 -03 2024
+Thu Sep 12 18:03:09 -03 2024
+
+corev_insn_cv_dotsp_sci_h_ch0: PASS
+Thu Sep 12 18:03:09 -03 2024
+Thu Sep 12 18:04:25 -03 2024
+
+corev_insn_cv_dotup_b_ch0: PASS
+Thu Sep 12 18:04:25 -03 2024
+Thu Sep 12 18:05:40 -03 2024
+
+corev_insn_cv_dotup_h_ch0: PASS
+Thu Sep 12 18:05:40 -03 2024
+Thu Sep 12 18:07:22 -03 2024
+
+corev_insn_cv_dotup_sc_b_ch0: PASS
+Thu Sep 12 18:07:22 -03 2024
+Thu Sep 12 18:08:51 -03 2024
+
+corev_insn_cv_dotup_sc_h_ch0: PASS
+Thu Sep 12 18:08:51 -03 2024
+Thu Sep 12 18:10:15 -03 2024
+
+corev_insn_cv_dotup_sci_b_ch0: PASS
+Thu Sep 12 18:10:15 -03 2024
+Thu Sep 12 18:11:44 -03 2024
+
+corev_insn_cv_dotup_sci_h_ch0: PASS
+Thu Sep 12 18:11:44 -03 2024
+Thu Sep 12 18:13:12 -03 2024
+
+corev_insn_cv_dotusp_b_ch0: PASS
+Thu Sep 12 18:13:12 -03 2024
+Thu Sep 12 18:14:40 -03 2024
+
+corev_insn_cv_dotusp_h_ch0: PASS
+Thu Sep 12 18:14:40 -03 2024
+Thu Sep 12 18:15:54 -03 2024
+
+corev_insn_cv_dotusp_sc_b_ch0: PASS
+Thu Sep 12 18:15:54 -03 2024
+Thu Sep 12 18:17:20 -03 2024
+
+corev_insn_cv_dotusp_sc_h_ch0: PASS
+Thu Sep 12 18:17:20 -03 2024
+Thu Sep 12 18:18:34 -03 2024
+
+corev_insn_cv_dotusp_sci_b_ch0: PASS
+Thu Sep 12 18:18:34 -03 2024
+Thu Sep 12 18:19:54 -03 2024
+
+corev_insn_cv_dotusp_sci_h_ch0: PASS
+Thu Sep 12 18:19:54 -03 2024
+Thu Sep 12 18:21:23 -03 2024
+
+corev_insn_cv_extbs_ch0: PASS
+Thu Sep 12 18:21:23 -03 2024
+Thu Sep 12 18:22:50 -03 2024
+
+corev_insn_cv_extbz_ch0: PASS
+Thu Sep 12 18:22:50 -03 2024
+Thu Sep 12 18:24:30 -03 2024
+
+corev_insn_cv_exths_ch0: PASS
+Thu Sep 12 18:24:30 -03 2024
+Thu Sep 12 18:26:05 -03 2024
+
+corev_insn_cv_exthz_ch0: PASS
+Thu Sep 12 18:26:05 -03 2024
+Thu Sep 12 18:27:32 -03 2024
+
+corev_insn_cv_extract_ch0: PASS
+Thu Sep 12 18:29:12 -03 2024
+Thu Sep 12 18:30:40 -03 2024
+
+corev_insn_cv_extract_b_ch0: PASS
+Thu Sep 12 18:27:32 -03 2024
+Thu Sep 12 18:29:12 -03 2024
+
+corev_insn_cv_extract_h_ch0: PASS
+Thu Sep 12 18:30:40 -03 2024
+Thu Sep 12 18:31:57 -03 2024
+
+corev_insn_cv_extractr_ch0: PASS
+Thu Sep 12 18:31:57 -03 2024
+Thu Sep 12 18:33:36 -03 2024
+
+corev_insn_cv_extractu_ch0: PASS
+Thu Sep 12 18:34:51 -03 2024
+Thu Sep 12 18:36:06 -03 2024
+
+corev_insn_cv_extractu_b_ch0: PASS
+Thu Sep 12 18:33:36 -03 2024
+Thu Sep 12 18:34:51 -03 2024
+
+corev_insn_cv_extractu_h_ch0: PASS
+Thu Sep 12 18:36:06 -03 2024
+Thu Sep 12 18:37:30 -03 2024
+
+corev_insn_cv_extractur_ch0: PASS
+Thu Sep 12 18:37:30 -03 2024
+Thu Sep 12 18:38:54 -03 2024
+
+corev_insn_cv_ff1_ch0: PASS
+Thu Sep 12 18:38:54 -03 2024
+Thu Sep 12 18:40:16 -03 2024
+
+corev_insn_cv_fl1_ch0: PASS
+Thu Sep 12 18:40:16 -03 2024
+Thu Sep 12 18:41:48 -03 2024
+
+corev_insn_cv_insert_ch0: PASS
+Thu Sep 12 18:43:19 -03 2024
+Thu Sep 12 18:44:50 -03 2024
+
+corev_insn_cv_insert_b_ch0: PASS
+Thu Sep 12 18:41:48 -03 2024
+Thu Sep 12 18:43:19 -03 2024
+
+corev_insn_cv_insert_h_ch0: PASS
+Thu Sep 12 18:44:50 -03 2024
+Thu Sep 12 18:46:04 -03 2024
+
+corev_insn_cv_insertr_ch0: PASS
+Thu Sep 12 18:46:04 -03 2024
+Thu Sep 12 18:47:48 -03 2024
+
+corev_insn_cv_lb_ch0: PASS
+Thu Sep 12 18:47:48 -03 2024
+Thu Sep 12 18:54:48 -03 2024
+
+corev_insn_cv_lbu_ch0: PASS
+Thu Sep 12 18:54:48 -03 2024
+Thu Sep 12 19:01:29 -03 2024
+
+corev_insn_cv_lh_ch0: PASS
+Thu Sep 12 19:01:29 -03 2024
+Thu Sep 12 19:18:27 -03 2024
+
+corev_insn_cv_lhu_ch0: PASS
+Thu Sep 12 19:18:27 -03 2024
+Thu Sep 12 19:34:13 -03 2024
+
+corev_insn_cv_lw_ch0: PASS
+Thu Sep 12 19:34:13 -03 2024
+Thu Sep 12 19:54:06 -03 2024
+
+corev_insn_cv_mac_ch0: PASS
+Thu Sep 12 19:54:06 -03 2024
+Thu Sep 12 19:55:43 -03 2024
+
+corev_insn_cv_machhsN_ch0: PASS
+Thu Sep 12 19:55:43 -03 2024
+Thu Sep 12 19:57:39 -03 2024
+
+corev_insn_cv_machhsRN_ch0: PASS
+Thu Sep 12 19:57:39 -03 2024
+Thu Sep 12 19:59:10 -03 2024
+
+corev_insn_cv_machhuN_ch0: PASS
+Thu Sep 12 19:59:10 -03 2024
+Thu Sep 12 20:00:49 -03 2024
+
+corev_insn_cv_machhuRN_ch0: PASS
+Thu Sep 12 20:00:49 -03 2024
+Thu Sep 12 20:02:10 -03 2024
+
+corev_insn_cv_macsN_ch0: PASS
+Thu Sep 12 20:02:10 -03 2024
+Thu Sep 12 20:03:45 -03 2024
+
+corev_insn_cv_macsRN_ch0: PASS
+Thu Sep 12 20:03:45 -03 2024
+Thu Sep 12 20:05:33 -03 2024
+
+corev_insn_cv_macuN_ch0: PASS
+Thu Sep 12 20:05:33 -03 2024
+Thu Sep 12 20:06:53 -03 2024
+
+corev_insn_cv_macuRN_ch0: PASS
+Thu Sep 12 20:06:53 -03 2024
+Thu Sep 12 20:08:34 -03 2024
+
+corev_insn_cv_max_ch0: PASS
+Thu Sep 12 20:09:51 -03 2024
+Thu Sep 12 20:11:20 -03 2024
+
+corev_insn_cv_max_b_ch0: PASS
+Thu Sep 12 20:08:34 -03 2024
+Thu Sep 12 20:09:51 -03 2024
+
+corev_insn_cv_max_h_ch0: PASS
+Thu Sep 12 20:11:20 -03 2024
+Thu Sep 12 20:12:44 -03 2024
+
+corev_insn_cv_max_sc_b_ch0: PASS
+Thu Sep 12 20:12:44 -03 2024
+Thu Sep 12 20:14:10 -03 2024
+
+corev_insn_cv_max_sc_h_ch0: PASS
+Thu Sep 12 20:14:10 -03 2024
+Thu Sep 12 20:15:44 -03 2024
+
+corev_insn_cv_max_sci_b_ch0: PASS
+Thu Sep 12 20:15:44 -03 2024
+Thu Sep 12 20:17:08 -03 2024
+
+corev_insn_cv_max_sci_h_ch0: PASS
+Thu Sep 12 20:17:08 -03 2024
+Thu Sep 12 20:18:18 -03 2024
+
+corev_insn_cv_maxu_ch0: PASS
+Thu Sep 12 20:19:44 -03 2024
+Thu Sep 12 20:21:08 -03 2024
+
+corev_insn_cv_maxu_b_ch0: PASS
+Thu Sep 12 20:18:18 -03 2024
+Thu Sep 12 20:19:44 -03 2024
+
+corev_insn_cv_maxu_h_ch0: PASS
+Thu Sep 12 20:21:08 -03 2024
+Thu Sep 12 20:22:47 -03 2024
+
+corev_insn_cv_maxu_sc_b_ch0: PASS
+Thu Sep 12 20:22:47 -03 2024
+Thu Sep 12 20:24:16 -03 2024
+
+corev_insn_cv_maxu_sc_h_ch0: PASS
+Thu Sep 12 20:24:16 -03 2024
+Thu Sep 12 20:25:30 -03 2024
+
+corev_insn_cv_maxu_sci_b_ch0: PASS
+Thu Sep 12 20:25:30 -03 2024
+Thu Sep 12 20:26:54 -03 2024
+
+corev_insn_cv_maxu_sci_h_ch0: PASS
+Thu Sep 12 20:26:54 -03 2024
+Thu Sep 12 20:28:10 -03 2024
+
+corev_insn_cv_min_ch0: PASS
+Thu Sep 12 20:29:36 -03 2024
+Thu Sep 12 20:30:57 -03 2024
+
+corev_insn_cv_min_b_ch0: PASS
+Thu Sep 12 20:28:10 -03 2024
+Thu Sep 12 20:29:36 -03 2024
+
+corev_insn_cv_min_h_ch0: PASS
+Thu Sep 12 20:30:57 -03 2024
+Thu Sep 12 20:32:21 -03 2024
+
+corev_insn_cv_min_sc_b_ch0: PASS
+Thu Sep 12 20:32:21 -03 2024
+Thu Sep 12 20:33:46 -03 2024
+
+corev_insn_cv_min_sc_h_ch0: PASS
+Thu Sep 12 20:33:46 -03 2024
+Thu Sep 12 20:35:12 -03 2024
+
+corev_insn_cv_min_sci_b_ch0: PASS
+Thu Sep 12 20:35:12 -03 2024
+Thu Sep 12 20:36:29 -03 2024
+
+corev_insn_cv_min_sci_h_ch0: PASS
+Thu Sep 12 20:36:29 -03 2024
+Thu Sep 12 20:37:51 -03 2024
+
+corev_insn_cv_minu_ch0: PASS
+Thu Sep 12 20:39:08 -03 2024
+Thu Sep 12 20:40:28 -03 2024
+
+corev_insn_cv_minu_b_ch0: PASS
+Thu Sep 12 20:37:51 -03 2024
+Thu Sep 12 20:39:08 -03 2024
+
+corev_insn_cv_minu_h_ch0: PASS
+Thu Sep 12 20:40:28 -03 2024
+Thu Sep 12 20:41:47 -03 2024
+
+corev_insn_cv_minu_sc_b_ch0: PASS
+Thu Sep 12 20:41:47 -03 2024
+Thu Sep 12 20:43:20 -03 2024
+
+corev_insn_cv_minu_sc_h_ch0: PASS
+Thu Sep 12 20:43:20 -03 2024
+Thu Sep 12 20:44:43 -03 2024
+
+corev_insn_cv_minu_sci_b_ch0: PASS
+Thu Sep 12 20:44:43 -03 2024
+Thu Sep 12 20:46:03 -03 2024
+
+corev_insn_cv_minu_sci_h_ch0: PASS
+Thu Sep 12 20:46:03 -03 2024
+Thu Sep 12 20:47:42 -03 2024
+
+corev_insn_cv_msu_ch0: PASS
+Thu Sep 12 20:47:42 -03 2024
+Thu Sep 12 20:49:19 -03 2024
+
+corev_insn_cv_mulhhsN_ch0: PASS
+Thu Sep 12 20:49:19 -03 2024
+Thu Sep 12 20:50:44 -03 2024
+
+corev_insn_cv_mulhhsRN_ch0: PASS
+Thu Sep 12 20:50:44 -03 2024
+Thu Sep 12 20:52:08 -03 2024
+
+corev_insn_cv_mulhhuN_ch0: PASS
+Thu Sep 12 20:52:08 -03 2024
+Thu Sep 12 20:53:27 -03 2024
+
+corev_insn_cv_mulhhuRN_ch0: PASS
+Thu Sep 12 20:53:27 -03 2024
+Thu Sep 12 20:54:38 -03 2024
+
+corev_insn_cv_mulsN_ch0: PASS
+Thu Sep 12 20:54:38 -03 2024
+Thu Sep 12 20:55:52 -03 2024
+
+corev_insn_cv_mulsRN_ch0: PASS
+Thu Sep 12 20:55:52 -03 2024
+Thu Sep 12 20:57:12 -03 2024
+
+corev_insn_cv_muluN_ch0: PASS
+Thu Sep 12 20:57:12 -03 2024
+Thu Sep 12 20:58:36 -03 2024
+
+corev_insn_cv_muluRN_ch0: PASS
+Thu Sep 12 20:58:36 -03 2024
+Thu Sep 12 20:59:54 -03 2024
+
+corev_insn_cv_or_b_ch0: PASS
+Thu Sep 12 20:59:54 -03 2024
+Thu Sep 12 21:01:10 -03 2024
+
+corev_insn_cv_or_h_ch0: PASS
+Thu Sep 12 21:01:10 -03 2024
+Thu Sep 12 21:02:28 -03 2024
+
+corev_insn_cv_or_sc_b_ch0: PASS
+Thu Sep 12 21:02:28 -03 2024
+Thu Sep 12 21:03:51 -03 2024
+
+corev_insn_cv_or_sc_h_ch0: PASS
+Thu Sep 12 21:03:51 -03 2024
+Thu Sep 12 21:05:10 -03 2024
+
+corev_insn_cv_or_sci_b_ch0: PASS
+Thu Sep 12 21:05:10 -03 2024
+Thu Sep 12 21:06:42 -03 2024
+
+corev_insn_cv_or_sci_h_ch0: PASS
+Thu Sep 12 21:06:43 -03 2024
+Thu Sep 12 21:07:56 -03 2024
+
+corev_insn_cv_pack_ch0: PASS
+Thu Sep 12 21:07:56 -03 2024
+Thu Sep 12 21:09:11 -03 2024
+
+corev_insn_cv_pack_h_ch0: PASS
+Thu Sep 12 21:09:11 -03 2024
+Thu Sep 12 21:10:33 -03 2024
+
+corev_insn_cv_packhi_b_ch0: PASS
+Thu Sep 12 21:10:33 -03 2024
+Thu Sep 12 21:11:57 -03 2024
+
+corev_insn_cv_packlo_b_ch0: PASS
+Thu Sep 12 21:11:57 -03 2024
+Thu Sep 12 21:13:19 -03 2024
+
+corev_insn_cv_ror_ch0: PASS
+Thu Sep 12 21:13:19 -03 2024
+Thu Sep 12 21:15:02 -03 2024
+
+corev_insn_cv_sb_ch0: PASS
+Thu Sep 12 21:15:02 -03 2024
+Thu Sep 12 21:21:27 -03 2024
+
+corev_insn_cv_sdotsp_b_ch0: PASS
+Thu Sep 12 21:21:27 -03 2024
+Thu Sep 12 21:23:14 -03 2024
+
+corev_insn_cv_sdotsp_h_ch0: PASS
+Thu Sep 12 21:23:14 -03 2024
+Thu Sep 12 21:24:39 -03 2024
+
+corev_insn_cv_sdotsp_sc_b_ch0: PASS
+Thu Sep 12 21:24:39 -03 2024
+Thu Sep 12 21:26:42 -03 2024
+
+corev_insn_cv_sdotsp_sc_h_ch0: PASS
+Thu Sep 12 21:26:42 -03 2024
+Thu Sep 12 21:28:10 -03 2024
+
+corev_insn_cv_sdotsp_sci_b_ch0: PASS
+Thu Sep 12 21:28:10 -03 2024
+Thu Sep 12 21:29:56 -03 2024
+
+corev_insn_cv_sdotsp_sci_h_ch0: PASS
+Thu Sep 12 21:29:56 -03 2024
+Thu Sep 12 21:31:43 -03 2024
+
+corev_insn_cv_sdotup_b_ch0: PASS
+Thu Sep 12 21:31:43 -03 2024
+Thu Sep 12 21:33:21 -03 2024
+
+corev_insn_cv_sdotup_h_ch0: PASS
+Thu Sep 12 21:33:21 -03 2024
+Thu Sep 12 21:35:09 -03 2024
+
+corev_insn_cv_sdotup_sc_b_ch0: PASS
+Thu Sep 12 21:35:09 -03 2024
+Thu Sep 12 21:36:53 -03 2024
+
+corev_insn_cv_sdotup_sc_h_ch0: PASS
+Thu Sep 12 21:36:53 -03 2024
+Thu Sep 12 21:38:30 -03 2024
+
+corev_insn_cv_sdotup_sci_b_ch0: PASS
+Thu Sep 12 21:38:30 -03 2024
+Thu Sep 12 21:40:12 -03 2024
+
+corev_insn_cv_sdotup_sci_h_ch0: PASS
+Thu Sep 12 21:40:12 -03 2024
+Thu Sep 12 21:41:54 -03 2024
+
+corev_insn_cv_sdotusp_b_ch0: PASS
+Thu Sep 12 21:41:54 -03 2024
+Thu Sep 12 21:43:18 -03 2024
+
+corev_insn_cv_sdotusp_h_ch0: PASS
+Thu Sep 12 21:43:18 -03 2024
+Thu Sep 12 21:44:56 -03 2024
+
+corev_insn_cv_sdotusp_sc_b_ch0: PASS
+Thu Sep 12 21:44:56 -03 2024
+Thu Sep 12 21:47:13 -03 2024
+
+corev_insn_cv_sdotusp_sc_h_ch0: PASS
+Thu Sep 12 21:47:13 -03 2024
+Thu Sep 12 21:49:05 -03 2024
+
+corev_insn_cv_sdotusp_sci_b_ch0: PASS
+Thu Sep 12 21:49:05 -03 2024
+Thu Sep 12 21:50:56 -03 2024
+
+corev_insn_cv_sdotusp_sci_h_ch0: PASS
+Thu Sep 12 21:50:56 -03 2024
+Thu Sep 12 21:52:37 -03 2024
+
+corev_insn_cv_sh_ch0: PASS
+Thu Sep 12 21:52:37 -03 2024
+Thu Sep 12 22:08:10 -03 2024
+
+corev_insn_cv_shuffle2_b_ch0: PASS
+Thu Sep 12 22:08:10 -03 2024
+Thu Sep 12 22:09:38 -03 2024
+
+corev_insn_cv_shuffle2_h_ch0: PASS
+Thu Sep 12 22:09:38 -03 2024
+Thu Sep 12 22:11:07 -03 2024
+
+corev_insn_cv_shuffleI0_sci_b_ch0: PASS
+Thu Sep 12 22:11:07 -03 2024
+Thu Sep 12 22:12:40 -03 2024
+
+corev_insn_cv_shuffleI1_sci_b_ch0: PASS
+Thu Sep 12 22:12:40 -03 2024
+Thu Sep 12 22:14:08 -03 2024
+
+corev_insn_cv_shuffleI2_sci_b_ch0: PASS
+Thu Sep 12 22:14:08 -03 2024
+Thu Sep 12 22:15:39 -03 2024
+
+corev_insn_cv_shuffleI3_sci_b_ch0: PASS
+Thu Sep 12 22:15:39 -03 2024
+Thu Sep 12 22:17:05 -03 2024
+
+corev_insn_cv_shuffle_b_ch0: PASS
+Thu Sep 12 22:17:05 -03 2024
+Thu Sep 12 22:18:39 -03 2024
+
+corev_insn_cv_shuffle_h_ch0: PASS
+Thu Sep 12 22:18:39 -03 2024
+Thu Sep 12 22:20:02 -03 2024
+
+corev_insn_cv_shuffle_sci_h_ch0: PASS
+Thu Sep 12 22:20:02 -03 2024
+Thu Sep 12 22:21:31 -03 2024
+
+corev_insn_cv_slet_ch0: PASS
+Thu Sep 12 22:21:31 -03 2024
+Thu Sep 12 22:22:59 -03 2024
+
+corev_insn_cv_sletu_ch0: PASS
+Thu Sep 12 22:22:59 -03 2024
+Thu Sep 12 22:24:24 -03 2024
+
+corev_insn_cv_sll_b_ch0: PASS
+Thu Sep 12 22:24:24 -03 2024
+Thu Sep 12 22:25:54 -03 2024
+
+corev_insn_cv_sll_h_ch0: PASS
+Thu Sep 12 22:25:54 -03 2024
+Thu Sep 12 22:27:14 -03 2024
+
+corev_insn_cv_sll_sc_b_ch0: PASS
+Thu Sep 12 22:27:14 -03 2024
+Thu Sep 12 22:28:33 -03 2024
+
+corev_insn_cv_sll_sc_h_ch0: PASS
+Thu Sep 12 22:28:33 -03 2024
+Thu Sep 12 22:30:11 -03 2024
+
+corev_insn_cv_sll_sci_b_ch0: PASS
+Thu Sep 12 22:30:11 -03 2024
+Thu Sep 12 22:31:30 -03 2024
+
+corev_insn_cv_sll_sci_h_ch0: PASS
+Thu Sep 12 22:31:30 -03 2024
+Thu Sep 12 22:32:46 -03 2024
+
+corev_insn_cv_sra_b_ch0: PASS
+Thu Sep 12 22:32:46 -03 2024
+Thu Sep 12 22:34:18 -03 2024
+
+corev_insn_cv_sra_h_ch0: PASS
+Thu Sep 12 22:34:18 -03 2024
+Thu Sep 12 22:35:47 -03 2024
+
+corev_insn_cv_sra_sc_b_ch0: PASS
+Thu Sep 12 22:35:47 -03 2024
+Thu Sep 12 22:37:13 -03 2024
+
+corev_insn_cv_sra_sc_h_ch0: PASS
+Thu Sep 12 22:37:13 -03 2024
+Thu Sep 12 22:38:40 -03 2024
+
+corev_insn_cv_sra_sci_b_ch0: PASS
+Thu Sep 12 22:38:40 -03 2024
+Thu Sep 12 22:40:08 -03 2024
+
+corev_insn_cv_sra_sci_h_ch0: PASS
+Thu Sep 12 22:40:08 -03 2024
+Thu Sep 12 22:41:40 -03 2024
+
+corev_insn_cv_srl_b_ch0: PASS
+Thu Sep 12 22:41:40 -03 2024
+Thu Sep 12 22:43:08 -03 2024
+
+corev_insn_cv_srl_h_ch0: PASS
+Thu Sep 12 22:43:08 -03 2024
+Thu Sep 12 22:44:32 -03 2024
+
+corev_insn_cv_srl_sc_b_ch0: PASS
+Thu Sep 12 22:44:32 -03 2024
+Thu Sep 12 22:45:53 -03 2024
+
+corev_insn_cv_srl_sc_h_ch0: PASS
+Thu Sep 12 22:45:53 -03 2024
+Thu Sep 12 22:47:16 -03 2024
+
+corev_insn_cv_srl_sci_b_ch0: PASS
+Thu Sep 12 22:47:16 -03 2024
+Thu Sep 12 22:48:35 -03 2024
+
+corev_insn_cv_srl_sci_h_ch0: PASS
+Thu Sep 12 22:48:35 -03 2024
+Thu Sep 12 22:50:02 -03 2024
+
+corev_insn_cv_subN_ch0: PASS
+Thu Sep 12 22:50:02 -03 2024
+Thu Sep 12 22:52:13 -03 2024
+
+corev_insn_cv_subNr_ch0: PASS
+Thu Sep 12 22:52:13 -03 2024
+Thu Sep 12 22:53:58 -03 2024
+
+corev_insn_cv_subRN_ch0: PASS
+Thu Sep 12 22:53:58 -03 2024
+Thu Sep 12 22:55:58 -03 2024
+
+corev_insn_cv_subRNr_ch0: PASS
+Thu Sep 12 22:55:58 -03 2024
+Thu Sep 12 22:57:44 -03 2024
+
+corev_insn_cv_sub_b_ch0: PASS
+Thu Sep 12 22:57:44 -03 2024
+Thu Sep 12 22:59:10 -03 2024
+
+corev_insn_cv_sub_div2_ch0: PASS
+Thu Sep 12 22:59:10 -03 2024
+Thu Sep 12 23:00:38 -03 2024
+
+corev_insn_cv_sub_div4_ch0: PASS
+Thu Sep 12 23:00:38 -03 2024
+Thu Sep 12 23:01:57 -03 2024
+
+corev_insn_cv_sub_div8_ch0: PASS
+Thu Sep 12 23:01:57 -03 2024
+Thu Sep 12 23:03:14 -03 2024
+
+corev_insn_cv_sub_h_ch0: PASS
+Thu Sep 12 23:03:14 -03 2024
+Thu Sep 12 23:04:45 -03 2024
+
+corev_insn_cv_sub_sc_b_ch0: PASS
+Thu Sep 12 23:04:45 -03 2024
+Thu Sep 12 23:06:17 -03 2024
+
+corev_insn_cv_sub_sc_h_ch0: PASS
+Thu Sep 12 23:06:17 -03 2024
+Thu Sep 12 23:07:41 -03 2024
+
+corev_insn_cv_sub_sci_b_ch0: PASS
+Thu Sep 12 23:07:41 -03 2024
+Thu Sep 12 23:08:57 -03 2024
+
+corev_insn_cv_sub_sci_h_ch0: PASS
+Thu Sep 12 23:08:57 -03 2024
+Thu Sep 12 23:10:19 -03 2024
+
+corev_insn_cv_subrotmj_ch0: PASS
+Thu Sep 12 23:10:19 -03 2024
+Thu Sep 12 23:11:52 -03 2024
+
+corev_insn_cv_subrotmj_div2_ch0: PASS
+Thu Sep 12 23:11:52 -03 2024
+Thu Sep 12 23:13:16 -03 2024
+
+corev_insn_cv_subrotmj_div4_ch0: PASS
+Thu Sep 12 23:13:16 -03 2024
+Thu Sep 12 23:14:45 -03 2024
+
+corev_insn_cv_subrotmj_div8_ch0: PASS
+Thu Sep 12 23:14:45 -03 2024
+Thu Sep 12 23:16:18 -03 2024
+
+corev_insn_cv_subuN_ch0: PASS
+Thu Sep 12 23:16:18 -03 2024
+Thu Sep 12 23:18:17 -03 2024
+
+corev_insn_cv_subuNr_ch0: PASS
+Thu Sep 12 23:18:17 -03 2024
+Thu Sep 12 23:20:05 -03 2024
+
+corev_insn_cv_subuRN_ch0: PASS
+Thu Sep 12 23:20:05 -03 2024
+Thu Sep 12 23:21:55 -03 2024
+
+corev_insn_cv_subuRNr_ch0: PASS
+Thu Sep 12 23:21:55 -03 2024
+Thu Sep 12 23:23:43 -03 2024
+
+corev_insn_cv_sw_ch0: PASS
+Thu Sep 12 23:23:43 -03 2024
+Thu Sep 12 23:42:12 -03 2024
+
+corev_insn_cv_xor_b_ch0: PASS
+Thu Sep 12 23:42:12 -03 2024
+Thu Sep 12 23:43:35 -03 2024
+
+corev_insn_cv_xor_h_ch0: PASS
+Thu Sep 12 23:43:35 -03 2024
+Thu Sep 12 23:44:57 -03 2024
+
+corev_insn_cv_xor_sc_b_ch0: PASS
+Thu Sep 12 23:44:57 -03 2024
+Thu Sep 12 23:46:23 -03 2024
+
+corev_insn_cv_xor_sc_h_ch0: PASS
+Thu Sep 12 23:46:23 -03 2024
+Thu Sep 12 23:47:51 -03 2024
+
+corev_insn_cv_xor_sci_b_ch0: PASS
+Thu Sep 12 23:47:51 -03 2024
+Thu Sep 12 23:49:24 -03 2024
+
+corev_insn_cv_xor_sci_h_ch0: PASS
+Thu Sep 12 23:49:24 -03 2024
+Thu Sep 12 23:50:43 -03 2024
+

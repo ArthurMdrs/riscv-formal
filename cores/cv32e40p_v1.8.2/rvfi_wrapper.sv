@@ -183,16 +183,32 @@ module rvfi_wrapper (
                 ASM_no_rvld_wo_pnd_data : assume (!data_rvalid_i );
         end
     end
-
-`ifdef CV32P_PC_FWD
-    ASM_no_hwlp_0: assume property (core_top_i.core_i.hwlp_cnt[0] == '0);
-    ASM_no_hwlp_1: assume property (core_top_i.core_i.hwlp_cnt[1] == '0);
-`endif
-
-`ifdef CV32P_REG_CHECK
+    
+    
+    
+    // Assumes below are for specific checks
     import cv32e40p_pkg::*;
     `define INSTR core_top_i.core_i.if_stage_i.instr_aligned
 
+`ifdef CV32P_PC_FWD
+    // ASM_no_hwlp_0: assume property (core_top_i.core_i.hwlp_cnt[0] == '0);
+    // ASM_no_hwlp_1: assume property (core_top_i.core_i.hwlp_cnt[1] == '0);
+    
+    parameter INSTR_CVSTARTI = {12'b?, 5'b00000, 3'b100, 4'b0000, 1'b?, OPCODE_CUSTOM_1};
+    parameter INSTR_CVSTART = {12'b000000000000, 5'b?, 3'b100, 4'b0001, 1'b?, OPCODE_CUSTOM_1};
+    parameter INSTR_CVENDI = {12'b?, 5'b00000, 3'b100, 4'b0010, 1'b?, OPCODE_CUSTOM_1};
+    parameter INSTR_CVEND = {12'b000000000000, 5'b?, 3'b100, 4'b0011, 1'b?, OPCODE_CUSTOM_1};
+    parameter INSTR_CVCOUNTI = {12'b?, 5'b00000, 3'b100, 4'b0100, 1'b?, OPCODE_CUSTOM_1};
+    parameter INSTR_CVCOUNT = {12'b000000000000, 5'b?, 3'b100, 4'b0101, 1'b?, OPCODE_CUSTOM_1};
+    parameter INSTR_CVSETUPI = {17'b?, 3'b100, 4'b0110, 1'b?, OPCODE_CUSTOM_1};
+    parameter INSTR_CVSETUP = {12'b?, 5'b?, 3'b100, 4'b0111, 1'b?, OPCODE_CUSTOM_1};
+    
+    wire hwlp = `INSTR inside {INSTR_CVSTARTI, INSTR_CVSTART, INSTR_CVENDI, INSTR_CVEND,
+                               INSTR_CVCOUNTI, INSTR_CVCOUNT, INSTR_CVSETUPI, INSTR_CVSETUP};
+    ASM_no_hwlp: assume property (!hwlp);
+`endif
+
+`ifdef CV32P_REG_CHECK
     // Post-Increment Register-Immediate Load
     parameter INSTR_CVLBI = {17'b?, 3'b000, 5'b?, OPCODE_CUSTOM_0};
     parameter INSTR_CVLBUI = {17'b?, 3'b100, 5'b?, OPCODE_CUSTOM_0};
