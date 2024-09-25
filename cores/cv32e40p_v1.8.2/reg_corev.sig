@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <wavelist version="3">
-  <insertion-point-position>16</insertion-point-position>
+  <insertion-point-position>38</insertion-point-position>
   <wave>
     <expr>clock</expr>
     <label/>
@@ -200,6 +200,77 @@
       <radix>checker_inst.register_shadow</radix>
     </wave>
     <spacer/>
+    <wave collapsed="true">
+      <expr>wrapper.core_top_i.core_i.id_stage_i.hwlp_we_masked</expr>
+      <label/>
+      <radix/>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.core_top_i.core_i.id_stage_i.hwlp_start</expr>
+      <label/>
+      <radix>checker_inst.register_shadow</radix>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.core_top_i.core_i.id_stage_i.hwlp_cnt</expr>
+      <label/>
+      <radix>checker_inst.register_shadow</radix>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.core_top_i.core_i.id_stage_i.hwlp_end</expr>
+      <label/>
+      <radix>checker_inst.register_shadow</radix>
+    </wave>
+    <wave>
+      <expr>wrapper.core_top_i.core_i.id_stage_i.hwlp_valid</expr>
+      <label/>
+      <radix/>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.core_top_i.core_i.id_stage_i.hwlp_dec_cnt</expr>
+      <label/>
+      <radix/>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.core_top_i.core_i.id_stage_i.hwlp_start_o[0]</expr>
+      <label/>
+      <radix/>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.core_top_i.core_i.id_stage_i.hwlp_end_o[0]</expr>
+      <label/>
+      <radix/>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.core_top_i.core_i.id_stage_i.hwlp_cnt_o[0]</expr>
+      <label/>
+      <radix/>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.core_top_i.core_i.id_stage_i.hwlp_start_o[1]</expr>
+      <label/>
+      <radix/>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.core_top_i.core_i.id_stage_i.hwlp_end_o[1]</expr>
+      <label/>
+      <radix/>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.core_top_i.core_i.id_stage_i.hwlp_cnt_o[1]</expr>
+      <label/>
+      <radix/>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.core_top_i.core_i.id_stage_i.pc_id_i</expr>
+      <label/>
+      <radix>checker_inst.register_shadow</radix>
+    </wave>
+    <wave collapsed="true">
+      <expr>wrapper.core_top_i.core_i.id_stage_i.instr</expr>
+      <label/>
+      <radix>checker_inst.register_index</radix>
+    </wave>
+    <spacer/>
   </group>
   <wave collapsed="true">
     <expr>wrapper.core_top_i.core_i.id_stage_i.register_file_i.mem[3]</expr>
@@ -321,7 +392,7 @@
     </wave>
     <spacer/>
   </group>
-  <group collapsed="true">
+  <group collapsed="false">
     <expr/>
     <label>PC</label>
     <wave collapsed="true">
@@ -642,6 +713,30 @@
       <color>builtin_blue</color>
     </highlight>
     <highlight>
+      <expr>wrapper.core_top_i.core_i.id_stage_i.hwlp_cnt</expr>
+      <color>builtin_green</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.core_top_i.core_i.id_stage_i.hwlp_dec_cnt</expr>
+      <color>builtin_green</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.core_top_i.core_i.id_stage_i.hwlp_end</expr>
+      <color>builtin_green</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.core_top_i.core_i.id_stage_i.hwlp_start</expr>
+      <color>builtin_green</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.core_top_i.core_i.id_stage_i.hwlp_valid</expr>
+      <color>builtin_green</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.core_top_i.core_i.id_stage_i.hwlp_we_masked</expr>
+      <color>builtin_green</color>
+    </highlight>
+    <highlight>
       <expr>wrapper.core_top_i.core_i.id_stage_i.instr[19:15]</expr>
       <color>builtin_blue</color>
     </highlight>
@@ -787,6 +882,10 @@
     </highlight>
     <highlight>
       <expr>wrapper.core_top_i.core_i.id_stage_i.instr</expr>
+      <color>#beffc0</color>
+    </highlight>
+    <highlight>
+      <expr>wrapper.core_top_i.core_i.id_stage_i.pc_id_i</expr>
       <color>#beffc0</color>
     </highlight>
     <highlight>
