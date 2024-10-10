@@ -6,7 +6,12 @@ CORE = RISC-X
 run: checks.cfg run_checks
 
 run_checks:
-	@if [ ! -d checks ]; then $(MAKE) gen_jg BATCH=$(BATCH); fi
+	@if [ ! -d checks ]; then \
+		$(MAKE) gen_jg; \
+	else \
+		$(MAKE) clean; \
+		$(MAKE) gen_jg; \
+	fi
 	@$(eval TIME_START = $(shell date))
 	@make -C checks
 	@echo Proccess start: $(TIME_START)
